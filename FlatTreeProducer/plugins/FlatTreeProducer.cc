@@ -1,4 +1,5 @@
 #include <memory>
+#include <iostream>
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
@@ -49,6 +50,8 @@ class FlatTreeProducer : public edm::EDAnalyzer
    virtual void beginJob() override;
    virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
    virtual void endJob() override;
+
+   TMVA::Reader* BookLeptonMVAReader(string basePath, string weightFileName, string type);
    
    FlatTree* ftree;
    const edm::Service<TFileService> fs;
@@ -101,168 +104,124 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
 };
 
+TMVA::Reader* FlatTreeProducer::BookLeptonMVAReader(string basePath, string weightFileName, string type)
+{
+   TMVA::Reader* reader = new TMVA::Reader("!Color:!Silent");
+
+   reader->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
+   reader->AddVariable("chargedIso/pt",       &lepMVA_chRelIso);
+   reader->AddVariable("min(dr_in,0.5)",      &lepMVA_jetDR);
+   reader->AddVariable("min(ptf_in,1.5)",     &lepMVA_jetPtRatio);
+   reader->AddVariable("max(CSV_in,0)",       &lepMVA_jetBTagCSV);
+   reader->AddVariable("sip3d",               &lepMVA_sip3d);
+
+   if (type == "ele")
+   {
+       reader->AddVariable("mvaId",           &lepMVA_mvaId);
+       reader->AddVariable("innerHits",       &lepMVA_innerHits);
+   }
+   if (type == "mu")
+   {
+       reader->AddVariable("log(abs(dxy))",   &lepMVA_dxy);
+       reader->AddVariable("log(abs(dz))",    &lepMVA_dz);
+   }
+
+   reader->BookMVA("BDTG method", basePath+"/"+weightFileName);
+
+   return reader;
+}
+
 FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
 {
+
+   // ###
+   // Temporarily redirecting stdout to avoid huge TMVA loading dump
+   // ###
+   cout << "Temporarily redirecting stdout to avoid huge TMVA loading dump..." << endl;
+   stringstream tmpBuffer;
+   streambuf* oldStdout = cout.rdbuf(tmpBuffer.rdbuf());
+
+   // ###############
+   // #  Load MVAs  #
+   // ###############
+
+   string CMSSW_BASE(getenv("CMSSW_BASE")); 
    elecMVA = new EGammaMvaEleEstimator();
    
-   elecMVACatWeights.push_back(std::string(getenv("CMSSW_BASE"))+"/src/EgammaAnalysis/ElectronTools/data/Electrons_BDTG_NonTrigV0_Cat1.weights.xml");
-   elecMVACatWeights.push_back(std::string(getenv("CMSSW_BASE"))+"/src/EgammaAnalysis/ElectronTools/data/Electrons_BDTG_NonTrigV0_Cat2.weights.xml");
-   elecMVACatWeights.push_back(std::string(getenv("CMSSW_BASE"))+"/src/EgammaAnalysis/ElectronTools/data/Electrons_BDTG_NonTrigV0_Cat3.weights.xml");
-   elecMVACatWeights.push_back(std::string(getenv("CMSSW_BASE"))+"/src/EgammaAnalysis/ElectronTools/data/Electrons_BDTG_NonTrigV0_Cat4.weights.xml");
-   elecMVACatWeights.push_back(std::string(getenv("CMSSW_BASE"))+"/src/EgammaAnalysis/ElectronTools/data/Electrons_BDTG_NonTrigV0_Cat5.weights.xml");
-   elecMVACatWeights.push_back(std::string(getenv("CMSSW_BASE"))+"/src/EgammaAnalysis/ElectronTools/data/Electrons_BDTG_NonTrigV0_Cat6.weights.xml");
+   string EGammaElectronToolsPath = CMSSW_BASE+"/src/EgammaAnalysis/ElectronTools/";
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat1.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat2.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat3.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat4.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat5.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat6.weights.xml");
    
-   elecMVA->initialize("BDT",
-		       EGammaMvaEleEstimator::kNonTrig,
-		       true,
-		       elecMVACatWeights);
+   elecMVA->initialize("BDT", EGammaMvaEleEstimator::kNonTrig, true, elecMVACatWeights);
 
-   mu_reader_high_b = new TMVA::Reader("!Color:!Silent");
-   mu_reader_high_e = new TMVA::Reader("!Color:!Silent");
-   mu_reader_low_b = new TMVA::Reader("!Color:!Silent");
-   mu_reader_low_e = new TMVA::Reader("!Color:!Silent");
-   ele_reader_high_cb = new TMVA::Reader("!Color:!Silent");
-   ele_reader_high_fb = new TMVA::Reader("!Color:!Silent");
-   ele_reader_high_ec = new TMVA::Reader("!Color:!Silent");
-   ele_reader_low_cb = new TMVA::Reader("!Color:!Silent");
-   ele_reader_low_fb = new TMVA::Reader("!Color:!Silent");
-   ele_reader_low_ec = new TMVA::Reader("!Color:!Silent");
+   string FlatTreeProducerLepMVAPath = CMSSW_BASE+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/";
+   mu_reader_high_b   = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_high_b_BDTG.weights.xml" ,  "mu");
+   mu_reader_high_e   = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_high_e_BDTG.weights.xml" ,  "mu");
+   mu_reader_low_b    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_low_b_BDTG.weights.xml"  ,  "mu");
+   mu_reader_low_e    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_low_e_BDTG.weights.xml"  ,  "mu");
+   ele_reader_high_cb = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_high_cb_BDTG.weights.xml", "ele");
+   ele_reader_high_fb = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_high_fb_BDTG.weights.xml", "ele");
+   ele_reader_high_ec = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_high_ec_BDTG.weights.xml", "ele");
+   ele_reader_low_cb  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_low_cb_BDTG.weights.xml" , "ele");
+   ele_reader_low_fb  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_low_fb_BDTG.weights.xml" , "ele");
+   ele_reader_low_ec  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_low_ec_BDTG.weights.xml" , "ele");
+   
+   // ###
+   // Restore stdout
+   // ###
+   cout.rdbuf(oldStdout);
+   cout << "Stdout now restored." << endl;
 
-   ele_reader_high_cb->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   ele_reader_high_cb->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   ele_reader_high_cb->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   ele_reader_high_cb->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   ele_reader_high_cb->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   ele_reader_high_cb->AddVariable("sip3d",&lepMVA_sip3d);
-   ele_reader_high_cb->AddVariable("mvaId",&lepMVA_mvaId);
-   ele_reader_high_cb->AddVariable("innerHits",&lepMVA_innerHits);
+   // ########################
+   // #  Create output tree  #
+   // ########################
    
-   ele_reader_high_fb->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   ele_reader_high_fb->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   ele_reader_high_fb->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   ele_reader_high_fb->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   ele_reader_high_fb->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   ele_reader_high_fb->AddVariable("sip3d",&lepMVA_sip3d);
-   ele_reader_high_fb->AddVariable("mvaId",&lepMVA_mvaId);
-   ele_reader_high_fb->AddVariable("innerHits",&lepMVA_innerHits);
-   
-   ele_reader_high_ec->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   ele_reader_high_ec->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   ele_reader_high_ec->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   ele_reader_high_ec->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   ele_reader_high_ec->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   ele_reader_high_ec->AddVariable("sip3d",&lepMVA_sip3d);
-   ele_reader_high_ec->AddVariable("mvaId",&lepMVA_mvaId);
-   ele_reader_high_ec->AddVariable("innerHits",&lepMVA_innerHits);
-   
-   ele_reader_low_cb->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   ele_reader_low_cb->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   ele_reader_low_cb->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   ele_reader_low_cb->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   ele_reader_low_cb->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   ele_reader_low_cb->AddVariable("sip3d",&lepMVA_sip3d);
-   ele_reader_low_cb->AddVariable("mvaId",&lepMVA_mvaId);
-   ele_reader_low_cb->AddVariable("innerHits",&lepMVA_innerHits);
-   
-   ele_reader_low_fb->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   ele_reader_low_fb->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   ele_reader_low_fb->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   ele_reader_low_fb->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   ele_reader_low_fb->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   ele_reader_low_fb->AddVariable("sip3d",&lepMVA_sip3d);
-   ele_reader_low_fb->AddVariable("mvaId",&lepMVA_mvaId);
-   ele_reader_low_fb->AddVariable("innerHits",&lepMVA_innerHits);
-   
-   ele_reader_low_ec->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   ele_reader_low_ec->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   ele_reader_low_ec->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   ele_reader_low_ec->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   ele_reader_low_ec->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   ele_reader_low_ec->AddVariable("sip3d",&lepMVA_sip3d);
-   ele_reader_low_ec->AddVariable("mvaId",&lepMVA_mvaId);
-   ele_reader_low_ec->AddVariable("innerHits",&lepMVA_innerHits);
-   
-   mu_reader_high_b->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   mu_reader_high_b->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   mu_reader_high_b->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   mu_reader_high_b->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   mu_reader_high_b->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   mu_reader_high_b->AddVariable("sip3d",&lepMVA_sip3d);
-   mu_reader_high_b->AddVariable("log(abs(dxy))",&lepMVA_dxy);
-   mu_reader_high_b->AddVariable("log(abs(dz))",&lepMVA_dz);
-   
-   mu_reader_high_e->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   mu_reader_high_e->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   mu_reader_high_e->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   mu_reader_high_e->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   mu_reader_high_e->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   mu_reader_high_e->AddVariable("sip3d",&lepMVA_sip3d);
-   mu_reader_high_e->AddVariable("log(abs(dxy))",&lepMVA_dxy);
-   mu_reader_high_e->AddVariable("log(abs(dz))",&lepMVA_dz);
-   
-   mu_reader_low_b->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   mu_reader_low_b->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   mu_reader_low_b->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   mu_reader_low_b->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   mu_reader_low_b->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   mu_reader_low_b->AddVariable("sip3d",&lepMVA_sip3d);
-   mu_reader_low_b->AddVariable("log(abs(dxy))",&lepMVA_dxy);
-   mu_reader_low_b->AddVariable("log(abs(dz))",&lepMVA_dz);
-   
-   mu_reader_low_e->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   mu_reader_low_e->AddVariable("chargedIso/pt",&lepMVA_chRelIso);
-   mu_reader_low_e->AddVariable("min(dr_in,0.5)",&lepMVA_jetDR);
-   mu_reader_low_e->AddVariable("min(ptf_in,1.5)",&lepMVA_jetPtRatio);
-   mu_reader_low_e->AddVariable("max(CSV_in,0)",&lepMVA_jetBTagCSV);
-   mu_reader_low_e->AddVariable("sip3d",&lepMVA_sip3d);
-   mu_reader_low_e->AddVariable("log(abs(dxy))",&lepMVA_dxy);
-   mu_reader_low_e->AddVariable("log(abs(dz))",&lepMVA_dz);
-   
-   mu_reader_high_b->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/mu_pteta_high_b_BDTG.weights.xml");
-   mu_reader_high_e->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/mu_pteta_high_e_BDTG.weights.xml");
-   mu_reader_low_b->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/mu_pteta_low_b_BDTG.weights.xml");
-   mu_reader_low_e->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/mu_pteta_low_e_BDTG.weights.xml");
-   ele_reader_high_cb->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/el_pteta_high_cb_BDTG.weights.xml");
-   ele_reader_high_fb->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/el_pteta_high_fb_BDTG.weights.xml");
-   ele_reader_high_ec->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/el_pteta_high_ec_BDTG.weights.xml");
-   ele_reader_low_cb->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/el_pteta_low_cb_BDTG.weights.xml");
-   ele_reader_low_fb->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/el_pteta_low_fb_BDTG.weights.xml");
-   ele_reader_low_ec->BookMVA("BDTG method",std::string(getenv("CMSSW_BASE"))+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/el_pteta_low_ec_BDTG.weights.xml");
-
    ftree = new FlatTree(fs->make<TTree>("tree","tree"));
+   
+   // #########################
+   // #  Read XML config file #
+   // #########################
    
    xmlconf.LoadFile("conf.xml");
    XMLElement* tElement = xmlconf.FirstChildElement("var");
-   
-   for( XMLElement* child=tElement;child!=0;child=child->NextSiblingElement() )
-     {	
-	std::string vname = child->ToElement()->Attribute("name");
-	std::string vsave = child->ToElement()->Attribute("save");
-	bool bsave = atoi(vsave.c_str());
 
-	ftree->conf.insert(std::make_pair(vname,bsave));
-     }
+   for( XMLElement* child=tElement;child!=0;child=child->NextSiblingElement() )
+   {
+       std::string vname = child->ToElement()->Attribute("name");
+       std::string vsave = child->ToElement()->Attribute("save");
+       bool bsave = atoi(vsave.c_str());
+
+       ftree->conf.insert(std::make_pair(vname,bsave));
+   }
 
    ftree->CreateBranches();
+   
+   // ###############################
+   // #  Add count & weight histos  #
+   // ###############################
    
    hcount = fs->make<TH1D>("hcount","hcount",1,0.,1.);
    hweight = fs->make<TH1D>("hweight","hweight",1,0.,1.);
 
-   dataFormat_ = iConfig.getParameter<std::string>("dataFormat");
-   
-   isData_ = iConfig.getParameter<bool>("isData");
-   
-   triggerBits_ = consumes<edm::TriggerResults>(edm::InputTag(std::string("TriggerResults"),std::string(""),std::string("HLT")));
-   triggerPrescales_ = consumes<pat::PackedTriggerPrescales>(edm::InputTag(std::string("patTrigger")));
-   
-   vertexToken_ = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertexInput"));
-   electronToken_ = consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electronInput"));
-   muonToken_ = consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonInput"));
-   jetToken_ = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetInput"));
-   metTokenAOD_ = consumes<std::vector<pat::MET> >(iConfig.getParameter<edm::InputTag>("metInput"));
-   metTokenMINIAOD_ = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metInput"));
-   //rhoToken_ = consumes<double>(edm::InputTag(std::string("kt6PFJets"),std::string("rho")));
-   rhoToken_ = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
+   // #############################################################
+   // #  Read parameters from python file and get consume tokens  #
+   // #############################################################
+
+   dataFormat_        = iConfig.getParameter<std::string>("dataFormat");
+   isData_            = iConfig.getParameter<bool>("isData");
+   triggerBits_       = consumes<edm::TriggerResults>(edm::InputTag(std::string("TriggerResults"),std::string(""),std::string("HLT")));
+   triggerPrescales_  = consumes<pat::PackedTriggerPrescales>(edm::InputTag(std::string("patTrigger")));
+   vertexToken_       = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertexInput"));
+   electronToken_     = consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electronInput"));
+   muonToken_         = consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonInput"));
+   jetToken_          = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetInput"));
+   metTokenAOD_       = consumes<std::vector<pat::MET> >(iConfig.getParameter<edm::InputTag>("metInput"));
+   metTokenMINIAOD_   = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metInput"));
+   rhoToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticlesInput"));
 }
 
@@ -277,21 +236,81 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    hcount->SetBinContent(1,hcount->GetBinContent(1)+1);
    
    ftree->Init();
+
+   // Initial-state info
+   edm::Handle<GenEventInfoProduct> genEventInfo;
+   iEvent.getByLabel("generator",genEventInfo);
+
+   // Gen particles
+   edm::Handle<reco::GenParticleCollection> genParticlesHandle;                                                          
+   iEvent.getByToken(genParticlesToken_,genParticlesHandle);
+
+   // Beamspot
+   edm::Handle<reco::BeamSpot> bsHandle;
+   iEvent.getByLabel("offlineBeamSpot", bsHandle);
+   const reco::BeamSpot &beamspot = *bsHandle.product();
+ 
+   // Primary vertex
+   edm::Handle<reco::VertexCollection> vertices;
+   iEvent.getByToken(vertexToken_,vertices);
+
+   // Triggers
+   edm::Handle<edm::TriggerResults> triggerBits;
+   iEvent.getByToken(triggerBits_,triggerBits);
+   const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
+
+   edm::Handle<pat::PackedTriggerPrescales> triggerPrescales;
+   iEvent.getByToken(triggerPrescales_, triggerPrescales);
+
+   // Pile-up
+   edm::Handle<std::vector< PileupSummaryInfo> > pileupInfo;
+   iEvent.getByLabel("addPileupInfo",pileupInfo);
+
+   // Rho info
+   edm::Handle<double> rhoPtr;
+   iEvent.getByToken(rhoToken_,rhoPtr);
+
+   // Packed candidate collection
+   edm::Handle<pat::PackedCandidateCollection> pfcands;
+   if( dataFormat_ != "AOD" ) iEvent.getByLabel("packedPFCandidates",pfcands);
+
+   // Jets
+   edm::Handle<pat::JetCollection> jets;
+   iEvent.getByToken(jetToken_,jets);
+
+   // Muons
+   edm::Handle<pat::MuonCollection> muons;
+   iEvent.getByToken(muonToken_,muons);
    
+   // Electrons
+   edm::Handle<pat::ElectronCollection> electrons;
+   iEvent.getByToken(electronToken_,electrons);
+   
+   // Conversions info
+   edm::Handle<reco::ConversionCollection> hConversions;
+   iEvent.getByLabel("reducedEgamma","reducedConversions",hConversions);
+  
+   // ###############################################################
+   // #    ____                           _     _        __         #
+   // #   / ___| ___ _ __   ___ _ __ __ _| |   (_)_ __  / _| ___    #
+   // #  | |  _ / _ \ '_ \ / _ \ '__/ _` | |   | | '_ \| |_ / _ \   #
+   // #  | |_| |  __/ | | |  __/ | | (_| | |   | | | | |  _| (_) |  #
+   // #   \____|\___|_| |_|\___|_|  \__,_|_|   |_|_| |_|_|  \___/   #
+   // #                                                             #
+   // ###############################################################                           
+
    ftree->ev_run = iEvent.id().run();
    ftree->ev_id = iEvent.id().event();
    ftree->ev_lumi = iEvent.id().luminosityBlock();
 
-   edm::Handle<reco::BeamSpot> bsHandle;
-   iEvent.getByLabel("offlineBeamSpot", bsHandle);
-   const reco::BeamSpot &beamspot = *bsHandle.product();
-   
-   edm::Handle<reco::ConversionCollection> hConversions;
-   iEvent.getByLabel("reducedEgamma","reducedConversions",hConversions);
-   
-   // general info
-   edm::Handle<GenEventInfoProduct> genEventInfo;
-   iEvent.getByLabel("generator",genEventInfo);
+   // ##########################################################
+   // #   ___       _ _   _       _         _        _         #
+   // #  |_ _|_ __ (_) |_(_) __ _| |    ___| |_ __ _| |_ ___   #
+   // #   | || '_ \| | __| |/ _` | |   / __| __/ _` | __/ _ \  #
+   // #   | || | | | | |_| | (_| | |   \__ \ || (_| | ||  __/  #
+   // #  |___|_| |_|_|\__|_|\__,_|_|   |___/\__\__,_|\__\___|  #
+   // #                                                        #
+   // ##########################################################
    
    ftree->mc_weight = genEventInfo->weight();
    ftree->mc_id = genEventInfo->signalProcessID();
@@ -304,9 +323,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    hweight->SetBinContent(1,hweight->GetBinContent(1)+ftree->mc_weight);
 
-   // pileup
-   edm::Handle<std::vector< PileupSummaryInfo> > pileupInfo;
-   iEvent.getByLabel("addPileupInfo",pileupInfo);
+   // ####################################
+   // #   ____  _ _                      #
+   // #  |  _ \(_) | ___   _   _ _ __    #
+   // #  | |_) | | |/ _ \ | | | | '_ \   #
+   // #  |  __/| | |  __/ | |_| | |_) |  #
+   // #  |_|   |_|_|\___|  \__,_| .__/   #
+   // #                         |_|      #
+   // #                                  #                      
+   // ####################################
 
    ftree->mc_pu_Npvi = pileupInfo->size();
    
@@ -348,9 +373,14 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->mc_pu_ntrks_highpT.push_back(mc_pu_ntrks_highpT);
      }
 
-   // mc truth
-   edm::Handle<reco::GenParticleCollection> genParticlesHandle;                                                          
-   iEvent.getByToken(genParticlesToken_,genParticlesHandle);
+   // ##################################################
+   // #   __  __  ____     _____           _   _       #
+   // #  |  \/  |/ ___|   |_   _| __ _   _| |_| |__    #
+   // #  | |\/| | |         | || '__| | | | __| '_ \   #
+   // #  | |  | | |___      | || |  | |_| | |_| | | |  #
+   // #  |_|  |_|\____|     |_||_|   \__,_|\__|_| |_|  #
+   // #                                                #
+   // ##################################################
 
    bool do_mc_truth_tth = ftree->doWrite("mc_truth_tth");
    bool do_mc_truth_tzq = ftree->doWrite("mc_truth_tzq");
@@ -375,15 +405,17 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	if( !reqMCTruth ) mc_truth->Init(*ftree);
 	mc_truth->fillGenParticles(iEvent,iSetup,*ftree,genParticlesHandle);
      }
-   
-   // trigger
-   edm::Handle<edm::TriggerResults> triggerBits;
-   iEvent.getByToken(triggerBits_,triggerBits);
-   const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
+  
+   // #########################################
+   // #   _____     _                         #
+   // #  |_   _| __(_) __ _  __ _  ___ _ __   #
+   // #    | || '__| |/ _` |/ _` |/ _ \ '__|  #
+   // #    | || |  | | (_| | (_| |  __/ |     #
+   // #    |_||_|  |_|\__, |\__, |\___|_|     #
+   // #               |___/ |___/             #
+   // #                                       #
+   // #########################################
 
-   edm::Handle<pat::PackedTriggerPrescales> triggerPrescales;
-   iEvent.getByToken(triggerPrescales_, triggerPrescales);
-   
    std::vector<std::string> triggerIdentifiers_;
    triggerIdentifiers_.push_back("HLT_Ele27_WP80_v*");
    
@@ -400,20 +432,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		 (!isStarred && names.triggerName(i)==idName) )
 		 {
 		 }		 
-//	     std::cout << "Trigger " << names.triggerName(i) <<
-//	       ", prescale " << triggerPrescales->getPrescaleForIndex(i) <<
-//	       ": " << (triggerBits->accept(i) ? "PASS" : "fail (or not run)") << std::endl;
 	  }
      }      
 
-   // Packed candidate collection
-   edm::Handle<pat::PackedCandidateCollection> pfcands;
-   if( dataFormat_ != "AOD" ) iEvent.getByLabel("packedPFCandidates",pfcands);
-   
-   // Primary vertex
-   edm::Handle<reco::VertexCollection> vertices;
-   iEvent.getByToken(vertexToken_,vertices);
-   
    reco::Vertex *primVtx = NULL;   
    if( ! vertices->empty() )
      {	
@@ -428,12 +449,17 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      }   
    
    // Rho
-   edm::Handle<double> rhoPtr;
-//   if( dataFormat_ != "AOD" )
-//     {	
-	iEvent.getByToken(rhoToken_,rhoPtr);
 	ftree->ev_rho = *rhoPtr;
-//     }   
+
+   // ####################################################
+   // #   __  __ _         _               _____ _____   #
+   // #  |  \/  (_)___ ___(_)_ __   __ _  | ____|_   _|  #
+   // #  | |\/| | / __/ __| | '_ \ / _` | |  _|   | |    #
+   // #  | |  | | \__ \__ \ | | | | (_| | | |___  | |    #
+   // #  |_|  |_|_|___/___/_|_| |_|\__, | |_____| |_|    #
+   // #                            |___/                 # 
+   // #                                                  #
+   // ####################################################
 
    // MET
    edm::Handle<std::vector<pat::MET> > metAOD;
@@ -454,18 +480,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->met_phi = metv.phi();
 	ftree->met_sumet = metv.sumEt();
      }
-   
-   // Electrons
-   edm::Handle<pat::ElectronCollection> electrons;
-   iEvent.getByToken(electronToken_,electrons);
-
-   // Muons
-   edm::Handle<pat::MuonCollection> muons;
-   iEvent.getByToken(muonToken_,muons);
-   
-   // Jets
-   edm::Handle<pat::JetCollection> jets;
-   iEvent.getByToken(jetToken_,jets);
+ 
+   // #################################################
+   // #   _____ _           _                         #
+   // #  | ____| | ___  ___| |_ _ __ ___  _ __  ___   #
+   // #  |  _| | |/ _ \/ __| __| '__/ _ \| '_ \/ __|  #
+   // #  | |___| |  __/ (__| |_| | | (_) | | | \__ \  #
+   // #  |_____|_|\___|\___|\__|_|  \___/|_| |_|___/  #
+   // #                                               #
+   // #################################################
    
    int nElec = electrons->size();
    ftree->el_n = nElec;
@@ -568,12 +591,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 						ftree->el_pt.back(),
 						false);
 
-//	if( iEvent.id().event() == 70946 )
-//	  {	     
-//	     std::cout << ftree->el_eta.back() << std::endl;
-//	     exit(1);
-//	  }	
-	
 	ftree->el_mvaNonTrigV0.push_back(mvaNonTrigV0);
 	
 	ftree->el_neutralHadronIso.push_back(elec.neutralHadronIso());
@@ -673,12 +690,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	lepMVA_mvaId = mvaNonTrigV0;
 	if( elec.gsfTrack().isNonnull() ) lepMVA_innerHits = ftree->el_numberOfHits.back();
 	
-	if( el_pt >= 10 && fabs(el_scleta) <= 0.8 ) el_lepMVA = ele_reader_high_cb->EvaluateMVA("BDTG method");
+	     if( el_pt >= 10 && fabs(el_scleta) <= 0.8 )                            el_lepMVA = ele_reader_high_cb->EvaluateMVA("BDTG method");
 	else if( el_pt >= 10 && fabs(el_scleta) > 0.8 && fabs(el_scleta) <= 1.479 ) el_lepMVA = ele_reader_high_fb->EvaluateMVA("BDTG method");
-	else if( el_pt >= 10 && fabs(el_scleta) > 1.479 ) el_lepMVA = ele_reader_high_ec->EvaluateMVA("BDTG method");
-	else if( el_pt < 10 && fabs(el_scleta) <= 0.8 ) el_lepMVA = ele_reader_low_cb->EvaluateMVA("BDTG method");
-	else if( el_pt < 10 && fabs(el_scleta) > 0.8 && fabs(el_scleta) <= 1.479 ) el_lepMVA = ele_reader_low_fb->EvaluateMVA("BDTG method");
-	else el_lepMVA = ele_reader_low_ec->EvaluateMVA("BDTG method");
+	else if( el_pt >= 10 && fabs(el_scleta) > 1.479 )                           el_lepMVA = ele_reader_high_ec->EvaluateMVA("BDTG method");
+	else if( el_pt < 10  && fabs(el_scleta) <= 0.8 )                            el_lepMVA = ele_reader_low_cb ->EvaluateMVA("BDTG method");
+	else if( el_pt < 10  && fabs(el_scleta) > 0.8 && fabs(el_scleta) <= 1.479 ) el_lepMVA = ele_reader_low_fb ->EvaluateMVA("BDTG method");
+	else                                                                        el_lepMVA = ele_reader_low_ec ->EvaluateMVA("BDTG method");
 
 	ftree->el_lepMVA.push_back(el_lepMVA);	
 
@@ -724,8 +741,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->el_hasMatchedConversion.push_back(matchConv);
      }   
    
-   // Muons
-   
+   // ####################################
+   // #   __  __                         #
+   // #  |  \/  |_   _  ___  _ __  ___   #
+   // #  | |\/| | | | |/ _ \| '_ \/ __|  #
+   // #  | |  | | |_| | (_) | | | \__ \  #
+   // #  |_|  |_|\__,_|\___/|_| |_|___/  #
+   // #                                  #                                     
+   // ####################################
+
    int nMuon = muons->size();
    ftree->mu_n = nMuon;
    
@@ -933,9 +957,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->mu_lepMVA_dxy.push_back(lepMVA_dxy);
 	ftree->mu_lepMVA_dz.push_back(lepMVA_dz);
      }   
-   
-   // Jets
-   
+ 
+   // ##########################
+   // #       _      _         #
+   // #      | | ___| |_ ___   #
+   // #   _  | |/ _ \ __/ __|  #
+   // #  | |_| |  __/ |_\__ \  #
+   // #   \___/ \___|\__|___/  #
+   // #                        #                        
+   // ##########################
+
    int nJet = jets->size();
    ftree->jet_n = nJet;
    
