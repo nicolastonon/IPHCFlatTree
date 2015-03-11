@@ -5,12 +5,14 @@ import os
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.int,'Run on real data')
+
 process = cms.Process("FlatTree")
 options.parseArguments()
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 process.load("Geometry.CMSCommonData.cmsIdealGeometryXML_cfi");
 process.load("Geometry.CaloEventSetup.CaloGeometry_cfi");
