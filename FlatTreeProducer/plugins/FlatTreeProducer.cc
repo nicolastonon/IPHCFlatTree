@@ -191,11 +191,11 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
 
    for( XMLElement* child=tElement;child!=0;child=child->NextSiblingElement() )
    {
-       std::string vname = child->ToElement()->Attribute("name");
-       std::string vsave = child->ToElement()->Attribute("save");
-       bool bsave = atoi(vsave.c_str());
-
-       ftree->conf.insert(std::make_pair(vname,bsave));
+      std::string vname = child->ToElement()->Attribute("name");
+      std::string vsave = child->ToElement()->Attribute("save");
+      bool bsave = atoi(vsave.c_str());
+      
+      ftree->conf.insert(std::make_pair(vname,bsave));
    }
 
    ftree->CreateBranches();
@@ -449,7 +449,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      }   
    
    // Rho
-	ftree->ev_rho = *rhoPtr;
+   ftree->ev_rho = *rhoPtr;
 
    // ####################################################
    // #   __  __ _         _               _____ _____   #
@@ -690,7 +690,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	lepMVA_mvaId = mvaNonTrigV0;
 	if( elec.gsfTrack().isNonnull() ) lepMVA_innerHits = ftree->el_numberOfHits.back();
 	
-	     if( el_pt >= 10 && fabs(el_scleta) <= 0.8 )                            el_lepMVA = ele_reader_high_cb->EvaluateMVA("BDTG method");
+	if( el_pt >= 10 && fabs(el_scleta) <= 0.8 )                                 el_lepMVA = ele_reader_high_cb->EvaluateMVA("BDTG method");
 	else if( el_pt >= 10 && fabs(el_scleta) > 0.8 && fabs(el_scleta) <= 1.479 ) el_lepMVA = ele_reader_high_fb->EvaluateMVA("BDTG method");
 	else if( el_pt >= 10 && fabs(el_scleta) > 1.479 )                           el_lepMVA = ele_reader_high_ec->EvaluateMVA("BDTG method");
 	else if( el_pt < 10  && fabs(el_scleta) <= 0.8 )                            el_lepMVA = ele_reader_low_cb ->EvaluateMVA("BDTG method");
