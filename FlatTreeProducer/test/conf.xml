@@ -76,7 +76,7 @@
 <var name="el_vx" save="1"></var>
 <var name="el_vy" save="1"></var>
 <var name="el_vz" save="1"></var>
-   
+
 <var name="el_isGsf" save="1"></var>
 
 <var name="el_dxy" save="1"></var>
@@ -171,12 +171,13 @@
 <var name="mu_isStandAloneMuon" save="1"></var>
 <var name="mu_isCaloMuon" save="1"></var>
 <var name="mu_isPFMuon" save="1"></var>
+
 <var name="mu_isTightMuon" save="1"></var>
 
 <var name="mu_vx" save="1"></var>
 <var name="mu_vy" save="1"></var>
 <var name="mu_vz" save="1"></var>
-   
+
 <var name="mu_hasGlobalTrack" save="1"></var>
 <var name="mu_globalTrack_dxy" save="1"></var>
 <var name="mu_globalTrack_dz" save="1"></var>
@@ -222,15 +223,15 @@
 <var name="mu_gen_dr" save="1"></var>
 
 <var name="jet_n" save="1"></var>
-<var name="jet_pt" save="1"></var>
-<var name="jet_eta" save="1"></var>
+<var name="jet_pt" save="1" cut_min="0.0"></var>
+<var name="jet_eta" save="1" cut_max="75.0"></var>
 <var name="jet_phi" save="1"></var>
 <var name="jet_m" save="1"></var>
 <var name="jet_E" save="1"></var>
 
 <var name="jet_ntrk" save="1"></var>
 
-<var name="jet_JBP" save="1"></var>
+<var name="jet_JBP" save="1" cut_algo="3.0"></var>
 <var name="jet_JP" save="1"></var>
 <var name="jet_TCHP" save="1"></var>
 <var name="jet_TCHE" save="1"></var>

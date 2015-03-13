@@ -5,11 +5,12 @@ import FWCore.ParameterSet.Config as cms
 #####################
 
 from FWCore.ParameterSet.VarParsing import VarParsing
-import os
+import os, sys
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.int,'Run on real data')
-
+options.register('confFile', '', VarParsing.multiplicity.singleton, VarParsing.varType.string, "conf file")
+options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "buffer size")
 options.parseArguments()
 
 ##########################
@@ -31,6 +32,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 ###########
 
 process.source = cms.Source("PoolSource",
+    duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
         'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
     )
@@ -47,17 +49,17 @@ process.TFileService = cms.Service("TFileService", fileName = cms.string("output
 #############################
 
 process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
-
-    dataFormat        = cms.string("MINIAOD"),
-
-    isData            = cms.bool(options.isData),
-    vertexInput       = cms.InputTag("offlineSlimmedPrimaryVertices"),
-    electronInput     = cms.InputTag("slimmedElectrons"),
-    muonInput         = cms.InputTag("slimmedMuons"),
-    jetInput          = cms.InputTag("slimmedJets"),
-    metInput          = cms.InputTag("slimmedMETs"),
-    rhoInput          = cms.InputTag("fixedGridRhoFastjetAll"),
-    genParticlesInput = cms.InputTag("prunedGenParticles")
+				  bufferSize = cms.int32(options.bufferSize),
+                                  confFile = cms.string(options.confFile),
+                                  dataFormat        = cms.string("MINIAOD"),
+                                  isData            = cms.bool(options.isData),
+                                  vertexInput       = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                  electronInput     = cms.InputTag("slimmedElectrons"),
+                                  muonInput         = cms.InputTag("slimmedMuons"),
+                                  jetInput          = cms.InputTag("slimmedJets"),
+                                  metInput          = cms.InputTag("slimmedMETs"),
+                                  rhoInput          = cms.InputTag("fixedGridRhoFastjetAll"),
+                                  genParticlesInput = cms.InputTag("prunedGenParticles")
 )
 
 ##########
