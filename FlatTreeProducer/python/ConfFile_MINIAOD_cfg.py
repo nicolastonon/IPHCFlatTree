@@ -1,10 +1,12 @@
 import FWCore.ParameterSet.Config as cms
 
 from FWCore.ParameterSet.VarParsing import VarParsing
-import os
+import os, sys
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.int,'Run on real data')
+options.register('confFile', '', VarParsing.multiplicity.singleton, VarParsing.varType.string, "conf file")
+options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "buffer size")
 process = cms.Process("FlatTree")
 options.parseArguments()
 
@@ -17,10 +19,14 @@ process.load("Geometry.CaloEventSetup.CaloGeometry_cfi");
 process.load("Geometry.CaloEventSetup.CaloTopology_cfi");
 
 process.source = cms.Source("PoolSource",
+    duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
+    'file:/opt/sbg/data/data5/cms/tschmitt/Ntupler/FlatTreeProducer/test/ttH_ev_2.root'
+
+#    'file:../test/BTagRun2011A_ID13.root'
 #    'root://sbgse1.in2p3.fr//store/mc/Phys14DR/TTbarH_M-125_13TeV_amcatnlo-pythia8-tauola/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v2/20000/14587980-CB7E-E411-A0F4-001E67397701.root'
 #'root://xrootd.unl.edu//store/mc/Phys14DR/TT_Tune4C_13TeV-pythia8-tauola/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/00000/007B37D4-8B70-E411-BC2D-0025905A6066.root'
-    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
+#    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
 #'root://xrootd.unl.edu//store/mc/Phys14DR/TTWJets_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/2010CF0F-CB71-E411-9331-002481E0D678.root'
 #        'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/TZqSynchMoreStat/001C0B68-536A-E311-B25F-002590D0B066.root'
     )
@@ -66,6 +72,8 @@ process.source = cms.Source("PoolSource",
 #adaptPVs(process, pvCollection=cms.InputTag('offlineSlimmedPrimaryVertices'))
 
 process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
+				  bufferSize = cms.int32(options.bufferSize),
+                                  confFile = cms.string(options.confFile),
                                   dataFormat = cms.string("MINIAOD"),
                                   isData = cms.bool(options.isData),
                                   vertexInput = cms.InputTag("offlineSlimmedPrimaryVertices"),
@@ -74,16 +82,14 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 #                                  jetInput = cms.InputTag("selectedPatJets"),
                                   jetInput = cms.InputTag("slimmedJets"),
                                   metInput = cms.InputTag("slimmedMETs"),
-                                  rhoInput = cms.InputTag("fixedGridRhoFastjetAll"),
-#                                  rhoInput = cms.InputTag("fixedGridRhoAll"),
+                                  rhoInput = cms.InputTag("fixedGridRhoAll"),
                                   genParticlesInput = cms.InputTag("prunedGenParticles")
 )
 
 
 process.TFileService = cms.Service("TFileService",
-fileName = cms.string("output.root")
-#fileName = cms.string(options.outputFile)
+#fileName = cms.string("output.root")
+fileName = cms.string(options.outputFile)
 )
 
-process.p = cms.Path(
-                     process.FlatTree)
+process.p = cms.Path( process.FlatTree)
