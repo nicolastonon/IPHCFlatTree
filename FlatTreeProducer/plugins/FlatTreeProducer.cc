@@ -496,7 +496,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    for(int ie=0;ie<nElec;ie++)
      {
 	const pat::Electron& elec = electrons->at(ie);
-	
+
+    // Skimming electrons with pT < 5 GeV.
+    if (elec.pt() < 5) continue;
+
 	ftree->el_pt.push_back(elec.pt());
 	ftree->el_eta.push_back(elec.eta());
 	ftree->el_phi.push_back(elec.phi());
@@ -757,6 +760,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      {
 	const pat::Muon& muon = muons->at(im);
 	
+    // Skimming electrons with pT < 5 GeV.
+    if (muon.pt() < 5) continue;
+
 	ftree->mu_pt.push_back(muon.pt());
 	ftree->mu_eta.push_back(muon.eta());
 	ftree->mu_phi.push_back(muon.phi());
