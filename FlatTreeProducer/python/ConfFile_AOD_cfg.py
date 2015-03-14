@@ -13,6 +13,8 @@ usePF2PAT(process,runPF2PAT=True, jetAlgo=jetAlgo, runOnMC=True, postfix=postfix
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.int,'Run on real data')
+options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
+options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
 ##process = cms.Process("FlatTree")
 options.parseArguments()
 
@@ -51,15 +53,21 @@ process.source = cms.Source("PoolSource",
 
 # https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideAodDataTable
 process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
-                                  dataFormat = cms.string("AOD"),
-                                  isData = cms.bool(options.isData),
-                                  vertexInput = cms.InputTag("offlinePrimaryVertices"),
-                                  electronInput = cms.InputTag("patElectronsPFlow"),
-                                  muonInput = cms.InputTag("patMuonsPFlow"),
-                                  jetInput = cms.InputTag("patJetsPFlow"),
-                                  metInput = cms.InputTag("patMETsPFlow"),
-                                  rhoInput = cms.InputTag("fixedGridRhoAll"),
-                                  genParticlesInput = cms.InputTag("genParticles")
+
+                  dataFormat = cms.string("AOD"),
+
+                  bufferSize        = cms.int32(options.bufferSize),
+                  confFile          = cms.string(options.confFile),
+
+                  isData            = cms.bool(options.isData),
+
+                  vertexInput       = cms.InputTag("offlinePrimaryVertices"),
+                  electronInput     = cms.InputTag("patElectronsPFlow"),
+                  muonInput         = cms.InputTag("patMuonsPFlow"),
+                  jetInput          = cms.InputTag("patJetsPFlow"),
+                  metInput          = cms.InputTag("patMETsPFlow"),
+                  rhoInput          = cms.InputTag("fixedGridRhoAll"),
+                  genParticlesInput = cms.InputTag("genParticles")
 )
 
 process.TFileService = cms.Service("TFileService",

@@ -181,13 +181,13 @@ template<typename T>
 
 void FlatTreeProducer::AddValue(const std::string& name)
 {
-   if( !name.compare("njets") )
+   if( !name.compare("n_presel_jets") )
      {
-	ftree->njets += 1;
+	ftree->n_presel_jets += 1;
      }
-   else if( !name.compare("nelectron") )
+   else if( !name.compare("n_presel_electron") )
      {
-	ftree->nelectron += 1;
+	ftree->n_presel_electron += 1;
      }
 }
 
@@ -226,64 +226,65 @@ template <typename T>
      {
 	for( unsigned int i=0;i<ftree->jet_JBP.size();++i )
 	  if( ftree->jet_JBP[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
    else if( !algo.compare("jet_JP") )
      {
 	for( unsigned int i=0;i<ftree->jet_JP.size();++i )
 	  if( ftree->jet_JP[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
    else if( !algo.compare("jet_TCHP") )
      {
 	for( unsigned int i=0;i<ftree->jet_TCHP.size();++i )
 	  if( ftree->jet_TCHP[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
    else if( !algo.compare("jet_TCHE") )
      {
 	for( unsigned int i=0;i<ftree->jet_TCHE.size();++i )
 	  if( ftree->jet_TCHE[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
    else if( !algo.compare("jet_SSVHP") )
      {
 	for( unsigned int i=0;i<ftree->jet_SSVHP.size();++i )
 	  if( ftree->jet_SSVHP[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
    else if( !algo.compare("jet_SSVHE") )
      {
 	for( unsigned int i=0;i<ftree->jet_SSVHE.size();++i )
 	  if( ftree->jet_SSVHE[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
    else if( !algo.compare("jet_CMVA") )
      {
 	for( unsigned int i=0;i<ftree->jet_CMVA.size();++i )
 	  if( ftree->jet_CMVA[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
    else if( !algo.compare("jet_CSV") )
      {
 	for( unsigned int i=0;i<ftree->jet_CSV.size();++i )
 	  if( ftree->jet_CSV[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
    else if( !algo.compare("jet_CSVv2") )
      {
 	for( unsigned int i=0;i<ftree->jet_CSVv2.size();++i )
 	  if( ftree->jet_CSVv2[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
    else if( !algo.compare("jet_flavour") )
      {
 	for( unsigned int i=0;i<ftree->jet_flavour.size();++i )
 	  if( ftree->jet_flavour[i] > conf_algo_value )
-	    AddValue("njets");
+	    AddValue("n_presel_jets");
      }
 }
 
+// FIXME : refactorize CheckJet, CheckElectron and CheckMuon
 template <typename T>
 void FlatTreeProducer::CheckJet(const std::vector<T>& vJetPt, const std::string& jetpt, const std::vector<T>& vJetEta, const std::string& jeteta, const std::string& algo)
 {
@@ -320,7 +321,7 @@ void FlatTreeProducer::CheckJet(const std::vector<T>& vJetPt, const std::string&
 					     }
 					   else
 					     {
-						AddValue("njets");
+						AddValue("n_presel_jets");
 					     }
 					}
 				   }
@@ -365,7 +366,7 @@ void FlatTreeProducer::CheckJet(const std::vector<T>& vJetPt, const std::string&
 					     }
 					   else
 					     {
-						AddValue("njets");
+						AddValue("n_presel_jets");
 					     }
 					}
 				   }
@@ -410,7 +411,7 @@ template <typename T>
 				   {
 				      if( vElEta[i] < boost::any_cast<int>(conf_eta["cut_max"]) )
 					{
-					   AddValue("nelectron");
+					   AddValue("n_presel_electron");
 					}
 				   }
 				 else
@@ -440,7 +441,7 @@ template <typename T>
 				   {
 				      if( vElEta[i] < boost::any_cast<float>(conf_eta["cut_max"]) )
 					{
-					   AddValue("nelectron");
+					   AddValue("n_presel_electron");
 					}
 				   }
 				 else
@@ -462,78 +463,78 @@ template <typename T>
      }
 }
 
-template <typename T>
-  void FlatTreeProducer::CheckMuon(const std::vector<T>& vMuonPt, const std::string& muonpt, const std::vector<T>& vMuonEta, const std::string& muoneta)
+    template <typename T>
+void FlatTreeProducer::CheckMuon(const std::vector<T>& vMuonPt, const std::string& muonpt, const std::vector<T>& vMuonEta, const std::string& muoneta)
 {
-   std::map<std::string, std::map<std::string, boost::any> > keep_conf = ftree->keep_conf;
-   if( keep_conf.find(muonpt) != keep_conf.end() )
-     {
-	std::map<std::string, boost::any> conf_pt = keep_conf[muonpt];
-	for( unsigned int i=0;i<vMuonPt.size();++i )
-	  {
-	     if( isInt(conf_pt["cut_min"]) )
-	       {
-		  if( vMuonPt[i] > boost::any_cast<int>(conf_pt["cut_min"]) )
-		    {
-		       if( keep_conf.find(muoneta) != keep_conf.end() )
-			 {
-			    std::map<std::string, boost::any> conf_eta = keep_conf[muoneta];
-			    for( unsigned int i=0;i<vMuonEta.size();++i )
-			      {
-				 if( isInt(conf_eta["cut_max"]) )
-				   {
-				      if( vMuonEta[i] < boost::any_cast<int>(conf_eta["cut_max"]) )
-					{
-					   AddValue("nelectron");
-					}
-				   }
-				 else
-				   {
-				      std::cout << "'mu_pt' : 'cut_min' is a type 'int', 'mu_eta' : 'cut_max' cannot be a 'float'." << std::endl;
-				      break;
-				   }
-			      }
-			 }
-		       else
-			 {
-			    std::cout << "'mu_pt' : 'cut_min' set, but not 'mu_eta' : 'cut_max'" << std::endl;
-			    break;
-			 }
-		    }
-	       }
-	     else if( isFloat(conf_pt["cut_min"]) )
-	       {
-		  if( vMuonPt[i] > boost::any_cast<float>(conf_pt["cut_min"]) )
-		    {
-		       if( keep_conf.find(muoneta) != keep_conf.end() )
-			 {
-			    std::map<std::string, boost::any> conf_eta = keep_conf[muoneta];
-			    for( unsigned int i=0;i<vMuonEta.size();++i )
-			      {
-				 if( isFloat(conf_eta["cut_max"]) )
-				   {
-				      if( vMuonEta[i] < boost::any_cast<float>(conf_eta["cut_max"]) )
-					{
-					   AddValue("nelectron");
-					}
-				   }
-				 else
-				   {
-				      std::cout << "'mu_pt' : 'cut_min' is a type 'float', 'mu_eta' : 'cut_max' cannot be an 'int'." << std::endl;
-				      break;
-				   }
-			      }
-			 }
-		       else
-			 {
-			    std::cout << "'mu_pt' : 'cut_min' set, but not 'mu_eta' : 'cut_max'" << std::endl;
-			    break;
-			 }
-		    }
-	       }
-	     else{std::cout << "'mu_pt' : wrong types." << std::endl;}
-	  }
-     }
+    std::map<std::string, std::map<std::string, boost::any> > keep_conf = ftree->keep_conf;
+    if( keep_conf.find(muonpt) != keep_conf.end() )
+    {
+        std::map<std::string, boost::any> conf_pt = keep_conf[muonpt];
+        for( unsigned int i=0;i<vMuonPt.size();++i )
+        {
+            if( isInt(conf_pt["cut_min"]) )
+            {
+                if( vMuonPt[i] > boost::any_cast<int>(conf_pt["cut_min"]) )
+                {
+                    if( keep_conf.find(muoneta) != keep_conf.end() )
+                    {
+                        std::map<std::string, boost::any> conf_eta = keep_conf[muoneta];
+                        for( unsigned int i=0;i<vMuonEta.size();++i )
+                        {
+                            if( isInt(conf_eta["cut_max"]) )
+                            {
+                                if( vMuonEta[i] < boost::any_cast<int>(conf_eta["cut_max"]) )
+                                {
+                                    AddValue("n_presel_electron");
+                                }
+                            }
+                            else
+                            {
+                                std::cout << "'mu_pt' : 'cut_min' is a type 'int', 'mu_eta' : 'cut_max' cannot be a 'float'." << std::endl;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        std::cout << "'mu_pt' : 'cut_min' set, but not 'mu_eta' : 'cut_max'" << std::endl;
+                        break;
+                    }
+                }
+            }
+            else if( isFloat(conf_pt["cut_min"]) )
+            {
+                if( vMuonPt[i] > boost::any_cast<float>(conf_pt["cut_min"]) )
+                {
+                    if( keep_conf.find(muoneta) != keep_conf.end() )
+                    {
+                        std::map<std::string, boost::any> conf_eta = keep_conf[muoneta];
+                        for( unsigned int i=0;i<vMuonEta.size();++i )
+                        {
+                            if( isFloat(conf_eta["cut_max"]) )
+                            {
+                                if( vMuonEta[i] < boost::any_cast<float>(conf_eta["cut_max"]) )
+                                {
+                                    AddValue("n_presel_electron");
+                                }
+                            }
+                            else
+                            {
+                                std::cout << "'mu_pt' : 'cut_min' is a type 'float', 'mu_eta' : 'cut_max' cannot be an 'int'." << std::endl;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        std::cout << "'mu_pt' : 'cut_min' set, but not 'mu_eta' : 'cut_max'" << std::endl;
+                        break;
+                    }
+                }
+            }
+            else{std::cout << "'mu_pt' : wrong types." << std::endl;}
+        }
+    }
 }
 
 int FlatTreeProducer::CheckAlgo(const std::map<std::string, boost::any>& jet_algo, const char* name, std::string& algo)
@@ -705,7 +706,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    // ###
    // Temporarily redirecting stdout to avoid huge TMVA loading dump
    // ###
-   cout << "Temporarily redirecting stdout to avoid huge TMVA loading dump..." << endl;
+   cout << "Temporarily redirecting stdout to avoid huge TMVA dump when loading MVA readers..." << endl;
    stringstream tmpBuffer;
    streambuf* oldStdout = cout.rdbuf(tmpBuffer.rdbuf());
 
@@ -760,10 +761,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    std::string confFile = iConfig.getParameter<std::string>("confFile");
    ReadConfFile(confFile);
    int buffersize = iConfig.getParameter<int>("bufferSize");
-   if (buffersize != 0)
-     ftree->CreateBranches(buffersize);
-   else
-     ftree->CreateBranches();
+   if (buffersize <= 0) buffersize = 32000;
+   ftree->CreateBranches(buffersize);
    
    xmlconf.LoadFile("conf.xml");
    XMLElement* tElement = xmlconf.FirstChildElement("var");
@@ -1096,8 +1095,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #################################################
 
    int nElec = electrons->size();
+   
    ftree->el_n = nElec;
-
    ftree->el_pt.resize(nElec);
    ftree->el_eta.resize(nElec);
    ftree->el_phi.resize(nElec);
@@ -1169,6 +1168,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    ftree->el_lepMVA_sip3d.resize(nElec);
    ftree->el_lepMVA_mvaId.resize(nElec);
    ftree->el_lepMVA_innerHits.resize(nElec);
+   ftree->el_miniIso.resize(nElec);
 
    for(int ie=0;ie<nElec;ie++)
      {
@@ -1488,12 +1488,14 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    ftree->mu_lepMVA_sip3d.resize(nMuon);
    ftree->mu_lepMVA_dxy.resize(nMuon);
    ftree->mu_lepMVA_dz.resize(nMuon);
+   ftree->mu_miniIso.resize(nMuon);
+   ftree->mu_isTightMuon.resize(nMuon);
 
    for(int im=0;im<nMuon;im++)
      {
 	const pat::Muon& muon = muons->at(im);
 	
-	// Skimming electrons with pT < 5 GeV.
+	// Skimming muons with pT < 5 GeV.
 	if (muon.pt() < 5) continue;
 
 	ftree->mu_pt[im] = muon.pt();

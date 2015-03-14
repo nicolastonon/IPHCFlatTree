@@ -22,17 +22,16 @@ class FlatTree
    FlatTree(TTree* _tree) {tree = _tree;};
    TTree* tree;
 
-   int njets;
-   int nbtag;
-   int nelectron;
-   int nmuon;
-   int ntau;
+   int n_presel_jets;
+   int n_presel_btag;
+   int n_presel_electron;
+   int n_presel_muon;
+   int n_presel_tau;
 
    std::map<std::string, bool> conf;
    t_map keep_conf;
 
    void Init();
-   void CreateBranches();
    void CreateBranches(int buffersize);
    bool doWrite(const std::string& name);
 
