@@ -9,8 +9,8 @@ import os, sys
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.int,'Run on real data')
-options.register('confFile', '', VarParsing.multiplicity.singleton, VarParsing.varType.string, "conf file")
-options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "buffer size")
+options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
+options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
 options.parseArguments()
 
 ##########################
@@ -49,17 +49,21 @@ process.TFileService = cms.Service("TFileService", fileName = cms.string("output
 #############################
 
 process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
-				  bufferSize = cms.int32(options.bufferSize),
-                                  confFile = cms.string(options.confFile),
-                                  dataFormat        = cms.string("MINIAOD"),
-                                  isData            = cms.bool(options.isData),
-                                  vertexInput       = cms.InputTag("offlineSlimmedPrimaryVertices"),
-                                  electronInput     = cms.InputTag("slimmedElectrons"),
-                                  muonInput         = cms.InputTag("slimmedMuons"),
-                                  jetInput          = cms.InputTag("slimmedJets"),
-                                  metInput          = cms.InputTag("slimmedMETs"),
-                                  rhoInput          = cms.InputTag("fixedGridRhoFastjetAll"),
-                                  genParticlesInput = cms.InputTag("prunedGenParticles")
+
+                  dataFormat        = cms.string("MINIAOD"),
+
+                  bufferSize        = cms.int32(options.bufferSize),
+                  confFile          = cms.string(options.confFile),
+
+                  isData            = cms.bool(options.isData),
+
+                  vertexInput       = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                  electronInput     = cms.InputTag("slimmedElectrons"),
+                  muonInput         = cms.InputTag("slimmedMuons"),
+                  jetInput          = cms.InputTag("slimmedJets"),
+                  metInput          = cms.InputTag("slimmedMETs"),
+                  rhoInput          = cms.InputTag("fixedGridRhoFastjetAll"),
+                  genParticlesInput = cms.InputTag("prunedGenParticles")
 )
 
 ##########
