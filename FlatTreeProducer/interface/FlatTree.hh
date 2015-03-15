@@ -260,6 +260,61 @@ class FlatTree
    std::vector<int> mu_gen_charge;
    std::vector<float> mu_gen_dr;
 
+   // Taus
+   
+   int tau_n;
+   std::vector<float> tau_pt;
+   std::vector<float> tau_eta;
+   std::vector<float> tau_phi;
+   std::vector<float> tau_m;
+   std::vector<float> tau_E;
+   std::vector<int> tau_id;
+   std::vector<int> tau_charge;
+   
+   std::vector<bool> tau_hasLeadChargedHadrCand;
+   std::vector<float> tau_leadingTrackPt;
+   std::vector<int> tau_leadingTrackCharge;
+   
+   std::vector<int> tau_decayMode;
+//   std::vector<float> tau_decayModeFindingOldDMs;
+   std::vector<float> tau_decayModeFindingNewDMs;
+   
+   std::vector<float> tau_puCorrPtSum;
+   std::vector<float> tau_neutralIsoPtSum;
+   std::vector<float> tau_chargedIsoPtSum;
+   std::vector<float> tau_byCombinedIsolationDeltaBetaCorrRaw3Hits;
+   
+   std::vector<float> tau_byLooseCombinedIsolationDeltaBetaCorr3Hits;
+   std::vector<float> tau_byMediumCombinedIsolationDeltaBetaCorr3Hits;
+   std::vector<float> tau_byTightCombinedIsolationDeltaBetaCorr3Hits;
+   
+   std::vector<float> tau_againstMuonLoose3;
+   std::vector<float> tau_againstMuonTight3;
+
+   std::vector<float> tau_againstElectronVLooseMVA5;
+   std::vector<float> tau_againstElectronLooseMVA5;
+   std::vector<float> tau_againstElectronMediumMVA5;
+   
+   std::vector<float> tau_pfEssential_jet_pt;
+   std::vector<float> tau_pfEssential_jet_eta;
+   std::vector<float> tau_pfEssential_jet_phi;
+   std::vector<float> tau_pfEssential_jet_m;
+
+   std::vector<float> tau_pfEssential_jetCorr_pt;
+   std::vector<float> tau_pfEssential_jetCorr_eta;
+   std::vector<float> tau_pfEssential_jetCorr_phi;
+   std::vector<float> tau_pfEssential_jetCorr_m;
+   
+   std::vector<bool> tau_pfEssential_hasSV;
+   std::vector<float> tau_pfEssential_sv_x;
+   std::vector<float> tau_pfEssential_sv_y;
+   std::vector<float> tau_pfEssential_sv_z;
+   
+   std::vector<float> tau_pfEssential_flightLengthSig;
+   std::vector<float> tau_pfEssential_dxy;
+   std::vector<float> tau_pfEssential_dxy_error;
+   std::vector<float> tau_pfEssential_dxy_Sig;
+   
    // Jets
 
    int jet_n;
