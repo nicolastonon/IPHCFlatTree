@@ -2,11 +2,11 @@
 
 void FlatTree::Init()
 {
-  n_presel_jets = 0;
-  n_presel_btag = 0;
-  n_presel_electron = 0;
-  n_presel_muon = 0;
-  n_presel_tau = 0;
+   n_presel_jets = 0;
+   n_presel_btag = 0;
+   n_presel_electron = 0;
+   n_presel_muon = 0;
+   n_presel_tau = 0;
 
    ev_run = DEFVAL;
    ev_id = DEFVAL;
@@ -234,6 +234,59 @@ void FlatTree::Init()
    mu_gen_charge.clear();
    mu_gen_dr.clear();
 
+   tau_n = 0;
+   tau_pt.clear();
+   tau_eta.clear();
+   tau_phi.clear();
+   tau_m.clear();
+   tau_E.clear();
+   tau_id.clear();
+   tau_charge.clear();
+   
+   tau_hasLeadChargedHadrCand.clear();
+   tau_leadingTrackPt.clear();
+   tau_leadingTrackCharge.clear();
+   
+   tau_decayMode.clear();
+//   tau_decayModeFindingOldDMs.clear();
+   tau_decayModeFindingNewDMs.clear();
+   
+   tau_puCorrPtSum.clear();
+   tau_neutralIsoPtSum.clear();
+   tau_chargedIsoPtSum.clear();
+   tau_byCombinedIsolationDeltaBetaCorrRaw3Hits.clear();
+   
+   tau_byLooseCombinedIsolationDeltaBetaCorr3Hits.clear();
+   tau_byMediumCombinedIsolationDeltaBetaCorr3Hits.clear();
+   tau_byTightCombinedIsolationDeltaBetaCorr3Hits.clear();
+   
+   tau_againstMuonLoose3.clear();
+   tau_againstMuonTight3.clear();
+   
+   tau_againstElectronVLooseMVA5.clear();
+   tau_againstElectronLooseMVA5.clear();
+   tau_againstElectronMediumMVA5.clear();
+   
+   tau_pfEssential_jet_pt.clear();
+   tau_pfEssential_jet_eta.clear();
+   tau_pfEssential_jet_phi.clear();
+   tau_pfEssential_jet_m.clear();
+
+   tau_pfEssential_jetCorr_pt.clear();
+   tau_pfEssential_jetCorr_eta.clear();
+   tau_pfEssential_jetCorr_phi.clear();
+   tau_pfEssential_jetCorr_m.clear();
+   
+   tau_pfEssential_hasSV.clear();
+   tau_pfEssential_sv_x.clear();
+   tau_pfEssential_sv_y.clear();
+   tau_pfEssential_sv_z.clear();
+   
+   tau_pfEssential_flightLengthSig.clear();
+   tau_pfEssential_dxy.clear();
+   tau_pfEssential_dxy_error.clear();
+   tau_pfEssential_dxy_Sig.clear();
+   
    jet_n = 0;
    jet_pt.clear();
    jet_eta.clear();
@@ -499,6 +552,59 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_gen_charge") ) tree->Branch("mu_gen_charge", "std::vector<int>", &mu_gen_charge, buffersize);
    if( doWrite("mu_gen_dr") ) tree->Branch("mu_gen_dr", "std::vector<float>", &mu_gen_dr, buffersize);
 
+   if( doWrite("tau_n") ) tree->Branch("tau_n", &tau_n, "tau_n/I", buffersize);
+   if( doWrite("tau_pt") ) tree->Branch("tau_pt", "std::vector<float>", &tau_pt, buffersize);
+   if( doWrite("tau_eta") ) tree->Branch("tau_eta", "std::vector<float>", &tau_eta, buffersize);
+   if( doWrite("tau_phi") ) tree->Branch("tau_phi", "std::vector<float>", &tau_phi, buffersize);
+   if( doWrite("tau_m") ) tree->Branch("tau_m", "std::vector<float>", &tau_m, buffersize);
+   if( doWrite("tau_E") ) tree->Branch("tau_E", "std::vector<float>", &tau_E, buffersize);
+   if( doWrite("tau_id") ) tree->Branch("tau_id", "std::vector<int>", &tau_id, buffersize);
+   if( doWrite("tau_charge") ) tree->Branch("tau_charge", "std::vector<int>", &tau_charge, buffersize);
+   
+   if( doWrite("tau_hasLeadChargedHadrCand") ) tree->Branch("tau_hasLeadChargedHadrCand", "std::vector<bool>", &tau_hasLeadChargedHadrCand, buffersize);
+   if( doWrite("tau_leadingTrackPt") ) tree->Branch("tau_leadingTrackPt", "std::vector<float>", &tau_leadingTrackPt, buffersize);
+   if( doWrite("tau_leadingTrackCharge") ) tree->Branch("tau_leadingTrackCharge", "std::vector<int>", &tau_leadingTrackCharge, buffersize);
+   
+   if( doWrite("tau_decayMode") ) tree->Branch("tau_decayMode", "std::vector<int>", &tau_decayMode, buffersize);
+//   if( doWrite("tau_decayModeFindingOldDMs") ) tree->Branch("tau_decayModeFindingOldDMs", "std::vector<float>", &tau_decayModeFindingOldDMs, buffersize);
+   if( doWrite("tau_decayModeFindingNewDMs") ) tree->Branch("tau_decayModeFindingNewDMs", "std::vector<float>", &tau_decayModeFindingNewDMs, buffersize);
+   
+   if( doWrite("tau_puCorrPtSum") ) tree->Branch("tau_puCorrPtSum", "std::vector<float>", &tau_puCorrPtSum, buffersize);
+   if( doWrite("tau_neutralIsoPtSum") ) tree->Branch("tau_neutralIsoPtSum", "std::vector<float>", &tau_neutralIsoPtSum, buffersize);
+   if( doWrite("tau_chargedIsoPtSum") ) tree->Branch("tau_chargedIsoPtSum", "std::vector<float>", &tau_chargedIsoPtSum, buffersize);
+   if( doWrite("tau_byCombinedIsolationDeltaBetaCorrRaw3Hits") ) tree->Branch("tau_byCombinedIsolationDeltaBetaCorrRaw3Hits", "std::vector<float>", &tau_byCombinedIsolationDeltaBetaCorrRaw3Hits, buffersize);
+   
+   if( doWrite("tau_byLooseCombinedIsolationDeltaBetaCorr3Hits") ) tree->Branch("tau_byLooseCombinedIsolationDeltaBetaCorr3Hits", "std::vector<float>", &tau_byLooseCombinedIsolationDeltaBetaCorr3Hits, buffersize);
+   if( doWrite("tau_byMediumCombinedIsolationDeltaBetaCorr3Hits") ) tree->Branch("tau_byMediumCombinedIsolationDeltaBetaCorr3Hits", "std::vector<float>", &tau_byMediumCombinedIsolationDeltaBetaCorr3Hits, buffersize);
+   if( doWrite("tau_byTightCombinedIsolationDeltaBetaCorr3Hits") ) tree->Branch("tau_byTightCombinedIsolationDeltaBetaCorr3Hits", "std::vector<float>", &tau_byTightCombinedIsolationDeltaBetaCorr3Hits, buffersize);
+   
+   if( doWrite("tau_againstMuonLoose3") ) tree->Branch("tau_againstMuonLoose3", "std::vector<float>", &tau_againstMuonLoose3, buffersize);
+   if( doWrite("tau_againstMuonTight3") ) tree->Branch("tau_againstMuonTight3", "std::vector<float>", &tau_againstMuonTight3, buffersize);
+   
+   if( doWrite("tau_againstElectronVLooseMVA5") ) tree->Branch("tau_againstElectronVLooseMVA5", "std::vector<float>", &tau_againstElectronVLooseMVA5, buffersize);
+   if( doWrite("tau_againstElectronLooseMVA5") ) tree->Branch("tau_againstElectronLooseMVA5", "std::vector<float>", &tau_againstElectronLooseMVA5, buffersize);
+   if( doWrite("tau_againstElectronMediumMVA5") ) tree->Branch("tau_againstElectronMediumMVA5", "std::vector<float>", &tau_againstElectronMediumMVA5, buffersize);
+   
+   if( doWrite("tau_pfEssential_jet_pt") ) tree->Branch("tau_pfEssential_jet_pt", "std::vector<float>", &tau_pfEssential_jet_pt, buffersize);
+   if( doWrite("tau_pfEssential_jet_eta") ) tree->Branch("tau_pfEssential_jet_eta", "std::vector<float>", &tau_pfEssential_jet_eta, buffersize);
+   if( doWrite("tau_pfEssential_jet_phi") ) tree->Branch("tau_pfEssential_jet_phi", "std::vector<float>", &tau_pfEssential_jet_phi, buffersize);
+   if( doWrite("tau_pfEssential_jet_m") ) tree->Branch("tau_pfEssential_jet_m", "std::vector<float>", &tau_pfEssential_jet_m, buffersize);
+
+   if( doWrite("tau_pfEssential_jetCorr_pt") ) tree->Branch("tau_pfEssential_jetCorr_pt", "std::vector<float>", &tau_pfEssential_jetCorr_pt, buffersize);
+   if( doWrite("tau_pfEssential_jetCorr_eta") ) tree->Branch("tau_pfEssential_jetCorr_eta", "std::vector<float>", &tau_pfEssential_jetCorr_eta, buffersize);
+   if( doWrite("tau_pfEssential_jetCorr_phi") ) tree->Branch("tau_pfEssential_jetCorr_phi", "std::vector<float>", &tau_pfEssential_jetCorr_phi, buffersize);
+   if( doWrite("tau_pfEssential_jetCorr_m") ) tree->Branch("tau_pfEssential_jetCorr_m", "std::vector<float>", &tau_pfEssential_jetCorr_m, buffersize);
+   
+   if( doWrite("tau_pfEssential_hasSV") ) tree->Branch("tau_pfEssential_hasSV", "std::vector<bool>", &tau_pfEssential_hasSV, buffersize);
+   if( doWrite("tau_pfEssential_sv_x") ) tree->Branch("tau_pfEssential_sv_x", "std::vector<float>", &tau_pfEssential_sv_x, buffersize);
+   if( doWrite("tau_pfEssential_sv_y") ) tree->Branch("tau_pfEssential_sv_y", "std::vector<float>", &tau_pfEssential_sv_y, buffersize);
+   if( doWrite("tau_pfEssential_sv_z") ) tree->Branch("tau_pfEssential_sv_z", "std::vector<float>", &tau_pfEssential_sv_z, buffersize);
+   
+   if( doWrite("tau_pfEssential_flightLengthSig") ) tree->Branch("tau_pfEssential_flightLengthSig", "std::vector<float>", &tau_pfEssential_flightLengthSig, buffersize);
+   if( doWrite("tau_pfEssential_dxy") ) tree->Branch("tau_pfEssential_dxy", "std::vector<float>", &tau_pfEssential_dxy, buffersize);
+   if( doWrite("tau_pfEssential_dxy_error") ) tree->Branch("tau_pfEssential_dxy_error", "std::vector<float>", &tau_pfEssential_dxy_error, buffersize);
+   if( doWrite("tau_pfEssential_dxy_Sig") ) tree->Branch("tau_pfEssential_dxy_Sig", "std::vector<float>", &tau_pfEssential_dxy_Sig, buffersize);
+   
    if( doWrite("jet_n") ) tree->Branch("jet_n", &jet_n, "jet_n/I", buffersize);
    if( doWrite("jet_pt") ) tree->Branch("jet_pt", "std::vector<float>", &jet_pt, buffersize);
    if( doWrite("jet_eta") ) tree->Branch("jet_eta", "std::vector<float>", &jet_eta, buffersize);
