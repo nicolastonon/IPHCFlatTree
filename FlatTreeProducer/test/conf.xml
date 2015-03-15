@@ -229,6 +229,59 @@
 <var name="jet_m" save="1"></var>
 <var name="jet_E" save="1"></var>
 
+<var name="tau_n" save="1"></var>
+<var name="tau_pt" save="1"></var>
+<var name="tau_eta" save="1"></var>
+<var name="tau_phi" save="1"></var>
+<var name="tau_m" save="1"></var>
+<var name="tau_E" save="1"></var>
+<var name="tau_id" save="1"></var>
+<var name="tau_charge" save="1"></var>
+   
+<var name="tau_hasLeadChargedHadrCand" save="1"></var>
+<var name="tau_leadingTrackPt" save="1"></var>
+<var name="tau_leadingTrackCharge" save="1"></var>
+   
+<var name="tau_decayMode" save="1"></var>
+<var name="tau_decayModeFindingOldDMs" save="1"></var>
+<var name="tau_decayModeFindingNewDMs" save="1"></var>
+   
+<var name="tau_puCorrPtSum" save="1"></var>
+<var name="tau_neutralIsoPtSum" save="1"></var>
+<var name="tau_chargedIsoPtSum" save="1"></var>
+<var name="tau_byCombinedIsolationDeltaBetaCorrRaw3Hits" save="1"></var>
+   
+<var name="tau_byLooseCombinedIsolationDeltaBetaCorr3Hits" save="1"></var>
+<var name="tau_byMediumCombinedIsolationDeltaBetaCorr3Hits" save="1"></var>
+<var name="tau_byTightCombinedIsolationDeltaBetaCorr3Hits" save="1"></var>
+   
+<var name="tau_againstMuonLoose3" save="1"></var>
+<var name="tau_againstMuonTight3" save="1"></var>
+
+<var name="tau_againstElectronVLooseMVA5" save="1"></var>
+<var name="tau_againstElectronLooseMVA5" save="1"></var>
+<var name="tau_againstElectronMediumMVA5" save="1"></var>
+   
+<var name="tau_pfEssential_jet_pt" save="1"></var>
+<var name="tau_pfEssential_jet_eta" save="1"></var>
+<var name="tau_pfEssential_jet_phi" save="1"></var>
+<var name="tau_pfEssential_jet_m" save="1"></var>
+
+<var name="tau_pfEssential_jetCorr_pt" save="1"></var>
+<var name="tau_pfEssential_jetCorr_eta" save="1"></var>
+<var name="tau_pfEssential_jetCorr_phi" save="1"></var>
+<var name="tau_pfEssential_jetCorr_m" save="1"></var>
+
+<var name="tau_pfEssential_hasSV" save="1"></var>
+<var name="tau_pfEssential_sv_x" save="1"></var>
+<var name="tau_pfEssential_sv_y" save="1"></var>
+<var name="tau_pfEssential_sv_z" save="1"></var>
+   
+<var name="tau_pfEssential_flightLengthSig" save="1"></var>
+<var name="tau_pfEssential_dxy" save="1"></var>
+<var name="tau_pfEssential_dxy_error" save="1"></var>
+<var name="tau_pfEssential_dxy_Sig" save="1"></var>
+
 <var name="jet_ntrk" save="1"></var>
 
 <var name="jet_JBP" save="1" cut_algo="3.0"></var>
