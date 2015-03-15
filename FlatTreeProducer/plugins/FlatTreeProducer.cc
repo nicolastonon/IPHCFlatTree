@@ -21,6 +21,7 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
+#include "DataFormats/PatCandidates/interface/Tau.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 
@@ -127,6 +128,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<reco::VertexCollection> vertexToken_;
    edm::EDGetTokenT<pat::ElectronCollection> electronToken_;
    edm::EDGetTokenT<pat::MuonCollection> muonToken_;
+   edm::EDGetTokenT<pat::TauCollection> tauToken_;
    edm::EDGetTokenT<pat::JetCollection> jetToken_;
    edm::EDGetTokenT<std::vector<pat::MET> > metTokenAOD_;
    edm::EDGetTokenT<pat::METCollection> metTokenMINIAOD_;
@@ -794,6 +796,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    vertexToken_       = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertexInput"));
    electronToken_     = consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electronInput"));
    muonToken_         = consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonInput"));
+   tauToken_          = consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("tauInput"));
    jetToken_          = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetInput"));
    metTokenAOD_       = consumes<std::vector<pat::MET> >(iConfig.getParameter<edm::InputTag>("metInput"));
    metTokenMINIAOD_   = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metInput"));
@@ -861,10 +864,14 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // Electrons
    edm::Handle<pat::ElectronCollection> electrons;
    iEvent.getByToken(electronToken_,electrons);
+
+   // Taus
+   edm::Handle<pat::TauCollection> taus;
+   iEvent.getByToken(tauToken_,taus);
    
    // Conversions info
    edm::Handle<reco::ConversionCollection> hConversions;
-   iEvent.getByLabel("reducedEgamma","reducedConversions",hConversions);
+   if( dataFormat_ != "AOD" ) iEvent.getByLabel("reducedEgamma","reducedConversions",hConversions);
   
    // ###############################################################
    // #    ____                           _     _        __         #
@@ -1415,9 +1422,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	float probMin = 1e-6;
 	uint nHitsBeforeVtxMax = 0;
 
-	bool matchConv = 0;
-	if( &beamspot ) matchConv = ConversionTools::hasMatchedConversion(elec,hConversions,beamspot.position(),allowCkfMatch,lxyMin,probMin,nHitsBeforeVtxMax);
-	ftree->el_hasMatchedConversion.push_back(matchConv);
+	if( dataFormat_ != "AOD" )
+	  {	     
+	     bool matchConv = 0;
+	     if( &beamspot ) matchConv = ConversionTools::hasMatchedConversion(elec,hConversions,beamspot.position(),allowCkfMatch,lxyMin,probMin,nHitsBeforeVtxMax);
+	     ftree->el_hasMatchedConversion.push_back(matchConv);
+	  }	
      }   
    
    // ####################################
@@ -1695,7 +1705,147 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     delete genp;	     
 	  }
      }   
- 
+
+   // Taus
+
+   int nTau = taus->size();
+   ftree->tau_n = nTau;
+   ftree->tau_pt.resize(nTau);
+   ftree->tau_eta.resize(nTau);
+   ftree->tau_phi.resize(nTau);
+   ftree->tau_m.resize(nTau);
+   ftree->tau_E.resize(nTau);
+   ftree->tau_id.resize(nTau);
+   ftree->tau_charge.resize(nTau);
+   
+   ftree->tau_hasLeadChargedHadrCand.resize(nTau);
+   ftree->tau_leadingTrackPt.resize(nTau);
+   ftree->tau_leadingTrackCharge.resize(nTau);
+   
+   ftree->tau_decayMode.resize(nTau);
+//   ftree->tau_decayModeFindingOldDMs.resize(nTau);
+   ftree->tau_decayModeFindingNewDMs.resize(nTau);
+   
+   ftree->tau_puCorrPtSum.resize(nTau);
+   ftree->tau_neutralIsoPtSum.resize(nTau);
+   ftree->tau_chargedIsoPtSum.resize(nTau);
+   ftree->tau_byCombinedIsolationDeltaBetaCorrRaw3Hits.resize(nTau);
+   
+   ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3Hits.resize(nTau);
+   ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits.resize(nTau);
+   ftree->tau_byTightCombinedIsolationDeltaBetaCorr3Hits.resize(nTau);
+   
+   ftree->tau_againstMuonLoose3.resize(nTau);
+   ftree->tau_againstMuonTight3.resize(nTau);
+   
+   ftree->tau_againstElectronVLooseMVA5.resize(nTau);
+   ftree->tau_againstElectronLooseMVA5.resize(nTau);
+   ftree->tau_againstElectronMediumMVA5.resize(nTau);
+   
+   ftree->tau_pfEssential_jet_pt.resize(nTau);
+   ftree->tau_pfEssential_jet_eta.resize(nTau);
+   ftree->tau_pfEssential_jet_phi.resize(nTau);
+   ftree->tau_pfEssential_jet_m.resize(nTau);
+
+   ftree->tau_pfEssential_jetCorr_pt.resize(nTau);
+   ftree->tau_pfEssential_jetCorr_eta.resize(nTau);
+   ftree->tau_pfEssential_jetCorr_phi.resize(nTau);
+   ftree->tau_pfEssential_jetCorr_m.resize(nTau);
+   
+   ftree->tau_pfEssential_hasSV.resize(nTau);
+   ftree->tau_pfEssential_sv_x.resize(nTau);
+   ftree->tau_pfEssential_sv_y.resize(nTau);
+   ftree->tau_pfEssential_sv_z.resize(nTau);
+   
+   ftree->tau_pfEssential_flightLengthSig.resize(nTau);
+   ftree->tau_pfEssential_dxy.resize(nTau);
+   ftree->tau_pfEssential_dxy_error.resize(nTau);
+   ftree->tau_pfEssential_dxy_Sig.resize(nTau);
+   
+   for(int it=0;it<nTau;it++)
+     {
+	const pat::Tau& tau = taus->at(it);
+	
+	// Skimming taus with pT < 5 GeV. (should do nothing for miniAOD where pT > 18 GeV is applied)
+	if (tau.pt() < 5) continue;
+
+	ftree->tau_pt[it] = tau.pt();
+	ftree->tau_eta[it] = tau.eta();
+	ftree->tau_phi[it] = tau.phi();
+	ftree->tau_m[it] = tau.mass();
+	ftree->tau_E[it] = tau.energy();
+	ftree->tau_id[it] = tau.pdgId();
+	ftree->tau_charge[it] = tau.charge();
+
+	// https://twiki.cern.ch/twiki/bin/view/CMS/TauIDRecommendation13TeV
+	// https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD#Taus
+	
+	float tau_leadingTrackPt = -666;
+	int tau_leadingTrackCharge = -666;
+	
+	ftree->tau_hasLeadChargedHadrCand[it] = tau.leadChargedHadrCand().isNonnull();
+	
+	if( tau.leadChargedHadrCand().isNonnull() )
+	  {
+	     tau_leadingTrackPt = tau.leadChargedHadrCand()->pt();
+	     tau_leadingTrackCharge = tau.leadChargedHadrCand()->charge();
+	  }	
+	ftree->tau_leadingTrackPt[it] = tau_leadingTrackPt;
+	ftree->tau_leadingTrackCharge[it] = tau_leadingTrackCharge;
+	
+	ftree->tau_decayMode[it] = tau.decayMode();
+//	ftree->tau_decayModeFindingOldDMs[it] = tau.tauID("decayModeFindingOldDMs");
+	ftree->tau_decayModeFindingNewDMs[it] = tau.tauID("decayModeFindingNewDMs");
+	
+	ftree->tau_puCorrPtSum[it] = tau.tauID("puCorrPtSum");
+	ftree->tau_neutralIsoPtSum[it] = tau.tauID("neutralIsoPtSum");
+	ftree->tau_chargedIsoPtSum[it] = tau.tauID("chargedIsoPtSum");
+	ftree->tau_byCombinedIsolationDeltaBetaCorrRaw3Hits[it] = tau.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits");
+	
+	ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3Hits[it] = tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits");
+	ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits[it] = tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits");
+	ftree->tau_byTightCombinedIsolationDeltaBetaCorr3Hits[it] = tau.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits");
+	
+	ftree->tau_againstMuonLoose3[it] = tau.tauID("againstMuonLoose3");
+	ftree->tau_againstMuonTight3[it] = tau.tauID("againstMuonTight3");
+	
+	ftree->tau_againstElectronVLooseMVA5[it] = tau.tauID("againstElectronVLooseMVA5");
+	ftree->tau_againstElectronLooseMVA5[it] = tau.tauID("againstElectronLooseMVA5");
+	ftree->tau_againstElectronMediumMVA5[it] = tau.tauID("againstElectronMediumMVA5");
+
+	ftree->tau_pfEssential_jet_pt[it] = tau.pfEssential().p4Jet_.pt();
+	ftree->tau_pfEssential_jet_eta[it] = tau.pfEssential().p4Jet_.eta();
+	ftree->tau_pfEssential_jet_phi[it] = tau.pfEssential().p4Jet_.phi();
+	ftree->tau_pfEssential_jet_m[it] = tau.pfEssential().p4Jet_.mass();
+
+	ftree->tau_pfEssential_jetCorr_pt[it] = tau.pfEssential().p4CorrJet_.pt();
+	ftree->tau_pfEssential_jetCorr_eta[it] = tau.pfEssential().p4CorrJet_.eta();
+	ftree->tau_pfEssential_jetCorr_phi[it] = tau.pfEssential().p4CorrJet_.phi();
+	ftree->tau_pfEssential_jetCorr_m[it] = tau.pfEssential().p4CorrJet_.mass();
+	
+	float tau_pfEssential_sv_x = -666;
+	float tau_pfEssential_sv_y = -666;
+	float tau_pfEssential_sv_z = -666;
+
+	ftree->tau_pfEssential_hasSV[it] = tau.pfEssential().sv_.isNonnull();
+	
+	if( tau.pfEssential().sv_.isNonnull() )
+	  {	     
+	     tau_pfEssential_sv_x = tau.pfEssential().sv_->x();
+	     tau_pfEssential_sv_y = tau.pfEssential().sv_->y();
+	     tau_pfEssential_sv_z = tau.pfEssential().sv_->z();
+	  }
+	
+	ftree->tau_pfEssential_sv_x[it] = tau_pfEssential_sv_x;
+	ftree->tau_pfEssential_sv_y[it] = tau_pfEssential_sv_y;
+	ftree->tau_pfEssential_sv_z[it] = tau_pfEssential_sv_z;
+
+	ftree->tau_pfEssential_flightLengthSig[it] = tau.pfEssential().flightLengthSig_;
+	ftree->tau_pfEssential_dxy[it] = tau.pfEssential().dxy_;
+	ftree->tau_pfEssential_dxy_error[it] = tau.pfEssential().dxy_error_;
+	ftree->tau_pfEssential_dxy_Sig[it] = tau.pfEssential().dxy_Sig_;
+     }   
+   
    // ##########################
    // #       _      _         #
    // #      | | ___| |_ ___   #
