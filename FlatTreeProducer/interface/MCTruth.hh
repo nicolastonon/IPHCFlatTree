@@ -40,6 +40,16 @@ class MCTruth
 				  FlatTree& tree,
 				  const edm::Handle<std::vector<reco::GenParticle> >& GenParticles);
 
+   void fillTTZSignalGenParticles(const edm::Event& iEvent,
+				  const edm::EventSetup& iSetup,
+				  FlatTree& tree,
+				  const edm::Handle<std::vector<reco::GenParticle> >& GenParticles);
+
+   void fillTTWSignalGenParticles(const edm::Event& iEvent,
+				  const edm::EventSetup& iSetup,
+				  FlatTree& tree,
+				  const edm::Handle<std::vector<reco::GenParticle> >& GenParticles);
+   
    void fillTZQSignalGenParticles(const edm::Event& iEvent,
 				  const edm::EventSetup& iSetup,
 				  FlatTree& tree,
