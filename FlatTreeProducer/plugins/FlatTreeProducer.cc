@@ -917,21 +917,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // ####################################
 
    ftree->mc_pu_Npvi = pileupInfo->size();
-   unsigned int vecSize = std::distance(pileupInfo->begin(), pileupInfo->end());
-   ftree->mc_pu_BunchCrossing.resize(vecSize);
-   ftree->mc_pu_Nzpositions.resize(vecSize);
-   ftree->mc_pu_zpositions.resize(vecSize);
-   ftree->mc_pu_sumpT_lowpT.resize(vecSize);
-   ftree->mc_pu_sumpT_highpT.resize(vecSize);
-   ftree->mc_pu_ntrks_lowpT.resize(vecSize);
-   ftree->mc_pu_ntrks_highpT.resize(vecSize);
    for(std::vector<PileupSummaryInfo>::const_iterator pvi=pileupInfo->begin();
        pvi!=pileupInfo->end();pvi++)
      {
-       unsigned int distance = std::distance(pileupInfo->begin(), pvi);
+       //       unsigned int distance = std::distance(pileupInfo->begin(), pvi);
        signed int n_bc = pvi->getBunchCrossing();
-       //ftree->mc_pu_BunchCrossing.push_back(n_bc);
-       ftree->mc_pu_BunchCrossing[distance] = n_bc;
+       ftree->mc_pu_BunchCrossing.push_back(n_bc);
        if( n_bc == 0 )
 	 {
 	   ftree->mc_pu_intime_NumInt = pvi->getPU_NumInteractions();
@@ -946,38 +937,21 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
        std::vector<int> mc_pu_ntrks_lowpT;
        std::vector<int> mc_pu_ntrks_highpT;
 
-       //       ftree->mc_pu_Nzpositions.push_back(pvi->getPU_zpositions().size());
-       ftree->mc_pu_Nzpositions[distance] = pvi->getPU_zpositions().size();
-       unsigned int vecSize1 =  pvi->getPU_zpositions().size();
-       mc_pu_zpositions.resize(vecSize1);
-       mc_pu_sumpT_lowpT.resize(vecSize1);
-       mc_pu_sumpT_highpT.resize(vecSize1);
-       mc_pu_ntrks_lowpT.resize(vecSize1);
-       mc_pu_ntrks_highpT.resize(vecSize1);
+       ftree->mc_pu_Nzpositions.push_back(pvi->getPU_zpositions().size());
        for( unsigned int ipu=0;ipu<pvi->getPU_zpositions().size();ipu++ )
 	 {
-	   /*mc_pu_zpositions.push_back((pvi->getPU_zpositions())[ipu]);
+	   mc_pu_zpositions.push_back((pvi->getPU_zpositions())[ipu]);
 	   mc_pu_sumpT_lowpT.push_back((pvi->getPU_sumpT_lowpT())[ipu]);
 	   mc_pu_sumpT_highpT.push_back((pvi->getPU_sumpT_highpT())[ipu]);
 	   mc_pu_ntrks_lowpT.push_back((pvi->getPU_ntrks_lowpT())[ipu]);
-	   mc_pu_ntrks_highpT.push_back((pvi->getPU_ntrks_highpT())[ipu]);*/
-	   mc_pu_zpositions[ipu] = (pvi->getPU_zpositions())[ipu];
-	   mc_pu_sumpT_lowpT[ipu] = (pvi->getPU_sumpT_lowpT())[ipu];
-	   mc_pu_sumpT_highpT[ipu] = (pvi->getPU_sumpT_highpT())[ipu];
-	   mc_pu_ntrks_lowpT[ipu] = (pvi->getPU_ntrks_lowpT())[ipu];
-	   mc_pu_ntrks_highpT[ipu] = (pvi->getPU_ntrks_highpT())[ipu];
+	   mc_pu_ntrks_highpT.push_back((pvi->getPU_ntrks_highpT())[ipu]);
 	 }
 
-       /*ftree->mc_pu_zpositions.push_back(mc_pu_zpositions);
+       ftree->mc_pu_zpositions.push_back(mc_pu_zpositions);
        ftree->mc_pu_sumpT_lowpT.push_back(mc_pu_sumpT_lowpT);
        ftree->mc_pu_sumpT_highpT.push_back(mc_pu_sumpT_highpT);
        ftree->mc_pu_ntrks_lowpT.push_back(mc_pu_ntrks_lowpT);
-       ftree->mc_pu_ntrks_highpT.push_back(mc_pu_ntrks_highpT);*/
-       ftree->mc_pu_zpositions[distance] = mc_pu_zpositions;
-       ftree->mc_pu_sumpT_lowpT[distance] = mc_pu_sumpT_lowpT;
-       ftree->mc_pu_sumpT_highpT[distance] = mc_pu_sumpT_highpT;
-       ftree->mc_pu_ntrks_lowpT[distance] = mc_pu_ntrks_lowpT;
-       ftree->mc_pu_ntrks_highpT[distance] = mc_pu_ntrks_highpT;
+       ftree->mc_pu_ntrks_highpT.push_back(mc_pu_ntrks_highpT);
      }
 
    // ##################################################
@@ -1111,80 +1085,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #################################################
 
    int nElec = electrons->size();
-   
    ftree->el_n = nElec;
-   ftree->el_pt.resize(nElec);
-   ftree->el_eta.resize(nElec);
-   ftree->el_phi.resize(nElec);
-   ftree->el_m.resize(nElec);
-   ftree->el_E.resize(nElec);
-   ftree->el_id.resize(nElec);
-   ftree->el_charge.resize(nElec);
-   ftree->el_scleta.resize(nElec);
-   ftree->el_isGsfCtfScPixChargeConsistent.resize(nElec);
-   ftree->el_sigmaIetaIeta.resize(nElec);
-   ftree->el_sigmaIphiIphi.resize(nElec);
-   ftree->el_hadronicOverEm.resize(nElec);
-   ftree->el_dr03TkSumPt.resize(nElec);
-   ftree->el_dr03EcalRecHitSumEt.resize(nElec);
-   ftree->el_dr03HcalTowerSumEt.resize(nElec);
-   ftree->el_numberOfLostHits.resize(nElec);
-   ftree->el_fbrem.resize(nElec);
-   ftree->el_deltaEtaSuperClusterTrackAtVtx.resize(nElec);
-   ftree->el_deltaPhiSuperClusterTrackAtVtx.resize(nElec);
-   ftree->el_deltaEtaSeedClusterTrackAtCalo.resize(nElec);
-   ftree->el_see.resize(nElec);
-   ftree->el_spp.resize(nElec);
-   ftree->el_superClusterEtaWidth.resize(nElec);
-   ftree->el_superClusterPhiWidth.resize(nElec);
-   ftree->el_full5x5_OneMinusE1x5E5x5.resize(nElec);
-   ftree->el_OneMinusE1x5E5x5.resize(nElec);
-   ftree->el_full5x5_r9.resize(nElec);
-   ftree->el_r9.resize(nElec);
-   ftree->el_eSuperClusterOverP.resize(nElec);
-   ftree->el_IoEmIoP.resize(nElec);
-   ftree->el_eleEoPout.resize(nElec);
-   ftree->el_PreShowerOverRaw.resize(nElec);
-   ftree->el_dB3D.resize(nElec);
-   ftree->el_edB3D.resize(nElec);
-   ftree->el_mvaNonTrigV0.resize(nElec);
-   ftree->el_neutralHadronIso.resize(nElec);
-   ftree->el_chargedHadronIso.resize(nElec);
-   ftree->el_puChargedHadronIso.resize(nElec);
-   ftree->el_ecalIso.resize(nElec);
-   ftree->el_hcalIso.resize(nElec);
-   ftree->el_particleIso.resize(nElec);
-   ftree->el_photonIso.resize(nElec);
-   ftree->el_trackIso.resize(nElec);
-   ftree->el_pfIso_sumChargedHadronPt.resize(nElec);
-   ftree->el_pfIso_sumNeutralHadronEt.resize(nElec);
-   ftree->el_pfIso_sumPhotonEt.resize(nElec);
-   ftree->el_pfIso_sumPUPt.resize(nElec);
-   ftree->el_isLoose.resize(nElec);
-   ftree->el_isTight.resize(nElec);
-   ftree->el_isRobustLoose.resize(nElec);
-   ftree->el_isRobustTight.resize(nElec);
-   ftree->el_isRobustHighEnergy.resize(nElec);
-   ftree->el_vx.resize(nElec);
-   ftree->el_vy.resize(nElec);
-   ftree->el_vz.resize(nElec);
-   ftree->el_isGsf.resize(nElec);
-   ftree->el_passConversionVeto.resize(nElec);
-   ftree->el_numberOfHits.resize(nElec);
-   ftree->el_dxy.resize(nElec);
-   ftree->el_dz.resize(nElec);
-   ftree->el_dxyError.resize(nElec);
-   ftree->el_dzError.resize(nElec);
-   ftree->el_lepMVA.resize(nElec);
-   ftree->el_lepMVA_neuRelIso.resize(nElec);
-   ftree->el_lepMVA_chRelIso.resize(nElec);
-   ftree->el_lepMVA_jetDR.resize(nElec);
-   ftree->el_lepMVA_jetPtRatio.resize(nElec);
-   ftree->el_lepMVA_jetBTagCSV.resize(nElec);
-   ftree->el_lepMVA_sip3d.resize(nElec);
-   ftree->el_lepMVA_mvaId.resize(nElec);
-   ftree->el_lepMVA_innerHits.resize(nElec);
-   ftree->el_miniIso.resize(nElec);
 
    for(int ie=0;ie<nElec;ie++)
      {
@@ -1192,23 +1093,22 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 	// Skimming electrons with pT < 5 GeV.
 	if (elec.pt() < 5) continue;
-	
-	ftree->el_pt[ie] = elec.pt();
-	ftree->el_eta[ie] = elec.eta();
-	ftree->el_phi[ie] = elec.phi();
-	ftree->el_m[ie] = elec.mass();
-	ftree->el_E[ie] = elec.energy();
-	ftree->el_id[ie] = elec.pdgId();
-	ftree->el_charge[ie] = elec.charge();
-	
-	ftree->el_scleta[ie] = elec.superCluster()->eta();
-	ftree->el_isGsfCtfScPixChargeConsistent[ie] = elec.isGsfCtfScPixChargeConsistent();
-	ftree->el_sigmaIetaIeta[ie] = elec.sigmaIetaIeta();
-	ftree->el_sigmaIphiIphi[ie] = elec.sigmaIphiIphi();
-	ftree->el_hadronicOverEm[ie] = elec.hadronicOverEm();
-	ftree->el_dr03TkSumPt[ie] = elec.dr03TkSumPt();
-	ftree->el_dr03EcalRecHitSumEt[ie] = elec.dr03EcalRecHitSumEt();
-	ftree->el_dr03HcalTowerSumEt[ie] = elec.dr03HcalTowerSumEt();
+        ftree->el_pt.push_back(elec.pt());
+        ftree->el_eta.push_back(elec.eta());
+        ftree->el_phi.push_back(elec.phi());
+        ftree->el_m.push_back(elec.mass());
+        ftree->el_E.push_back(elec.energy());
+        ftree->el_id.push_back(elec.pdgId());
+        ftree->el_charge.push_back(elec.charge());
+
+        ftree->el_scleta.push_back(elec.superCluster()->eta());
+        ftree->el_isGsfCtfScPixChargeConsistent.push_back(elec.isGsfCtfScPixChargeConsistent());
+        ftree->el_sigmaIetaIeta.push_back(elec.sigmaIetaIeta());
+        ftree->el_sigmaIphiIphi.push_back(elec.sigmaIphiIphi());
+        ftree->el_hadronicOverEm.push_back(elec.hadronicOverEm());
+        ftree->el_dr03TkSumPt.push_back(elec.dr03TkSumPt());
+        ftree->el_dr03EcalRecHitSumEt.push_back(elec.dr03EcalRecHitSumEt());
+        ftree->el_dr03HcalTowerSumEt.push_back(elec.dr03HcalTowerSumEt());
 
 	int numberOfLostHits = -666;
 
@@ -1232,36 +1132,36 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	if( elec.gsfTrack().isNonnull() ) ftree->el_gsf_normalizedChi2.push_back(elec.gsfTrack()->normalizedChi2());
 	float el_gsf_normalizedChi2 = ( elec.gsfTrack().isNonnull() ) ? elec.gsfTrack()->normalizedChi2() : 666.;
 
-	ftree->el_deltaEtaSuperClusterTrackAtVtx[ie] = elec.deltaEtaSuperClusterTrackAtVtx();
-	ftree->el_deltaPhiSuperClusterTrackAtVtx[ie] = elec.deltaPhiSuperClusterTrackAtVtx();
-	ftree->el_deltaEtaSeedClusterTrackAtCalo[ie] = elec.deltaEtaSeedClusterTrackAtCalo();
+        ftree->el_deltaEtaSuperClusterTrackAtVtx.push_back(elec.deltaEtaSuperClusterTrackAtVtx());
+        ftree->el_deltaPhiSuperClusterTrackAtVtx.push_back(elec.deltaPhiSuperClusterTrackAtVtx());
+        ftree->el_deltaEtaSeedClusterTrackAtCalo.push_back(elec.deltaEtaSeedClusterTrackAtCalo());
 
-	ftree->el_see[ie] = elec.full5x5_sigmaIetaIeta();
-	ftree->el_spp[ie] = elec.full5x5_sigmaIphiIphi();
+        ftree->el_see.push_back(elec.full5x5_sigmaIetaIeta());
+        ftree->el_spp.push_back(elec.full5x5_sigmaIphiIphi());
 
-	ftree->el_superClusterEtaWidth[ie] = elec.superCluster()->etaWidth();
-	ftree->el_superClusterPhiWidth[ie] = elec.superCluster()->phiWidth();
+        ftree->el_superClusterEtaWidth.push_back(elec.superCluster()->etaWidth());
+        ftree->el_superClusterPhiWidth.push_back(elec.superCluster()->phiWidth());
 
 	double OneMinusE1x5E5x5 = (elec.e5x5() != 0.) ? 1.-(elec.e1x5()/elec.e5x5()) : -1.;
 	double full5x5_OneMinusE1x5E5x5 = (elec.full5x5_e5x5() != 0.) ? 1.-(elec.full5x5_e1x5()/elec.full5x5_e5x5()) : -1.;
 
-	ftree->el_full5x5_OneMinusE1x5E5x5[ie] = full5x5_OneMinusE1x5E5x5;
-	ftree->el_OneMinusE1x5E5x5[ie] = OneMinusE1x5E5x5;
+        ftree->el_full5x5_OneMinusE1x5E5x5.push_back(full5x5_OneMinusE1x5E5x5);
+        ftree->el_OneMinusE1x5E5x5.push_back(OneMinusE1x5E5x5);
 
-	ftree->el_full5x5_r9[ie] = elec.full5x5_r9();
+        ftree->el_full5x5_r9.push_back(elec.full5x5_r9());
+        ftree->el_r9.push_back(elec.r9());
 
-	ftree->el_r9[ie] = elec.r9();
-	ftree->el_eSuperClusterOverP[ie] = elec.eSuperClusterOverP();
+        ftree->el_eSuperClusterOverP.push_back(elec.eSuperClusterOverP());
 
-	double IoEmIoP = (1.0/elec.ecalEnergy())-(1.0/elec.p());
-	ftree->el_IoEmIoP[ie] = IoEmIoP;
-	ftree->el_eleEoPout[ie] = elec.eEleClusterOverPout();
-	double PreShowerOverRaw = elec.superCluster()->preshowerEnergy()/elec.superCluster()->rawEnergy();
-	ftree->el_PreShowerOverRaw[ie] = PreShowerOverRaw;
+        double IoEmIoP = (1.0/elec.ecalEnergy())-(1.0/elec.p());
+        ftree->el_IoEmIoP.push_back(IoEmIoP);
+        ftree->el_eleEoPout.push_back(elec.eEleClusterOverPout());
+        double PreShowerOverRaw = elec.superCluster()->preshowerEnergy()/elec.superCluster()->rawEnergy();
+        ftree->el_PreShowerOverRaw.push_back(PreShowerOverRaw);
 
 	// https://github.com/gpetruc/cmg-cmssw/blob/CMG_MiniAOD_Lite_V6_0_from-CMSSW_7_0_6/EgammaAnalysis/ElectronTools/src/EGammaMvaEleEstimator.cc#L1244-1336
-	ftree->el_dB3D[ie] = elec.dB(pat::Electron::PV3D);
-	ftree->el_edB3D[ie] = elec.edB(pat::Electron::PV3D);
+        ftree->el_dB3D.push_back(elec.dB(pat::Electron::PV3D));
+        ftree->el_edB3D.push_back(elec.edB(pat::Electron::PV3D));
 
 	double mvaNonTrigV0 = elecMVA->mvaValue(ftree->el_fbrem[ie],
 						el_kf_normalizedChi2,
@@ -1286,21 +1186,21 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 						ftree->el_pt[ie],
 						false);
 
-	ftree->el_mvaNonTrigV0[ie] = mvaNonTrigV0;
+        ftree->el_mvaNonTrigV0.push_back(mvaNonTrigV0);
 
-	ftree->el_neutralHadronIso[ie] = elec.neutralHadronIso();
-	ftree->el_chargedHadronIso[ie] = elec.chargedHadronIso();
-	ftree->el_puChargedHadronIso[ie] = elec.puChargedHadronIso();
-	ftree->el_ecalIso[ie] = elec.ecalIso();
-	ftree->el_hcalIso[ie] = elec.hcalIso();
-	ftree->el_particleIso[ie] = elec.particleIso();
-	ftree->el_photonIso[ie] = elec.photonIso();
-	ftree->el_trackIso[ie] = elec.trackIso();
+        ftree->el_neutralHadronIso.push_back(elec.neutralHadronIso());
+        ftree->el_chargedHadronIso.push_back(elec.chargedHadronIso());
+        ftree->el_puChargedHadronIso.push_back(elec.puChargedHadronIso());
+        ftree->el_ecalIso.push_back(elec.ecalIso());
+        ftree->el_hcalIso.push_back(elec.hcalIso());
+        ftree->el_particleIso.push_back(elec.particleIso());
+        ftree->el_photonIso.push_back(elec.photonIso());
+        ftree->el_trackIso.push_back(elec.trackIso());
 
-	ftree->el_pfIso_sumChargedHadronPt[ie] = elec.pfIsolationVariables().sumChargedHadronPt;
-	ftree->el_pfIso_sumNeutralHadronEt[ie] = elec.pfIsolationVariables().sumNeutralHadronEt;
-	ftree->el_pfIso_sumPhotonEt[ie] = elec.pfIsolationVariables().sumPhotonEt;
-	ftree->el_pfIso_sumPUPt[ie] = elec.pfIsolationVariables().sumPUPt;
+        ftree->el_pfIso_sumChargedHadronPt.push_back(elec.pfIsolationVariables().sumChargedHadronPt);
+        ftree->el_pfIso_sumNeutralHadronEt.push_back(elec.pfIsolationVariables().sumNeutralHadronEt);
+        ftree->el_pfIso_sumPhotonEt.push_back(elec.pfIsolationVariables().sumPhotonEt);
+        ftree->el_pfIso_sumPUPt.push_back(elec.pfIsolationVariables().sumPUPt);
 
 	// mini-iso
 	float miniIso = -666;
@@ -1308,22 +1208,21 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	  {
 	     miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),0.05,0.2,10.,false,false);
 	  }
-	ftree->el_miniIso[ie] = miniIso;
+	ftree->el_miniIso.push_back(miniIso);
+        ftree->el_isLoose.push_back(elec.electronID("eidLoose"));
+        ftree->el_isTight.push_back(elec.electronID("eidTight"));
+        ftree->el_isRobustLoose.push_back(elec.electronID("eidRobustLoose"));
+        ftree->el_isRobustTight.push_back(elec.electronID("eidRobustTight"));
+        ftree->el_isRobustHighEnergy.push_back(elec.electronID("eidRobustHighEnergy"));
+
+        ftree->el_vx.push_back(elec.vx());
+        ftree->el_vy.push_back(elec.vy());
+        ftree->el_vz.push_back(elec.vz());
+
+        ftree->el_isGsf.push_back(elec.gsfTrack().isNonnull());
+
+        ftree->el_passConversionVeto.push_back(elec.passConversionVeto());
 	       
-	ftree->el_isLoose[ie] = elec.electronID("eidLoose");
-	ftree->el_isTight[ie] = elec.electronID("eidTight");
-	ftree->el_isRobustLoose[ie] = elec.electronID("eidRobustLoose");
-	ftree->el_isRobustTight[ie] = elec.electronID("eidRobustTight");
-	ftree->el_isRobustHighEnergy[ie] = elec.electronID("eidRobustHighEnergy");
-
-	ftree->el_vx[ie] = elec.vx();
-	ftree->el_vy[ie] = elec.vy();
-	ftree->el_vz[ie] = elec.vz();
-
-	ftree->el_isGsf[ie] = elec.gsfTrack().isNonnull();
-
-	ftree->el_passConversionVeto[ie] = elec.passConversionVeto();
-
 	int numberOfHits = -666;
 
 	float dxy = -10E+10;
@@ -1341,25 +1240,25 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     dzError = elec.gsfTrack()->dzError();
 	  }
 
-	ftree->el_numberOfHits[ie] = numberOfHits;
-	ftree->el_dxy[ie] = dxy;
-	ftree->el_dz[ie] = dz;
-	ftree->el_dxyError[ie] = dxyError;
-	ftree->el_dzError[ie] = dzError;
+        ftree->el_numberOfHits.push_back(numberOfHits);
+        ftree->el_dxy.push_back(dxy);
+        ftree->el_dz.push_back(dz);
+        ftree->el_dxyError.push_back(dxyError);
+        ftree->el_dzError.push_back(dzError);
 
 	double el_pt = elec.pt();
 	double el_eta = elec.eta();
-	double el_scleta = ftree->el_scleta[ie];
+	double el_scleta = ftree->el_scleta.back();
 	double el_phi = elec.phi();
 	double el_lepMVA = -666.;
 
-	double relIso = (ftree->el_pfIso_sumChargedHadronPt[ie] +
-			 std::max(ftree->el_pfIso_sumNeutralHadronEt[ie] +
-				  ftree->el_pfIso_sumPhotonEt[ie] -
-				  ftree->el_pfIso_sumPUPt[ie]/2.,0.0))/el_pt;
+	double relIso = (ftree->el_pfIso_sumChargedHadronPt.back() +
+			 std::max(ftree->el_pfIso_sumNeutralHadronEt.back() +
+				  ftree->el_pfIso_sumPhotonEt.back() -
+				  ftree->el_pfIso_sumPUPt.back()/2.,0.0))/el_pt;
 
-	lepMVA_neuRelIso = relIso - ftree->el_chargedHadronIso[ie]/el_pt;
-	lepMVA_chRelIso = ftree->el_chargedHadronIso[ie]/el_pt;
+	lepMVA_neuRelIso = relIso - ftree->el_chargedHadronIso.back()/el_pt;
+	lepMVA_chRelIso = ftree->el_chargedHadronIso.back()/el_pt;
 	float drmin = 0.5;
 	int jcl = -1;
 	for(unsigned int ij=0;ij<jets->size();ij++)
@@ -1380,10 +1279,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("combinedSecondaryVertexBJetTags") : 0.;
 	if( csv == -1000. ) csv = jets->at(jcl).bDiscriminator("pfCombinedSecondaryVertexBJetTags");
 	lepMVA_jetBTagCSV = std::max(double(csv),0.);
-	lepMVA_sip3d = fabs(ftree->el_dB3D[ie]/ftree->el_edB3D[ie]);
+	lepMVA_sip3d = fabs(ftree->el_dB3D.back()/ftree->el_edB3D.back());
 	lepMVA_mvaId = mvaNonTrigV0;
 	
-	if( elec.gsfTrack().isNonnull() ) lepMVA_innerHits = ftree->el_numberOfHits[ie];
+	if( elec.gsfTrack().isNonnull() ) lepMVA_innerHits = ftree->el_numberOfHits.back();
 
 	if( el_pt >= 10 && fabs(el_scleta) <= 0.8 ) el_lepMVA = ele_reader_high_cb->EvaluateMVA("BDTG method");
 	else if( el_pt >= 10 && fabs(el_scleta) > 0.8 && fabs(el_scleta) <= 1.479 ) el_lepMVA = ele_reader_high_fb->EvaluateMVA("BDTG method");
@@ -1391,8 +1290,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	else if( el_pt < 10  && fabs(el_scleta) <= 0.8 )                            el_lepMVA = ele_reader_low_cb ->EvaluateMVA("BDTG method");
 	else if( el_pt < 10  && fabs(el_scleta) > 0.8 && fabs(el_scleta) <= 1.479 ) el_lepMVA = ele_reader_low_fb ->EvaluateMVA("BDTG method");
 	else                                                                        el_lepMVA = ele_reader_low_ec ->EvaluateMVA("BDTG method");
-
-        ftree->el_lepMVA[ie] = el_lepMVA;
+        
+	ftree->el_lepMVA.push_back(el_lepMVA);
 
 	if( !isData_ )
 	  {
@@ -1417,14 +1316,14 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     delete genp;	     
 	  }
 
-	ftree->el_lepMVA_neuRelIso[ie] = lepMVA_neuRelIso;
-	ftree->el_lepMVA_chRelIso[ie] = lepMVA_chRelIso;
-	ftree->el_lepMVA_jetDR[ie] = lepMVA_jetDR;
-	ftree->el_lepMVA_jetPtRatio[ie] = lepMVA_jetPtRatio;
-	ftree->el_lepMVA_jetBTagCSV[ie] = lepMVA_jetBTagCSV;
-	ftree->el_lepMVA_sip3d[ie] = lepMVA_sip3d;
-	ftree->el_lepMVA_mvaId[ie] = lepMVA_mvaId;
-	ftree->el_lepMVA_innerHits[ie] = lepMVA_innerHits;
+        ftree->el_lepMVA_neuRelIso.push_back(lepMVA_neuRelIso);
+        ftree->el_lepMVA_chRelIso.push_back(lepMVA_chRelIso);
+        ftree->el_lepMVA_jetDR.push_back(lepMVA_jetDR);
+        ftree->el_lepMVA_jetPtRatio.push_back(lepMVA_jetPtRatio);
+        ftree->el_lepMVA_jetBTagCSV.push_back(lepMVA_jetBTagCSV);
+        ftree->el_lepMVA_sip3d.push_back(lepMVA_sip3d);
+        ftree->el_lepMVA_mvaId.push_back(lepMVA_mvaId);
+        ftree->el_lepMVA_innerHits.push_back(lepMVA_innerHits);
 
 	bool allowCkfMatch = true;
 	float lxyMin = 2.0;
@@ -1452,63 +1351,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    int nMuon = muons->size();
    ftree->mu_n = nMuon;
-   ftree->mu_pt.resize(nMuon);
-   ftree->mu_eta.resize(nMuon);
-   ftree->mu_phi.resize(nMuon);
-   ftree->mu_m.resize(nMuon);
-   ftree->mu_E.resize(nMuon);
-   ftree->mu_id.resize(nMuon);
-   ftree->mu_charge.resize(nMuon);
-   ftree->mu_dB3D.resize(nMuon);
-   ftree->mu_edB3D.resize(nMuon);
-   ftree->mu_neutralHadronIso.resize(nMuon);
-   ftree->mu_chargedHadronIso.resize(nMuon);
-   ftree->mu_puChargedHadronIso.resize(nMuon);
-   ftree->mu_ecalIso.resize(nMuon);
-   ftree->mu_hcalIso.resize(nMuon);
-   ftree->mu_photonIso.resize(nMuon);
-   ftree->mu_trackIso.resize(nMuon);
-   ftree->mu_pfIso03_sumChargedHadronPt.resize(nMuon);
-   ftree->mu_pfIso03_sumNeutralHadronEt.resize(nMuon);
-   ftree->mu_pfIso03_sumPhotonEt.resize(nMuon);
-   ftree->mu_pfIso03_sumPUPt.resize(nMuon);
-   ftree->mu_isGlobalMuon.resize(nMuon);
-   ftree->mu_isTrackerMuon.resize(nMuon);
-   ftree->mu_isStandAloneMuon.resize(nMuon);
-   ftree->mu_isCaloMuon.resize(nMuon);
-   ftree->mu_isPFMuon.resize(nMuon);
-   ftree->mu_vx.resize(nMuon);
-   ftree->mu_vy.resize(nMuon);
-   ftree->mu_vz.resize(nMuon);
-   ftree->mu_hasGlobalTrack.resize(nMuon);
-   ftree->mu_hasInnerTrack.resize(nMuon);
-   ftree->mu_globalTrack_dxy.resize(nMuon);
-   ftree->mu_globalTrack_dz.resize(nMuon);
-   ftree->mu_globalTrack_dxyError.resize(nMuon);
-   ftree->mu_globalTrack_dzError.resize(nMuon);
-   ftree->mu_innerTrack_dxy.resize(nMuon);
-   ftree->mu_innerTrack_dz.resize(nMuon);
-   ftree->mu_innerTrack_dxyError.resize(nMuon);
-   ftree->mu_innerTrack_dzError.resize(nMuon);
-   ftree->mu_bestTrack_dxy.resize(nMuon);
-   ftree->mu_bestTrack_dz.resize(nMuon);
-   ftree->mu_bestTrack_dxyError.resize(nMuon);
-   ftree->mu_bestTrack_dzError.resize(nMuon);
-   ftree->mu_innerTrack_pt.resize(nMuon);
-   ftree->mu_innerTrack_ptError.resize(nMuon);
-   ftree->mu_numberOfMatches.resize(nMuon);
-   ftree->mu_numberOfValidMuonHits.resize(nMuon);
-   ftree->mu_lepMVA.resize(nMuon);
-   ftree->mu_lepMVA_neuRelIso.resize(nMuon);
-   ftree->mu_lepMVA_chRelIso.resize(nMuon);
-   ftree->mu_lepMVA_jetDR.resize(nMuon);
-   ftree->mu_lepMVA_jetPtRatio.resize(nMuon);
-   ftree->mu_lepMVA_jetBTagCSV.resize(nMuon);
-   ftree->mu_lepMVA_sip3d.resize(nMuon);
-   ftree->mu_lepMVA_dxy.resize(nMuon);
-   ftree->mu_lepMVA_dz.resize(nMuon);
-   ftree->mu_miniIso.resize(nMuon);
-   ftree->mu_isTightMuon.resize(nMuon);
 
    for(int im=0;im<nMuon;im++)
      {
@@ -1517,29 +1359,42 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	// Skimming muons with pT < 5 GeV.
 	if (muon.pt() < 5) continue;
 
-	ftree->mu_pt[im] = muon.pt();
-	ftree->mu_eta[im] = muon.eta();
-	ftree->mu_phi[im] = muon.phi();
-	ftree->mu_m[im] = muon.mass();
-	ftree->mu_E[im] = muon.energy();
-	ftree->mu_id[im] = muon.pdgId();
-	ftree->mu_charge[im] = muon.charge();
+        ftree->mu_pt.push_back(muon.pt());
+        ftree->mu_eta.push_back(muon.eta());
+        ftree->mu_phi.push_back(muon.phi());
+        ftree->mu_m.push_back(muon.mass());
+        ftree->mu_E.push_back(muon.energy());
+        ftree->mu_id.push_back(muon.pdgId());
+        ftree->mu_charge.push_back(muon.charge());
 
-	ftree->mu_dB3D[im] = muon.dB(pat::Muon::PV3D);
-	ftree->mu_edB3D[im] = muon.edB(pat::Muon::PV3D);
+        ftree->mu_dB3D.push_back(muon.dB(pat::Muon::PV3D));
+        ftree->mu_edB3D.push_back(muon.edB(pat::Muon::PV3D));
 
-	ftree->mu_neutralHadronIso[im] = muon.neutralHadronIso();
-	ftree->mu_chargedHadronIso[im] = muon.chargedHadronIso();
-	ftree->mu_puChargedHadronIso[im] = muon.puChargedHadronIso();
-	ftree->mu_ecalIso[im] = muon.ecalIso();
-	ftree->mu_hcalIso[im] = muon.hcalIso();
-	ftree->mu_photonIso[im] = muon.photonIso();
-	ftree->mu_trackIso[im] = muon.trackIso();
+        ftree->mu_neutralHadronIso.push_back(muon.neutralHadronIso());
+        ftree->mu_chargedHadronIso.push_back(muon.chargedHadronIso());
+        ftree->mu_puChargedHadronIso.push_back(muon.puChargedHadronIso());
+        ftree->mu_ecalIso.push_back(muon.ecalIso());
+        ftree->mu_hcalIso.push_back(muon.hcalIso());
+        ftree->mu_photonIso.push_back(muon.photonIso());
+        ftree->mu_trackIso.push_back(muon.trackIso());
 
-	ftree->mu_pfIso03_sumChargedHadronPt[im] = muon.pfIsolationR03().sumChargedHadronPt;
-	ftree->mu_pfIso03_sumNeutralHadronEt[im] = muon.pfIsolationR03().sumNeutralHadronEt;
-	ftree->mu_pfIso03_sumPhotonEt[im] = muon.pfIsolationR03().sumPhotonEt;
-	ftree->mu_pfIso03_sumPUPt[im] = muon.pfIsolationR03().sumPUPt;
+        ftree->mu_pfIso03_sumChargedHadronPt.push_back(muon.pfIsolationR03().sumChargedHadronPt);
+        ftree->mu_pfIso03_sumNeutralHadronEt.push_back(muon.pfIsolationR03().sumNeutralHadronEt);
+        ftree->mu_pfIso03_sumPhotonEt.push_back(muon.pfIsolationR03().sumPhotonEt);
+        ftree->mu_pfIso03_sumPUPt.push_back(muon.pfIsolationR03().sumPUPt);
+
+        ftree->mu_isGlobalMuon.push_back(muon.isGlobalMuon());
+        ftree->mu_isTrackerMuon.push_back(muon.isTrackerMuon());
+        ftree->mu_isStandAloneMuon.push_back(muon.isStandAloneMuon());
+        ftree->mu_isCaloMuon.push_back(muon.isCaloMuon());
+        ftree->mu_isPFMuon.push_back(muon.isPFMuon());
+
+        ftree->mu_vx.push_back(muon.vx());
+        ftree->mu_vy.push_back(muon.vy());
+        ftree->mu_vz.push_back(muon.vz());
+
+        ftree->mu_hasGlobalTrack.push_back(muon.globalTrack().isNonnull());
+        ftree->mu_hasInnerTrack.push_back(muon.innerTrack().isNonnull());
 
 	// mini-iso
 	float miniIso = -666;
@@ -1547,20 +1402,20 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	{
 	  miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&muon),0.05,0.2,10.,false,false);
 	}
-	ftree->mu_miniIso[im] = miniIso;
+	ftree->mu_miniIso.push_back(miniIso);
 
-	ftree->mu_isGlobalMuon[im] = muon.isGlobalMuon();
-	ftree->mu_isTrackerMuon[im] = muon.isTrackerMuon();
-	ftree->mu_isStandAloneMuon[im] = muon.isStandAloneMuon();
-	ftree->mu_isCaloMuon[im] = muon.isCaloMuon();
-	ftree->mu_isPFMuon[im] = muon.isPFMuon();
+        ftree->mu_isGlobalMuon.push_back(muon.isGlobalMuon());
+        ftree->mu_isTrackerMuon.push_back(muon.isTrackerMuon());
+        ftree->mu_isStandAloneMuon.push_back(muon.isStandAloneMuon());
+        ftree->mu_isCaloMuon.push_back(muon.isCaloMuon());
+        ftree->mu_isPFMuon.push_back(muon.isPFMuon());
 
-	ftree->mu_vx[im] = muon.vx();
-	ftree->mu_vy[im] = muon.vy();
-	ftree->mu_vz[im] = muon.vz();
+        ftree->mu_vx.push_back(muon.vx());
+        ftree->mu_vy.push_back(muon.vy());
+        ftree->mu_vz.push_back(muon.vz());
 
-	ftree->mu_hasGlobalTrack[im] = muon.globalTrack().isNonnull();
-	ftree->mu_hasInnerTrack[im] = muon.innerTrack().isNonnull();
+        ftree->mu_hasGlobalTrack.push_back(muon.globalTrack().isNonnull());
+        ftree->mu_hasInnerTrack.push_back(muon.innerTrack().isNonnull());
 
 	float globalTrack_dxy = -10E+10;
 	float globalTrack_dz = -10E+10;
@@ -1579,7 +1434,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 	bool isTightMuon = 0;
 	if( primVtx ) isTightMuon = muon.isTightMuon(*primVtx);
-	ftree->mu_isTightMuon[im] = isTightMuon;
+	ftree->mu_isTightMuon.push_back(isTightMuon);
 
 	if( muon.globalTrack().isNonnull() )
 	  {
@@ -1601,20 +1456,20 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	bestTrack_dxyError = muon.bestTrack()->dxyError();
 	bestTrack_dzError = muon.bestTrack()->dzError();
 
-	ftree->mu_globalTrack_dxy[im] = globalTrack_dxy;
-	ftree->mu_globalTrack_dz[im] = globalTrack_dz;
-	ftree->mu_globalTrack_dxyError[im] = globalTrack_dxyError;
-	ftree->mu_globalTrack_dzError[im] = globalTrack_dzError;
+        ftree->mu_globalTrack_dxy.push_back(globalTrack_dxy);
+        ftree->mu_globalTrack_dz.push_back(globalTrack_dz);
+        ftree->mu_globalTrack_dxyError.push_back(globalTrack_dxyError);
+        ftree->mu_globalTrack_dzError.push_back(globalTrack_dzError);
 
-	ftree->mu_innerTrack_dxy[im] = innerTrack_dxy;
-	ftree->mu_innerTrack_dz[im] = innerTrack_dz;
-	ftree->mu_innerTrack_dxyError[im] = innerTrack_dxyError;
-	ftree->mu_innerTrack_dzError[im] = innerTrack_dzError;
+        ftree->mu_innerTrack_dxy.push_back(innerTrack_dxy);
+        ftree->mu_innerTrack_dz.push_back(innerTrack_dz);
+        ftree->mu_innerTrack_dxyError.push_back(innerTrack_dxyError);
+        ftree->mu_innerTrack_dzError.push_back(innerTrack_dzError);
 
-	ftree->mu_bestTrack_dxy[im] = bestTrack_dxy;
-	ftree->mu_bestTrack_dz[im] = bestTrack_dz;
-	ftree->mu_bestTrack_dxyError[im] = bestTrack_dxyError;
-	ftree->mu_bestTrack_dzError[im] = bestTrack_dzError;
+        ftree->mu_bestTrack_dxy.push_back(bestTrack_dxy);
+        ftree->mu_bestTrack_dz.push_back(bestTrack_dz);
+        ftree->mu_bestTrack_dxyError.push_back(bestTrack_dxyError);
+        ftree->mu_bestTrack_dzError.push_back(bestTrack_dzError);
 
 	float innerTrack_pt = -666.;
 	float innerTrack_ptError = -666.;
@@ -1625,10 +1480,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     innerTrack_ptError = muon.innerTrack()->ptError();
 	  }
 
-	ftree->mu_innerTrack_pt[im] = innerTrack_pt;
-	ftree->mu_innerTrack_ptError[im] = innerTrack_ptError;
+        ftree->mu_innerTrack_pt.push_back(innerTrack_pt);
+        ftree->mu_innerTrack_ptError.push_back(innerTrack_ptError);
 
-	ftree->mu_numberOfMatches[im] = muon.numberOfMatches();
+        ftree->mu_numberOfMatches.push_back(muon.numberOfMatches());
 
 	int numberOfValidMuonHits = -666;
 
@@ -1637,7 +1492,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     numberOfValidMuonHits = muon.globalTrack()->hitPattern().numberOfValidMuonHits();
 	  }
 
-	ftree->mu_numberOfValidMuonHits[im] = numberOfValidMuonHits;
+        ftree->mu_numberOfValidMuonHits.push_back(numberOfValidMuonHits);
 
 	double mu_pt = muon.pt();
 	double mu_eta = muon.eta();
@@ -1671,25 +1526,25 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("combinedSecondaryVertexBJetTags") : 0.;
 	if( csv == -1000. ) csv = jets->at(jcl).bDiscriminator("pfCombinedSecondaryVertexBJetTags");
 	lepMVA_jetBTagCSV = std::max(double(csv),0.);
-	lepMVA_sip3d = fabs(ftree->mu_dB3D[im]/ftree->mu_edB3D[im]);
-	lepMVA_dxy = log(fabs(ftree->mu_innerTrack_dxy[im]));
-	lepMVA_dz = log(fabs(ftree->mu_innerTrack_dz[im]));
+	lepMVA_sip3d = fabs(ftree->mu_dB3D.back()/ftree->mu_edB3D.back());
+	lepMVA_dxy = log(fabs(ftree->mu_innerTrack_dxy.back()));
+	lepMVA_dz = log(fabs(ftree->mu_innerTrack_dz.back()));
 
 	if( mu_pt > 15 && fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_high_b->EvaluateMVA("BDTG method");
 	else if( mu_pt > 15 && fabs(mu_eta) >= 1.5 ) mu_lepMVA = mu_reader_high_e->EvaluateMVA("BDTG method");
 	else if( mu_pt <= 15 && fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_low_b->EvaluateMVA("BDTG method");
 	else mu_lepMVA = mu_reader_low_e->EvaluateMVA("BDTG method");
 
-	ftree->mu_lepMVA[im] = mu_lepMVA;
+	ftree->mu_lepMVA.push_back(mu_lepMVA);
 	
-	ftree->mu_lepMVA_neuRelIso[im] = lepMVA_neuRelIso;
-	ftree->mu_lepMVA_chRelIso[im] = lepMVA_chRelIso;
-	ftree->mu_lepMVA_jetDR[im] = lepMVA_jetDR;
-	ftree->mu_lepMVA_jetPtRatio[im] = lepMVA_jetPtRatio;
-	ftree->mu_lepMVA_jetBTagCSV[im] = lepMVA_jetBTagCSV;
-	ftree->mu_lepMVA_sip3d[im] = lepMVA_sip3d;
-	ftree->mu_lepMVA_dxy[im] = lepMVA_dxy;
-	ftree->mu_lepMVA_dz[im] = lepMVA_dz;
+        ftree->mu_lepMVA_neuRelIso.push_back(lepMVA_neuRelIso);
+        ftree->mu_lepMVA_chRelIso.push_back(lepMVA_chRelIso);
+        ftree->mu_lepMVA_jetDR.push_back(lepMVA_jetDR);
+        ftree->mu_lepMVA_jetPtRatio.push_back(lepMVA_jetPtRatio);
+        ftree->mu_lepMVA_jetBTagCSV.push_back(lepMVA_jetBTagCSV);
+        ftree->mu_lepMVA_sip3d.push_back(lepMVA_sip3d);
+        ftree->mu_lepMVA_dxy.push_back(lepMVA_dxy);
+        ftree->mu_lepMVA_dz.push_back(lepMVA_dz);
 
 	if( !isData_ )
 	  {
@@ -1719,58 +1574,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    int nTau = taus->size();
    ftree->tau_n = nTau;
-   ftree->tau_pt.resize(nTau);
-   ftree->tau_eta.resize(nTau);
-   ftree->tau_phi.resize(nTau);
-   ftree->tau_m.resize(nTau);
-   ftree->tau_E.resize(nTau);
-   ftree->tau_id.resize(nTau);
-   ftree->tau_charge.resize(nTau);
-   
-   ftree->tau_hasLeadChargedHadrCand.resize(nTau);
-   ftree->tau_leadingTrackPt.resize(nTau);
-   ftree->tau_leadingTrackCharge.resize(nTau);
-   
-   ftree->tau_decayMode.resize(nTau);
-//   ftree->tau_decayModeFindingOldDMs.resize(nTau);
-   ftree->tau_decayModeFindingNewDMs.resize(nTau);
-   
-   ftree->tau_puCorrPtSum.resize(nTau);
-   ftree->tau_neutralIsoPtSum.resize(nTau);
-   ftree->tau_chargedIsoPtSum.resize(nTau);
-   ftree->tau_byCombinedIsolationDeltaBetaCorrRaw3Hits.resize(nTau);
-   
-   ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3Hits.resize(nTau);
-   ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits.resize(nTau);
-   ftree->tau_byTightCombinedIsolationDeltaBetaCorr3Hits.resize(nTau);
-   
-   ftree->tau_againstMuonLoose3.resize(nTau);
-   ftree->tau_againstMuonTight3.resize(nTau);
-   
-   ftree->tau_againstElectronVLooseMVA5.resize(nTau);
-   ftree->tau_againstElectronLooseMVA5.resize(nTau);
-   ftree->tau_againstElectronMediumMVA5.resize(nTau);
-   
-   ftree->tau_pfEssential_jet_pt.resize(nTau);
-   ftree->tau_pfEssential_jet_eta.resize(nTau);
-   ftree->tau_pfEssential_jet_phi.resize(nTau);
-   ftree->tau_pfEssential_jet_m.resize(nTau);
-
-   ftree->tau_pfEssential_jetCorr_pt.resize(nTau);
-   ftree->tau_pfEssential_jetCorr_eta.resize(nTau);
-   ftree->tau_pfEssential_jetCorr_phi.resize(nTau);
-   ftree->tau_pfEssential_jetCorr_m.resize(nTau);
-   
-   ftree->tau_pfEssential_hasSV.resize(nTau);
-   ftree->tau_pfEssential_sv_x.resize(nTau);
-   ftree->tau_pfEssential_sv_y.resize(nTau);
-   ftree->tau_pfEssential_sv_z.resize(nTau);
-   
-   ftree->tau_pfEssential_flightLengthSig.resize(nTau);
-   ftree->tau_pfEssential_dxy.resize(nTau);
-   ftree->tau_pfEssential_dxy_error.resize(nTau);
-   ftree->tau_pfEssential_dxy_Sig.resize(nTau);
-   
    for(int it=0;it<nTau;it++)
      {
 	const pat::Tau& tau = taus->at(it);
@@ -1778,65 +1581,65 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	// Skimming taus with pT < 5 GeV. (should do nothing for miniAOD where pT > 18 GeV is applied)
 	if (tau.pt() < 5) continue;
 
-	ftree->tau_pt[it] = tau.pt();
-	ftree->tau_eta[it] = tau.eta();
-	ftree->tau_phi[it] = tau.phi();
-	ftree->tau_m[it] = tau.mass();
-	ftree->tau_E[it] = tau.energy();
-	ftree->tau_id[it] = tau.pdgId();
-	ftree->tau_charge[it] = tau.charge();
-
+	ftree->tau_pt.push_back(tau.pt());
+	ftree->tau_eta.push_back(tau.eta());
+	ftree->tau_phi.push_back(tau.phi());
+	ftree->tau_m.push_back(tau.mass());
+	ftree->tau_E.push_back(tau.energy());
+	ftree->tau_id.push_back(tau.pdgId());
+	ftree->tau_charge.push_back(tau.charge());
+	
 	// https://twiki.cern.ch/twiki/bin/view/CMS/TauIDRecommendation13TeV
 	// https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD#Taus
 	
 	float tau_leadingTrackPt = -666;
 	int tau_leadingTrackCharge = -666;
 	
-	ftree->tau_hasLeadChargedHadrCand[it] = tau.leadChargedHadrCand().isNonnull();
+	ftree->tau_hasLeadChargedHadrCand.push_back(tau.leadChargedHadrCand().isNonnull());
 	
 	if( tau.leadChargedHadrCand().isNonnull() )
 	  {
-	     tau_leadingTrackPt = tau.leadChargedHadrCand()->pt();
-	     tau_leadingTrackCharge = tau.leadChargedHadrCand()->charge();
+	    tau_leadingTrackPt = tau.leadChargedHadrCand()->pt();
+	    tau_leadingTrackCharge = tau.leadChargedHadrCand()->charge();
 	  }	
-	ftree->tau_leadingTrackPt[it] = tau_leadingTrackPt;
-	ftree->tau_leadingTrackCharge[it] = tau_leadingTrackCharge;
+	ftree->tau_leadingTrackPt.push_back(tau_leadingTrackPt);
+	ftree->tau_leadingTrackCharge.push_back(tau_leadingTrackCharge);
 	
-	ftree->tau_decayMode[it] = tau.decayMode();
-//	ftree->tau_decayModeFindingOldDMs[it] = tau.tauID("decayModeFindingOldDMs");
-	ftree->tau_decayModeFindingNewDMs[it] = tau.tauID("decayModeFindingNewDMs");
+	ftree->tau_decayMode.push_back(tau.decayMode());
+//	ftree->tau_decayModeFindingOldDMs.push_back(tau.tauID("decayModeFindingOldDMs"));
+	ftree->tau_decayModeFindingNewDMs.push_back(tau.tauID("decayModeFindingNewDMs"));
 	
-	ftree->tau_puCorrPtSum[it] = tau.tauID("puCorrPtSum");
-	ftree->tau_neutralIsoPtSum[it] = tau.tauID("neutralIsoPtSum");
-	ftree->tau_chargedIsoPtSum[it] = tau.tauID("chargedIsoPtSum");
-	ftree->tau_byCombinedIsolationDeltaBetaCorrRaw3Hits[it] = tau.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits");
+	ftree->tau_puCorrPtSum.push_back(tau.tauID("puCorrPtSum"));
+	ftree->tau_neutralIsoPtSum.push_back(tau.tauID("neutralIsoPtSum"));
+	ftree->tau_chargedIsoPtSum.push_back(tau.tauID("chargedIsoPtSum"));
+	ftree->tau_byCombinedIsolationDeltaBetaCorrRaw3Hits.push_back(tau.tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits"));
 	
-	ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3Hits[it] = tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits");
-	ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits[it] = tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits");
-	ftree->tau_byTightCombinedIsolationDeltaBetaCorr3Hits[it] = tau.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits");
+	ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits"));
+	ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"));
+	ftree->tau_byTightCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits"));
 	
-	ftree->tau_againstMuonLoose3[it] = tau.tauID("againstMuonLoose3");
-	ftree->tau_againstMuonTight3[it] = tau.tauID("againstMuonTight3");
+	ftree->tau_againstMuonLoose3.push_back(tau.tauID("againstMuonLoose3"));
+	ftree->tau_againstMuonTight3.push_back(tau.tauID("againstMuonTight3"));
 	
-	ftree->tau_againstElectronVLooseMVA5[it] = tau.tauID("againstElectronVLooseMVA5");
-	ftree->tau_againstElectronLooseMVA5[it] = tau.tauID("againstElectronLooseMVA5");
-	ftree->tau_againstElectronMediumMVA5[it] = tau.tauID("againstElectronMediumMVA5");
+	ftree->tau_againstElectronVLooseMVA5.push_back(tau.tauID("againstElectronVLooseMVA5"));
+	ftree->tau_againstElectronLooseMVA5.push_back(tau.tauID("againstElectronLooseMVA5"));
+	ftree->tau_againstElectronMediumMVA5.push_back(tau.tauID("againstElectronMediumMVA5"));
 
-	ftree->tau_pfEssential_jet_pt[it] = tau.pfEssential().p4Jet_.pt();
-	ftree->tau_pfEssential_jet_eta[it] = tau.pfEssential().p4Jet_.eta();
-	ftree->tau_pfEssential_jet_phi[it] = tau.pfEssential().p4Jet_.phi();
-	ftree->tau_pfEssential_jet_m[it] = tau.pfEssential().p4Jet_.mass();
+	ftree->tau_pfEssential_jet_pt.push_back(tau.pfEssential().p4Jet_.pt());
+	ftree->tau_pfEssential_jet_eta.push_back(tau.pfEssential().p4Jet_.eta());
+	ftree->tau_pfEssential_jet_phi.push_back(tau.pfEssential().p4Jet_.phi());
+	ftree->tau_pfEssential_jet_m.push_back(tau.pfEssential().p4Jet_.mass());
 
-	ftree->tau_pfEssential_jetCorr_pt[it] = tau.pfEssential().p4CorrJet_.pt();
-	ftree->tau_pfEssential_jetCorr_eta[it] = tau.pfEssential().p4CorrJet_.eta();
-	ftree->tau_pfEssential_jetCorr_phi[it] = tau.pfEssential().p4CorrJet_.phi();
-	ftree->tau_pfEssential_jetCorr_m[it] = tau.pfEssential().p4CorrJet_.mass();
+	ftree->tau_pfEssential_jetCorr_pt.push_back(tau.pfEssential().p4CorrJet_.pt());
+	ftree->tau_pfEssential_jetCorr_eta.push_back(tau.pfEssential().p4CorrJet_.eta());
+	ftree->tau_pfEssential_jetCorr_phi.push_back(tau.pfEssential().p4CorrJet_.phi());
+	ftree->tau_pfEssential_jetCorr_m.push_back(tau.pfEssential().p4CorrJet_.mass());
 	
 	float tau_pfEssential_sv_x = -666;
 	float tau_pfEssential_sv_y = -666;
 	float tau_pfEssential_sv_z = -666;
 
-	ftree->tau_pfEssential_hasSV[it] = tau.pfEssential().sv_.isNonnull();
+	ftree->tau_pfEssential_hasSV.push_back(tau.pfEssential().sv_.isNonnull());
 	
 	if( tau.pfEssential().sv_.isNonnull() )
 	  {	     
@@ -1845,14 +1648,19 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     tau_pfEssential_sv_z = tau.pfEssential().sv_->z();
 	  }
 	
-	ftree->tau_pfEssential_sv_x[it] = tau_pfEssential_sv_x;
-	ftree->tau_pfEssential_sv_y[it] = tau_pfEssential_sv_y;
-	ftree->tau_pfEssential_sv_z[it] = tau_pfEssential_sv_z;
+	ftree->tau_pfEssential_sv_x.push_back(tau_pfEssential_sv_x);
+	ftree->tau_pfEssential_sv_y.push_back(tau_pfEssential_sv_y);
+	ftree->tau_pfEssential_sv_z.push_back(tau_pfEssential_sv_z);
 
-	ftree->tau_pfEssential_flightLengthSig[it] = tau.pfEssential().flightLengthSig_;
-	ftree->tau_pfEssential_dxy[it] = tau.pfEssential().dxy_;
-	ftree->tau_pfEssential_dxy_error[it] = tau.pfEssential().dxy_error_;
-	ftree->tau_pfEssential_dxy_Sig[it] = tau.pfEssential().dxy_Sig_;
+	ftree->tau_pfEssential_flightLengthSig.push_back(tau.pfEssential().flightLengthSig_);
+	ftree->tau_pfEssential_dxy.push_back(tau.pfEssential().dxy_);
+	ftree->tau_pfEssential_dxy_error.push_back(tau.pfEssential().dxy_error_);
+	ftree->tau_pfEssential_dxy_Sig.push_back(tau.pfEssential().dxy_Sig_);
+
+	/*	ftree->tau_pfEssential_flightLengthSig.push_back(tau.pfEssential().flightLengthSig);
+	ftree->tau_pfEssential_dxy.push_back(tau.pfEssential().dxy);
+	ftree->tau_pfEssential_dxy_error.push_back(tau.pfEssential().dxy_error);
+	ftree->tau_pfEssential_dxy_Sig.push_back(tau.pfEssential().dxy_Sig);*/
      }   
    
    // ##########################
@@ -1869,67 +1677,43 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    int nJet = jets->size();
    ftree->jet_n = nJet;
 
-   ftree->jet_pt.resize(nJet);
-   ftree->jet_eta.resize(nJet);
-   ftree->jet_phi.resize(nJet);
-   ftree->jet_m.resize(nJet);
-   ftree->jet_E.resize(nJet);
-   ftree->jet_JBP.resize(nJet);
-   ftree->jet_JP.resize(nJet);
-   ftree->jet_TCHP.resize(nJet);
-   ftree->jet_TCHE.resize(nJet);
-   ftree->jet_SSVHE.resize(nJet);
-   ftree->jet_SSVHP.resize(nJet);
-   ftree->jet_CMVA.resize(nJet);
-   ftree->jet_CSVv2.resize(nJet);
-   ftree->jet_CSV.resize(nJet);
-   ftree->jet_flavour.resize(nJet);
-   ftree->jet_neutralHadronEnergy.resize(nJet);
-   ftree->jet_neutralEmEnergy.resize(nJet);
-   ftree->jet_chargedHadronEnergy.resize(nJet);
-   ftree->jet_chargedEmEnergy.resize(nJet);
-   ftree->jet_electronEnergy.resize(nJet);
-   ftree->jet_muonEnergy.resize(nJet);
-   ftree->jet_photonEnergy.resize(nJet);
-   ftree->jet_pileupJetId.resize(nJet);
-
    for(int ij=0;ij<nJet;ij++)
      {
 	const pat::Jet& jet = jets->at(ij);
 
-	ftree->jet_pt[ij] = jet.pt();
-	ftree->jet_eta[ij] = jet.eta();
-	ftree->jet_phi[ij] = jet.phi();
-	ftree->jet_m[ij] = jet.mass();
-	ftree->jet_E[ij] = jet.energy();
-	ftree->jet_JBP[ij] = jet.bDiscriminator("jetBProbabilityBJetTags");
-	ftree->jet_JP[ij] = jet.bDiscriminator("jetProbabilityBJetTags");
-	ftree->jet_TCHP[ij] = jet.bDiscriminator("trackCountingHighPurBJetTags");
-	ftree->jet_TCHE[ij] = jet.bDiscriminator("trackCountingHighEffBJetTags");
-	ftree->jet_SSVHE[ij] = jet.bDiscriminator("simpleSecondaryVertexHighEffBJetTags");
-	ftree->jet_SSVHP[ij] = jet.bDiscriminator("simpleSecondaryVertexHighPurBJetTags");
-	ftree->jet_CMVA[ij] = jet.bDiscriminator("combinedMVABJetTags");
+	ftree->jet_pt.push_back(jet.pt());
+	ftree->jet_eta.push_back(jet.eta());
+	ftree->jet_phi.push_back(jet.phi());
+	ftree->jet_m.push_back(jet.mass());
+	ftree->jet_E.push_back(jet.energy());
+	ftree->jet_JBP.push_back(jet.bDiscriminator("jetBProbabilityBJetTags"));
+	ftree->jet_JP.push_back(jet.bDiscriminator("jetProbabilityBJetTags"));
+	ftree->jet_TCHP.push_back(jet.bDiscriminator("trackCountingHighPurBJetTags"));
+	ftree->jet_TCHE.push_back(jet.bDiscriminator("trackCountingHighEffBJetTags"));
+	ftree->jet_SSVHE.push_back(jet.bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
+	ftree->jet_SSVHP.push_back(jet.bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
+	ftree->jet_CMVA.push_back(jet.bDiscriminator("combinedMVABJetTags"));
 
 	float CSVIVF = jet.bDiscriminator("combinedInclusiveSecondaryVertexBJetTags");
 	if( CSVIVF == -1000. ) CSVIVF = jet.bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags");
-	ftree->jet_CSVv2[ij] = CSVIVF;
+	ftree->jet_CSVv2.push_back(CSVIVF);
 
 	float CSV = jet.bDiscriminator("combinedSecondaryVertexBJetTags");
 	if( CSV == -1000. ) CSV = jet.bDiscriminator("pfCombinedSecondaryVertexBJetTags");
 
-	ftree->jet_CSV[ij] = CSV;
+	ftree->jet_CSV.push_back(CSV);
 
-	ftree->jet_flavour[ij] = jet.partonFlavour();
+	ftree->jet_flavour.push_back(jet.partonFlavour());
 
-	ftree->jet_neutralHadronEnergy[ij] = jet.neutralHadronEnergy();
-	ftree->jet_neutralEmEnergy[ij] = jet.neutralEmEnergy();
-	ftree->jet_chargedHadronEnergy[ij] = jet.chargedHadronEnergy();
-	ftree->jet_chargedEmEnergy[ij] = jet.chargedEmEnergy();
-	ftree->jet_electronEnergy[ij] = jet.electronEnergy();
-	ftree->jet_muonEnergy[ij] = jet.muonEnergy();
-	ftree->jet_photonEnergy[ij] = jet.photonEnergy();
+	ftree->jet_neutralHadronEnergy.push_back(jet.neutralHadronEnergy());
+	ftree->jet_neutralEmEnergy.push_back(jet.neutralEmEnergy());
+	ftree->jet_chargedHadronEnergy.push_back(jet.chargedHadronEnergy());
+	ftree->jet_chargedEmEnergy.push_back(jet.chargedEmEnergy());
+	ftree->jet_electronEnergy.push_back(jet.electronEnergy());
+	ftree->jet_muonEnergy.push_back(jet.muonEnergy());
+	ftree->jet_photonEnergy.push_back(jet.photonEnergy());
 
-	ftree->jet_pileupJetId[ij] = jet.userFloat("pileupJetId:fullDiscriminant");
+	ftree->jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
 
 	const reco::GenJet* genJet = jet.genJet();
 	if( genJet )
