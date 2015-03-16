@@ -920,7 +920,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    for(std::vector<PileupSummaryInfo>::const_iterator pvi=pileupInfo->begin();
        pvi!=pileupInfo->end();pvi++)
      {
-       //       unsigned int distance = std::distance(pileupInfo->begin(), pvi);
        signed int n_bc = pvi->getBunchCrossing();
        ftree->mc_pu_BunchCrossing.push_back(n_bc);
        if( n_bc == 0 )
@@ -1085,8 +1084,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #################################################
 
    int nElec = electrons->size();
-   ftree->el_n = nElec;
-
+   
    for(int ie=0;ie<nElec;ie++)
      {
 	const pat::Electron& elec = electrons->at(ie);
@@ -1117,14 +1115,14 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     numberOfLostHits = elec.gsfTrack()->hitPattern().numberOfLostHits(reco::HitPattern::HitCategory::MISSING_INNER_HITS);
 	  }
 
-	ftree->el_numberOfLostHits[ie] = numberOfLostHits;
+	ftree->el_numberOfLostHits.push_back(numberOfLostHits);
 
 	bool validKF = false;
 	reco::TrackRef myTrackRef = elec.closestCtfTrackRef();
 	validKF = (myTrackRef.isAvailable());
 	validKF = (myTrackRef.isNonnull());
 
-	ftree->el_fbrem[ie] = elec.fbrem();
+	ftree->el_fbrem.push_back(elec.fbrem());
 	float el_kf_normalizedChi2 = ( validKF ) ? myTrackRef->normalizedChi2() : 666.;
 	if( validKF ) ftree->el_kf_normalizedChi2.push_back(myTrackRef->normalizedChi2());
 	float el_trackerLayersWithMeasurement = ( validKF ) ? myTrackRef->hitPattern().trackerLayersWithMeasurement() : -666.;
@@ -1163,27 +1161,27 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_dB3D.push_back(elec.dB(pat::Electron::PV3D));
         ftree->el_edB3D.push_back(elec.edB(pat::Electron::PV3D));
 
-	double mvaNonTrigV0 = elecMVA->mvaValue(ftree->el_fbrem[ie],
+	double mvaNonTrigV0 = elecMVA->mvaValue(ftree->el_fbrem.back(),
 						el_kf_normalizedChi2,
 						el_trackerLayersWithMeasurement,
 						el_gsf_normalizedChi2,
-						ftree->el_deltaEtaSuperClusterTrackAtVtx[ie],
-						ftree->el_deltaPhiSuperClusterTrackAtVtx[ie],
-						ftree->el_deltaEtaSeedClusterTrackAtCalo[ie],
-						ftree->el_see[ie],
-						ftree->el_spp[ie],
-						ftree->el_superClusterEtaWidth[ie],
-						ftree->el_superClusterPhiWidth[ie],
-						ftree->el_full5x5_OneMinusE1x5E5x5[ie],
-						ftree->el_full5x5_r9[ie],
-						ftree->el_hadronicOverEm[ie],
-						ftree->el_eSuperClusterOverP[ie],
-						ftree->el_IoEmIoP[ie],
-						ftree->el_eleEoPout[ie],
+						ftree->el_deltaEtaSuperClusterTrackAtVtx.back(),
+						ftree->el_deltaPhiSuperClusterTrackAtVtx.back(),
+						ftree->el_deltaEtaSeedClusterTrackAtCalo.back(),
+						ftree->el_see.back(),
+						ftree->el_spp.back(),
+						ftree->el_superClusterEtaWidth.back(),
+						ftree->el_superClusterPhiWidth.back(),
+						ftree->el_full5x5_OneMinusE1x5E5x5.back(),
+						ftree->el_full5x5_r9.back(),
+						ftree->el_hadronicOverEm.back(),
+						ftree->el_eSuperClusterOverP.back(),
+						ftree->el_IoEmIoP.back(),
+						ftree->el_eleEoPout.back(),
 //						   ftree->ev_rho,
-						ftree->el_PreShowerOverRaw[ie],
-						ftree->el_scleta[ie],
-						ftree->el_pt[ie],
+						ftree->el_PreShowerOverRaw.back(),
+						ftree->el_scleta.back(),
+						ftree->el_pt.back(),
 						false);
 
         ftree->el_mvaNonTrigV0.push_back(mvaNonTrigV0);
@@ -1337,6 +1335,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->el_hasMatchedConversion.push_back(matchConv);
 	  }	
      }   
+   ftree->el_n = ftree->el_pt.size();
    
    // ####################################
    // #   __  __                         #
@@ -1350,8 +1349,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // Muons
 
    int nMuon = muons->size();
-   ftree->mu_n = nMuon;
-
    for(int im=0;im<nMuon;im++)
      {
 	const pat::Muon& muon = muons->at(im);
@@ -1569,11 +1566,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     delete genp;	     
 	  }
      }   
+   ftree->mu_n = ftree->mu_pt.size();
 
    // Taus
 
    int nTau = taus->size();
-   ftree->tau_n = nTau;
    for(int it=0;it<nTau;it++)
      {
 	const pat::Tau& tau = taus->at(it);
@@ -1662,7 +1659,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->tau_pfEssential_dxy_error.push_back(tau.pfEssential().dxy_error);
 	ftree->tau_pfEssential_dxy_Sig.push_back(tau.pfEssential().dxy_Sig);*/
      }   
-   
+   ftree->tau_n = ftree->tau_pt.size();   
    // ##########################
    // #       _      _         #
    // #      | | ___| |_ ___   #
@@ -1676,7 +1673,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    int nJet = jets->size();
    ftree->jet_n = nJet;
-
    for(int ij=0;ij<nJet;ij++)
      {
 	const pat::Jet& jet = jets->at(ij);
