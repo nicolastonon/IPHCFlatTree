@@ -25,7 +25,7 @@ git checkout v20150314_patch1
 cd ../
 
 # Add the dependencies
-git cms-addpkg EgammaAnalysis/ElectronTool
+git cms-addpkg EgammaAnalysis/ElectronTools
 cd EgammaAnalysis/ElectronTool/data
 for FILE in `cat download.url`; do wget $FILE; done;
 cd ../../..
