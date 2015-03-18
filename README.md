@@ -26,7 +26,7 @@ cd ../
 
 # Add the dependencies
 git cms-addpkg EgammaAnalysis/ElectronTools
-cd EgammaAnalysis/ElectronTool/data
+cd EgammaAnalysis/ElectronTools/data
 for FILE in `cat download.url`; do wget $FILE; done;
 cd ../../..
 ```
