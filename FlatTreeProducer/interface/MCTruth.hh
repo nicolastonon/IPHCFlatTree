@@ -54,6 +54,11 @@ class MCTruth
 				  const edm::EventSetup& iSetup,
 				  FlatTree& tree,
 				  const edm::Handle<std::vector<reco::GenParticle> >& GenParticles);
+
+   void fillTHQSignalGenParticles(const edm::Event& iEvent,
+				  const edm::EventSetup& iSetup,
+				  FlatTree& tree,
+				  const edm::Handle<std::vector<reco::GenParticle> >& GenParticles);
    
    void p4toTLV(reco::Particle::LorentzVector vp4,
 		TLorentzVector& tlv);
