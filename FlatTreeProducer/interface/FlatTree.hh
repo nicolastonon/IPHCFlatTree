@@ -359,6 +359,8 @@ class FlatTree
    // ttH
    int mc_truth_tth_channel;
 
+   int mc_truth_thq_channel;
+   
    TLorentzVector mc_truth_h0_p4;
 
    TLorentzVector mc_truth_h0W1_p4;
@@ -422,6 +424,9 @@ class FlatTree
    TLorentzVector mc_truth_h0taunutau2_p4;
    TLorentzVector mc_truth_h0taunu2_p4;
 
+   TLorentzVector mc_truth_h0b1_p4;
+   TLorentzVector mc_truth_h0b2_p4;
+   
    TLorentzVector mc_truth_t1_p4;
    TLorentzVector mc_truth_t2_p4;
    TLorentzVector mc_truth_tb1_p4;
@@ -518,6 +523,9 @@ class FlatTree
    int mc_truth_h0taunutau2_id;
    int mc_truth_h0taunu2_id;
 
+   int mc_truth_h0b1_id;
+   int mc_truth_h0b2_id;
+   
    int mc_truth_t1_id;
    int mc_truth_t2_id;
    int mc_truth_tb1_id;
@@ -614,6 +622,9 @@ class FlatTree
    int mc_truth_h0taunutau2_status;
    int mc_truth_h0taunu2_status;
 
+   int mc_truth_h0b1_status;
+   int mc_truth_h0b2_status;
+   
    int mc_truth_t1_status;
    int mc_truth_t2_status;
    int mc_truth_tb1_status;
