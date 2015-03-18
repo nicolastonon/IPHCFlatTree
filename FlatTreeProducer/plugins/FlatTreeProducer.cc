@@ -966,6 +966,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    bool do_mc_truth_ttz = ftree->doWrite("mc_truth_ttz");
    bool do_mc_truth_ttw = ftree->doWrite("mc_truth_ttw");
    bool do_mc_truth_tzq = ftree->doWrite("mc_truth_tzq");
+   bool do_mc_truth_thq = ftree->doWrite("mc_truth_thq");
 
    MCTruth *mc_truth = new MCTruth();
 
@@ -974,7 +975,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	do_mc_truth_tth || 
 	do_mc_truth_tzq ||
         do_mc_truth_ttz ||
-	do_mc_truth_ttw
+	do_mc_truth_ttw ||
+	do_mc_truth_thq
        ) &&
        !isData_ )
      {
@@ -983,6 +985,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	if( do_mc_truth_ttz ) mc_truth->fillTTZSignalGenParticles(iEvent,iSetup,*ftree,genParticlesHandle);
 	if( do_mc_truth_ttw ) mc_truth->fillTTWSignalGenParticles(iEvent,iSetup,*ftree,genParticlesHandle);
 	if( do_mc_truth_tzq ) mc_truth->fillTZQSignalGenParticles(iEvent,iSetup,*ftree,genParticlesHandle);
+	if( do_mc_truth_thq ) mc_truth->fillTHQSignalGenParticles(iEvent,iSetup,*ftree,genParticlesHandle);
 	reqMCTruth = 1;
      }
 
