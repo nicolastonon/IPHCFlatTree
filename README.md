@@ -20,7 +20,9 @@ git cms-init
 git clone https://github.com/IPHC/IPHCFlatTree.git
 
 # Switch to release
+cd IPHCFlatTree
 git checkout v20150314_patch1
+cd ../
 
 # Add the dependencies
 git cms-addpkg EgammaAnalysis/ElectronTool
