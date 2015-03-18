@@ -37,6 +37,7 @@
 <var name="mc_truth_ttz" save="0"></var>
 <var name="mc_truth_ttw" save="0"></var>
 <var name="mc_truth_tzq" save="0"></var>
+<var name="mc_truth_thq" save="0"></var>
 
 <var name="el_n" save="1"></var>
 <var name="el_pt" save="1"></var>
