@@ -1692,6 +1692,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_SSVHE.push_back(jet.bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
 	ftree->jet_SSVHP.push_back(jet.bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
 	ftree->jet_CMVA.push_back(jet.bDiscriminator("combinedMVABJetTags"));
+	
+	ftree->jet_ntrk.push_back(jet.associatedTracks().size());
 
 	float CSVIVF = jet.bDiscriminator("combinedInclusiveSecondaryVertexBJetTags");
 	if( CSVIVF == -1000. ) CSVIVF = jet.bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags");
