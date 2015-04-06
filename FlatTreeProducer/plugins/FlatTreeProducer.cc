@@ -1042,6 +1042,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->pv_x = primVtx->position().x();
 	ftree->pv_y = primVtx->position().y();
 	ftree->pv_z = primVtx->position().z();
+	
+	ftree->pv_ndof = primVtx->ndof();
+	ftree->pv_rho = primVtx->position().Rho();
+	ftree->pv_isFake = primVtx->isFake();
      }
 
    // Rho
@@ -1159,7 +1163,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_eleEoPout.push_back(elec.eEleClusterOverPout());
         double PreShowerOverRaw = elec.superCluster()->preshowerEnergy()/elec.superCluster()->rawEnergy();
         ftree->el_PreShowerOverRaw.push_back(PreShowerOverRaw);
-
+	ftree->el_ecalEnergy.push_back(elec.ecalEnergy());
+	
 	// https://github.com/gpetruc/cmg-cmssw/blob/CMG_MiniAOD_Lite_V6_0_from-CMSSW_7_0_6/EgammaAnalysis/ElectronTools/src/EGammaMvaEleEstimator.cc#L1244-1336
         ftree->el_dB3D.push_back(elec.dB(pat::Electron::PV3D));
         ftree->el_edB3D.push_back(elec.edB(pat::Electron::PV3D));
@@ -1220,8 +1225,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_vy.push_back(elec.vy());
         ftree->el_vz.push_back(elec.vz());
 
-        ftree->el_isGsf.push_back(elec.gsfTrack().isNonnull());
-
+        ftree->el_isGsf.push_back(elec.gsfTrack().isNonnull());	
+	
         ftree->el_passConversionVeto.push_back(elec.passConversionVeto());
 	       
 	int numberOfHits = -666;
@@ -1383,6 +1388,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_pfIso03_sumPhotonEt.push_back(muon.pfIsolationR03().sumPhotonEt);
         ftree->mu_pfIso03_sumPUPt.push_back(muon.pfIsolationR03().sumPUPt);
 
+        ftree->mu_pfIso04_sumChargedHadronPt.push_back(muon.pfIsolationR04().sumChargedHadronPt);
+        ftree->mu_pfIso04_sumNeutralHadronEt.push_back(muon.pfIsolationR04().sumNeutralHadronEt);
+        ftree->mu_pfIso04_sumPhotonEt.push_back(muon.pfIsolationR04().sumPhotonEt);
+        ftree->mu_pfIso04_sumPUPt.push_back(muon.pfIsolationR04().sumPUPt);
+	
         ftree->mu_isGlobalMuon.push_back(muon.isGlobalMuon());
         ftree->mu_isTrackerMuon.push_back(muon.isTrackerMuon());
         ftree->mu_isStandAloneMuon.push_back(muon.isStandAloneMuon());
@@ -1395,6 +1405,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         ftree->mu_hasGlobalTrack.push_back(muon.globalTrack().isNonnull());
         ftree->mu_hasInnerTrack.push_back(muon.innerTrack().isNonnull());
+	ftree->mu_hasTrack.push_back(muon.track().isNonnull());
 
 	// mini-iso
 	float miniIso = -666;
@@ -1420,17 +1431,20 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	float globalTrack_dxy = -10E+10;
 	float globalTrack_dz = -10E+10;
 	float globalTrack_dxyError = -666.;
-	float globalTrack_dzError = -666.;
+	float globalTrack_dzError = -666.;	
+	float globalTrack_normalizedChi2 = -666.;
 
 	float innerTrack_dxy = -10E+10;
 	float innerTrack_dz = -10E+10;
 	float innerTrack_dxyError = -666.;
 	float innerTrack_dzError = -666.;
+	float innerTrack_normalizedChi2 = -666.;
 
 	float bestTrack_dxy = -10E+10;
 	float bestTrack_dz = -10E+10;
 	float bestTrack_dxyError = -666.;
 	float bestTrack_dzError = -666.;
+	float bestTrack_normalizedChi2 = -666.;
 
 	bool isTightMuon = 0;
 	if( primVtx ) isTightMuon = muon.isTightMuon(*primVtx);
@@ -1441,7 +1455,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     globalTrack_dxy = muon.globalTrack()->dxy(muon.globalTrack()->referencePoint());
 	     globalTrack_dz = muon.globalTrack()->dz(muon.globalTrack()->referencePoint());
 	     globalTrack_dxyError = muon.globalTrack()->dxyError();
-	     globalTrack_dzError = muon.globalTrack()->dzError();
+	     globalTrack_dzError = muon.globalTrack()->dzError();	     
+	     globalTrack_normalizedChi2 = muon.globalTrack()->normalizedChi2();
 	  }
 	if( muon.innerTrack().isNonnull() )
 	  {
@@ -1449,41 +1464,59 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     if( primVtx ) innerTrack_dz = muon.innerTrack()->dz(primVtx->position());
 	     innerTrack_dxyError = muon.innerTrack()->dxyError();
 	     innerTrack_dzError = muon.innerTrack()->dzError();
+	     innerTrack_normalizedChi2 = muon.innerTrack()->normalizedChi2();
 	  }
 
 	bestTrack_dxy = muon.bestTrack()->dxy(muon.bestTrack()->referencePoint());
 	bestTrack_dz = muon.bestTrack()->dz(muon.bestTrack()->referencePoint());
 	bestTrack_dxyError = muon.bestTrack()->dxyError();
 	bestTrack_dzError = muon.bestTrack()->dzError();
+	bestTrack_normalizedChi2 = muon.bestTrack()->normalizedChi2();
 
         ftree->mu_globalTrack_dxy.push_back(globalTrack_dxy);
         ftree->mu_globalTrack_dz.push_back(globalTrack_dz);
         ftree->mu_globalTrack_dxyError.push_back(globalTrack_dxyError);
-        ftree->mu_globalTrack_dzError.push_back(globalTrack_dzError);
+        ftree->mu_globalTrack_dzError.push_back(globalTrack_dzError);	
+	ftree->mu_globalTrack_normalizedChi2.push_back(globalTrack_normalizedChi2);
 
         ftree->mu_innerTrack_dxy.push_back(innerTrack_dxy);
         ftree->mu_innerTrack_dz.push_back(innerTrack_dz);
         ftree->mu_innerTrack_dxyError.push_back(innerTrack_dxyError);
         ftree->mu_innerTrack_dzError.push_back(innerTrack_dzError);
+	ftree->mu_innerTrack_normalizedChi2.push_back(innerTrack_normalizedChi2);
 
         ftree->mu_bestTrack_dxy.push_back(bestTrack_dxy);
         ftree->mu_bestTrack_dz.push_back(bestTrack_dz);
         ftree->mu_bestTrack_dxyError.push_back(bestTrack_dxyError);
         ftree->mu_bestTrack_dzError.push_back(bestTrack_dzError);
+	ftree->mu_bestTrack_normalizedChi2.push_back(bestTrack_normalizedChi2);
 
+	int trackerLayersWithMeasurement = -666;
+	if( muon.track().isNonnull() )
+	  {
+	     trackerLayersWithMeasurement = muon.track()->hitPattern().trackerLayersWithMeasurement();
+	  }	
+	
+	ftree->mu_track_trackerLayersWithMeasurement.push_back(trackerLayersWithMeasurement);
+	
 	float innerTrack_pt = -666.;
 	float innerTrack_ptError = -666.;
-
+	int innerTrack_numberOfValidPixelHits = -666;
+		
 	if( muon.innerTrack().isNonnull() )
 	  {
 	     innerTrack_pt = muon.innerTrack()->pt();
 	     innerTrack_ptError = muon.innerTrack()->ptError();
+	     innerTrack_numberOfValidPixelHits = muon.innerTrack()->hitPattern().numberOfValidPixelHits();
 	  }
 
         ftree->mu_innerTrack_pt.push_back(innerTrack_pt);
         ftree->mu_innerTrack_ptError.push_back(innerTrack_ptError);
+	ftree->mu_innerTrack_numberOfValidPixelHits.push_back(innerTrack_numberOfValidPixelHits);
 
         ftree->mu_numberOfMatches.push_back(muon.numberOfMatches());
+	
+	ftree->mu_numberOfMatchedStations.push_back(muon.numberOfMatchedStations());
 
 	int numberOfValidMuonHits = -666;
 
@@ -1692,6 +1725,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_SSVHE.push_back(jet.bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
 	ftree->jet_SSVHP.push_back(jet.bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
 	ftree->jet_CMVA.push_back(jet.bDiscriminator("combinedMVABJetTags"));
+	
+	ftree->jet_chargedMultiplicity.push_back(jet.chargedMultiplicity());
+	ftree->jet_neutralMultiplicity.push_back(jet.neutralMultiplicity());
+	ftree->jet_chargedHadronMultiplicity.push_back(jet.chargedHadronMultiplicity());
+	
+	ftree->jet_jecFactorUncorrected.push_back(jet.jecFactor("Uncorrected"));
+	ftree->jet_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
+	ftree->jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
+	ftree->jet_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
 	
 	ftree->jet_ntrk.push_back(jet.associatedTracks().size());
 
