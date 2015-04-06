@@ -47,6 +47,10 @@ class FlatTree
    float pv_x;
    float pv_y;
    float pv_z;
+   
+   int pv_ndof;
+   float pv_rho;
+   int pv_isFake;
 
    float mc_weight;
    int mc_id;
@@ -149,6 +153,7 @@ class FlatTree
    std::vector<float> el_IoEmIoP;
    std::vector<float> el_eleEoPout;
    std::vector<float> el_PreShowerOverRaw;
+   std::vector<float> el_ecalEnergy;
 
    std::vector<float> el_mvaNonTrigV0;
 
@@ -202,6 +207,11 @@ class FlatTree
    std::vector<float> mu_pfIso03_sumPhotonEt;
    std::vector<float> mu_pfIso03_sumPUPt;
 
+   std::vector<float> mu_pfIso04_sumChargedHadronPt;
+   std::vector<float> mu_pfIso04_sumNeutralHadronEt;
+   std::vector<float> mu_pfIso04_sumPhotonEt;
+   std::vector<float> mu_pfIso04_sumPUPt;
+   
    std::vector<float> mu_miniIso;
 
    std::vector<int> mu_isGlobalMuon;
@@ -216,27 +226,35 @@ class FlatTree
 
    std::vector<bool> mu_isTightMuon;
 
+   std::vector<int> mu_hasTrack;
+   std::vector<int> mu_track_trackerLayersWithMeasurement;
+   
    std::vector<int> mu_hasGlobalTrack;
    std::vector<float> mu_globalTrack_dxy;
    std::vector<float> mu_globalTrack_dz;
    std::vector<float> mu_globalTrack_dxyError;
-   std::vector<float> mu_globalTrack_dzError;
+   std::vector<float> mu_globalTrack_dzError;   
+   std::vector<float> mu_globalTrack_normalizedChi2;
 
    std::vector<int> mu_hasInnerTrack;
    std::vector<float> mu_innerTrack_dxy;
    std::vector<float> mu_innerTrack_dz;
    std::vector<float> mu_innerTrack_dxyError;
    std::vector<float> mu_innerTrack_dzError;
+   std::vector<float> mu_innerTrack_normalizedChi2;
 
    std::vector<float> mu_bestTrack_dxy;
    std::vector<float> mu_bestTrack_dz;
    std::vector<float> mu_bestTrack_dxyError;
    std::vector<float> mu_bestTrack_dzError;
+   std::vector<float> mu_bestTrack_normalizedChi2;
 
    std::vector<float> mu_innerTrack_pt;
    std::vector<float> mu_innerTrack_ptError;
+   std::vector<int> mu_innerTrack_numberOfValidPixelHits;
 
    std::vector<int> mu_numberOfMatches;
+   std::vector<int> mu_numberOfMatchedStations;
    std::vector<int> mu_numberOfValidMuonHits;
 
    std::vector<float> mu_lepMVA;
@@ -345,6 +363,15 @@ class FlatTree
    std::vector<float> jet_muonEnergy;
    std::vector<float> jet_photonEnergy;
 
+   std::vector<int> jet_chargedMultiplicity;
+   std::vector<int> jet_neutralMultiplicity;
+   std::vector<int> jet_chargedHadronMultiplicity;
+   
+   std::vector<float> jet_jecFactorUncorrected;
+   std::vector<float> jet_jecFactorL1FastJet;
+   std::vector<float> jet_jecFactorL2Relative;
+   std::vector<float> jet_jecFactorL3Absolute;
+   
    std::vector<float> jet_pileupJetId;
 
    std::vector<float> jet_gen_pt;
