@@ -21,6 +21,10 @@ void FlatTree::Init()
    pv_y = DEFVAL;
    pv_z = DEFVAL;
 
+   pv_ndof = DEFVAL;
+   pv_rho = DEFVAL;
+   pv_isFake = DEFVAL;
+   
    mc_weight = DEFVAL;
    mc_id = DEFVAL;
    mc_f1 = DEFVAL;
@@ -125,6 +129,7 @@ void FlatTree::Init()
    el_IoEmIoP.clear();
    el_eleEoPout.clear();
    el_PreShowerOverRaw.clear();
+   el_ecalEnergy.clear();
 
    el_mvaNonTrigV0.clear();
 
@@ -176,6 +181,11 @@ void FlatTree::Init()
    mu_pfIso03_sumPhotonEt.clear();
    mu_pfIso03_sumPUPt.clear();
 
+   mu_pfIso04_sumChargedHadronPt.clear();
+   mu_pfIso04_sumNeutralHadronEt.clear();
+   mu_pfIso04_sumPhotonEt.clear();
+   mu_pfIso04_sumPUPt.clear();
+   
    mu_miniIso.clear();
 
    mu_isGlobalMuon.clear();
@@ -190,27 +200,35 @@ void FlatTree::Init()
 
    mu_isTightMuon.clear();
 
+   mu_hasTrack.clear();
+   mu_track_trackerLayersWithMeasurement.clear();
+   
    mu_hasGlobalTrack.clear();
    mu_globalTrack_dxy.clear();
    mu_globalTrack_dz.clear();
    mu_globalTrack_dxyError.clear();
-   mu_globalTrack_dzError.clear();
+   mu_globalTrack_dzError.clear();  
+   mu_globalTrack_normalizedChi2.clear();
 
    mu_hasInnerTrack.clear();
    mu_innerTrack_dxy.clear();
    mu_innerTrack_dz.clear();
    mu_innerTrack_dxyError.clear();
    mu_innerTrack_dzError.clear();
+   mu_innerTrack_normalizedChi2.clear();
 
    mu_bestTrack_dxy.clear();
    mu_bestTrack_dz.clear();
    mu_bestTrack_dxyError.clear();
    mu_bestTrack_dzError.clear();
+   mu_bestTrack_normalizedChi2.clear();
 
    mu_innerTrack_pt.clear();
    mu_innerTrack_ptError.clear();
+   mu_innerTrack_numberOfValidPixelHits.clear();
 
    mu_numberOfMatches.clear();
+   mu_numberOfMatchedStations.clear();
    mu_numberOfValidMuonHits.clear();
 
    mu_lepMVA.clear();
@@ -315,6 +333,15 @@ void FlatTree::Init()
    jet_muonEnergy.clear();
    jet_photonEnergy.clear();
 
+   jet_chargedMultiplicity.clear();
+   jet_neutralMultiplicity.clear();
+   jet_chargedHadronMultiplicity.clear();
+   
+   jet_jecFactorUncorrected.clear();
+   jet_jecFactorL1FastJet.clear();
+   jet_jecFactorL2Relative.clear();
+   jet_jecFactorL3Absolute.clear();
+   
    jet_pileupJetId.clear();
 
    jet_gen_pt.clear();
@@ -329,93 +356,96 @@ void FlatTree::Init()
 
 void FlatTree::CreateBranches(int buffersize = 32000)
 {
-  if( doWrite("ev_run") ) tree->Branch("ev_run", &ev_run, "ev_run/I", buffersize);
-  if( doWrite("ev_id") ) tree->Branch("ev_id", &ev_id, "ev_id/I", buffersize);
-  if( doWrite("ev_lumi") ) tree->Branch("ev_lumi", &ev_lumi, "ev_lumi/I", buffersize);
-  if( doWrite("ev_rho") ) tree->Branch("ev_rho", &ev_rho, "ev_rho/F", buffersize);
+   if( doWrite("ev_run") ) tree->Branch("ev_run", &ev_run, "ev_run/I", buffersize);
+   if( doWrite("ev_id") ) tree->Branch("ev_id", &ev_id, "ev_id/I", buffersize);
+   if( doWrite("ev_lumi") ) tree->Branch("ev_lumi", &ev_lumi, "ev_lumi/I", buffersize);
+   if( doWrite("ev_rho") ) tree->Branch("ev_rho", &ev_rho, "ev_rho/F", buffersize);
+   
+   if( doWrite("met_pt") ) tree->Branch("met_pt", &met_pt, "met_pt/F", buffersize);
+   if( doWrite("met_phi") ) tree->Branch("met_phi", &met_phi, "met_phi/F", buffersize);
+   if( doWrite("met_sumet") ) tree->Branch("met_sumet", &met_sumet, "met_sumet/F", buffersize);
+   
+   if( doWrite("pv_x") ) tree->Branch("pv_x", &pv_x, "pv_x/F", buffersize);
+   if( doWrite("pv_y") ) tree->Branch("pv_y", &pv_y, "pv_y/F", buffersize);
+   if( doWrite("pv_z") ) tree->Branch("pv_z", &pv_z, "pv_z/F", buffersize);
+   
+   if( doWrite("pv_ndof") ) tree->Branch("pv_ndof", &pv_ndof, "pv_ndof/I", buffersize);
+   if( doWrite("pv_rho") ) tree->Branch("pv_rho", &pv_rho, "pv_rho/F", buffersize);
+   if( doWrite("pv_isFake") ) tree->Branch("pv_isFake", &pv_isFake, "pv_isFake/I", buffersize);
 
-  if( doWrite("met_pt") ) tree->Branch("met_pt", &met_pt, "met_pt/F", buffersize);
-  if( doWrite("met_phi") ) tree->Branch("met_phi", &met_phi, "met_phi/F", buffersize);
-  if( doWrite("met_sumet") ) tree->Branch("met_sumet", &met_sumet, "met_sumet/F", buffersize);
+   if( doWrite("mc_weight") ) tree->Branch("mc_weight", &mc_weight, "mc_weight/F", buffersize);
+   if( doWrite("mc_id") ) tree->Branch("mc_id", &mc_id, "mc_id/I", buffersize);
+   if( doWrite("mc_f1") ) tree->Branch("mc_f1", &mc_f1, "mc_f1/I", buffersize);
+   if( doWrite("mc_f2") ) tree->Branch("mc_f2", &mc_f2, "mc_f2/I", buffersize);
+   if( doWrite("mc_x1") ) tree->Branch("mc_x1", &mc_x1, "mc_x1/F", buffersize);
+   if( doWrite("mc_x2") ) tree->Branch("mc_x2", &mc_x2, "mc_x2/F", buffersize);
+   if( doWrite("mc_scale") ) tree->Branch("mc_scale", &mc_scale, "mc_scale/F", buffersize);
+   if( doWrite("mc_ptHat") ) tree->Branch("mc_ptHat", &mc_ptHat, "mc_ptHat/F", buffersize);
+   
+   if( doWrite("mc_pu_intime_NumInt") ) tree->Branch("mc_pu_intime_NumInt", &mc_pu_intime_NumInt, "mc_pu_intime_NumInt/I", buffersize);
+   if( doWrite("mc_pu_trueNumInt") ) tree->Branch("mc_pu_trueNumInt", &mc_pu_trueNumInt, "mc_pu_trueNumInt/I", buffersize);
+   if( doWrite("mc_pu_before_npu") ) tree->Branch("mc_pu_before_npu", &mc_pu_before_npu, "mc_pu_before_npu/I", buffersize);
+   if( doWrite("mc_pu_after_npu") ) tree->Branch("mc_pu_after_npu", &mc_pu_after_npu, "mc_pu_after_npu/I", buffersize);
+   
+   if( doWrite("mc_pu_Npvi") ) tree->Branch("mc_pu_Npvi", &mc_pu_Npvi, "mc_pu_Npvi/I", buffersize);
+   if( doWrite("mc_pu_Nzpositions") ) tree->Branch("mc_pu_Nzpositions", "std::vector<int>", &mc_pu_Nzpositions, buffersize);
+   if( doWrite("mc_pu_BunchCrossing") ) tree->Branch("mc_pu_BunchCrossing", "std::vector<int>", &mc_pu_BunchCrossing, buffersize );
+   if( doWrite("mc_pu_zpositions") ) tree->Branch("mc_pu_zpositions", "std::vector<std::vector<float> >", &mc_pu_zpositions, buffersize);
+   if( doWrite("mc_pu_sumpT_lowpT") ) tree->Branch("mc_pu_sumpT_lowpT", "std::vector<std::vector<float> >", &mc_pu_sumpT_lowpT, buffersize);
+   if( doWrite("mc_pu_sumpT_highpT") ) tree->Branch("mc_pu_sumpT_highpT", "std::vector<std::vector<float> >", &mc_pu_sumpT_highpT, buffersize);
+   if( doWrite("mc_pu_ntrks_lowpT") ) tree->Branch("mc_pu_ntrks_lowpT", "std::vector<std::vector<int> >", &mc_pu_ntrks_lowpT, buffersize);
+   if( doWrite("mc_pu_ntrks_highpT") ) tree->Branch("mc_pu_ntrks_highpT", "std::vector<std::vector<int> >", &mc_pu_ntrks_highpT, buffersize);
+   
+   if( doWrite("el_n") ) tree->Branch("el_n", &el_n, "el_n/I", buffersize);
+   if( doWrite("el_pt") ) tree->Branch("el_pt", "std::vector<float>", &el_pt, buffersize);
+   if( doWrite("el_eta") ) tree->Branch("el_eta", "std::vector<float>", &el_eta, buffersize);
+   if( doWrite("el_phi") ) tree->Branch("el_phi", "std::vector<float>", &el_phi, buffersize);
+   if( doWrite("el_m") ) tree->Branch("el_m", "std::vector<float>", &el_m, buffersize);
+   if( doWrite("el_E") ) tree->Branch("el_E", "std::vector<float>", &el_E, buffersize);
+   if( doWrite("el_id") ) tree->Branch("el_id", "std::vector<int>", &el_id, buffersize);
+   if( doWrite("el_charge") ) tree->Branch("el_charge", "std::vector<int>", &el_charge, buffersize);
+   
+   if( doWrite("el_scleta") ) tree->Branch("el_scleta", "std::vector<float>", &el_scleta, buffersize);
+   if( doWrite("el_passConversionVeto") ) tree->Branch("el_passConversionVeto", "std::vector<int>", &el_passConversionVeto, buffersize);   
 
-  if( doWrite("pv_x") ) tree->Branch("pv_x", &pv_x, "pv_x/F", buffersize);
-  if( doWrite("pv_y") ) tree->Branch("pv_y", &pv_y, "pv_y/F", buffersize);
-  if( doWrite("pv_z") ) tree->Branch("pv_z", &pv_z, "pv_z/F", buffersize);
-
-  if( doWrite("mc_weight") ) tree->Branch("mc_weight", &mc_weight, "mc_weight/F", buffersize);
-  if( doWrite("mc_id") ) tree->Branch("mc_id", &mc_id, "mc_id/I", buffersize);
-  if( doWrite("mc_f1") ) tree->Branch("mc_f1", &mc_f1, "mc_f1/I", buffersize);
-  if( doWrite("mc_f2") ) tree->Branch("mc_f2", &mc_f2, "mc_f2/I", buffersize);
-  if( doWrite("mc_x1") ) tree->Branch("mc_x1", &mc_x1, "mc_x1/F", buffersize);
-  if( doWrite("mc_x2") ) tree->Branch("mc_x2", &mc_x2, "mc_x2/F", buffersize);
-  if( doWrite("mc_scale") ) tree->Branch("mc_scale", &mc_scale, "mc_scale/F", buffersize);
-  if( doWrite("mc_ptHat") ) tree->Branch("mc_ptHat", &mc_ptHat, "mc_ptHat/F", buffersize);
-
-  if( doWrite("mc_pu_intime_NumInt") ) tree->Branch("mc_pu_intime_NumInt", &mc_pu_intime_NumInt, "mc_pu_intime_NumInt/I", buffersize);
-  if( doWrite("mc_pu_trueNumInt") ) tree->Branch("mc_pu_trueNumInt", &mc_pu_trueNumInt, "mc_pu_trueNumInt/I", buffersize);
-  if( doWrite("mc_pu_before_npu") ) tree->Branch("mc_pu_before_npu", &mc_pu_before_npu, "mc_pu_before_npu/I", buffersize);
-  if( doWrite("mc_pu_after_npu") ) tree->Branch("mc_pu_after_npu", &mc_pu_after_npu, "mc_pu_after_npu/I", buffersize);
-
-  if( doWrite("mc_pu_Npvi") ) tree->Branch("mc_pu_Npvi", &mc_pu_Npvi, "mc_pu_Npvi/I", buffersize);
-  if( doWrite("mc_pu_Nzpositions") ) tree->Branch("mc_pu_Nzpositions", "std::vector<int>", &mc_pu_Nzpositions, buffersize);
-  if( doWrite("mc_pu_BunchCrossing") ) tree->Branch("mc_pu_BunchCrossing", "std::vector<int>", &mc_pu_BunchCrossing, buffersize );
-  if( doWrite("mc_pu_zpositions") ) tree->Branch("mc_pu_zpositions", "std::vector<std::vector<float> >", &mc_pu_zpositions, buffersize);
-  if( doWrite("mc_pu_sumpT_lowpT") ) tree->Branch("mc_pu_sumpT_lowpT", "std::vector<std::vector<float> >", &mc_pu_sumpT_lowpT, buffersize);
-  if( doWrite("mc_pu_sumpT_highpT") ) tree->Branch("mc_pu_sumpT_highpT", "std::vector<std::vector<float> >", &mc_pu_sumpT_highpT, buffersize);
-  if( doWrite("mc_pu_ntrks_lowpT") ) tree->Branch("mc_pu_ntrks_lowpT", "std::vector<std::vector<int> >", &mc_pu_ntrks_lowpT, buffersize);
-  if( doWrite("mc_pu_ntrks_highpT") ) tree->Branch("mc_pu_ntrks_highpT", "std::vector<std::vector<int> >", &mc_pu_ntrks_highpT, buffersize);
-
-  if( doWrite("el_n") ) tree->Branch("el_n", &el_n, "el_n/I", buffersize);
-  if( doWrite("el_pt") ) tree->Branch("el_pt", "std::vector<float>", &el_pt, buffersize);
-  if( doWrite("el_eta") ) tree->Branch("el_eta", "std::vector<float>", &el_eta, buffersize);
-  if( doWrite("el_phi") ) tree->Branch("el_phi", "std::vector<float>", &el_phi, buffersize);
-  if( doWrite("el_m") ) tree->Branch("el_m", "std::vector<float>", &el_m, buffersize);
-  if( doWrite("el_E") ) tree->Branch("el_E", "std::vector<float>", &el_E, buffersize);
-  if( doWrite("el_id") ) tree->Branch("el_id", "std::vector<int>", &el_id, buffersize);
-  if( doWrite("el_charge") ) tree->Branch("el_charge", "std::vector<int>", &el_charge, buffersize);
-
-  if( doWrite("el_scleta") ) tree->Branch("el_scleta", "std::vector<float>", &el_scleta, buffersize);
-  if( doWrite("el_passConversionVeto") ) tree->Branch("el_passConversionVeto", "std::vector<int>", &el_passConversionVeto, buffersize);
-
-
-  if( doWrite("el_isGsfCtfScPixChargeConsistent") ) tree->Branch("el_isGsfCtfScPixChargeConsistent", "std::vector<int>", &el_isGsfCtfScPixChargeConsistent, buffersize);
-  if( doWrite("el_dB3D") ) tree->Branch("el_dB3D", "std::vector<float>", &el_dB3D, buffersize);
-  if( doWrite("el_edB3D") ) tree->Branch("el_edB3D", "std::vector<float>", &el_edB3D, buffersize);
-
-  if( doWrite("el_neutralHadronIso") ) tree->Branch("el_neutralHadronIso", "std::vector<float>", &el_neutralHadronIso, buffersize);
-  if( doWrite("el_chargedHadronIso") ) tree->Branch("el_chargedHadronIso", "std::vector<float>", &el_chargedHadronIso, buffersize);
-  if( doWrite("el_puChargedHadronIso") ) tree->Branch("el_puChargedHadronIso", "std::vector<float>", &el_puChargedHadronIso, buffersize);
-  if( doWrite("el_ecalIso") ) tree->Branch("el_ecalIso", "std::vector<float>", &el_ecalIso, buffersize);
-  if( doWrite("el_hcalIso") ) tree->Branch("el_hcalIso", "std::vector<float>", &el_hcalIso, buffersize);
-  if( doWrite("el_particleIso") ) tree->Branch("el_particleIso", "std::vector<float>", &el_particleIso, buffersize);
-  if( doWrite("el_photonIso") ) tree->Branch("el_photonIso", "std::vector<float>", &el_photonIso, buffersize);
-  if( doWrite("el_trackIso") ) tree->Branch("el_trackIso", "std::vector<float>", &el_trackIso, buffersize);
-
-  if( doWrite("el_pfIso_sumChargedHadronPt") ) tree->Branch("el_pfIso_sumChargedHadronPt", "std::vector<float>", &el_pfIso_sumChargedHadronPt, buffersize);
-  if( doWrite("el_pfIso_sumNeutralHadronEt") ) tree->Branch("el_pfIso_sumNeutralHadronEt", "std::vector<float>", &el_pfIso_sumNeutralHadronEt, buffersize);
-  if( doWrite("el_pfIso_sumPhotonEt") ) tree->Branch("el_pfIso_sumPhotonEt", "std::vector<float>", &el_pfIso_sumPhotonEt, buffersize);
-  if( doWrite("el_pfIso_sumPUPt") ) tree->Branch("el_pfIso_sumPUPt", "std::vector<float>", &el_pfIso_sumPUPt, buffersize);
-
-  if( doWrite("el_miniIso") ) tree->Branch("el_miniIso", "std::vector<float>", &el_miniIso, buffersize);
-
-  if( doWrite("el_isLoose") ) tree->Branch("el_isLoose", "std::vector<int>", &el_isLoose, buffersize);
-  if( doWrite("el_isTight") ) tree->Branch("el_isTight", "std::vector<int>", &el_isTight, buffersize);
-  if( doWrite("el_isRobustLoose") ) tree->Branch("el_isRobustLoose", "std::vector<int>", &el_isRobustLoose, buffersize);
-  if( doWrite("el_isRobustTight") ) tree->Branch("el_isRobustTight", "std::vector<int>", &el_isRobustTight, buffersize);
-  if( doWrite("el_isRobustHighEnergy") ) tree->Branch("el_isRobustHighEnergy", "std::vector<int>", &el_isRobustHighEnergy, buffersize);
-
-  if( doWrite("el_vx") ) tree->Branch("el_vx", "std::vector<float>", &el_vx, buffersize);
-  if( doWrite("el_vy") ) tree->Branch("el_vy", "std::vector<float>", &el_vy, buffersize);
-  if( doWrite("el_vz") ) tree->Branch("el_vz", "std::vector<float>", &el_vz, buffersize);
-
-  if( doWrite("el_isGsf") ) tree->Branch("el_isGsf", "std::vector<bool>", &el_isGsf, buffersize);
-  if( doWrite("el_dxy") ) tree->Branch("el_dxy", "std::vector<float>", &el_dxy, buffersize);
-  if( doWrite("el_dz") ) tree->Branch("el_dz", "std::vector<float>", &el_dz, buffersize);
-  if( doWrite("el_dxyError") ) tree->Branch("el_dxyError", "std::vector<float>", &el_dxyError, buffersize);
-  if( doWrite("el_dzError") ) tree->Branch("el_dzError", "std::vector<float>", &el_dzError, buffersize);
-
-  if( doWrite("el_numberOfHits") ) tree->Branch("el_numberOfHits", "std::vector<int>", &el_numberOfHits, buffersize);
-
+   if( doWrite("el_isGsfCtfScPixChargeConsistent") ) tree->Branch("el_isGsfCtfScPixChargeConsistent", "std::vector<int>", &el_isGsfCtfScPixChargeConsistent, buffersize);
+   if( doWrite("el_dB3D") ) tree->Branch("el_dB3D", "std::vector<float>", &el_dB3D, buffersize);
+   if( doWrite("el_edB3D") ) tree->Branch("el_edB3D", "std::vector<float>", &el_edB3D, buffersize);
+   
+   if( doWrite("el_neutralHadronIso") ) tree->Branch("el_neutralHadronIso", "std::vector<float>", &el_neutralHadronIso, buffersize);
+   if( doWrite("el_chargedHadronIso") ) tree->Branch("el_chargedHadronIso", "std::vector<float>", &el_chargedHadronIso, buffersize);
+   if( doWrite("el_puChargedHadronIso") ) tree->Branch("el_puChargedHadronIso", "std::vector<float>", &el_puChargedHadronIso, buffersize);
+   if( doWrite("el_ecalIso") ) tree->Branch("el_ecalIso", "std::vector<float>", &el_ecalIso, buffersize);
+   if( doWrite("el_hcalIso") ) tree->Branch("el_hcalIso", "std::vector<float>", &el_hcalIso, buffersize);
+   if( doWrite("el_particleIso") ) tree->Branch("el_particleIso", "std::vector<float>", &el_particleIso, buffersize);
+   if( doWrite("el_photonIso") ) tree->Branch("el_photonIso", "std::vector<float>", &el_photonIso, buffersize);
+   if( doWrite("el_trackIso") ) tree->Branch("el_trackIso", "std::vector<float>", &el_trackIso, buffersize);
+   
+   if( doWrite("el_pfIso_sumChargedHadronPt") ) tree->Branch("el_pfIso_sumChargedHadronPt", "std::vector<float>", &el_pfIso_sumChargedHadronPt, buffersize);
+   if( doWrite("el_pfIso_sumNeutralHadronEt") ) tree->Branch("el_pfIso_sumNeutralHadronEt", "std::vector<float>", &el_pfIso_sumNeutralHadronEt, buffersize);
+   if( doWrite("el_pfIso_sumPhotonEt") ) tree->Branch("el_pfIso_sumPhotonEt", "std::vector<float>", &el_pfIso_sumPhotonEt, buffersize);
+   if( doWrite("el_pfIso_sumPUPt") ) tree->Branch("el_pfIso_sumPUPt", "std::vector<float>", &el_pfIso_sumPUPt, buffersize);
+   
+   if( doWrite("el_miniIso") ) tree->Branch("el_miniIso", "std::vector<float>", &el_miniIso, buffersize);
+   
+   if( doWrite("el_isLoose") ) tree->Branch("el_isLoose", "std::vector<int>", &el_isLoose, buffersize);
+   if( doWrite("el_isTight") ) tree->Branch("el_isTight", "std::vector<int>", &el_isTight, buffersize);
+   if( doWrite("el_isRobustLoose") ) tree->Branch("el_isRobustLoose", "std::vector<int>", &el_isRobustLoose, buffersize);
+   if( doWrite("el_isRobustTight") ) tree->Branch("el_isRobustTight", "std::vector<int>", &el_isRobustTight, buffersize);
+   if( doWrite("el_isRobustHighEnergy") ) tree->Branch("el_isRobustHighEnergy", "std::vector<int>", &el_isRobustHighEnergy, buffersize);
+   
+   if( doWrite("el_vx") ) tree->Branch("el_vx", "std::vector<float>", &el_vx, buffersize);
+   if( doWrite("el_vy") ) tree->Branch("el_vy", "std::vector<float>", &el_vy, buffersize);
+   if( doWrite("el_vz") ) tree->Branch("el_vz", "std::vector<float>", &el_vz, buffersize);
+   
+   if( doWrite("el_isGsf") ) tree->Branch("el_isGsf", "std::vector<bool>", &el_isGsf, buffersize);
+   if( doWrite("el_dxy") ) tree->Branch("el_dxy", "std::vector<float>", &el_dxy, buffersize);
+   if( doWrite("el_dz") ) tree->Branch("el_dz", "std::vector<float>", &el_dz, buffersize);
+   if( doWrite("el_dxyError") ) tree->Branch("el_dxyError", "std::vector<float>", &el_dxyError, buffersize);
+   if( doWrite("el_dzError") ) tree->Branch("el_dzError", "std::vector<float>", &el_dzError, buffersize);
+   
+   if( doWrite("el_numberOfHits") ) tree->Branch("el_numberOfHits", "std::vector<int>", &el_numberOfHits, buffersize);
+   
    if( doWrite("el_sigmaIetaIeta") ) tree->Branch("el_sigmaIetaIeta", "std::vector<float>", &el_sigmaIetaIeta, buffersize);
    if( doWrite("el_sigmaIphiIphi") ) tree->Branch("el_sigmaIphiIphi", "std::vector<float>", &el_sigmaIphiIphi, buffersize);
    if( doWrite("el_hadronicOverEm") ) tree->Branch("el_hadronicOverEm", "std::vector<float>", &el_hadronicOverEm, buffersize);
@@ -443,6 +473,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_IoEmIoP") ) tree->Branch("el_IoEmIoP", "std::vector<float>", &el_IoEmIoP, buffersize);
    if( doWrite("el_eleEoPout") ) tree->Branch("el_eleEoPout", "std::vector<float>", &el_eleEoPout, buffersize);
    if( doWrite("el_PreShowerOverRaw") ) tree->Branch("el_PreShowerOverRaw", "std::vector<float>", &el_PreShowerOverRaw, buffersize);
+   if( doWrite("el_ecalEnergy") ) tree->Branch("el_ecalEnergy", "std::vector<float>", &el_ecalEnergy, buffersize);
 
    if( doWrite("el_mvaNonTrigV0") ) tree->Branch("el_mvaNonTrigV0", "std::vector<float>", &el_mvaNonTrigV0, buffersize);
 
@@ -494,6 +525,11 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_pfIso03_sumPhotonEt") ) tree->Branch("mu_pfIso03_sumPhotonEt", "std::vector<float>", &mu_pfIso03_sumPhotonEt, buffersize);
    if( doWrite("mu_pfIso03_sumPUPt") ) tree->Branch("mu_pfIso03_sumPUPt", "std::vector<float>", &mu_pfIso03_sumPUPt, buffersize);
 
+   if( doWrite("mu_pfIso04_sumChargedHadronPt") ) tree->Branch("mu_pfIso04_sumChargedHadronPt", "std::vector<float>", &mu_pfIso04_sumChargedHadronPt, buffersize);
+   if( doWrite("mu_pfIso04_sumNeutralHadronEt") ) tree->Branch("mu_pfIso04_sumNeutralHadronEt", "std::vector<float>", &mu_pfIso04_sumNeutralHadronEt, buffersize);
+   if( doWrite("mu_pfIso04_sumPhotonEt") ) tree->Branch("mu_pfIso04_sumPhotonEt", "std::vector<float>", &mu_pfIso04_sumPhotonEt, buffersize);
+   if( doWrite("mu_pfIso04_sumPUPt") ) tree->Branch("mu_pfIso04_sumPUPt", "std::vector<float>", &mu_pfIso04_sumPUPt, buffersize);
+   
    if( doWrite("mu_miniIso") ) tree->Branch("mu_miniIso", "std::vector<float>", &mu_miniIso, buffersize);
 
    if( doWrite("mu_isGlobalMuon") ) tree->Branch("mu_isGlobalMuon", "std::vector<int>", &mu_isGlobalMuon, buffersize);
@@ -508,27 +544,35 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 
    if( doWrite("mu_isTightMuon") ) tree->Branch("mu_isTightMuon", "std::vector<bool>", &mu_isTightMuon, buffersize);
 
+   if( doWrite("mu_hasTrack") ) tree->Branch("mu_hasTrack", "std::vector<int>", &mu_hasTrack, buffersize);
+   if( doWrite("mu_track_trackerLayersWithMeasurement") ) tree->Branch("mu_track_trackerLayersWithMeasurement", "std::vector<int>", &mu_track_trackerLayersWithMeasurement, buffersize);
+   
    if( doWrite("mu_hasGlobalTrack") ) tree->Branch("mu_hasGlobalTrack", "std::vector<int>", &mu_hasGlobalTrack, buffersize);
    if( doWrite("mu_globalTrack_dxy") ) tree->Branch("mu_globalTrack_dxy", "std::vector<float>", &mu_globalTrack_dxy, buffersize);
    if( doWrite("mu_globalTrack_dz") ) tree->Branch("mu_globalTrack_dz", "std::vector<float>", &mu_globalTrack_dz, buffersize);
    if( doWrite("mu_globalTrack_dxyError") ) tree->Branch("mu_globalTrack_dxyError", "std::vector<float>", &mu_globalTrack_dxyError, buffersize);
-   if( doWrite("mu_globalTrack_dzError") ) tree->Branch("mu_globalTrack_dzError", "std::vector<float>", &mu_globalTrack_dzError, buffersize);
+   if( doWrite("mu_globalTrack_dzError") ) tree->Branch("mu_globalTrack_dzError", "std::vector<float>", &mu_globalTrack_dzError, buffersize);   
+   if( doWrite("mu_globalTrack_normalizedChi2") ) tree->Branch("mu_globalTrack_normalizedChi2", "std::vector<float>", &mu_globalTrack_normalizedChi2, buffersize);
 
    if( doWrite("mu_hasInnerTrack") ) tree->Branch("mu_hasInnerTrack", "std::vector<int>", &mu_hasInnerTrack, buffersize);
    if( doWrite("mu_innerTrack_dxy") ) tree->Branch("mu_innerTrack_dxy", "std::vector<float>", &mu_innerTrack_dxy, buffersize);
    if( doWrite("mu_innerTrack_dz") ) tree->Branch("mu_innerTrack_dz", "std::vector<float>", &mu_innerTrack_dz, buffersize);
    if( doWrite("mu_innerTrack_dxyError") ) tree->Branch("mu_innerTrack_dxyError", "std::vector<float>", &mu_innerTrack_dxyError, buffersize);
    if( doWrite("mu_innerTrack_dzError") ) tree->Branch("mu_innerTrack_dzError", "std::vector<float>", &mu_innerTrack_dzError, buffersize);
+   if( doWrite("mu_innerTrack_normalizedChi2") ) tree->Branch("mu_innerTrack_normalizedChi2", "std::vector<float>", &mu_innerTrack_normalizedChi2, buffersize);
 
    if( doWrite("mu_bestTrack_dxy") ) tree->Branch("mu_bestTrack_dxy", "std::vector<float>", &mu_bestTrack_dxy, buffersize);
    if( doWrite("mu_bestTrack_dz") ) tree->Branch("mu_bestTrack_dz", "std::vector<float>", &mu_bestTrack_dz, buffersize);
    if( doWrite("mu_bestTrack_dxyError") ) tree->Branch("mu_bestTrack_dxyError", "std::vector<float>", &mu_bestTrack_dxyError, buffersize);
    if( doWrite("mu_bestTrack_dzError") ) tree->Branch("mu_bestTrack_dzError", "std::vector<float>", &mu_bestTrack_dzError, buffersize);
+   if( doWrite("mu_bestTrack_normalizedChi2") ) tree->Branch("mu_bestTrack_normalizedChi2", "std::vector<float>", &mu_bestTrack_normalizedChi2, buffersize);
 
    if( doWrite("mu_innerTrack_pt") ) tree->Branch("mu_innerTrack_pt", "std::vector<float>", &mu_innerTrack_pt, buffersize);
    if( doWrite("mu_innerTrack_ptError") ) tree->Branch("mu_innerTrack_ptError", "std::vector<float>", &mu_innerTrack_ptError, buffersize);
+   if( doWrite("mu_innerTrack_numberOfValidPixelHits") ) tree->Branch("mu_innerTrack_numberOfValidPixelHits", "std::vector<int>", &mu_innerTrack_numberOfValidPixelHits, buffersize);
 
    if( doWrite("mu_numberOfMatches") ) tree->Branch("mu_numberOfMatches", "std::vector<int>", &mu_numberOfMatches, buffersize);
+   if( doWrite("mu_numberOfMatchedStations") ) tree->Branch("mu_numberOfMatchedStations", "std::vector<int>", &mu_numberOfMatchedStations, buffersize);
    if( doWrite("mu_numberOfValidMuonHits") ) tree->Branch("mu_numberOfValidMuonHits", "std::vector<int>", &mu_numberOfValidMuonHits, buffersize);
 
    if( doWrite("mu_lepMVA") ) tree->Branch("mu_lepMVA", "std::vector<float>", &mu_lepMVA, buffersize);
@@ -633,6 +677,15 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("jet_muonEnergy") ) tree->Branch("jet_muonEnergy", "std::vector<float>", &jet_muonEnergy, buffersize);
    if( doWrite("jet_photonEnergy") ) tree->Branch("jet_photonEnergy", "std::vector<float>", &jet_photonEnergy, buffersize);
 
+   if( doWrite("jet_chargedMultiplicity") ) tree->Branch("jet_chargedMultiplicity", "std::vector<int>", &jet_chargedMultiplicity, buffersize);
+   if( doWrite("jet_neutralMultiplicity") ) tree->Branch("jet_neutralMultiplicity", "std::vector<int>", &jet_neutralMultiplicity, buffersize);
+   if( doWrite("jet_chargedHadronMultiplicity") ) tree->Branch("jet_chargedHadronMultiplicity", "std::vector<int>", &jet_chargedHadronMultiplicity, buffersize);
+   
+   if( doWrite("jet_jecFactorUncorrected") ) tree->Branch("jet_jecFactorUncorrected", "std::vector<float>", &jet_jecFactorUncorrected, buffersize);
+   if( doWrite("jet_jecFactorL1FastJet") ) tree->Branch("jet_jecFactorL1FastJet", "std::vector<float>", &jet_jecFactorL1FastJet, buffersize);
+   if( doWrite("jet_jecFactorL2Relative") ) tree->Branch("jet_jecFactorL2Relative", "std::vector<float>", &jet_jecFactorL2Relative, buffersize);
+   if( doWrite("jet_jecFactorL3Absolute") ) tree->Branch("jet_jecFactorL3Absolute", "std::vector<float>", &jet_jecFactorL3Absolute, buffersize);
+   
    if( doWrite("jet_pileupJetId") ) tree->Branch("jet_pileupJetId", "std::vector<float>", &jet_pileupJetId, buffersize);
 
    if( doWrite("jet_gen_pt") ) tree->Branch("jet_gen_pt", "std::vector<float>", &jet_gen_pt, buffersize);
