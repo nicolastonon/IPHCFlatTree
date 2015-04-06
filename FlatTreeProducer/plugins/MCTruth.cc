@@ -4413,7 +4413,6 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 			    // h0 -> bbbar
 			    if( fabs(pf->pdgId()) == 5 )
 			      {
-				 std::cout << "b-quark with " << pf->status() << std::endl;
 				 if( h0b1 && !h0b2 ) {h0b2 = pf;}
 				 if( !h0b1 ) {h0b1 = pf;}
 			      }			    
