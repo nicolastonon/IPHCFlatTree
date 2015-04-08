@@ -14,6 +14,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
    std::vector<float> gen_eta;
    std::vector<float> gen_phi;
    std::vector<float> gen_m;
+   std::vector<float> gen_E;
    std::vector<int> gen_id;
    std::vector<int> gen_status;
    std::vector<int> gen_charge;
@@ -32,6 +33,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 	float etaGen = mcp->eta();
 	float phiGen = mcp->phi();
 	float mGen = mcp->mass();
+	float EGen = mcp->energy();
 	int idGen = mcp->pdgId();
 	int statusGen = mcp->status();
 	int chargeGen = mcp->charge();
@@ -91,6 +93,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 	gen_eta.push_back(etaGen);
 	gen_phi.push_back(phiGen);
 	gen_m.push_back(mGen);
+	gen_E.push_back(EGen);
 	gen_id.push_back(idGen);
 	gen_status.push_back(statusGen);
 	gen_charge.push_back(chargeGen);
@@ -106,6 +109,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
    tree.gen_eta = gen_eta;
    tree.gen_phi = gen_phi;
    tree.gen_m = gen_m;
+   tree.gen_E = gen_E;
    tree.gen_status = gen_status;
    tree.gen_id = gen_id;
    tree.gen_charge = gen_charge;
@@ -261,6 +265,390 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_j2_p4.Clear();
    tree.mc_truth_j3_p4.Clear();
 
+   // pt
+
+   tree.mc_truth_h0_pt = DEFVAL;
+
+   tree.mc_truth_h0W1_pt = DEFVAL;
+   tree.mc_truth_h0W2_pt = DEFVAL;
+   tree.mc_truth_h0Wl1_pt = DEFVAL;
+   tree.mc_truth_h0Wnu1_pt = DEFVAL;
+   tree.mc_truth_h0Wtau1_pt = DEFVAL;
+   tree.mc_truth_h0Wnutau1_pt = DEFVAL;
+   tree.mc_truth_h0Wtaul1_pt = DEFVAL;
+   tree.mc_truth_h0Wtaunu1_pt = DEFVAL;
+   tree.mc_truth_h0Wtaunutau1_pt = DEFVAL;
+   tree.mc_truth_h0Wl2_pt = DEFVAL;
+   tree.mc_truth_h0Wnu2_pt = DEFVAL;
+   tree.mc_truth_h0Wtau2_pt = DEFVAL;
+   tree.mc_truth_h0Wnutau2_pt = DEFVAL;
+   tree.mc_truth_h0Wtaul2_pt = DEFVAL;
+   tree.mc_truth_h0Wtaunu2_pt = DEFVAL;
+   tree.mc_truth_h0Wtaunutau2_pt = DEFVAL;
+   tree.mc_truth_h0Wq11_pt = DEFVAL;
+   tree.mc_truth_h0Wq21_pt = DEFVAL;
+   tree.mc_truth_h0Wq12_pt = DEFVAL;
+   tree.mc_truth_h0Wq22_pt = DEFVAL;
+   
+   tree.mc_truth_h0Z1_pt = DEFVAL;
+   tree.mc_truth_h0Z2_pt = DEFVAL;
+   tree.mc_truth_h0Zl11_pt = DEFVAL;
+   tree.mc_truth_h0Zl21_pt = DEFVAL;
+   tree.mc_truth_h0Ztau11_pt = DEFVAL;
+   tree.mc_truth_h0Ztau21_pt = DEFVAL;
+   tree.mc_truth_h0Ztaul11_pt = DEFVAL;
+   tree.mc_truth_h0Ztaul21_pt = DEFVAL;
+   tree.mc_truth_h0Ztaunu11_pt = DEFVAL;
+   tree.mc_truth_h0Ztaunu21_pt = DEFVAL;
+   tree.mc_truth_h0Ztaunutau11_pt = DEFVAL;
+   tree.mc_truth_h0Ztaunutau21_pt = DEFVAL;
+   tree.mc_truth_h0Zq11_pt = DEFVAL;
+   tree.mc_truth_h0Zq21_pt = DEFVAL;
+   tree.mc_truth_h0Zl12_pt = DEFVAL;
+   tree.mc_truth_h0Zl22_pt = DEFVAL;
+   tree.mc_truth_h0Ztau12_pt = DEFVAL;
+   tree.mc_truth_h0Ztau22_pt = DEFVAL;
+   tree.mc_truth_h0Ztaul12_pt = DEFVAL;
+   tree.mc_truth_h0Ztaul22_pt = DEFVAL;
+   tree.mc_truth_h0Ztaunu12_pt = DEFVAL;
+   tree.mc_truth_h0Ztaunu22_pt = DEFVAL;
+   tree.mc_truth_h0Ztaunutau12_pt = DEFVAL;
+   tree.mc_truth_h0Ztaunutau22_pt = DEFVAL;
+   tree.mc_truth_h0Zq12_pt = DEFVAL;
+   tree.mc_truth_h0Zq22_pt = DEFVAL;
+   tree.mc_truth_h0Znu11_pt = DEFVAL;
+   tree.mc_truth_h0Znu21_pt = DEFVAL;
+   tree.mc_truth_h0Znu12_pt = DEFVAL;
+   tree.mc_truth_h0Znu22_pt = DEFVAL;
+   
+   tree.mc_truth_h0tau1_pt = DEFVAL;
+   tree.mc_truth_h0tau2_pt = DEFVAL;
+   tree.mc_truth_h0taul1_pt = DEFVAL;
+   tree.mc_truth_h0taunutau1_pt = DEFVAL;
+   tree.mc_truth_h0taunu1_pt = DEFVAL;
+   tree.mc_truth_h0taul2_pt = DEFVAL;
+   tree.mc_truth_h0taunutau2_pt = DEFVAL;
+   tree.mc_truth_h0taunu2_pt = DEFVAL;
+   
+   tree.mc_truth_t1_pt = DEFVAL;
+   tree.mc_truth_t2_pt = DEFVAL;
+   tree.mc_truth_tb1_pt = DEFVAL;
+   tree.mc_truth_tb2_pt = DEFVAL;
+   
+   tree.mc_truth_tW1_pt = DEFVAL;
+   tree.mc_truth_tWnu1_pt = DEFVAL;
+   tree.mc_truth_tWnutau1_pt = DEFVAL;
+   tree.mc_truth_tWl1_pt = DEFVAL;
+   tree.mc_truth_tWtau1_pt = DEFVAL;
+   tree.mc_truth_tWtaunu1_pt = DEFVAL;
+   tree.mc_truth_tWtaunutau1_pt = DEFVAL;
+   tree.mc_truth_tWtaul1_pt = DEFVAL;
+   tree.mc_truth_tWq11_pt = DEFVAL;
+   tree.mc_truth_tWq21_pt = DEFVAL;
+
+   tree.mc_truth_tW2_pt = DEFVAL;
+   tree.mc_truth_tWnu2_pt = DEFVAL;
+   tree.mc_truth_tWnutau2_pt = DEFVAL;
+   tree.mc_truth_tWl2_pt = DEFVAL;
+   tree.mc_truth_tWtau2_pt = DEFVAL;
+   tree.mc_truth_tWtaunu2_pt = DEFVAL;
+   tree.mc_truth_tWtaunutau2_pt = DEFVAL;
+   tree.mc_truth_tWtaul2_pt = DEFVAL;
+   tree.mc_truth_tWq12_pt = DEFVAL;
+   tree.mc_truth_tWq22_pt = DEFVAL;
+
+   tree.mc_truth_j1_pt = DEFVAL;
+   tree.mc_truth_j2_pt = DEFVAL;
+   tree.mc_truth_j3_pt = DEFVAL;
+   
+   // eta
+
+   tree.mc_truth_h0_eta = DEFVAL;
+
+   tree.mc_truth_h0W1_eta = DEFVAL;
+   tree.mc_truth_h0W2_eta = DEFVAL;
+   tree.mc_truth_h0Wl1_eta = DEFVAL;
+   tree.mc_truth_h0Wnu1_eta = DEFVAL;
+   tree.mc_truth_h0Wtau1_eta = DEFVAL;
+   tree.mc_truth_h0Wnutau1_eta = DEFVAL;
+   tree.mc_truth_h0Wtaul1_eta = DEFVAL;
+   tree.mc_truth_h0Wtaunu1_eta = DEFVAL;
+   tree.mc_truth_h0Wtaunutau1_eta = DEFVAL;
+   tree.mc_truth_h0Wl2_eta = DEFVAL;
+   tree.mc_truth_h0Wnu2_eta = DEFVAL;
+   tree.mc_truth_h0Wtau2_eta = DEFVAL;
+   tree.mc_truth_h0Wnutau2_eta = DEFVAL;
+   tree.mc_truth_h0Wtaul2_eta = DEFVAL;
+   tree.mc_truth_h0Wtaunu2_eta = DEFVAL;
+   tree.mc_truth_h0Wtaunutau2_eta = DEFVAL;
+   tree.mc_truth_h0Wq11_eta = DEFVAL;
+   tree.mc_truth_h0Wq21_eta = DEFVAL;
+   tree.mc_truth_h0Wq12_eta = DEFVAL;
+   tree.mc_truth_h0Wq22_eta = DEFVAL;
+   
+   tree.mc_truth_h0Z1_eta = DEFVAL;
+   tree.mc_truth_h0Z2_eta = DEFVAL;
+   tree.mc_truth_h0Zl11_eta = DEFVAL;
+   tree.mc_truth_h0Zl21_eta = DEFVAL;
+   tree.mc_truth_h0Ztau11_eta = DEFVAL;
+   tree.mc_truth_h0Ztau21_eta = DEFVAL;
+   tree.mc_truth_h0Ztaul11_eta = DEFVAL;
+   tree.mc_truth_h0Ztaul21_eta = DEFVAL;
+   tree.mc_truth_h0Ztaunu11_eta = DEFVAL;
+   tree.mc_truth_h0Ztaunu21_eta = DEFVAL;
+   tree.mc_truth_h0Ztaunutau11_eta = DEFVAL;
+   tree.mc_truth_h0Ztaunutau21_eta = DEFVAL;
+   tree.mc_truth_h0Zq11_eta = DEFVAL;
+   tree.mc_truth_h0Zq21_eta = DEFVAL;
+   tree.mc_truth_h0Zl12_eta = DEFVAL;
+   tree.mc_truth_h0Zl22_eta = DEFVAL;
+   tree.mc_truth_h0Ztau12_eta = DEFVAL;
+   tree.mc_truth_h0Ztau22_eta = DEFVAL;
+   tree.mc_truth_h0Ztaul12_eta = DEFVAL;
+   tree.mc_truth_h0Ztaul22_eta = DEFVAL;
+   tree.mc_truth_h0Ztaunu12_eta = DEFVAL;
+   tree.mc_truth_h0Ztaunu22_eta = DEFVAL;
+   tree.mc_truth_h0Ztaunutau12_eta = DEFVAL;
+   tree.mc_truth_h0Ztaunutau22_eta = DEFVAL;
+   tree.mc_truth_h0Zq12_eta = DEFVAL;
+   tree.mc_truth_h0Zq22_eta = DEFVAL;
+   tree.mc_truth_h0Znu11_eta = DEFVAL;
+   tree.mc_truth_h0Znu21_eta = DEFVAL;
+   tree.mc_truth_h0Znu12_eta = DEFVAL;
+   tree.mc_truth_h0Znu22_eta = DEFVAL;
+   
+   tree.mc_truth_h0tau1_eta = DEFVAL;
+   tree.mc_truth_h0tau2_eta = DEFVAL;
+   tree.mc_truth_h0taul1_eta = DEFVAL;
+   tree.mc_truth_h0taunutau1_eta = DEFVAL;
+   tree.mc_truth_h0taunu1_eta = DEFVAL;
+   tree.mc_truth_h0taul2_eta = DEFVAL;
+   tree.mc_truth_h0taunutau2_eta = DEFVAL;
+   tree.mc_truth_h0taunu2_eta = DEFVAL;
+   
+   tree.mc_truth_t1_eta = DEFVAL;
+   tree.mc_truth_t2_eta = DEFVAL;
+   tree.mc_truth_tb1_eta = DEFVAL;
+   tree.mc_truth_tb2_eta = DEFVAL;
+   
+   tree.mc_truth_tW1_eta = DEFVAL;
+   tree.mc_truth_tWnu1_eta = DEFVAL;
+   tree.mc_truth_tWnutau1_eta = DEFVAL;
+   tree.mc_truth_tWl1_eta = DEFVAL;
+   tree.mc_truth_tWtau1_eta = DEFVAL;
+   tree.mc_truth_tWtaunu1_eta = DEFVAL;
+   tree.mc_truth_tWtaunutau1_eta = DEFVAL;
+   tree.mc_truth_tWtaul1_eta = DEFVAL;
+   tree.mc_truth_tWq11_eta = DEFVAL;
+   tree.mc_truth_tWq21_eta = DEFVAL;
+
+   tree.mc_truth_tW2_eta = DEFVAL;
+   tree.mc_truth_tWnu2_eta = DEFVAL;
+   tree.mc_truth_tWnutau2_eta = DEFVAL;
+   tree.mc_truth_tWl2_eta = DEFVAL;
+   tree.mc_truth_tWtau2_eta = DEFVAL;
+   tree.mc_truth_tWtaunu2_eta = DEFVAL;
+   tree.mc_truth_tWtaunutau2_eta = DEFVAL;
+   tree.mc_truth_tWtaul2_eta = DEFVAL;
+   tree.mc_truth_tWq12_eta = DEFVAL;
+   tree.mc_truth_tWq22_eta = DEFVAL;
+
+   tree.mc_truth_j1_eta = DEFVAL;
+   tree.mc_truth_j2_eta = DEFVAL;
+   tree.mc_truth_j3_eta = DEFVAL;
+   
+   // phi
+   
+   tree.mc_truth_h0_phi = DEFVAL;
+
+   tree.mc_truth_h0W1_phi = DEFVAL;
+   tree.mc_truth_h0W2_phi = DEFVAL;
+   tree.mc_truth_h0Wl1_phi = DEFVAL;
+   tree.mc_truth_h0Wnu1_phi = DEFVAL;
+   tree.mc_truth_h0Wtau1_phi = DEFVAL;
+   tree.mc_truth_h0Wnutau1_phi = DEFVAL;
+   tree.mc_truth_h0Wtaul1_phi = DEFVAL;
+   tree.mc_truth_h0Wtaunu1_phi = DEFVAL;
+   tree.mc_truth_h0Wtaunutau1_phi = DEFVAL;
+   tree.mc_truth_h0Wl2_phi = DEFVAL;
+   tree.mc_truth_h0Wnu2_phi = DEFVAL;
+   tree.mc_truth_h0Wtau2_phi = DEFVAL;
+   tree.mc_truth_h0Wnutau2_phi = DEFVAL;
+   tree.mc_truth_h0Wtaul2_phi = DEFVAL;
+   tree.mc_truth_h0Wtaunu2_phi = DEFVAL;
+   tree.mc_truth_h0Wtaunutau2_phi = DEFVAL;
+   tree.mc_truth_h0Wq11_phi = DEFVAL;
+   tree.mc_truth_h0Wq21_phi = DEFVAL;
+   tree.mc_truth_h0Wq12_phi = DEFVAL;
+   tree.mc_truth_h0Wq22_phi = DEFVAL;
+   
+   tree.mc_truth_h0Z1_phi = DEFVAL;
+   tree.mc_truth_h0Z2_phi = DEFVAL;
+   tree.mc_truth_h0Zl11_phi = DEFVAL;
+   tree.mc_truth_h0Zl21_phi = DEFVAL;
+   tree.mc_truth_h0Ztau11_phi = DEFVAL;
+   tree.mc_truth_h0Ztau21_phi = DEFVAL;
+   tree.mc_truth_h0Ztaul11_phi = DEFVAL;
+   tree.mc_truth_h0Ztaul21_phi = DEFVAL;
+   tree.mc_truth_h0Ztaunu11_phi = DEFVAL;
+   tree.mc_truth_h0Ztaunu21_phi = DEFVAL;
+   tree.mc_truth_h0Ztaunutau11_phi = DEFVAL;
+   tree.mc_truth_h0Ztaunutau21_phi = DEFVAL;
+   tree.mc_truth_h0Zq11_phi = DEFVAL;
+   tree.mc_truth_h0Zq21_phi = DEFVAL;
+   tree.mc_truth_h0Zl12_phi = DEFVAL;
+   tree.mc_truth_h0Zl22_phi = DEFVAL;
+   tree.mc_truth_h0Ztau12_phi = DEFVAL;
+   tree.mc_truth_h0Ztau22_phi = DEFVAL;
+   tree.mc_truth_h0Ztaul12_phi = DEFVAL;
+   tree.mc_truth_h0Ztaul22_phi = DEFVAL;
+   tree.mc_truth_h0Ztaunu12_phi = DEFVAL;
+   tree.mc_truth_h0Ztaunu22_phi = DEFVAL;
+   tree.mc_truth_h0Ztaunutau12_phi = DEFVAL;
+   tree.mc_truth_h0Ztaunutau22_phi = DEFVAL;
+   tree.mc_truth_h0Zq12_phi = DEFVAL;
+   tree.mc_truth_h0Zq22_phi = DEFVAL;
+   tree.mc_truth_h0Znu11_phi = DEFVAL;
+   tree.mc_truth_h0Znu21_phi = DEFVAL;
+   tree.mc_truth_h0Znu12_phi = DEFVAL;
+   tree.mc_truth_h0Znu22_phi = DEFVAL;
+   
+   tree.mc_truth_h0tau1_phi = DEFVAL;
+   tree.mc_truth_h0tau2_phi = DEFVAL;
+   tree.mc_truth_h0taul1_phi = DEFVAL;
+   tree.mc_truth_h0taunutau1_phi = DEFVAL;
+   tree.mc_truth_h0taunu1_phi = DEFVAL;
+   tree.mc_truth_h0taul2_phi = DEFVAL;
+   tree.mc_truth_h0taunutau2_phi = DEFVAL;
+   tree.mc_truth_h0taunu2_phi = DEFVAL;
+   
+   tree.mc_truth_t1_phi = DEFVAL;
+   tree.mc_truth_t2_phi = DEFVAL;
+   tree.mc_truth_tb1_phi = DEFVAL;
+   tree.mc_truth_tb2_phi = DEFVAL;
+   
+   tree.mc_truth_tW1_phi = DEFVAL;
+   tree.mc_truth_tWnu1_phi = DEFVAL;
+   tree.mc_truth_tWnutau1_phi = DEFVAL;
+   tree.mc_truth_tWl1_phi = DEFVAL;
+   tree.mc_truth_tWtau1_phi = DEFVAL;
+   tree.mc_truth_tWtaunu1_phi = DEFVAL;
+   tree.mc_truth_tWtaunutau1_phi = DEFVAL;
+   tree.mc_truth_tWtaul1_phi = DEFVAL;
+   tree.mc_truth_tWq11_phi = DEFVAL;
+   tree.mc_truth_tWq21_phi = DEFVAL;
+
+   tree.mc_truth_tW2_phi = DEFVAL;
+   tree.mc_truth_tWnu2_phi = DEFVAL;
+   tree.mc_truth_tWnutau2_phi = DEFVAL;
+   tree.mc_truth_tWl2_phi = DEFVAL;
+   tree.mc_truth_tWtau2_phi = DEFVAL;
+   tree.mc_truth_tWtaunu2_phi = DEFVAL;
+   tree.mc_truth_tWtaunutau2_phi = DEFVAL;
+   tree.mc_truth_tWtaul2_phi = DEFVAL;
+   tree.mc_truth_tWq12_phi = DEFVAL;
+   tree.mc_truth_tWq22_phi = DEFVAL;
+
+   tree.mc_truth_j1_phi = DEFVAL;
+   tree.mc_truth_j2_phi = DEFVAL;
+   tree.mc_truth_j3_phi = DEFVAL;
+   
+   // E
+   
+   tree.mc_truth_h0_E = DEFVAL;
+
+   tree.mc_truth_h0W1_E = DEFVAL;
+   tree.mc_truth_h0W2_E = DEFVAL;
+   tree.mc_truth_h0Wl1_E = DEFVAL;
+   tree.mc_truth_h0Wnu1_E = DEFVAL;
+   tree.mc_truth_h0Wtau1_E = DEFVAL;
+   tree.mc_truth_h0Wnutau1_E = DEFVAL;
+   tree.mc_truth_h0Wtaul1_E = DEFVAL;
+   tree.mc_truth_h0Wtaunu1_E = DEFVAL;
+   tree.mc_truth_h0Wtaunutau1_E = DEFVAL;
+   tree.mc_truth_h0Wl2_E = DEFVAL;
+   tree.mc_truth_h0Wnu2_E = DEFVAL;
+   tree.mc_truth_h0Wtau2_E = DEFVAL;
+   tree.mc_truth_h0Wnutau2_E = DEFVAL;
+   tree.mc_truth_h0Wtaul2_E = DEFVAL;
+   tree.mc_truth_h0Wtaunu2_E = DEFVAL;
+   tree.mc_truth_h0Wtaunutau2_E = DEFVAL;
+   tree.mc_truth_h0Wq11_E = DEFVAL;
+   tree.mc_truth_h0Wq21_E = DEFVAL;
+   tree.mc_truth_h0Wq12_E = DEFVAL;
+   tree.mc_truth_h0Wq22_E = DEFVAL;
+  
+   tree.mc_truth_h0Z1_E = DEFVAL;
+   tree.mc_truth_h0Z2_E = DEFVAL;
+   tree.mc_truth_h0Zl11_E = DEFVAL;
+   tree.mc_truth_h0Zl21_E = DEFVAL;
+   tree.mc_truth_h0Ztau11_E = DEFVAL;
+   tree.mc_truth_h0Ztau21_E = DEFVAL;
+   tree.mc_truth_h0Ztaul11_E = DEFVAL;
+   tree.mc_truth_h0Ztaul21_E = DEFVAL;
+   tree.mc_truth_h0Ztaunu11_E = DEFVAL;
+   tree.mc_truth_h0Ztaunu21_E = DEFVAL;
+   tree.mc_truth_h0Ztaunutau11_E = DEFVAL;
+   tree.mc_truth_h0Ztaunutau21_E = DEFVAL;
+   tree.mc_truth_h0Zq11_E = DEFVAL;
+   tree.mc_truth_h0Zq21_E = DEFVAL;
+   tree.mc_truth_h0Zl12_E = DEFVAL;
+   tree.mc_truth_h0Zl22_E = DEFVAL;
+   tree.mc_truth_h0Ztau12_E = DEFVAL;
+   tree.mc_truth_h0Ztau22_E = DEFVAL;
+   tree.mc_truth_h0Ztaul12_E = DEFVAL;
+   tree.mc_truth_h0Ztaul22_E = DEFVAL;
+   tree.mc_truth_h0Ztaunu12_E = DEFVAL;
+   tree.mc_truth_h0Ztaunu22_E = DEFVAL;
+   tree.mc_truth_h0Ztaunutau12_E = DEFVAL;
+   tree.mc_truth_h0Ztaunutau22_E = DEFVAL;
+   tree.mc_truth_h0Zq12_E = DEFVAL;
+   tree.mc_truth_h0Zq22_E = DEFVAL;
+   tree.mc_truth_h0Znu11_E = DEFVAL;
+   tree.mc_truth_h0Znu21_E = DEFVAL;
+   tree.mc_truth_h0Znu12_E = DEFVAL;
+   tree.mc_truth_h0Znu22_E = DEFVAL;
+   
+   tree.mc_truth_h0tau1_E = DEFVAL;
+   tree.mc_truth_h0tau2_E = DEFVAL;
+   tree.mc_truth_h0taul1_E = DEFVAL;
+   tree.mc_truth_h0taunutau1_E = DEFVAL;
+   tree.mc_truth_h0taunu1_E = DEFVAL;
+   tree.mc_truth_h0taul2_E = DEFVAL;
+   tree.mc_truth_h0taunutau2_E = DEFVAL;
+   tree.mc_truth_h0taunu2_E = DEFVAL;
+   
+   tree.mc_truth_t1_E = DEFVAL;
+   tree.mc_truth_t2_E = DEFVAL;
+   tree.mc_truth_tb1_E = DEFVAL;
+   tree.mc_truth_tb2_E = DEFVAL;
+   
+   tree.mc_truth_tW1_E = DEFVAL;
+   tree.mc_truth_tWnu1_E = DEFVAL;
+   tree.mc_truth_tWnutau1_E = DEFVAL;
+   tree.mc_truth_tWl1_E = DEFVAL;
+   tree.mc_truth_tWtau1_E = DEFVAL;
+   tree.mc_truth_tWtaunu1_E = DEFVAL;
+   tree.mc_truth_tWtaunutau1_E = DEFVAL;
+   tree.mc_truth_tWtaul1_E = DEFVAL;
+   tree.mc_truth_tWq11_E = DEFVAL;
+   tree.mc_truth_tWq21_E = DEFVAL;
+
+   tree.mc_truth_tW2_E = DEFVAL;
+   tree.mc_truth_tWnu2_E = DEFVAL;
+   tree.mc_truth_tWnutau2_E = DEFVAL;
+   tree.mc_truth_tWl2_E = DEFVAL;
+   tree.mc_truth_tWtau2_E = DEFVAL;
+   tree.mc_truth_tWtaunu2_E = DEFVAL;
+   tree.mc_truth_tWtaunutau2_E = DEFVAL;
+   tree.mc_truth_tWtaul2_E = DEFVAL;
+   tree.mc_truth_tWq12_E = DEFVAL;
+   tree.mc_truth_tWq22_E = DEFVAL;
+
+   tree.mc_truth_j1_E = DEFVAL;
+   tree.mc_truth_j2_E = DEFVAL;
+   tree.mc_truth_j3_E = DEFVAL;
+   
    // pdgId
    
    tree.mc_truth_h0_id = DEFVAL;
@@ -499,6 +887,166 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_tWq1_p4.Clear();
    tree.mc_truth_tWq2_p4.Clear();
 
+   // pt
+
+   tree.mc_truth_Z_pt = DEFVAL;
+   tree.mc_truth_Zl1_pt = DEFVAL;
+   tree.mc_truth_Zl2_pt = DEFVAL;
+   tree.mc_truth_Ztau1_pt = DEFVAL;
+   tree.mc_truth_Ztau2_pt = DEFVAL;
+   tree.mc_truth_Ztaul1_pt = DEFVAL;
+   tree.mc_truth_Ztaul2_pt = DEFVAL;
+   tree.mc_truth_Ztaunu1_pt = DEFVAL;
+   tree.mc_truth_Ztaunu2_pt = DEFVAL;
+   tree.mc_truth_Ztaunutau1_pt = DEFVAL;
+   tree.mc_truth_Ztaunutau2_pt = DEFVAL;
+   tree.mc_truth_Zq1_pt = DEFVAL;
+   tree.mc_truth_Zq2_pt = DEFVAL;
+
+   tree.mc_truth_W_pt = DEFVAL;
+   tree.mc_truth_Wl_pt = DEFVAL;
+   tree.mc_truth_Wnu_pt = DEFVAL;
+   tree.mc_truth_Wtau_pt = DEFVAL;
+   tree.mc_truth_Wtaunu_pt = DEFVAL;
+   tree.mc_truth_Wtaunutau_pt = DEFVAL;
+   tree.mc_truth_Wtaul_pt = DEFVAL;
+   tree.mc_truth_Wnutau_pt = DEFVAL;
+   tree.mc_truth_Wq1_pt = DEFVAL;
+   tree.mc_truth_Wq2_pt = DEFVAL;
+   
+   tree.mc_truth_t_pt = DEFVAL;
+   tree.mc_truth_tb_pt = DEFVAL;
+   tree.mc_truth_tW_pt = DEFVAL;
+   tree.mc_truth_tWnu_pt = DEFVAL;
+   tree.mc_truth_tWnutau_pt = DEFVAL;
+   tree.mc_truth_tWl_pt = DEFVAL;
+   tree.mc_truth_tWtau_pt = DEFVAL;
+   tree.mc_truth_tWtaunu_pt = DEFVAL;
+   tree.mc_truth_tWtaunutau_pt = DEFVAL;
+   tree.mc_truth_tWtaul_pt = DEFVAL;
+   tree.mc_truth_tWq1_pt = DEFVAL;
+   tree.mc_truth_tWq2_pt = DEFVAL;
+   
+   // eta
+
+   tree.mc_truth_Z_eta = DEFVAL;
+   tree.mc_truth_Zl1_eta = DEFVAL;
+   tree.mc_truth_Zl2_eta = DEFVAL;
+   tree.mc_truth_Ztau1_eta = DEFVAL;
+   tree.mc_truth_Ztau2_eta = DEFVAL;
+   tree.mc_truth_Ztaul1_eta = DEFVAL;
+   tree.mc_truth_Ztaul2_eta = DEFVAL;
+   tree.mc_truth_Ztaunu1_eta = DEFVAL;
+   tree.mc_truth_Ztaunu2_eta = DEFVAL;
+   tree.mc_truth_Ztaunutau1_eta = DEFVAL;
+   tree.mc_truth_Ztaunutau2_eta = DEFVAL;
+   tree.mc_truth_Zq1_eta = DEFVAL;
+   tree.mc_truth_Zq2_eta = DEFVAL;
+
+   tree.mc_truth_W_eta = DEFVAL;
+   tree.mc_truth_Wl_eta = DEFVAL;
+   tree.mc_truth_Wnu_eta = DEFVAL;
+   tree.mc_truth_Wtau_eta = DEFVAL;
+   tree.mc_truth_Wtaunu_eta = DEFVAL;
+   tree.mc_truth_Wtaunutau_eta = DEFVAL;
+   tree.mc_truth_Wtaul_eta = DEFVAL;
+   tree.mc_truth_Wnutau_eta = DEFVAL;
+   tree.mc_truth_Wq1_eta = DEFVAL;
+   tree.mc_truth_Wq2_eta = DEFVAL;
+   
+   tree.mc_truth_t_eta = DEFVAL;
+   tree.mc_truth_tb_eta = DEFVAL;
+   tree.mc_truth_tW_eta = DEFVAL;
+   tree.mc_truth_tWnu_eta = DEFVAL;
+   tree.mc_truth_tWnutau_eta = DEFVAL;
+   tree.mc_truth_tWl_eta = DEFVAL;
+   tree.mc_truth_tWtau_eta = DEFVAL;
+   tree.mc_truth_tWtaunu_eta = DEFVAL;
+   tree.mc_truth_tWtaunutau_eta = DEFVAL;
+   tree.mc_truth_tWtaul_eta = DEFVAL;
+   tree.mc_truth_tWq1_eta = DEFVAL;
+   tree.mc_truth_tWq2_eta = DEFVAL;
+   
+   // phi
+
+   tree.mc_truth_Z_phi = DEFVAL;
+   tree.mc_truth_Zl1_phi = DEFVAL;
+   tree.mc_truth_Zl2_phi = DEFVAL;
+   tree.mc_truth_Ztau1_phi = DEFVAL;
+   tree.mc_truth_Ztau2_phi = DEFVAL;
+   tree.mc_truth_Ztaul1_phi = DEFVAL;
+   tree.mc_truth_Ztaul2_phi = DEFVAL;
+   tree.mc_truth_Ztaunu1_phi = DEFVAL;
+   tree.mc_truth_Ztaunu2_phi = DEFVAL;
+   tree.mc_truth_Ztaunutau1_phi = DEFVAL;
+   tree.mc_truth_Ztaunutau2_phi = DEFVAL;
+   tree.mc_truth_Zq1_phi = DEFVAL;
+   tree.mc_truth_Zq2_phi = DEFVAL;
+
+   tree.mc_truth_W_phi = DEFVAL;
+   tree.mc_truth_Wl_phi = DEFVAL;
+   tree.mc_truth_Wnu_phi = DEFVAL;
+   tree.mc_truth_Wtau_phi = DEFVAL;
+   tree.mc_truth_Wtaunu_phi = DEFVAL;
+   tree.mc_truth_Wtaunutau_phi = DEFVAL;
+   tree.mc_truth_Wtaul_phi = DEFVAL;
+   tree.mc_truth_Wnutau_phi = DEFVAL;
+   tree.mc_truth_Wq1_phi = DEFVAL;
+   tree.mc_truth_Wq2_phi = DEFVAL;
+   
+   tree.mc_truth_t_phi = DEFVAL;
+   tree.mc_truth_tb_phi = DEFVAL;
+   tree.mc_truth_tW_phi = DEFVAL;
+   tree.mc_truth_tWnu_phi = DEFVAL;
+   tree.mc_truth_tWnutau_phi = DEFVAL;
+   tree.mc_truth_tWl_phi = DEFVAL;
+   tree.mc_truth_tWtau_phi = DEFVAL;
+   tree.mc_truth_tWtaunu_phi = DEFVAL;
+   tree.mc_truth_tWtaunutau_phi = DEFVAL;
+   tree.mc_truth_tWtaul_phi = DEFVAL;
+   tree.mc_truth_tWq1_phi = DEFVAL;
+   tree.mc_truth_tWq2_phi = DEFVAL;
+   
+   // E
+
+   tree.mc_truth_Z_E = DEFVAL;
+   tree.mc_truth_Zl1_E = DEFVAL;
+   tree.mc_truth_Zl2_E = DEFVAL;
+   tree.mc_truth_Ztau1_E = DEFVAL;
+   tree.mc_truth_Ztau2_E = DEFVAL;
+   tree.mc_truth_Ztaul1_E = DEFVAL;
+   tree.mc_truth_Ztaul2_E = DEFVAL;
+   tree.mc_truth_Ztaunu1_E = DEFVAL;
+   tree.mc_truth_Ztaunu2_E = DEFVAL;
+   tree.mc_truth_Ztaunutau1_E = DEFVAL;
+   tree.mc_truth_Ztaunutau2_E = DEFVAL;
+   tree.mc_truth_Zq1_E = DEFVAL;
+   tree.mc_truth_Zq2_E = DEFVAL;
+
+   tree.mc_truth_W_E = DEFVAL;
+   tree.mc_truth_Wl_E = DEFVAL;
+   tree.mc_truth_Wnu_E = DEFVAL;
+   tree.mc_truth_Wtau_E = DEFVAL;
+   tree.mc_truth_Wtaunu_E = DEFVAL;
+   tree.mc_truth_Wtaunutau_E = DEFVAL;
+   tree.mc_truth_Wtaul_E = DEFVAL;
+   tree.mc_truth_Wnutau_E = DEFVAL;
+   tree.mc_truth_Wq1_E = DEFVAL;
+   tree.mc_truth_Wq2_E = DEFVAL;
+   
+   tree.mc_truth_t_E = DEFVAL;
+   tree.mc_truth_tb_E = DEFVAL;
+   tree.mc_truth_tW_E = DEFVAL;
+   tree.mc_truth_tWnu_E = DEFVAL;
+   tree.mc_truth_tWnutau_E = DEFVAL;
+   tree.mc_truth_tWl_E = DEFVAL;
+   tree.mc_truth_tWtau_E = DEFVAL;
+   tree.mc_truth_tWtaunu_E = DEFVAL;
+   tree.mc_truth_tWtaunutau_E = DEFVAL;
+   tree.mc_truth_tWtaul_E = DEFVAL;
+   tree.mc_truth_tWq1_E = DEFVAL;
+   tree.mc_truth_tWq2_E = DEFVAL;
+   
    // pdgId
 
    tree.mc_truth_Z_id = DEFVAL;
@@ -1737,6 +2285,390 @@ void MCTruth::fillTTHSignalGenParticles(const edm::Event& iEvent,
    if( j2 ) p4toTLV(j2->p4(),tree.mc_truth_j2_p4);
    if( j3 ) p4toTLV(j3->p4(),tree.mc_truth_j3_p4);
 
+   // pt
+
+   if( h0 ) tree.mc_truth_h0_pt = h0->p4().pt();
+
+   if( h0W1 ) tree.mc_truth_h0W1_pt = h0W1->p4().pt();
+   if( h0W2 ) tree.mc_truth_h0W2_pt = h0W2->p4().pt();
+   if( h0Wl1 ) tree.mc_truth_h0Wl1_pt = h0Wl1->p4().pt();
+   if( h0Wnu1 ) tree.mc_truth_h0Wnu1_pt = h0Wnu1->p4().pt();
+   if( h0Wtau1 ) tree.mc_truth_h0Wtau1_pt = h0Wtau1->p4().pt();
+   if( h0Wnutau1 ) tree.mc_truth_h0Wnutau1_pt = h0Wnutau1->p4().pt();
+   if( h0Wtaul1 ) tree.mc_truth_h0Wtaul1_pt = h0Wtaul1->p4().pt();
+   if( h0Wtaunu1 ) tree.mc_truth_h0Wtaunu1_pt = h0Wtaunu1->p4().pt();
+   if( h0Wtaunutau1 ) tree.mc_truth_h0Wtaunutau1_pt = h0Wtaunutau1->p4().pt();
+   if( h0Wl2 ) tree.mc_truth_h0Wl2_pt = h0Wl2->p4().pt();
+   if( h0Wnu2 ) tree.mc_truth_h0Wnu2_pt = h0Wnu2->p4().pt();
+   if( h0Wtau2 ) tree.mc_truth_h0Wtau2_pt = h0Wtau2->p4().pt();
+   if( h0Wnutau2 ) tree.mc_truth_h0Wnutau2_pt = h0Wnutau2->p4().pt();
+   if( h0Wtaul2 ) tree.mc_truth_h0Wtaul2_pt = h0Wtaul2->p4().pt();
+   if( h0Wtaunu2 ) tree.mc_truth_h0Wtaunu2_pt = h0Wtaunu2->p4().pt();
+   if( h0Wtaunutau2 ) tree.mc_truth_h0Wtaunutau2_pt = h0Wtaunutau2->p4().pt();
+   if( h0Wq11 ) tree.mc_truth_h0Wq11_pt = h0Wq11->p4().pt();
+   if( h0Wq21 ) tree.mc_truth_h0Wq21_pt = h0Wq21->p4().pt();
+   if( h0Wq12 ) tree.mc_truth_h0Wq12_pt = h0Wq12->p4().pt();
+   if( h0Wq22 ) tree.mc_truth_h0Wq22_pt = h0Wq22->p4().pt();
+   
+   if( h0Z1 ) tree.mc_truth_h0Z1_pt = h0Z1->p4().pt();
+   if( h0Z2 ) tree.mc_truth_h0Z2_pt = h0Z2->p4().pt();
+   if( h0Zl11 ) tree.mc_truth_h0Zl11_pt = h0Zl11->p4().pt();
+   if( h0Zl21 ) tree.mc_truth_h0Zl21_pt = h0Zl21->p4().pt();
+   if( h0Zl12 ) tree.mc_truth_h0Zl12_pt = h0Zl12->p4().pt();
+   if( h0Zl22 ) tree.mc_truth_h0Zl22_pt = h0Zl22->p4().pt();
+   if( h0Ztau11 ) tree.mc_truth_h0Ztau11_pt = h0Ztau11->p4().pt();
+   if( h0Ztau21 ) tree.mc_truth_h0Ztau21_pt = h0Ztau21->p4().pt();
+   if( h0Ztaul11 ) tree.mc_truth_h0Ztaul11_pt = h0Ztaul11->p4().pt();
+   if( h0Ztaul21 ) tree.mc_truth_h0Ztaul21_pt = h0Ztaul21->p4().pt();
+   if( h0Ztaunu11 ) tree.mc_truth_h0Ztaunu11_pt = h0Ztaunu11->p4().pt();
+   if( h0Ztaunu21 ) tree.mc_truth_h0Ztaunu21_pt = h0Ztaunu21->p4().pt();
+   if( h0Ztaunutau11 ) tree.mc_truth_h0Ztaunutau11_pt = h0Ztaunutau11->p4().pt();
+   if( h0Ztaunutau21 ) tree.mc_truth_h0Ztaunutau21_pt = h0Ztaunutau21->p4().pt();
+   if( h0Zq11 ) tree.mc_truth_h0Zq11_pt = h0Zq11->p4().pt();
+   if( h0Zq21 ) tree.mc_truth_h0Zq21_pt = h0Zq21->p4().pt();
+   if( h0Zq12 ) tree.mc_truth_h0Zq12_pt = h0Zq12->p4().pt();
+   if( h0Zq22 ) tree.mc_truth_h0Zq22_pt = h0Zq22->p4().pt();
+   if( h0Ztau12 ) tree.mc_truth_h0Ztau12_pt = h0Ztau12->p4().pt();
+   if( h0Ztau22 ) tree.mc_truth_h0Ztau22_pt = h0Ztau22->p4().pt();
+   if( h0Ztaul12 ) tree.mc_truth_h0Ztaul12_pt = h0Ztaul12->p4().pt();
+   if( h0Ztaul22 ) tree.mc_truth_h0Ztaul22_pt = h0Ztaul22->p4().pt();
+   if( h0Ztaunu12 ) tree.mc_truth_h0Ztaunu12_pt = h0Ztaunu12->p4().pt();
+   if( h0Ztaunu22 ) tree.mc_truth_h0Ztaunu22_pt = h0Ztaunu22->p4().pt();
+   if( h0Ztaunutau12 ) tree.mc_truth_h0Ztaunutau12_pt = h0Ztaunutau12->p4().pt();
+   if( h0Ztaunutau22 ) tree.mc_truth_h0Ztaunutau22_pt = h0Ztaunutau22->p4().pt();
+   if( h0Znu11 ) tree.mc_truth_h0Znu11_pt = h0Znu11->p4().pt();
+   if( h0Znu21 ) tree.mc_truth_h0Znu21_pt = h0Znu21->p4().pt();
+   if( h0Znu12 ) tree.mc_truth_h0Znu12_pt = h0Znu12->p4().pt();
+   if( h0Znu22 ) tree.mc_truth_h0Znu22_pt = h0Znu22->p4().pt();
+   
+   if( h0tau1 ) tree.mc_truth_h0tau1_pt = h0tau1->p4().pt();
+   if( h0tau2 ) tree.mc_truth_h0tau2_pt = h0tau2->p4().pt();
+   if( h0taul1 ) tree.mc_truth_h0taul1_pt = h0taul1->p4().pt();
+   if( h0taunutau1 ) tree.mc_truth_h0taunutau1_pt = h0taunutau1->p4().pt();
+   if( h0taunu1 ) tree.mc_truth_h0taunu1_pt = h0taunu1->p4().pt();
+   if( h0taul2 ) tree.mc_truth_h0taul2_pt = h0taul2->p4().pt();
+   if( h0taunutau2 ) tree.mc_truth_h0taunutau2_pt = h0taunutau2->p4().pt();
+   if( h0taunu2 ) tree.mc_truth_h0taunu2_pt = h0taunu2->p4().pt();
+   
+   if( t1 ) tree.mc_truth_t1_pt = t1->p4().pt();
+   if( t2 ) tree.mc_truth_t2_pt = t2->p4().pt();
+   if( tb1 ) tree.mc_truth_tb1_pt = tb1->p4().pt();
+   if( tb2 ) tree.mc_truth_tb2_pt = tb2->p4().pt();
+   
+   if( tW1 ) tree.mc_truth_tW1_pt = tW1->p4().pt();
+   if( tWnu1 ) tree.mc_truth_tWnu1_pt = tWnu1->p4().pt();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_pt = tWnutau1->p4().pt();
+   if( tWl1 ) tree.mc_truth_tWl1_pt = tWl1->p4().pt();
+   if( tWtau1 ) tree.mc_truth_tWtau1_pt = tWtau1->p4().pt();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_pt = tWtaunu1->p4().pt();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_pt = tWtaunutau1->p4().pt();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_pt = tWtaul1->p4().pt();
+   if( tWq11 ) tree.mc_truth_tWq11_pt = tWq11->p4().pt();
+   if( tWq21 ) tree.mc_truth_tWq21_pt = tWq21->p4().pt();
+   
+   if( tW2 ) tree.mc_truth_tW2_pt = tW2->p4().pt();
+   if( tWnu2 ) tree.mc_truth_tWnu2_pt = tWnu2->p4().pt();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_pt = tWnutau2->p4().pt();
+   if( tWl2 ) tree.mc_truth_tWl2_pt = tWl2->p4().pt();
+   if( tWtau2 ) tree.mc_truth_tWtau2_pt = tWtau2->p4().pt();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_pt = tWtaunu2->p4().pt();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_pt = tWtaunutau2->p4().pt();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_pt = tWtaul2->p4().pt();
+   if( tWq12 ) tree.mc_truth_tWq12_pt = tWq12->p4().pt();
+   if( tWq22 ) tree.mc_truth_tWq22_pt = tWq22->p4().pt();
+   
+   if( j1 ) tree.mc_truth_j1_pt = j1->p4().pt();
+   if( j2 ) tree.mc_truth_j2_pt = j2->p4().pt();
+   if( j3 ) tree.mc_truth_j3_pt = j3->p4().pt();
+
+   // eta
+
+   if( h0 ) tree.mc_truth_h0_eta = h0->p4().eta();
+
+   if( h0W1 ) tree.mc_truth_h0W1_eta = h0W1->p4().eta();
+   if( h0W2 ) tree.mc_truth_h0W2_eta = h0W2->p4().eta();
+   if( h0Wl1 ) tree.mc_truth_h0Wl1_eta = h0Wl1->p4().eta();
+   if( h0Wnu1 ) tree.mc_truth_h0Wnu1_eta = h0Wnu1->p4().eta();
+   if( h0Wtau1 ) tree.mc_truth_h0Wtau1_eta = h0Wtau1->p4().eta();
+   if( h0Wnutau1 ) tree.mc_truth_h0Wnutau1_eta = h0Wnutau1->p4().eta();
+   if( h0Wtaul1 ) tree.mc_truth_h0Wtaul1_eta = h0Wtaul1->p4().eta();
+   if( h0Wtaunu1 ) tree.mc_truth_h0Wtaunu1_eta = h0Wtaunu1->p4().eta();
+   if( h0Wtaunutau1 ) tree.mc_truth_h0Wtaunutau1_eta = h0Wtaunutau1->p4().eta();
+   if( h0Wl2 ) tree.mc_truth_h0Wl2_eta = h0Wl2->p4().eta();
+   if( h0Wnu2 ) tree.mc_truth_h0Wnu2_eta = h0Wnu2->p4().eta();
+   if( h0Wtau2 ) tree.mc_truth_h0Wtau2_eta = h0Wtau2->p4().eta();
+   if( h0Wnutau2 ) tree.mc_truth_h0Wnutau2_eta = h0Wnutau2->p4().eta();
+   if( h0Wtaul2 ) tree.mc_truth_h0Wtaul2_eta = h0Wtaul2->p4().eta();
+   if( h0Wtaunu2 ) tree.mc_truth_h0Wtaunu2_eta = h0Wtaunu2->p4().eta();
+   if( h0Wtaunutau2 ) tree.mc_truth_h0Wtaunutau2_eta = h0Wtaunutau2->p4().eta();
+   if( h0Wq11 ) tree.mc_truth_h0Wq11_eta = h0Wq11->p4().eta();
+   if( h0Wq21 ) tree.mc_truth_h0Wq21_eta = h0Wq21->p4().eta();
+   if( h0Wq12 ) tree.mc_truth_h0Wq12_eta = h0Wq12->p4().eta();
+   if( h0Wq22 ) tree.mc_truth_h0Wq22_eta = h0Wq22->p4().eta();
+   
+   if( h0Z1 ) tree.mc_truth_h0Z1_eta = h0Z1->p4().eta();
+   if( h0Z2 ) tree.mc_truth_h0Z2_eta = h0Z2->p4().eta();
+   if( h0Zl11 ) tree.mc_truth_h0Zl11_eta = h0Zl11->p4().eta();
+   if( h0Zl21 ) tree.mc_truth_h0Zl21_eta = h0Zl21->p4().eta();
+   if( h0Zl12 ) tree.mc_truth_h0Zl12_eta = h0Zl12->p4().eta();
+   if( h0Zl22 ) tree.mc_truth_h0Zl22_eta = h0Zl22->p4().eta();
+   if( h0Ztau11 ) tree.mc_truth_h0Ztau11_eta = h0Ztau11->p4().eta();
+   if( h0Ztau21 ) tree.mc_truth_h0Ztau21_eta = h0Ztau21->p4().eta();
+   if( h0Ztaul11 ) tree.mc_truth_h0Ztaul11_eta = h0Ztaul11->p4().eta();
+   if( h0Ztaul21 ) tree.mc_truth_h0Ztaul21_eta = h0Ztaul21->p4().eta();
+   if( h0Ztaunu11 ) tree.mc_truth_h0Ztaunu11_eta = h0Ztaunu11->p4().eta();
+   if( h0Ztaunu21 ) tree.mc_truth_h0Ztaunu21_eta = h0Ztaunu21->p4().eta();
+   if( h0Ztaunutau11 ) tree.mc_truth_h0Ztaunutau11_eta = h0Ztaunutau11->p4().eta();
+   if( h0Ztaunutau21 ) tree.mc_truth_h0Ztaunutau21_eta = h0Ztaunutau21->p4().eta();
+   if( h0Zq11 ) tree.mc_truth_h0Zq11_eta = h0Zq11->p4().eta();
+   if( h0Zq21 ) tree.mc_truth_h0Zq21_eta = h0Zq21->p4().eta();
+   if( h0Zq12 ) tree.mc_truth_h0Zq12_eta = h0Zq12->p4().eta();
+   if( h0Zq22 ) tree.mc_truth_h0Zq22_eta = h0Zq22->p4().eta();
+   if( h0Ztau12 ) tree.mc_truth_h0Ztau12_eta = h0Ztau12->p4().eta();
+   if( h0Ztau22 ) tree.mc_truth_h0Ztau22_eta = h0Ztau22->p4().eta();
+   if( h0Ztaul12 ) tree.mc_truth_h0Ztaul12_eta = h0Ztaul12->p4().eta();
+   if( h0Ztaul22 ) tree.mc_truth_h0Ztaul22_eta = h0Ztaul22->p4().eta();
+   if( h0Ztaunu12 ) tree.mc_truth_h0Ztaunu12_eta = h0Ztaunu12->p4().eta();
+   if( h0Ztaunu22 ) tree.mc_truth_h0Ztaunu22_eta = h0Ztaunu22->p4().eta();
+   if( h0Ztaunutau12 ) tree.mc_truth_h0Ztaunutau12_eta = h0Ztaunutau12->p4().eta();
+   if( h0Ztaunutau22 ) tree.mc_truth_h0Ztaunutau22_eta = h0Ztaunutau22->p4().eta();
+   if( h0Znu11 ) tree.mc_truth_h0Znu11_eta = h0Znu11->p4().eta();
+   if( h0Znu21 ) tree.mc_truth_h0Znu21_eta = h0Znu21->p4().eta();
+   if( h0Znu12 ) tree.mc_truth_h0Znu12_eta = h0Znu12->p4().eta();
+   if( h0Znu22 ) tree.mc_truth_h0Znu22_eta = h0Znu22->p4().eta();
+   
+   if( h0tau1 ) tree.mc_truth_h0tau1_eta = h0tau1->p4().eta();
+   if( h0tau2 ) tree.mc_truth_h0tau2_eta = h0tau2->p4().eta();
+   if( h0taul1 ) tree.mc_truth_h0taul1_eta = h0taul1->p4().eta();
+   if( h0taunutau1 ) tree.mc_truth_h0taunutau1_eta = h0taunutau1->p4().eta();
+   if( h0taunu1 ) tree.mc_truth_h0taunu1_eta = h0taunu1->p4().eta();
+   if( h0taul2 ) tree.mc_truth_h0taul2_eta = h0taul2->p4().eta();
+   if( h0taunutau2 ) tree.mc_truth_h0taunutau2_eta = h0taunutau2->p4().eta();
+   if( h0taunu2 ) tree.mc_truth_h0taunu2_eta = h0taunu2->p4().eta();
+   
+   if( t1 ) tree.mc_truth_t1_eta = t1->p4().eta();
+   if( t2 ) tree.mc_truth_t2_eta = t2->p4().eta();
+   if( tb1 ) tree.mc_truth_tb1_eta = tb1->p4().eta();
+   if( tb2 ) tree.mc_truth_tb2_eta = tb2->p4().eta();
+   
+   if( tW1 ) tree.mc_truth_tW1_eta = tW1->p4().eta();
+   if( tWnu1 ) tree.mc_truth_tWnu1_eta = tWnu1->p4().eta();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_eta = tWnutau1->p4().eta();
+   if( tWl1 ) tree.mc_truth_tWl1_eta = tWl1->p4().eta();
+   if( tWtau1 ) tree.mc_truth_tWtau1_eta = tWtau1->p4().eta();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_eta = tWtaunu1->p4().eta();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_eta = tWtaunutau1->p4().eta();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_eta = tWtaul1->p4().eta();
+   if( tWq11 ) tree.mc_truth_tWq11_eta = tWq11->p4().eta();
+   if( tWq21 ) tree.mc_truth_tWq21_eta = tWq21->p4().eta();
+   
+   if( tW2 ) tree.mc_truth_tW2_eta = tW2->p4().eta();
+   if( tWnu2 ) tree.mc_truth_tWnu2_eta = tWnu2->p4().eta();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_eta = tWnutau2->p4().eta();
+   if( tWl2 ) tree.mc_truth_tWl2_eta = tWl2->p4().eta();
+   if( tWtau2 ) tree.mc_truth_tWtau2_eta = tWtau2->p4().eta();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_eta = tWtaunu2->p4().eta();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_eta = tWtaunutau2->p4().eta();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_eta = tWtaul2->p4().eta();
+   if( tWq12 ) tree.mc_truth_tWq12_eta = tWq12->p4().eta();
+   if( tWq22 ) tree.mc_truth_tWq22_eta = tWq22->p4().eta();
+   
+   if( j1 ) tree.mc_truth_j1_eta = j1->p4().eta();
+   if( j2 ) tree.mc_truth_j2_eta = j2->p4().eta();
+   if( j3 ) tree.mc_truth_j3_eta = j3->p4().eta();
+
+   // phi
+
+   if( h0 ) tree.mc_truth_h0_phi = h0->p4().phi();
+
+   if( h0W1 ) tree.mc_truth_h0W1_phi = h0W1->p4().phi();
+   if( h0W2 ) tree.mc_truth_h0W2_phi = h0W2->p4().phi();
+   if( h0Wl1 ) tree.mc_truth_h0Wl1_phi = h0Wl1->p4().phi();
+   if( h0Wnu1 ) tree.mc_truth_h0Wnu1_phi = h0Wnu1->p4().phi();
+   if( h0Wtau1 ) tree.mc_truth_h0Wtau1_phi = h0Wtau1->p4().phi();
+   if( h0Wnutau1 ) tree.mc_truth_h0Wnutau1_phi = h0Wnutau1->p4().phi();
+   if( h0Wtaul1 ) tree.mc_truth_h0Wtaul1_phi = h0Wtaul1->p4().phi();
+   if( h0Wtaunu1 ) tree.mc_truth_h0Wtaunu1_phi = h0Wtaunu1->p4().phi();
+   if( h0Wtaunutau1 ) tree.mc_truth_h0Wtaunutau1_phi = h0Wtaunutau1->p4().phi();
+   if( h0Wl2 ) tree.mc_truth_h0Wl2_phi = h0Wl2->p4().phi();
+   if( h0Wnu2 ) tree.mc_truth_h0Wnu2_phi = h0Wnu2->p4().phi();
+   if( h0Wtau2 ) tree.mc_truth_h0Wtau2_phi = h0Wtau2->p4().phi();
+   if( h0Wnutau2 ) tree.mc_truth_h0Wnutau2_phi = h0Wnutau2->p4().phi();
+   if( h0Wtaul2 ) tree.mc_truth_h0Wtaul2_phi = h0Wtaul2->p4().phi();
+   if( h0Wtaunu2 ) tree.mc_truth_h0Wtaunu2_phi = h0Wtaunu2->p4().phi();
+   if( h0Wtaunutau2 ) tree.mc_truth_h0Wtaunutau2_phi = h0Wtaunutau2->p4().phi();
+   if( h0Wq11 ) tree.mc_truth_h0Wq11_phi = h0Wq11->p4().phi();
+   if( h0Wq21 ) tree.mc_truth_h0Wq21_phi = h0Wq21->p4().phi();
+   if( h0Wq12 ) tree.mc_truth_h0Wq12_phi = h0Wq12->p4().phi();
+   if( h0Wq22 ) tree.mc_truth_h0Wq22_phi = h0Wq22->p4().phi();
+   
+   if( h0Z1 ) tree.mc_truth_h0Z1_phi = h0Z1->p4().phi();
+   if( h0Z2 ) tree.mc_truth_h0Z2_phi = h0Z2->p4().phi();
+   if( h0Zl11 ) tree.mc_truth_h0Zl11_phi = h0Zl11->p4().phi();
+   if( h0Zl21 ) tree.mc_truth_h0Zl21_phi = h0Zl21->p4().phi();
+   if( h0Zl12 ) tree.mc_truth_h0Zl12_phi = h0Zl12->p4().phi();
+   if( h0Zl22 ) tree.mc_truth_h0Zl22_phi = h0Zl22->p4().phi();
+   if( h0Ztau11 ) tree.mc_truth_h0Ztau11_phi = h0Ztau11->p4().phi();
+   if( h0Ztau21 ) tree.mc_truth_h0Ztau21_phi = h0Ztau21->p4().phi();
+   if( h0Ztaul11 ) tree.mc_truth_h0Ztaul11_phi = h0Ztaul11->p4().phi();
+   if( h0Ztaul21 ) tree.mc_truth_h0Ztaul21_phi = h0Ztaul21->p4().phi();
+   if( h0Ztaunu11 ) tree.mc_truth_h0Ztaunu11_phi = h0Ztaunu11->p4().phi();
+   if( h0Ztaunu21 ) tree.mc_truth_h0Ztaunu21_phi = h0Ztaunu21->p4().phi();
+   if( h0Ztaunutau11 ) tree.mc_truth_h0Ztaunutau11_phi = h0Ztaunutau11->p4().phi();
+   if( h0Ztaunutau21 ) tree.mc_truth_h0Ztaunutau21_phi = h0Ztaunutau21->p4().phi();
+   if( h0Zq11 ) tree.mc_truth_h0Zq11_phi = h0Zq11->p4().phi();
+   if( h0Zq21 ) tree.mc_truth_h0Zq21_phi = h0Zq21->p4().phi();
+   if( h0Zq12 ) tree.mc_truth_h0Zq12_phi = h0Zq12->p4().phi();
+   if( h0Zq22 ) tree.mc_truth_h0Zq22_phi = h0Zq22->p4().phi();
+   if( h0Ztau12 ) tree.mc_truth_h0Ztau12_phi = h0Ztau12->p4().phi();
+   if( h0Ztau22 ) tree.mc_truth_h0Ztau22_phi = h0Ztau22->p4().phi();
+   if( h0Ztaul12 ) tree.mc_truth_h0Ztaul12_phi = h0Ztaul12->p4().phi();
+   if( h0Ztaul22 ) tree.mc_truth_h0Ztaul22_phi = h0Ztaul22->p4().phi();
+   if( h0Ztaunu12 ) tree.mc_truth_h0Ztaunu12_phi = h0Ztaunu12->p4().phi();
+   if( h0Ztaunu22 ) tree.mc_truth_h0Ztaunu22_phi = h0Ztaunu22->p4().phi();
+   if( h0Ztaunutau12 ) tree.mc_truth_h0Ztaunutau12_phi = h0Ztaunutau12->p4().phi();
+   if( h0Ztaunutau22 ) tree.mc_truth_h0Ztaunutau22_phi = h0Ztaunutau22->p4().phi();
+   if( h0Znu11 ) tree.mc_truth_h0Znu11_phi = h0Znu11->p4().phi();
+   if( h0Znu21 ) tree.mc_truth_h0Znu21_phi = h0Znu21->p4().phi();
+   if( h0Znu12 ) tree.mc_truth_h0Znu12_phi = h0Znu12->p4().phi();
+   if( h0Znu22 ) tree.mc_truth_h0Znu22_phi = h0Znu22->p4().phi();
+   
+   if( h0tau1 ) tree.mc_truth_h0tau1_phi = h0tau1->p4().phi();
+   if( h0tau2 ) tree.mc_truth_h0tau2_phi = h0tau2->p4().phi();
+   if( h0taul1 ) tree.mc_truth_h0taul1_phi = h0taul1->p4().phi();
+   if( h0taunutau1 ) tree.mc_truth_h0taunutau1_phi = h0taunutau1->p4().phi();
+   if( h0taunu1 ) tree.mc_truth_h0taunu1_phi = h0taunu1->p4().phi();
+   if( h0taul2 ) tree.mc_truth_h0taul2_phi = h0taul2->p4().phi();
+   if( h0taunutau2 ) tree.mc_truth_h0taunutau2_phi = h0taunutau2->p4().phi();
+   if( h0taunu2 ) tree.mc_truth_h0taunu2_phi = h0taunu2->p4().phi();
+   
+   if( t1 ) tree.mc_truth_t1_phi = t1->p4().phi();
+   if( t2 ) tree.mc_truth_t2_phi = t2->p4().phi();
+   if( tb1 ) tree.mc_truth_tb1_phi = tb1->p4().phi();
+   if( tb2 ) tree.mc_truth_tb2_phi = tb2->p4().phi();
+   
+   if( tW1 ) tree.mc_truth_tW1_phi = tW1->p4().phi();
+   if( tWnu1 ) tree.mc_truth_tWnu1_phi = tWnu1->p4().phi();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_phi = tWnutau1->p4().phi();
+   if( tWl1 ) tree.mc_truth_tWl1_phi = tWl1->p4().phi();
+   if( tWtau1 ) tree.mc_truth_tWtau1_phi = tWtau1->p4().phi();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_phi = tWtaunu1->p4().phi();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_phi = tWtaunutau1->p4().phi();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_phi = tWtaul1->p4().phi();
+   if( tWq11 ) tree.mc_truth_tWq11_phi = tWq11->p4().phi();
+   if( tWq21 ) tree.mc_truth_tWq21_phi = tWq21->p4().phi();
+   
+   if( tW2 ) tree.mc_truth_tW2_phi = tW2->p4().phi();
+   if( tWnu2 ) tree.mc_truth_tWnu2_phi = tWnu2->p4().phi();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_phi = tWnutau2->p4().phi();
+   if( tWl2 ) tree.mc_truth_tWl2_phi = tWl2->p4().phi();
+   if( tWtau2 ) tree.mc_truth_tWtau2_phi = tWtau2->p4().phi();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_phi = tWtaunu2->p4().phi();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_phi = tWtaunutau2->p4().phi();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_phi = tWtaul2->p4().phi();
+   if( tWq12 ) tree.mc_truth_tWq12_phi = tWq12->p4().phi();
+   if( tWq22 ) tree.mc_truth_tWq22_phi = tWq22->p4().phi();
+   
+   if( j1 ) tree.mc_truth_j1_phi = j1->p4().phi();
+   if( j2 ) tree.mc_truth_j2_phi = j2->p4().phi();
+   if( j3 ) tree.mc_truth_j3_phi = j3->p4().phi();
+
+   // E
+
+   if( h0 ) tree.mc_truth_h0_E = h0->p4().E();
+
+   if( h0W1 ) tree.mc_truth_h0W1_E = h0W1->p4().E();
+   if( h0W2 ) tree.mc_truth_h0W2_E = h0W2->p4().E();
+   if( h0Wl1 ) tree.mc_truth_h0Wl1_E = h0Wl1->p4().E();
+   if( h0Wnu1 ) tree.mc_truth_h0Wnu1_E = h0Wnu1->p4().E();
+   if( h0Wtau1 ) tree.mc_truth_h0Wtau1_E = h0Wtau1->p4().E();
+   if( h0Wnutau1 ) tree.mc_truth_h0Wnutau1_E = h0Wnutau1->p4().E();
+   if( h0Wtaul1 ) tree.mc_truth_h0Wtaul1_E = h0Wtaul1->p4().E();
+   if( h0Wtaunu1 ) tree.mc_truth_h0Wtaunu1_E = h0Wtaunu1->p4().E();
+   if( h0Wtaunutau1 ) tree.mc_truth_h0Wtaunutau1_E = h0Wtaunutau1->p4().E();
+   if( h0Wl2 ) tree.mc_truth_h0Wl2_E = h0Wl2->p4().E();
+   if( h0Wnu2 ) tree.mc_truth_h0Wnu2_E = h0Wnu2->p4().E();
+   if( h0Wtau2 ) tree.mc_truth_h0Wtau2_E = h0Wtau2->p4().E();
+   if( h0Wnutau2 ) tree.mc_truth_h0Wnutau2_E = h0Wnutau2->p4().E();
+   if( h0Wtaul2 ) tree.mc_truth_h0Wtaul2_E = h0Wtaul2->p4().E();
+   if( h0Wtaunu2 ) tree.mc_truth_h0Wtaunu2_E = h0Wtaunu2->p4().E();
+   if( h0Wtaunutau2 ) tree.mc_truth_h0Wtaunutau2_E = h0Wtaunutau2->p4().E();
+   if( h0Wq11 ) tree.mc_truth_h0Wq11_E = h0Wq11->p4().E();
+   if( h0Wq21 ) tree.mc_truth_h0Wq21_E = h0Wq21->p4().E();
+   if( h0Wq12 ) tree.mc_truth_h0Wq12_E = h0Wq12->p4().E();
+   if( h0Wq22 ) tree.mc_truth_h0Wq22_E = h0Wq22->p4().E();
+   
+   if( h0Z1 ) tree.mc_truth_h0Z1_E = h0Z1->p4().E();
+   if( h0Z2 ) tree.mc_truth_h0Z2_E = h0Z2->p4().E();
+   if( h0Zl11 ) tree.mc_truth_h0Zl11_E = h0Zl11->p4().E();
+   if( h0Zl21 ) tree.mc_truth_h0Zl21_E = h0Zl21->p4().E();
+   if( h0Zl12 ) tree.mc_truth_h0Zl12_E = h0Zl12->p4().E();
+   if( h0Zl22 ) tree.mc_truth_h0Zl22_E = h0Zl22->p4().E();
+   if( h0Ztau11 ) tree.mc_truth_h0Ztau11_E = h0Ztau11->p4().E();
+   if( h0Ztau21 ) tree.mc_truth_h0Ztau21_E = h0Ztau21->p4().E();
+   if( h0Ztaul11 ) tree.mc_truth_h0Ztaul11_E = h0Ztaul11->p4().E();
+   if( h0Ztaul21 ) tree.mc_truth_h0Ztaul21_E = h0Ztaul21->p4().E();
+   if( h0Ztaunu11 ) tree.mc_truth_h0Ztaunu11_E = h0Ztaunu11->p4().E();
+   if( h0Ztaunu21 ) tree.mc_truth_h0Ztaunu21_E = h0Ztaunu21->p4().E();
+   if( h0Ztaunutau11 ) tree.mc_truth_h0Ztaunutau11_E = h0Ztaunutau11->p4().E();
+   if( h0Ztaunutau21 ) tree.mc_truth_h0Ztaunutau21_E = h0Ztaunutau21->p4().E();
+   if( h0Zq11 ) tree.mc_truth_h0Zq11_E = h0Zq11->p4().E();
+   if( h0Zq21 ) tree.mc_truth_h0Zq21_E = h0Zq21->p4().E();
+   if( h0Zq12 ) tree.mc_truth_h0Zq12_E = h0Zq12->p4().E();
+   if( h0Zq22 ) tree.mc_truth_h0Zq22_E = h0Zq22->p4().E();
+   if( h0Ztau12 ) tree.mc_truth_h0Ztau12_E = h0Ztau12->p4().E();
+   if( h0Ztau22 ) tree.mc_truth_h0Ztau22_E = h0Ztau22->p4().E();
+   if( h0Ztaul12 ) tree.mc_truth_h0Ztaul12_E = h0Ztaul12->p4().E();
+   if( h0Ztaul22 ) tree.mc_truth_h0Ztaul22_E = h0Ztaul22->p4().E();
+   if( h0Ztaunu12 ) tree.mc_truth_h0Ztaunu12_E = h0Ztaunu12->p4().E();
+   if( h0Ztaunu22 ) tree.mc_truth_h0Ztaunu22_E = h0Ztaunu22->p4().E();
+   if( h0Ztaunutau12 ) tree.mc_truth_h0Ztaunutau12_E = h0Ztaunutau12->p4().E();
+   if( h0Ztaunutau22 ) tree.mc_truth_h0Ztaunutau22_E = h0Ztaunutau22->p4().E();
+   if( h0Znu11 ) tree.mc_truth_h0Znu11_E = h0Znu11->p4().E();
+   if( h0Znu21 ) tree.mc_truth_h0Znu21_E = h0Znu21->p4().E();
+   if( h0Znu12 ) tree.mc_truth_h0Znu12_E = h0Znu12->p4().E();
+   if( h0Znu22 ) tree.mc_truth_h0Znu22_E = h0Znu22->p4().E();
+   
+   if( h0tau1 ) tree.mc_truth_h0tau1_E = h0tau1->p4().E();
+   if( h0tau2 ) tree.mc_truth_h0tau2_E = h0tau2->p4().E();
+   if( h0taul1 ) tree.mc_truth_h0taul1_E = h0taul1->p4().E();
+   if( h0taunutau1 ) tree.mc_truth_h0taunutau1_E = h0taunutau1->p4().E();
+   if( h0taunu1 ) tree.mc_truth_h0taunu1_E = h0taunu1->p4().E();
+   if( h0taul2 ) tree.mc_truth_h0taul2_E = h0taul2->p4().E();
+   if( h0taunutau2 ) tree.mc_truth_h0taunutau2_E = h0taunutau2->p4().E();
+   if( h0taunu2 ) tree.mc_truth_h0taunu2_E = h0taunu2->p4().E();
+   
+   if( t1 ) tree.mc_truth_t1_E = t1->p4().E();
+   if( t2 ) tree.mc_truth_t2_E = t2->p4().E();
+   if( tb1 ) tree.mc_truth_tb1_E = tb1->p4().E();
+   if( tb2 ) tree.mc_truth_tb2_E = tb2->p4().E();
+   
+   if( tW1 ) tree.mc_truth_tW1_E = tW1->p4().E();
+   if( tWnu1 ) tree.mc_truth_tWnu1_E = tWnu1->p4().E();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_E = tWnutau1->p4().E();
+   if( tWl1 ) tree.mc_truth_tWl1_E = tWl1->p4().E();
+   if( tWtau1 ) tree.mc_truth_tWtau1_E = tWtau1->p4().E();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_E = tWtaunu1->p4().E();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_E = tWtaunutau1->p4().E();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_E = tWtaul1->p4().E();
+   if( tWq11 ) tree.mc_truth_tWq11_E = tWq11->p4().E();
+   if( tWq21 ) tree.mc_truth_tWq21_E = tWq21->p4().E();
+   
+   if( tW2 ) tree.mc_truth_tW2_E = tW2->p4().E();
+   if( tWnu2 ) tree.mc_truth_tWnu2_E = tWnu2->p4().E();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_E = tWnutau2->p4().E();
+   if( tWl2 ) tree.mc_truth_tWl2_E = tWl2->p4().E();
+   if( tWtau2 ) tree.mc_truth_tWtau2_E = tWtau2->p4().E();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_E = tWtaunu2->p4().E();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_E = tWtaunutau2->p4().E();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_E = tWtaul2->p4().E();
+   if( tWq12 ) tree.mc_truth_tWq12_E = tWq12->p4().E();
+   if( tWq22 ) tree.mc_truth_tWq22_E = tWq22->p4().E();
+   
+   if( j1 ) tree.mc_truth_j1_E = j1->p4().E();
+   if( j2 ) tree.mc_truth_j2_E = j2->p4().E();
+   if( j3 ) tree.mc_truth_j3_E = j3->p4().E();
+   
    // pdgId
 
    if( h0 ) tree.mc_truth_h0_id = h0->pdgId();
@@ -2493,6 +3425,246 @@ void MCTruth::fillTTZSignalGenParticles(const edm::Event& iEvent,
    if( j2 ) p4toTLV(j2->p4(),tree.mc_truth_j2_p4);
    if( j3 ) p4toTLV(j3->p4(),tree.mc_truth_j3_p4);
 
+   // pt
+
+   if( Z ) tree.mc_truth_Z_pt = Z->p4().pt();
+   if( Zl1 ) tree.mc_truth_Zl1_pt = Zl1->p4().pt();
+   if( Zl2 ) tree.mc_truth_Zl2_pt = Zl2->p4().pt();
+   if( Ztau1 ) tree.mc_truth_Ztau1_pt = Ztau1->p4().pt();
+   if( Ztau2 ) tree.mc_truth_Ztau2_pt = Ztau2->p4().pt();
+   if( Ztaul1 ) tree.mc_truth_Ztaul1_pt = Ztaul1->p4().pt();
+   if( Ztaul2 ) tree.mc_truth_Ztaul2_pt = Ztaul2->p4().pt();
+   if( Ztaunu1 ) tree.mc_truth_Ztaunu1_pt = Ztaunu1->p4().pt();
+   if( Ztaunu2 ) tree.mc_truth_Ztaunu2_pt = Ztaunu2->p4().pt();
+   if( Ztaunutau1 ) tree.mc_truth_Ztaunutau1_pt = Ztaunutau1->p4().pt();
+   if( Ztaunutau2 ) tree.mc_truth_Ztaunutau2_pt = Ztaunutau2->p4().pt();
+   if( Zq1 ) tree.mc_truth_Zq1_pt = Zq1->p4().pt();
+   if( Zq2 ) tree.mc_truth_Zq2_pt = Zq2->p4().pt();
+   if( Znu1 ) tree.mc_truth_Znu1_pt = Znu1->p4().pt();
+   if( Znu2 ) tree.mc_truth_Znu2_pt = Znu2->p4().pt();
+
+   if( gammal1 ) tree.mc_truth_gammal1_pt = gammal1->p4().pt();
+   if( gammal2 ) tree.mc_truth_gammal2_pt = gammal2->p4().pt();
+   if( gammatau1 ) tree.mc_truth_gammatau1_pt = gammatau1->p4().pt();
+   if( gammatau2 ) tree.mc_truth_gammatau2_pt = gammatau2->p4().pt();
+   if( gammataul1 ) tree.mc_truth_gammataul1_pt = gammataul1->p4().pt();
+   if( gammataul2 ) tree.mc_truth_gammataul2_pt = gammataul2->p4().pt();
+   if( gammataunu1 ) tree.mc_truth_gammataunu1_pt = gammataunu1->p4().pt();
+   if( gammataunu2 ) tree.mc_truth_gammataunu2_pt = gammataunu2->p4().pt();
+   if( gammataunutau1 ) tree.mc_truth_gammataunutau1_pt = gammataunutau1->p4().pt();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_pt = gammataunutau2->p4().pt();
+   
+   if( t1 ) tree.mc_truth_t1_pt = t1->p4().pt();
+   if( t2 ) tree.mc_truth_t2_pt = t2->p4().pt();
+   if( tb1 ) tree.mc_truth_tb1_pt = tb1->p4().pt();
+   if( tb2 ) tree.mc_truth_tb2_pt = tb2->p4().pt();
+   
+   if( tW1 ) tree.mc_truth_tW1_pt = tW1->p4().pt();
+   if( tWnu1 ) tree.mc_truth_tWnu1_pt = tWnu1->p4().pt();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_pt = tWnutau1->p4().pt();
+   if( tWl1 ) tree.mc_truth_tWl1_pt = tWl1->p4().pt();
+   if( tWtau1 ) tree.mc_truth_tWtau1_pt = tWtau1->p4().pt();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_pt = tWtaunu1->p4().pt();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_pt = tWtaunutau1->p4().pt();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_pt = tWtaul1->p4().pt();
+   if( tWq11 ) tree.mc_truth_tWq11_pt = tWq11->p4().pt();
+   if( tWq21 ) tree.mc_truth_tWq21_pt = tWq21->p4().pt();
+   
+   if( tW2 ) tree.mc_truth_tW2_pt = tW2->p4().pt();
+   if( tWnu2 ) tree.mc_truth_tWnu2_pt = tWnu2->p4().pt();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_pt = tWnutau2->p4().pt();
+   if( tWl2 ) tree.mc_truth_tWl2_pt = tWl2->p4().pt();
+   if( tWtau2 ) tree.mc_truth_tWtau2_pt = tWtau2->p4().pt();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_pt = tWtaunu2->p4().pt();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_pt = tWtaunutau2->p4().pt();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_pt = tWtaul2->p4().pt();
+   if( tWq12 ) tree.mc_truth_tWq12_pt = tWq12->p4().pt();
+   if( tWq22 ) tree.mc_truth_tWq22_pt = tWq22->p4().pt();
+   
+   if( j1 ) tree.mc_truth_j1_pt = j1->p4().pt();
+   if( j2 ) tree.mc_truth_j2_pt = j2->p4().pt();
+   if( j3 ) tree.mc_truth_j3_pt = j3->p4().pt();
+
+   // eta
+
+   if( Z ) tree.mc_truth_Z_eta = Z->p4().eta();
+   if( Zl1 ) tree.mc_truth_Zl1_eta = Zl1->p4().eta();
+   if( Zl2 ) tree.mc_truth_Zl2_eta = Zl2->p4().eta();
+   if( Ztau1 ) tree.mc_truth_Ztau1_eta = Ztau1->p4().eta();
+   if( Ztau2 ) tree.mc_truth_Ztau2_eta = Ztau2->p4().eta();
+   if( Ztaul1 ) tree.mc_truth_Ztaul1_eta = Ztaul1->p4().eta();
+   if( Ztaul2 ) tree.mc_truth_Ztaul2_eta = Ztaul2->p4().eta();
+   if( Ztaunu1 ) tree.mc_truth_Ztaunu1_eta = Ztaunu1->p4().eta();
+   if( Ztaunu2 ) tree.mc_truth_Ztaunu2_eta = Ztaunu2->p4().eta();
+   if( Ztaunutau1 ) tree.mc_truth_Ztaunutau1_eta = Ztaunutau1->p4().eta();
+   if( Ztaunutau2 ) tree.mc_truth_Ztaunutau2_eta = Ztaunutau2->p4().eta();
+   if( Zq1 ) tree.mc_truth_Zq1_eta = Zq1->p4().eta();
+   if( Zq2 ) tree.mc_truth_Zq2_eta = Zq2->p4().eta();
+   if( Znu1 ) tree.mc_truth_Znu1_eta = Znu1->p4().eta();
+   if( Znu2 ) tree.mc_truth_Znu2_eta = Znu2->p4().eta();
+
+   if( gammal1 ) tree.mc_truth_gammal1_eta = gammal1->p4().eta();
+   if( gammal2 ) tree.mc_truth_gammal2_eta = gammal2->p4().eta();
+   if( gammatau1 ) tree.mc_truth_gammatau1_eta = gammatau1->p4().eta();
+   if( gammatau2 ) tree.mc_truth_gammatau2_eta = gammatau2->p4().eta();
+   if( gammataul1 ) tree.mc_truth_gammataul1_eta = gammataul1->p4().eta();
+   if( gammataul2 ) tree.mc_truth_gammataul2_eta = gammataul2->p4().eta();
+   if( gammataunu1 ) tree.mc_truth_gammataunu1_eta = gammataunu1->p4().eta();
+   if( gammataunu2 ) tree.mc_truth_gammataunu2_eta = gammataunu2->p4().eta();
+   if( gammataunutau1 ) tree.mc_truth_gammataunutau1_eta = gammataunutau1->p4().eta();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_eta = gammataunutau2->p4().eta();
+   
+   if( t1 ) tree.mc_truth_t1_eta = t1->p4().eta();
+   if( t2 ) tree.mc_truth_t2_eta = t2->p4().eta();
+   if( tb1 ) tree.mc_truth_tb1_eta = tb1->p4().eta();
+   if( tb2 ) tree.mc_truth_tb2_eta = tb2->p4().eta();
+   
+   if( tW1 ) tree.mc_truth_tW1_eta = tW1->p4().eta();
+   if( tWnu1 ) tree.mc_truth_tWnu1_eta = tWnu1->p4().eta();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_eta = tWnutau1->p4().eta();
+   if( tWl1 ) tree.mc_truth_tWl1_eta = tWl1->p4().eta();
+   if( tWtau1 ) tree.mc_truth_tWtau1_eta = tWtau1->p4().eta();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_eta = tWtaunu1->p4().eta();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_eta = tWtaunutau1->p4().eta();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_eta = tWtaul1->p4().eta();
+   if( tWq11 ) tree.mc_truth_tWq11_eta = tWq11->p4().eta();
+   if( tWq21 ) tree.mc_truth_tWq21_eta = tWq21->p4().eta();
+   
+   if( tW2 ) tree.mc_truth_tW2_eta = tW2->p4().eta();
+   if( tWnu2 ) tree.mc_truth_tWnu2_eta = tWnu2->p4().eta();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_eta = tWnutau2->p4().eta();
+   if( tWl2 ) tree.mc_truth_tWl2_eta = tWl2->p4().eta();
+   if( tWtau2 ) tree.mc_truth_tWtau2_eta = tWtau2->p4().eta();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_eta = tWtaunu2->p4().eta();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_eta = tWtaunutau2->p4().eta();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_eta = tWtaul2->p4().eta();
+   if( tWq12 ) tree.mc_truth_tWq12_eta = tWq12->p4().eta();
+   if( tWq22 ) tree.mc_truth_tWq22_eta = tWq22->p4().eta();
+   
+   if( j1 ) tree.mc_truth_j1_eta = j1->p4().eta();
+   if( j2 ) tree.mc_truth_j2_eta = j2->p4().eta();
+   if( j3 ) tree.mc_truth_j3_eta = j3->p4().eta();
+
+   // phi
+
+   if( Z ) tree.mc_truth_Z_phi = Z->p4().phi();
+   if( Zl1 ) tree.mc_truth_Zl1_phi = Zl1->p4().phi();
+   if( Zl2 ) tree.mc_truth_Zl2_phi = Zl2->p4().phi();
+   if( Ztau1 ) tree.mc_truth_Ztau1_phi = Ztau1->p4().phi();
+   if( Ztau2 ) tree.mc_truth_Ztau2_phi = Ztau2->p4().phi();
+   if( Ztaul1 ) tree.mc_truth_Ztaul1_phi = Ztaul1->p4().phi();
+   if( Ztaul2 ) tree.mc_truth_Ztaul2_phi = Ztaul2->p4().phi();
+   if( Ztaunu1 ) tree.mc_truth_Ztaunu1_phi = Ztaunu1->p4().phi();
+   if( Ztaunu2 ) tree.mc_truth_Ztaunu2_phi = Ztaunu2->p4().phi();
+   if( Ztaunutau1 ) tree.mc_truth_Ztaunutau1_phi = Ztaunutau1->p4().phi();
+   if( Ztaunutau2 ) tree.mc_truth_Ztaunutau2_phi = Ztaunutau2->p4().phi();
+   if( Zq1 ) tree.mc_truth_Zq1_phi = Zq1->p4().phi();
+   if( Zq2 ) tree.mc_truth_Zq2_phi = Zq2->p4().phi();
+   if( Znu1 ) tree.mc_truth_Znu1_phi = Znu1->p4().phi();
+   if( Znu2 ) tree.mc_truth_Znu2_phi = Znu2->p4().phi();
+
+   if( gammal1 ) tree.mc_truth_gammal1_phi = gammal1->p4().phi();
+   if( gammal2 ) tree.mc_truth_gammal2_phi = gammal2->p4().phi();
+   if( gammatau1 ) tree.mc_truth_gammatau1_phi = gammatau1->p4().phi();
+   if( gammatau2 ) tree.mc_truth_gammatau2_phi = gammatau2->p4().phi();
+   if( gammataul1 ) tree.mc_truth_gammataul1_phi = gammataul1->p4().phi();
+   if( gammataul2 ) tree.mc_truth_gammataul2_phi = gammataul2->p4().phi();
+   if( gammataunu1 ) tree.mc_truth_gammataunu1_phi = gammataunu1->p4().phi();
+   if( gammataunu2 ) tree.mc_truth_gammataunu2_phi = gammataunu2->p4().phi();
+   if( gammataunutau1 ) tree.mc_truth_gammataunutau1_phi = gammataunutau1->p4().phi();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_phi = gammataunutau2->p4().phi();
+   
+   if( t1 ) tree.mc_truth_t1_phi = t1->p4().phi();
+   if( t2 ) tree.mc_truth_t2_phi = t2->p4().phi();
+   if( tb1 ) tree.mc_truth_tb1_phi = tb1->p4().phi();
+   if( tb2 ) tree.mc_truth_tb2_phi = tb2->p4().phi();
+   
+   if( tW1 ) tree.mc_truth_tW1_phi = tW1->p4().phi();
+   if( tWnu1 ) tree.mc_truth_tWnu1_phi = tWnu1->p4().phi();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_phi = tWnutau1->p4().phi();
+   if( tWl1 ) tree.mc_truth_tWl1_phi = tWl1->p4().phi();
+   if( tWtau1 ) tree.mc_truth_tWtau1_phi = tWtau1->p4().phi();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_phi = tWtaunu1->p4().phi();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_phi = tWtaunutau1->p4().phi();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_phi = tWtaul1->p4().phi();
+   if( tWq11 ) tree.mc_truth_tWq11_phi = tWq11->p4().phi();
+   if( tWq21 ) tree.mc_truth_tWq21_phi = tWq21->p4().phi();
+   
+   if( tW2 ) tree.mc_truth_tW2_phi = tW2->p4().phi();
+   if( tWnu2 ) tree.mc_truth_tWnu2_phi = tWnu2->p4().phi();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_phi = tWnutau2->p4().phi();
+   if( tWl2 ) tree.mc_truth_tWl2_phi = tWl2->p4().phi();
+   if( tWtau2 ) tree.mc_truth_tWtau2_phi = tWtau2->p4().phi();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_phi = tWtaunu2->p4().phi();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_phi = tWtaunutau2->p4().phi();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_phi = tWtaul2->p4().phi();
+   if( tWq12 ) tree.mc_truth_tWq12_phi = tWq12->p4().phi();
+   if( tWq22 ) tree.mc_truth_tWq22_phi = tWq22->p4().phi();
+   
+   if( j1 ) tree.mc_truth_j1_phi = j1->p4().phi();
+   if( j2 ) tree.mc_truth_j2_phi = j2->p4().phi();
+   if( j3 ) tree.mc_truth_j3_phi = j3->p4().phi();
+
+   // E
+
+   if( Z ) tree.mc_truth_Z_E = Z->p4().E();
+   if( Zl1 ) tree.mc_truth_Zl1_E = Zl1->p4().E();
+   if( Zl2 ) tree.mc_truth_Zl2_E = Zl2->p4().E();
+   if( Ztau1 ) tree.mc_truth_Ztau1_E = Ztau1->p4().E();
+   if( Ztau2 ) tree.mc_truth_Ztau2_E = Ztau2->p4().E();
+   if( Ztaul1 ) tree.mc_truth_Ztaul1_E = Ztaul1->p4().E();
+   if( Ztaul2 ) tree.mc_truth_Ztaul2_E = Ztaul2->p4().E();
+   if( Ztaunu1 ) tree.mc_truth_Ztaunu1_E = Ztaunu1->p4().E();
+   if( Ztaunu2 ) tree.mc_truth_Ztaunu2_E = Ztaunu2->p4().E();
+   if( Ztaunutau1 ) tree.mc_truth_Ztaunutau1_E = Ztaunutau1->p4().E();
+   if( Ztaunutau2 ) tree.mc_truth_Ztaunutau2_E = Ztaunutau2->p4().E();
+   if( Zq1 ) tree.mc_truth_Zq1_E = Zq1->p4().E();
+   if( Zq2 ) tree.mc_truth_Zq2_E = Zq2->p4().E();
+   if( Znu1 ) tree.mc_truth_Znu1_E = Znu1->p4().E();
+   if( Znu2 ) tree.mc_truth_Znu2_E = Znu2->p4().E();
+
+   if( gammal1 ) tree.mc_truth_gammal1_E = gammal1->p4().E();
+   if( gammal2 ) tree.mc_truth_gammal2_E = gammal2->p4().E();
+   if( gammatau1 ) tree.mc_truth_gammatau1_E = gammatau1->p4().E();
+   if( gammatau2 ) tree.mc_truth_gammatau2_E = gammatau2->p4().E();
+   if( gammataul1 ) tree.mc_truth_gammataul1_E = gammataul1->p4().E();
+   if( gammataul2 ) tree.mc_truth_gammataul2_E = gammataul2->p4().E();
+   if( gammataunu1 ) tree.mc_truth_gammataunu1_E = gammataunu1->p4().E();
+   if( gammataunu2 ) tree.mc_truth_gammataunu2_E = gammataunu2->p4().E();
+   if( gammataunutau1 ) tree.mc_truth_gammataunutau1_E = gammataunutau1->p4().E();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_E = gammataunutau2->p4().E();
+   
+   if( t1 ) tree.mc_truth_t1_E = t1->p4().E();
+   if( t2 ) tree.mc_truth_t2_E = t2->p4().E();
+   if( tb1 ) tree.mc_truth_tb1_E = tb1->p4().E();
+   if( tb2 ) tree.mc_truth_tb2_E = tb2->p4().E();
+   
+   if( tW1 ) tree.mc_truth_tW1_E = tW1->p4().E();
+   if( tWnu1 ) tree.mc_truth_tWnu1_E = tWnu1->p4().E();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_E = tWnutau1->p4().E();
+   if( tWl1 ) tree.mc_truth_tWl1_E = tWl1->p4().E();
+   if( tWtau1 ) tree.mc_truth_tWtau1_E = tWtau1->p4().E();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_E = tWtaunu1->p4().E();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_E = tWtaunutau1->p4().E();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_E = tWtaul1->p4().E();
+   if( tWq11 ) tree.mc_truth_tWq11_E = tWq11->p4().E();
+   if( tWq21 ) tree.mc_truth_tWq21_E = tWq21->p4().E();
+   
+   if( tW2 ) tree.mc_truth_tW2_E = tW2->p4().E();
+   if( tWnu2 ) tree.mc_truth_tWnu2_E = tWnu2->p4().E();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_E = tWnutau2->p4().E();
+   if( tWl2 ) tree.mc_truth_tWl2_E = tWl2->p4().E();
+   if( tWtau2 ) tree.mc_truth_tWtau2_E = tWtau2->p4().E();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_E = tWtaunu2->p4().E();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_E = tWtaunutau2->p4().E();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_E = tWtaul2->p4().E();
+   if( tWq12 ) tree.mc_truth_tWq12_E = tWq12->p4().E();
+   if( tWq22 ) tree.mc_truth_tWq22_E = tWq22->p4().E();
+   
+   if( j1 ) tree.mc_truth_j1_E = j1->p4().E();
+   if( j2 ) tree.mc_truth_j2_E = j2->p4().E();
+   if( j3 ) tree.mc_truth_j3_E = j3->p4().E();
+   
    // pdgId
 
    if( Z ) tree.mc_truth_Z_id = Z->pdgId();
@@ -3124,6 +4296,226 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    if( j2 ) p4toTLV(j2->p4(),tree.mc_truth_j2_p4);
    if( j3 ) p4toTLV(j3->p4(),tree.mc_truth_j3_p4);
 
+   // pt
+   
+   if( gammal1 ) tree.mc_truth_gammal1_pt = gammal1->p4().pt();
+   if( gammal2 ) tree.mc_truth_gammal2_pt = gammal2->p4().pt();
+   if( gammatau1 ) tree.mc_truth_gammatau1_pt = gammatau1->p4().pt();
+   if( gammatau2 ) tree.mc_truth_gammatau2_pt = gammatau2->p4().pt();
+   if( gammataul1 ) tree.mc_truth_gammataul1_pt = gammataul1->p4().pt();
+   if( gammataul2 ) tree.mc_truth_gammataul2_pt = gammataul2->p4().pt();
+   if( gammataunu1 ) tree.mc_truth_gammataunu1_pt = gammataunu1->p4().pt();
+   if( gammataunu2 ) tree.mc_truth_gammataunu2_pt = gammataunu2->p4().pt();
+   if( gammataunutau1 ) tree.mc_truth_gammataunutau1_pt = gammataunutau1->p4().pt();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_pt = gammataunutau2->p4().pt();
+
+   if( W ) tree.mc_truth_W_pt = W->p4().pt();
+   if( Wnu ) tree.mc_truth_Wnu_pt = Wnu->p4().pt();
+   if( Wnutau ) tree.mc_truth_Wnutau_pt = Wnutau->p4().pt();
+   if( Wl ) tree.mc_truth_Wl_pt = Wl->p4().pt();
+   if( Wtau ) tree.mc_truth_Wtau_pt = Wtau->p4().pt();
+   if( Wtaunu ) tree.mc_truth_Wtaunu_pt = Wtaunu->p4().pt();
+   if( Wtaunutau ) tree.mc_truth_Wtaunutau_pt = Wtaunutau->p4().pt();
+   if( Wtaul ) tree.mc_truth_Wtaul_pt = Wtaul->p4().pt();
+   if( Wq1 ) tree.mc_truth_Wq1_pt = Wq1->p4().pt();
+   if( Wq2 ) tree.mc_truth_Wq2_pt = Wq2->p4().pt();
+   
+   if( t1 ) tree.mc_truth_t1_pt = t1->p4().pt();
+   if( t2 ) tree.mc_truth_t2_pt = t2->p4().pt();
+   if( tb1 ) tree.mc_truth_tb1_pt = tb1->p4().pt();
+   if( tb2 ) tree.mc_truth_tb2_pt = tb2->p4().pt();
+   
+   if( tW1 ) tree.mc_truth_tW1_pt = tW1->p4().pt();
+   if( tWnu1 ) tree.mc_truth_tWnu1_pt = tWnu1->p4().pt();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_pt = tWnutau1->p4().pt();
+   if( tWl1 ) tree.mc_truth_tWl1_pt = tWl1->p4().pt();
+   if( tWtau1 ) tree.mc_truth_tWtau1_pt = tWtau1->p4().pt();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_pt = tWtaunu1->p4().pt();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_pt = tWtaunutau1->p4().pt();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_pt = tWtaul1->p4().pt();
+   if( tWq11 ) tree.mc_truth_tWq11_pt = tWq11->p4().pt();
+   if( tWq21 ) tree.mc_truth_tWq21_pt = tWq21->p4().pt();
+   
+   if( tW2 ) tree.mc_truth_tW2_pt = tW2->p4().pt();
+   if( tWnu2 ) tree.mc_truth_tWnu2_pt = tWnu2->p4().pt();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_pt = tWnutau2->p4().pt();
+   if( tWl2 ) tree.mc_truth_tWl2_pt = tWl2->p4().pt();
+   if( tWtau2 ) tree.mc_truth_tWtau2_pt = tWtau2->p4().pt();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_pt = tWtaunu2->p4().pt();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_pt = tWtaunutau2->p4().pt();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_pt = tWtaul2->p4().pt();
+   if( tWq12 ) tree.mc_truth_tWq12_pt = tWq12->p4().pt();
+   if( tWq22 ) tree.mc_truth_tWq22_pt = tWq22->p4().pt();
+   
+   if( j1 ) tree.mc_truth_j1_pt = j1->p4().pt();
+   if( j2 ) tree.mc_truth_j2_pt = j2->p4().pt();
+   if( j3 ) tree.mc_truth_j3_pt = j3->p4().pt();
+
+   // eta
+   
+   if( gammal1 ) tree.mc_truth_gammal1_eta = gammal1->p4().eta();
+   if( gammal2 ) tree.mc_truth_gammal2_eta = gammal2->p4().eta();
+   if( gammatau1 ) tree.mc_truth_gammatau1_eta = gammatau1->p4().eta();
+   if( gammatau2 ) tree.mc_truth_gammatau2_eta = gammatau2->p4().eta();
+   if( gammataul1 ) tree.mc_truth_gammataul1_eta = gammataul1->p4().eta();
+   if( gammataul2 ) tree.mc_truth_gammataul2_eta = gammataul2->p4().eta();
+   if( gammataunu1 ) tree.mc_truth_gammataunu1_eta = gammataunu1->p4().eta();
+   if( gammataunu2 ) tree.mc_truth_gammataunu2_eta = gammataunu2->p4().eta();
+   if( gammataunutau1 ) tree.mc_truth_gammataunutau1_eta = gammataunutau1->p4().eta();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_eta = gammataunutau2->p4().eta();
+
+   if( W ) tree.mc_truth_W_eta = W->p4().eta();
+   if( Wnu ) tree.mc_truth_Wnu_eta = Wnu->p4().eta();
+   if( Wnutau ) tree.mc_truth_Wnutau_eta = Wnutau->p4().eta();
+   if( Wl ) tree.mc_truth_Wl_eta = Wl->p4().eta();
+   if( Wtau ) tree.mc_truth_Wtau_eta = Wtau->p4().eta();
+   if( Wtaunu ) tree.mc_truth_Wtaunu_eta = Wtaunu->p4().eta();
+   if( Wtaunutau ) tree.mc_truth_Wtaunutau_eta = Wtaunutau->p4().eta();
+   if( Wtaul ) tree.mc_truth_Wtaul_eta = Wtaul->p4().eta();
+   if( Wq1 ) tree.mc_truth_Wq1_eta = Wq1->p4().eta();
+   if( Wq2 ) tree.mc_truth_Wq2_eta = Wq2->p4().eta();
+   
+   if( t1 ) tree.mc_truth_t1_eta = t1->p4().eta();
+   if( t2 ) tree.mc_truth_t2_eta = t2->p4().eta();
+   if( tb1 ) tree.mc_truth_tb1_eta = tb1->p4().eta();
+   if( tb2 ) tree.mc_truth_tb2_eta = tb2->p4().eta();
+   
+   if( tW1 ) tree.mc_truth_tW1_eta = tW1->p4().eta();
+   if( tWnu1 ) tree.mc_truth_tWnu1_eta = tWnu1->p4().eta();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_eta = tWnutau1->p4().eta();
+   if( tWl1 ) tree.mc_truth_tWl1_eta = tWl1->p4().eta();
+   if( tWtau1 ) tree.mc_truth_tWtau1_eta = tWtau1->p4().eta();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_eta = tWtaunu1->p4().eta();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_eta = tWtaunutau1->p4().eta();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_eta = tWtaul1->p4().eta();
+   if( tWq11 ) tree.mc_truth_tWq11_eta = tWq11->p4().eta();
+   if( tWq21 ) tree.mc_truth_tWq21_eta = tWq21->p4().eta();
+   
+   if( tW2 ) tree.mc_truth_tW2_eta = tW2->p4().eta();
+   if( tWnu2 ) tree.mc_truth_tWnu2_eta = tWnu2->p4().eta();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_eta = tWnutau2->p4().eta();
+   if( tWl2 ) tree.mc_truth_tWl2_eta = tWl2->p4().eta();
+   if( tWtau2 ) tree.mc_truth_tWtau2_eta = tWtau2->p4().eta();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_eta = tWtaunu2->p4().eta();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_eta = tWtaunutau2->p4().eta();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_eta = tWtaul2->p4().eta();
+   if( tWq12 ) tree.mc_truth_tWq12_eta = tWq12->p4().eta();
+   if( tWq22 ) tree.mc_truth_tWq22_eta = tWq22->p4().eta();
+   
+   if( j1 ) tree.mc_truth_j1_eta = j1->p4().eta();
+   if( j2 ) tree.mc_truth_j2_eta = j2->p4().eta();
+   if( j3 ) tree.mc_truth_j3_eta = j3->p4().eta();
+
+   // phi
+   
+   if( gammal1 ) tree.mc_truth_gammal1_phi = gammal1->p4().phi();
+   if( gammal2 ) tree.mc_truth_gammal2_phi = gammal2->p4().phi();
+   if( gammatau1 ) tree.mc_truth_gammatau1_phi = gammatau1->p4().phi();
+   if( gammatau2 ) tree.mc_truth_gammatau2_phi = gammatau2->p4().phi();
+   if( gammataul1 ) tree.mc_truth_gammataul1_phi = gammataul1->p4().phi();
+   if( gammataul2 ) tree.mc_truth_gammataul2_phi = gammataul2->p4().phi();
+   if( gammataunu1 ) tree.mc_truth_gammataunu1_phi = gammataunu1->p4().phi();
+   if( gammataunu2 ) tree.mc_truth_gammataunu2_phi = gammataunu2->p4().phi();
+   if( gammataunutau1 ) tree.mc_truth_gammataunutau1_phi = gammataunutau1->p4().phi();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_phi = gammataunutau2->p4().phi();
+
+   if( W ) tree.mc_truth_W_phi = W->p4().phi();
+   if( Wnu ) tree.mc_truth_Wnu_phi = Wnu->p4().phi();
+   if( Wnutau ) tree.mc_truth_Wnutau_phi = Wnutau->p4().phi();
+   if( Wl ) tree.mc_truth_Wl_phi = Wl->p4().phi();
+   if( Wtau ) tree.mc_truth_Wtau_phi = Wtau->p4().phi();
+   if( Wtaunu ) tree.mc_truth_Wtaunu_phi = Wtaunu->p4().phi();
+   if( Wtaunutau ) tree.mc_truth_Wtaunutau_phi = Wtaunutau->p4().phi();
+   if( Wtaul ) tree.mc_truth_Wtaul_phi = Wtaul->p4().phi();
+   if( Wq1 ) tree.mc_truth_Wq1_phi = Wq1->p4().phi();
+   if( Wq2 ) tree.mc_truth_Wq2_phi = Wq2->p4().phi();
+   
+   if( t1 ) tree.mc_truth_t1_phi = t1->p4().phi();
+   if( t2 ) tree.mc_truth_t2_phi = t2->p4().phi();
+   if( tb1 ) tree.mc_truth_tb1_phi = tb1->p4().phi();
+   if( tb2 ) tree.mc_truth_tb2_phi = tb2->p4().phi();
+   
+   if( tW1 ) tree.mc_truth_tW1_phi = tW1->p4().phi();
+   if( tWnu1 ) tree.mc_truth_tWnu1_phi = tWnu1->p4().phi();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_phi = tWnutau1->p4().phi();
+   if( tWl1 ) tree.mc_truth_tWl1_phi = tWl1->p4().phi();
+   if( tWtau1 ) tree.mc_truth_tWtau1_phi = tWtau1->p4().phi();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_phi = tWtaunu1->p4().phi();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_phi = tWtaunutau1->p4().phi();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_phi = tWtaul1->p4().phi();
+   if( tWq11 ) tree.mc_truth_tWq11_phi = tWq11->p4().phi();
+   if( tWq21 ) tree.mc_truth_tWq21_phi = tWq21->p4().phi();
+   
+   if( tW2 ) tree.mc_truth_tW2_phi = tW2->p4().phi();
+   if( tWnu2 ) tree.mc_truth_tWnu2_phi = tWnu2->p4().phi();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_phi = tWnutau2->p4().phi();
+   if( tWl2 ) tree.mc_truth_tWl2_phi = tWl2->p4().phi();
+   if( tWtau2 ) tree.mc_truth_tWtau2_phi = tWtau2->p4().phi();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_phi = tWtaunu2->p4().phi();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_phi = tWtaunutau2->p4().phi();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_phi = tWtaul2->p4().phi();
+   if( tWq12 ) tree.mc_truth_tWq12_phi = tWq12->p4().phi();
+   if( tWq22 ) tree.mc_truth_tWq22_phi = tWq22->p4().phi();
+   
+   if( j1 ) tree.mc_truth_j1_phi = j1->p4().phi();
+   if( j2 ) tree.mc_truth_j2_phi = j2->p4().phi();
+   if( j3 ) tree.mc_truth_j3_phi = j3->p4().phi();
+
+   // E
+   
+   if( gammal1 ) tree.mc_truth_gammal1_E = gammal1->p4().E();
+   if( gammal2 ) tree.mc_truth_gammal2_E = gammal2->p4().E();
+   if( gammatau1 ) tree.mc_truth_gammatau1_E = gammatau1->p4().E();
+   if( gammatau2 ) tree.mc_truth_gammatau2_E = gammatau2->p4().E();
+   if( gammataul1 ) tree.mc_truth_gammataul1_E = gammataul1->p4().E();
+   if( gammataul2 ) tree.mc_truth_gammataul2_E = gammataul2->p4().E();
+   if( gammataunu1 ) tree.mc_truth_gammataunu1_E = gammataunu1->p4().E();
+   if( gammataunu2 ) tree.mc_truth_gammataunu2_E = gammataunu2->p4().E();
+   if( gammataunutau1 ) tree.mc_truth_gammataunutau1_E = gammataunutau1->p4().E();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_E = gammataunutau2->p4().E();
+
+   if( W ) tree.mc_truth_W_E = W->p4().E();
+   if( Wnu ) tree.mc_truth_Wnu_E = Wnu->p4().E();
+   if( Wnutau ) tree.mc_truth_Wnutau_E = Wnutau->p4().E();
+   if( Wl ) tree.mc_truth_Wl_E = Wl->p4().E();
+   if( Wtau ) tree.mc_truth_Wtau_E = Wtau->p4().E();
+   if( Wtaunu ) tree.mc_truth_Wtaunu_E = Wtaunu->p4().E();
+   if( Wtaunutau ) tree.mc_truth_Wtaunutau_E = Wtaunutau->p4().E();
+   if( Wtaul ) tree.mc_truth_Wtaul_E = Wtaul->p4().E();
+   if( Wq1 ) tree.mc_truth_Wq1_E = Wq1->p4().E();
+   if( Wq2 ) tree.mc_truth_Wq2_E = Wq2->p4().E();
+   
+   if( t1 ) tree.mc_truth_t1_E = t1->p4().E();
+   if( t2 ) tree.mc_truth_t2_E = t2->p4().E();
+   if( tb1 ) tree.mc_truth_tb1_E = tb1->p4().E();
+   if( tb2 ) tree.mc_truth_tb2_E = tb2->p4().E();
+   
+   if( tW1 ) tree.mc_truth_tW1_E = tW1->p4().E();
+   if( tWnu1 ) tree.mc_truth_tWnu1_E = tWnu1->p4().E();
+   if( tWnutau1 ) tree.mc_truth_tWnutau1_E = tWnutau1->p4().E();
+   if( tWl1 ) tree.mc_truth_tWl1_E = tWl1->p4().E();
+   if( tWtau1 ) tree.mc_truth_tWtau1_E = tWtau1->p4().E();
+   if( tWtaunu1 ) tree.mc_truth_tWtaunu1_E = tWtaunu1->p4().E();
+   if( tWtaunutau1 ) tree.mc_truth_tWtaunutau1_E = tWtaunutau1->p4().E();
+   if( tWtaul1 ) tree.mc_truth_tWtaul1_E = tWtaul1->p4().E();
+   if( tWq11 ) tree.mc_truth_tWq11_E = tWq11->p4().E();
+   if( tWq21 ) tree.mc_truth_tWq21_E = tWq21->p4().E();
+   
+   if( tW2 ) tree.mc_truth_tW2_E = tW2->p4().E();
+   if( tWnu2 ) tree.mc_truth_tWnu2_E = tWnu2->p4().E();
+   if( tWnutau2 ) tree.mc_truth_tWnutau2_E = tWnutau2->p4().E();
+   if( tWl2 ) tree.mc_truth_tWl2_E = tWl2->p4().E();
+   if( tWtau2 ) tree.mc_truth_tWtau2_E = tWtau2->p4().E();
+   if( tWtaunu2 ) tree.mc_truth_tWtaunu2_E = tWtaunu2->p4().E();
+   if( tWtaunutau2 ) tree.mc_truth_tWtaunutau2_E = tWtaunutau2->p4().E();
+   if( tWtaul2 ) tree.mc_truth_tWtaul2_E = tWtaul2->p4().E();
+   if( tWq12 ) tree.mc_truth_tWq12_E = tWq12->p4().E();
+   if( tWq22 ) tree.mc_truth_tWq22_E = tWq22->p4().E();
+   
+   if( j1 ) tree.mc_truth_j1_E = j1->p4().E();
+   if( j2 ) tree.mc_truth_j2_E = j2->p4().E();
+   if( j3 ) tree.mc_truth_j3_E = j3->p4().E();
+   
    // pdgId
 
    if( gammal1 ) tree.mc_truth_gammal1_id = gammal1->pdgId();
@@ -3703,6 +5095,130 @@ void MCTruth::fillTZQSignalGenParticles(const edm::Event& iEvent,
    if( j2 ) p4toTLV(j2->p4(),tree.mc_truth_j2_p4);
    if( j3 ) p4toTLV(j3->p4(),tree.mc_truth_j3_p4);
 
+   // pt
+
+   if( Z ) tree.mc_truth_Z_pt = Z->p4().pt();
+   if( Zl1 ) tree.mc_truth_Zl1_pt = Zl1->p4().pt();
+   if( Zl2 ) tree.mc_truth_Zl2_pt = Zl2->p4().pt();
+   if( Ztau1 ) tree.mc_truth_Ztau1_pt = Ztau1->p4().pt();
+   if( Ztau2 ) tree.mc_truth_Ztau2_pt = Ztau2->p4().pt();
+   if( Ztaul1 ) tree.mc_truth_Ztaul1_pt = Ztaul1->p4().pt();
+   if( Ztaul2 ) tree.mc_truth_Ztaul2_pt = Ztaul2->p4().pt();
+   if( Ztaunu1 ) tree.mc_truth_Ztaunu1_pt = Ztaunu1->p4().pt();
+   if( Ztaunu2 ) tree.mc_truth_Ztaunu2_pt = Ztaunu2->p4().pt();
+   if( Ztaunutau1 ) tree.mc_truth_Ztaunutau1_pt = Ztaunutau1->p4().pt();
+   if( Ztaunutau2 ) tree.mc_truth_Ztaunutau2_pt = Ztaunutau2->p4().pt();
+   
+   if( t ) tree.mc_truth_t_pt = t->p4().pt();
+   if( tb ) tree.mc_truth_tb_pt = tb->p4().pt();
+   if( tW ) tree.mc_truth_tW_pt = tW->p4().pt();
+   if( tWnu ) tree.mc_truth_tWnu_pt = tWnu->p4().pt();
+   if( tWnutau ) tree.mc_truth_tWnutau_pt = tWnutau->p4().pt();
+   if( tWl ) tree.mc_truth_tWl_pt = tWl->p4().pt();
+   if( tWtau ) tree.mc_truth_tWtau_pt = tWtau->p4().pt();
+   if( tWtaunu ) tree.mc_truth_tWtaunu_pt = tWtaunu->p4().pt();
+   if( tWtaunutau ) tree.mc_truth_tWtaunutau_pt = tWtaunutau->p4().pt();
+   if( tWtaul ) tree.mc_truth_tWtaul_pt = tWtaul->p4().pt();
+   if( tWq1 ) tree.mc_truth_tWq1_pt = tWq1->p4().pt();
+   if( tWq2 ) tree.mc_truth_tWq2_pt = tWq2->p4().pt();
+   
+   if( j1 ) tree.mc_truth_j1_pt = j1->p4().pt();
+   if( j2 ) tree.mc_truth_j2_pt = j2->p4().pt();
+   if( j3 ) tree.mc_truth_j3_pt = j3->p4().pt();
+
+   // eta
+
+   if( Z ) tree.mc_truth_Z_eta = Z->p4().eta();
+   if( Zl1 ) tree.mc_truth_Zl1_eta = Zl1->p4().eta();
+   if( Zl2 ) tree.mc_truth_Zl2_eta = Zl2->p4().eta();
+   if( Ztau1 ) tree.mc_truth_Ztau1_eta = Ztau1->p4().eta();
+   if( Ztau2 ) tree.mc_truth_Ztau2_eta = Ztau2->p4().eta();
+   if( Ztaul1 ) tree.mc_truth_Ztaul1_eta = Ztaul1->p4().eta();
+   if( Ztaul2 ) tree.mc_truth_Ztaul2_eta = Ztaul2->p4().eta();
+   if( Ztaunu1 ) tree.mc_truth_Ztaunu1_eta = Ztaunu1->p4().eta();
+   if( Ztaunu2 ) tree.mc_truth_Ztaunu2_eta = Ztaunu2->p4().eta();
+   if( Ztaunutau1 ) tree.mc_truth_Ztaunutau1_eta = Ztaunutau1->p4().eta();
+   if( Ztaunutau2 ) tree.mc_truth_Ztaunutau2_eta = Ztaunutau2->p4().eta();
+   
+   if( t ) tree.mc_truth_t_eta = t->p4().eta();
+   if( tb ) tree.mc_truth_tb_eta = tb->p4().eta();
+   if( tW ) tree.mc_truth_tW_eta = tW->p4().eta();
+   if( tWnu ) tree.mc_truth_tWnu_eta = tWnu->p4().eta();
+   if( tWnutau ) tree.mc_truth_tWnutau_eta = tWnutau->p4().eta();
+   if( tWl ) tree.mc_truth_tWl_eta = tWl->p4().eta();
+   if( tWtau ) tree.mc_truth_tWtau_eta = tWtau->p4().eta();
+   if( tWtaunu ) tree.mc_truth_tWtaunu_eta = tWtaunu->p4().eta();
+   if( tWtaunutau ) tree.mc_truth_tWtaunutau_eta = tWtaunutau->p4().eta();
+   if( tWtaul ) tree.mc_truth_tWtaul_eta = tWtaul->p4().eta();
+   if( tWq1 ) tree.mc_truth_tWq1_eta = tWq1->p4().eta();
+   if( tWq2 ) tree.mc_truth_tWq2_eta = tWq2->p4().eta();
+   
+   if( j1 ) tree.mc_truth_j1_eta = j1->p4().eta();
+   if( j2 ) tree.mc_truth_j2_eta = j2->p4().eta();
+   if( j3 ) tree.mc_truth_j3_eta = j3->p4().eta();
+   
+   // phi
+
+   if( Z ) tree.mc_truth_Z_phi = Z->p4().phi();
+   if( Zl1 ) tree.mc_truth_Zl1_phi = Zl1->p4().phi();
+   if( Zl2 ) tree.mc_truth_Zl2_phi = Zl2->p4().phi();
+   if( Ztau1 ) tree.mc_truth_Ztau1_phi = Ztau1->p4().phi();
+   if( Ztau2 ) tree.mc_truth_Ztau2_phi = Ztau2->p4().phi();
+   if( Ztaul1 ) tree.mc_truth_Ztaul1_phi = Ztaul1->p4().phi();
+   if( Ztaul2 ) tree.mc_truth_Ztaul2_phi = Ztaul2->p4().phi();
+   if( Ztaunu1 ) tree.mc_truth_Ztaunu1_phi = Ztaunu1->p4().phi();
+   if( Ztaunu2 ) tree.mc_truth_Ztaunu2_phi = Ztaunu2->p4().phi();
+   if( Ztaunutau1 ) tree.mc_truth_Ztaunutau1_phi = Ztaunutau1->p4().phi();
+   if( Ztaunutau2 ) tree.mc_truth_Ztaunutau2_phi = Ztaunutau2->p4().phi();
+   
+   if( t ) tree.mc_truth_t_phi = t->p4().phi();
+   if( tb ) tree.mc_truth_tb_phi = tb->p4().phi();
+   if( tW ) tree.mc_truth_tW_phi = tW->p4().phi();
+   if( tWnu ) tree.mc_truth_tWnu_phi = tWnu->p4().phi();
+   if( tWnutau ) tree.mc_truth_tWnutau_phi = tWnutau->p4().phi();
+   if( tWl ) tree.mc_truth_tWl_phi = tWl->p4().phi();
+   if( tWtau ) tree.mc_truth_tWtau_phi = tWtau->p4().phi();
+   if( tWtaunu ) tree.mc_truth_tWtaunu_phi = tWtaunu->p4().phi();
+   if( tWtaunutau ) tree.mc_truth_tWtaunutau_phi = tWtaunutau->p4().phi();
+   if( tWtaul ) tree.mc_truth_tWtaul_phi = tWtaul->p4().phi();
+   if( tWq1 ) tree.mc_truth_tWq1_phi = tWq1->p4().phi();
+   if( tWq2 ) tree.mc_truth_tWq2_phi = tWq2->p4().phi();
+   
+   if( j1 ) tree.mc_truth_j1_phi = j1->p4().phi();
+   if( j2 ) tree.mc_truth_j2_phi = j2->p4().phi();
+   if( j3 ) tree.mc_truth_j3_phi = j3->p4().phi();
+    
+   // E
+
+   if( Z ) tree.mc_truth_Z_E = Z->p4().E();
+   if( Zl1 ) tree.mc_truth_Zl1_E = Zl1->p4().E();
+   if( Zl2 ) tree.mc_truth_Zl2_E = Zl2->p4().E();
+   if( Ztau1 ) tree.mc_truth_Ztau1_E = Ztau1->p4().E();
+   if( Ztau2 ) tree.mc_truth_Ztau2_E = Ztau2->p4().E();
+   if( Ztaul1 ) tree.mc_truth_Ztaul1_E = Ztaul1->p4().E();
+   if( Ztaul2 ) tree.mc_truth_Ztaul2_E = Ztaul2->p4().E();
+   if( Ztaunu1 ) tree.mc_truth_Ztaunu1_E = Ztaunu1->p4().E();
+   if( Ztaunu2 ) tree.mc_truth_Ztaunu2_E = Ztaunu2->p4().E();
+   if( Ztaunutau1 ) tree.mc_truth_Ztaunutau1_E = Ztaunutau1->p4().E();
+   if( Ztaunutau2 ) tree.mc_truth_Ztaunutau2_E = Ztaunutau2->p4().E();
+   
+   if( t ) tree.mc_truth_t_E = t->p4().E();
+   if( tb ) tree.mc_truth_tb_E = tb->p4().E();
+   if( tW ) tree.mc_truth_tW_E = tW->p4().E();
+   if( tWnu ) tree.mc_truth_tWnu_E = tWnu->p4().E();
+   if( tWnutau ) tree.mc_truth_tWnutau_E = tWnutau->p4().E();
+   if( tWl ) tree.mc_truth_tWl_E = tWl->p4().E();
+   if( tWtau ) tree.mc_truth_tWtau_E = tWtau->p4().E();
+   if( tWtaunu ) tree.mc_truth_tWtaunu_E = tWtaunu->p4().E();
+   if( tWtaunutau ) tree.mc_truth_tWtaunutau_E = tWtaunutau->p4().E();
+   if( tWtaul ) tree.mc_truth_tWtaul_E = tWtaul->p4().E();
+   if( tWq1 ) tree.mc_truth_tWq1_E = tWq1->p4().E();
+   if( tWq2 ) tree.mc_truth_tWq2_E = tWq2->p4().E();
+   
+   if( j1 ) tree.mc_truth_j1_E = j1->p4().E();
+   if( j2 ) tree.mc_truth_j2_E = j2->p4().E();
+   if( j3 ) tree.mc_truth_j3_E = j3->p4().E();
+  
    // pdgId
 
    if( Z ) tree.mc_truth_Z_id = Z->pdgId();
@@ -4802,6 +6318,350 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
    if( j2 ) p4toTLV(j2->p4(),tree.mc_truth_j2_p4);
    if( j3 ) p4toTLV(j3->p4(),tree.mc_truth_j3_p4);
 
+   // pt
+
+   if( h0 ) tree.mc_truth_h0_pt = h0->p4().pt();
+
+   if( h0W1 ) tree.mc_truth_h0W1_pt = h0W1->p4().pt();
+   if( h0W2 ) tree.mc_truth_h0W2_pt = h0W2->p4().pt();
+   if( h0Wl1 ) tree.mc_truth_h0Wl1_pt = h0Wl1->p4().pt();
+   if( h0Wnu1 ) tree.mc_truth_h0Wnu1_pt = h0Wnu1->p4().pt();
+   if( h0Wtau1 ) tree.mc_truth_h0Wtau1_pt = h0Wtau1->p4().pt();
+   if( h0Wnutau1 ) tree.mc_truth_h0Wnutau1_pt = h0Wnutau1->p4().pt();
+   if( h0Wtaul1 ) tree.mc_truth_h0Wtaul1_pt = h0Wtaul1->p4().pt();
+   if( h0Wtaunu1 ) tree.mc_truth_h0Wtaunu1_pt = h0Wtaunu1->p4().pt();
+   if( h0Wtaunutau1 ) tree.mc_truth_h0Wtaunutau1_pt = h0Wtaunutau1->p4().pt();
+   if( h0Wl2 ) tree.mc_truth_h0Wl2_pt = h0Wl2->p4().pt();
+   if( h0Wnu2 ) tree.mc_truth_h0Wnu2_pt = h0Wnu2->p4().pt();
+   if( h0Wtau2 ) tree.mc_truth_h0Wtau2_pt = h0Wtau2->p4().pt();
+   if( h0Wnutau2 ) tree.mc_truth_h0Wnutau2_pt = h0Wnutau2->p4().pt();
+   if( h0Wtaul2 ) tree.mc_truth_h0Wtaul2_pt = h0Wtaul2->p4().pt();
+   if( h0Wtaunu2 ) tree.mc_truth_h0Wtaunu2_pt = h0Wtaunu2->p4().pt();
+   if( h0Wtaunutau2 ) tree.mc_truth_h0Wtaunutau2_pt = h0Wtaunutau2->p4().pt();
+   if( h0Wq11 ) tree.mc_truth_h0Wq11_pt = h0Wq11->p4().pt();
+   if( h0Wq21 ) tree.mc_truth_h0Wq21_pt = h0Wq21->p4().pt();
+   if( h0Wq12 ) tree.mc_truth_h0Wq12_pt = h0Wq12->p4().pt();
+   if( h0Wq22 ) tree.mc_truth_h0Wq22_pt = h0Wq22->p4().pt();
+   
+   if( h0Z1 ) tree.mc_truth_h0Z1_pt = h0Z1->p4().pt();
+   if( h0Z2 ) tree.mc_truth_h0Z2_pt = h0Z2->p4().pt();
+   if( h0Zl11 ) tree.mc_truth_h0Zl11_pt = h0Zl11->p4().pt();
+   if( h0Zl21 ) tree.mc_truth_h0Zl21_pt = h0Zl21->p4().pt();
+   if( h0Zl12 ) tree.mc_truth_h0Zl12_pt = h0Zl12->p4().pt();
+   if( h0Zl22 ) tree.mc_truth_h0Zl22_pt = h0Zl22->p4().pt();
+   if( h0Ztau11 ) tree.mc_truth_h0Ztau11_pt = h0Ztau11->p4().pt();
+   if( h0Ztau21 ) tree.mc_truth_h0Ztau21_pt = h0Ztau21->p4().pt();
+   if( h0Ztaul11 ) tree.mc_truth_h0Ztaul11_pt = h0Ztaul11->p4().pt();
+   if( h0Ztaul21 ) tree.mc_truth_h0Ztaul21_pt = h0Ztaul21->p4().pt();
+   if( h0Ztaunu11 ) tree.mc_truth_h0Ztaunu11_pt = h0Ztaunu11->p4().pt();
+   if( h0Ztaunu21 ) tree.mc_truth_h0Ztaunu21_pt = h0Ztaunu21->p4().pt();
+   if( h0Ztaunutau11 ) tree.mc_truth_h0Ztaunutau11_pt = h0Ztaunutau11->p4().pt();
+   if( h0Ztaunutau21 ) tree.mc_truth_h0Ztaunutau21_pt = h0Ztaunutau21->p4().pt();
+   if( h0Zq11 ) tree.mc_truth_h0Zq11_pt = h0Zq11->p4().pt();
+   if( h0Zq21 ) tree.mc_truth_h0Zq21_pt = h0Zq21->p4().pt();
+   if( h0Zq12 ) tree.mc_truth_h0Zq12_pt = h0Zq12->p4().pt();
+   if( h0Zq22 ) tree.mc_truth_h0Zq22_pt = h0Zq22->p4().pt();
+   if( h0Ztau12 ) tree.mc_truth_h0Ztau12_pt = h0Ztau12->p4().pt();
+   if( h0Ztau22 ) tree.mc_truth_h0Ztau22_pt = h0Ztau22->p4().pt();
+   if( h0Ztaul12 ) tree.mc_truth_h0Ztaul12_pt = h0Ztaul12->p4().pt();
+   if( h0Ztaul22 ) tree.mc_truth_h0Ztaul22_pt = h0Ztaul22->p4().pt();
+   if( h0Ztaunu12 ) tree.mc_truth_h0Ztaunu12_pt = h0Ztaunu12->p4().pt();
+   if( h0Ztaunu22 ) tree.mc_truth_h0Ztaunu22_pt = h0Ztaunu22->p4().pt();
+   if( h0Ztaunutau12 ) tree.mc_truth_h0Ztaunutau12_pt = h0Ztaunutau12->p4().pt();
+   if( h0Ztaunutau22 ) tree.mc_truth_h0Ztaunutau22_pt = h0Ztaunutau22->p4().pt();
+   if( h0Znu11 ) tree.mc_truth_h0Znu11_pt = h0Znu11->p4().pt();
+   if( h0Znu21 ) tree.mc_truth_h0Znu21_pt = h0Znu21->p4().pt();
+   if( h0Znu12 ) tree.mc_truth_h0Znu12_pt = h0Znu12->p4().pt();
+   if( h0Znu22 ) tree.mc_truth_h0Znu22_pt = h0Znu22->p4().pt();
+   
+   if( h0tau1 ) tree.mc_truth_h0tau1_pt = h0tau1->p4().pt();
+   if( h0tau2 ) tree.mc_truth_h0tau2_pt = h0tau2->p4().pt();
+   if( h0taul1 ) tree.mc_truth_h0taul1_pt = h0taul1->p4().pt();
+   if( h0taunutau1 ) tree.mc_truth_h0taunutau1_pt = h0taunutau1->p4().pt();
+   if( h0taunu1 ) tree.mc_truth_h0taunu1_pt = h0taunu1->p4().pt();
+   if( h0taul2 ) tree.mc_truth_h0taul2_pt = h0taul2->p4().pt();
+   if( h0taunutau2 ) tree.mc_truth_h0taunutau2_pt = h0taunutau2->p4().pt();
+   if( h0taunu2 ) tree.mc_truth_h0taunu2_pt = h0taunu2->p4().pt();
+
+   if( h0b1 ) tree.mc_truth_h0b1_pt = h0b1->p4().pt();
+   if( h0b2 ) tree.mc_truth_h0b2_pt = h0b2->p4().pt();
+   
+   if( t ) tree.mc_truth_t_pt = t->p4().pt();
+   if( tb ) tree.mc_truth_tb_pt = tb->p4().pt();
+   
+   if( tW ) tree.mc_truth_tW_pt = tW->p4().pt();
+   if( tWnu ) tree.mc_truth_tWnu_pt = tWnu->p4().pt();
+   if( tWnutau ) tree.mc_truth_tWnutau_pt = tWnutau->p4().pt();
+   if( tWl ) tree.mc_truth_tWl_pt = tWl->p4().pt();
+   if( tWtau ) tree.mc_truth_tWtau_pt = tWtau->p4().pt();
+   if( tWtaunu ) tree.mc_truth_tWtaunu_pt = tWtaunu->p4().pt();
+   if( tWtaunutau ) tree.mc_truth_tWtaunutau_pt = tWtaunutau->p4().pt();
+   if( tWtaul ) tree.mc_truth_tWtaul_pt = tWtaul->p4().pt();
+   if( tWq1 ) tree.mc_truth_tWq1_pt = tWq1->p4().pt();
+   if( tWq2 ) tree.mc_truth_tWq2_pt = tWq2->p4().pt();
+   
+   if( j1 ) tree.mc_truth_j1_pt = j1->p4().pt();
+   if( j2 ) tree.mc_truth_j2_pt = j2->p4().pt();
+   if( j3 ) tree.mc_truth_j3_pt = j3->p4().pt();
+   
+   // eta
+
+   if( h0 ) tree.mc_truth_h0_eta = h0->p4().eta();
+
+   if( h0W1 ) tree.mc_truth_h0W1_eta = h0W1->p4().eta();
+   if( h0W2 ) tree.mc_truth_h0W2_eta = h0W2->p4().eta();
+   if( h0Wl1 ) tree.mc_truth_h0Wl1_eta = h0Wl1->p4().eta();
+   if( h0Wnu1 ) tree.mc_truth_h0Wnu1_eta = h0Wnu1->p4().eta();
+   if( h0Wtau1 ) tree.mc_truth_h0Wtau1_eta = h0Wtau1->p4().eta();
+   if( h0Wnutau1 ) tree.mc_truth_h0Wnutau1_eta = h0Wnutau1->p4().eta();
+   if( h0Wtaul1 ) tree.mc_truth_h0Wtaul1_eta = h0Wtaul1->p4().eta();
+   if( h0Wtaunu1 ) tree.mc_truth_h0Wtaunu1_eta = h0Wtaunu1->p4().eta();
+   if( h0Wtaunutau1 ) tree.mc_truth_h0Wtaunutau1_eta = h0Wtaunutau1->p4().eta();
+   if( h0Wl2 ) tree.mc_truth_h0Wl2_eta = h0Wl2->p4().eta();
+   if( h0Wnu2 ) tree.mc_truth_h0Wnu2_eta = h0Wnu2->p4().eta();
+   if( h0Wtau2 ) tree.mc_truth_h0Wtau2_eta = h0Wtau2->p4().eta();
+   if( h0Wnutau2 ) tree.mc_truth_h0Wnutau2_eta = h0Wnutau2->p4().eta();
+   if( h0Wtaul2 ) tree.mc_truth_h0Wtaul2_eta = h0Wtaul2->p4().eta();
+   if( h0Wtaunu2 ) tree.mc_truth_h0Wtaunu2_eta = h0Wtaunu2->p4().eta();
+   if( h0Wtaunutau2 ) tree.mc_truth_h0Wtaunutau2_eta = h0Wtaunutau2->p4().eta();
+   if( h0Wq11 ) tree.mc_truth_h0Wq11_eta = h0Wq11->p4().eta();
+   if( h0Wq21 ) tree.mc_truth_h0Wq21_eta = h0Wq21->p4().eta();
+   if( h0Wq12 ) tree.mc_truth_h0Wq12_eta = h0Wq12->p4().eta();
+   if( h0Wq22 ) tree.mc_truth_h0Wq22_eta = h0Wq22->p4().eta();
+   
+   if( h0Z1 ) tree.mc_truth_h0Z1_eta = h0Z1->p4().eta();
+   if( h0Z2 ) tree.mc_truth_h0Z2_eta = h0Z2->p4().eta();
+   if( h0Zl11 ) tree.mc_truth_h0Zl11_eta = h0Zl11->p4().eta();
+   if( h0Zl21 ) tree.mc_truth_h0Zl21_eta = h0Zl21->p4().eta();
+   if( h0Zl12 ) tree.mc_truth_h0Zl12_eta = h0Zl12->p4().eta();
+   if( h0Zl22 ) tree.mc_truth_h0Zl22_eta = h0Zl22->p4().eta();
+   if( h0Ztau11 ) tree.mc_truth_h0Ztau11_eta = h0Ztau11->p4().eta();
+   if( h0Ztau21 ) tree.mc_truth_h0Ztau21_eta = h0Ztau21->p4().eta();
+   if( h0Ztaul11 ) tree.mc_truth_h0Ztaul11_eta = h0Ztaul11->p4().eta();
+   if( h0Ztaul21 ) tree.mc_truth_h0Ztaul21_eta = h0Ztaul21->p4().eta();
+   if( h0Ztaunu11 ) tree.mc_truth_h0Ztaunu11_eta = h0Ztaunu11->p4().eta();
+   if( h0Ztaunu21 ) tree.mc_truth_h0Ztaunu21_eta = h0Ztaunu21->p4().eta();
+   if( h0Ztaunutau11 ) tree.mc_truth_h0Ztaunutau11_eta = h0Ztaunutau11->p4().eta();
+   if( h0Ztaunutau21 ) tree.mc_truth_h0Ztaunutau21_eta = h0Ztaunutau21->p4().eta();
+   if( h0Zq11 ) tree.mc_truth_h0Zq11_eta = h0Zq11->p4().eta();
+   if( h0Zq21 ) tree.mc_truth_h0Zq21_eta = h0Zq21->p4().eta();
+   if( h0Zq12 ) tree.mc_truth_h0Zq12_eta = h0Zq12->p4().eta();
+   if( h0Zq22 ) tree.mc_truth_h0Zq22_eta = h0Zq22->p4().eta();
+   if( h0Ztau12 ) tree.mc_truth_h0Ztau12_eta = h0Ztau12->p4().eta();
+   if( h0Ztau22 ) tree.mc_truth_h0Ztau22_eta = h0Ztau22->p4().eta();
+   if( h0Ztaul12 ) tree.mc_truth_h0Ztaul12_eta = h0Ztaul12->p4().eta();
+   if( h0Ztaul22 ) tree.mc_truth_h0Ztaul22_eta = h0Ztaul22->p4().eta();
+   if( h0Ztaunu12 ) tree.mc_truth_h0Ztaunu12_eta = h0Ztaunu12->p4().eta();
+   if( h0Ztaunu22 ) tree.mc_truth_h0Ztaunu22_eta = h0Ztaunu22->p4().eta();
+   if( h0Ztaunutau12 ) tree.mc_truth_h0Ztaunutau12_eta = h0Ztaunutau12->p4().eta();
+   if( h0Ztaunutau22 ) tree.mc_truth_h0Ztaunutau22_eta = h0Ztaunutau22->p4().eta();
+   if( h0Znu11 ) tree.mc_truth_h0Znu11_eta = h0Znu11->p4().eta();
+   if( h0Znu21 ) tree.mc_truth_h0Znu21_eta = h0Znu21->p4().eta();
+   if( h0Znu12 ) tree.mc_truth_h0Znu12_eta = h0Znu12->p4().eta();
+   if( h0Znu22 ) tree.mc_truth_h0Znu22_eta = h0Znu22->p4().eta();
+   
+   if( h0tau1 ) tree.mc_truth_h0tau1_eta = h0tau1->p4().eta();
+   if( h0tau2 ) tree.mc_truth_h0tau2_eta = h0tau2->p4().eta();
+   if( h0taul1 ) tree.mc_truth_h0taul1_eta = h0taul1->p4().eta();
+   if( h0taunutau1 ) tree.mc_truth_h0taunutau1_eta = h0taunutau1->p4().eta();
+   if( h0taunu1 ) tree.mc_truth_h0taunu1_eta = h0taunu1->p4().eta();
+   if( h0taul2 ) tree.mc_truth_h0taul2_eta = h0taul2->p4().eta();
+   if( h0taunutau2 ) tree.mc_truth_h0taunutau2_eta = h0taunutau2->p4().eta();
+   if( h0taunu2 ) tree.mc_truth_h0taunu2_eta = h0taunu2->p4().eta();
+
+   if( h0b1 ) tree.mc_truth_h0b1_eta = h0b1->p4().eta();
+   if( h0b2 ) tree.mc_truth_h0b2_eta = h0b2->p4().eta();
+   
+   if( t ) tree.mc_truth_t_eta = t->p4().eta();
+   if( tb ) tree.mc_truth_tb_eta = tb->p4().eta();
+   
+   if( tW ) tree.mc_truth_tW_eta = tW->p4().eta();
+   if( tWnu ) tree.mc_truth_tWnu_eta = tWnu->p4().eta();
+   if( tWnutau ) tree.mc_truth_tWnutau_eta = tWnutau->p4().eta();
+   if( tWl ) tree.mc_truth_tWl_eta = tWl->p4().eta();
+   if( tWtau ) tree.mc_truth_tWtau_eta = tWtau->p4().eta();
+   if( tWtaunu ) tree.mc_truth_tWtaunu_eta = tWtaunu->p4().eta();
+   if( tWtaunutau ) tree.mc_truth_tWtaunutau_eta = tWtaunutau->p4().eta();
+   if( tWtaul ) tree.mc_truth_tWtaul_eta = tWtaul->p4().eta();
+   if( tWq1 ) tree.mc_truth_tWq1_eta = tWq1->p4().eta();
+   if( tWq2 ) tree.mc_truth_tWq2_eta = tWq2->p4().eta();
+   
+   if( j1 ) tree.mc_truth_j1_eta = j1->p4().eta();
+   if( j2 ) tree.mc_truth_j2_eta = j2->p4().eta();
+   if( j3 ) tree.mc_truth_j3_eta = j3->p4().eta();
+
+   // phi
+
+   if( h0 ) tree.mc_truth_h0_phi = h0->p4().phi();
+
+   if( h0W1 ) tree.mc_truth_h0W1_phi = h0W1->p4().phi();
+   if( h0W2 ) tree.mc_truth_h0W2_phi = h0W2->p4().phi();
+   if( h0Wl1 ) tree.mc_truth_h0Wl1_phi = h0Wl1->p4().phi();
+   if( h0Wnu1 ) tree.mc_truth_h0Wnu1_phi = h0Wnu1->p4().phi();
+   if( h0Wtau1 ) tree.mc_truth_h0Wtau1_phi = h0Wtau1->p4().phi();
+   if( h0Wnutau1 ) tree.mc_truth_h0Wnutau1_phi = h0Wnutau1->p4().phi();
+   if( h0Wtaul1 ) tree.mc_truth_h0Wtaul1_phi = h0Wtaul1->p4().phi();
+   if( h0Wtaunu1 ) tree.mc_truth_h0Wtaunu1_phi = h0Wtaunu1->p4().phi();
+   if( h0Wtaunutau1 ) tree.mc_truth_h0Wtaunutau1_phi = h0Wtaunutau1->p4().phi();
+   if( h0Wl2 ) tree.mc_truth_h0Wl2_phi = h0Wl2->p4().phi();
+   if( h0Wnu2 ) tree.mc_truth_h0Wnu2_phi = h0Wnu2->p4().phi();
+   if( h0Wtau2 ) tree.mc_truth_h0Wtau2_phi = h0Wtau2->p4().phi();
+   if( h0Wnutau2 ) tree.mc_truth_h0Wnutau2_phi = h0Wnutau2->p4().phi();
+   if( h0Wtaul2 ) tree.mc_truth_h0Wtaul2_phi = h0Wtaul2->p4().phi();
+   if( h0Wtaunu2 ) tree.mc_truth_h0Wtaunu2_phi = h0Wtaunu2->p4().phi();
+   if( h0Wtaunutau2 ) tree.mc_truth_h0Wtaunutau2_phi = h0Wtaunutau2->p4().phi();
+   if( h0Wq11 ) tree.mc_truth_h0Wq11_phi = h0Wq11->p4().phi();
+   if( h0Wq21 ) tree.mc_truth_h0Wq21_phi = h0Wq21->p4().phi();
+   if( h0Wq12 ) tree.mc_truth_h0Wq12_phi = h0Wq12->p4().phi();
+   if( h0Wq22 ) tree.mc_truth_h0Wq22_phi = h0Wq22->p4().phi();
+   
+   if( h0Z1 ) tree.mc_truth_h0Z1_phi = h0Z1->p4().phi();
+   if( h0Z2 ) tree.mc_truth_h0Z2_phi = h0Z2->p4().phi();
+   if( h0Zl11 ) tree.mc_truth_h0Zl11_phi = h0Zl11->p4().phi();
+   if( h0Zl21 ) tree.mc_truth_h0Zl21_phi = h0Zl21->p4().phi();
+   if( h0Zl12 ) tree.mc_truth_h0Zl12_phi = h0Zl12->p4().phi();
+   if( h0Zl22 ) tree.mc_truth_h0Zl22_phi = h0Zl22->p4().phi();
+   if( h0Ztau11 ) tree.mc_truth_h0Ztau11_phi = h0Ztau11->p4().phi();
+   if( h0Ztau21 ) tree.mc_truth_h0Ztau21_phi = h0Ztau21->p4().phi();
+   if( h0Ztaul11 ) tree.mc_truth_h0Ztaul11_phi = h0Ztaul11->p4().phi();
+   if( h0Ztaul21 ) tree.mc_truth_h0Ztaul21_phi = h0Ztaul21->p4().phi();
+   if( h0Ztaunu11 ) tree.mc_truth_h0Ztaunu11_phi = h0Ztaunu11->p4().phi();
+   if( h0Ztaunu21 ) tree.mc_truth_h0Ztaunu21_phi = h0Ztaunu21->p4().phi();
+   if( h0Ztaunutau11 ) tree.mc_truth_h0Ztaunutau11_phi = h0Ztaunutau11->p4().phi();
+   if( h0Ztaunutau21 ) tree.mc_truth_h0Ztaunutau21_phi = h0Ztaunutau21->p4().phi();
+   if( h0Zq11 ) tree.mc_truth_h0Zq11_phi = h0Zq11->p4().phi();
+   if( h0Zq21 ) tree.mc_truth_h0Zq21_phi = h0Zq21->p4().phi();
+   if( h0Zq12 ) tree.mc_truth_h0Zq12_phi = h0Zq12->p4().phi();
+   if( h0Zq22 ) tree.mc_truth_h0Zq22_phi = h0Zq22->p4().phi();
+   if( h0Ztau12 ) tree.mc_truth_h0Ztau12_phi = h0Ztau12->p4().phi();
+   if( h0Ztau22 ) tree.mc_truth_h0Ztau22_phi = h0Ztau22->p4().phi();
+   if( h0Ztaul12 ) tree.mc_truth_h0Ztaul12_phi = h0Ztaul12->p4().phi();
+   if( h0Ztaul22 ) tree.mc_truth_h0Ztaul22_phi = h0Ztaul22->p4().phi();
+   if( h0Ztaunu12 ) tree.mc_truth_h0Ztaunu12_phi = h0Ztaunu12->p4().phi();
+   if( h0Ztaunu22 ) tree.mc_truth_h0Ztaunu22_phi = h0Ztaunu22->p4().phi();
+   if( h0Ztaunutau12 ) tree.mc_truth_h0Ztaunutau12_phi = h0Ztaunutau12->p4().phi();
+   if( h0Ztaunutau22 ) tree.mc_truth_h0Ztaunutau22_phi = h0Ztaunutau22->p4().phi();
+   if( h0Znu11 ) tree.mc_truth_h0Znu11_phi = h0Znu11->p4().phi();
+   if( h0Znu21 ) tree.mc_truth_h0Znu21_phi = h0Znu21->p4().phi();
+   if( h0Znu12 ) tree.mc_truth_h0Znu12_phi = h0Znu12->p4().phi();
+   if( h0Znu22 ) tree.mc_truth_h0Znu22_phi = h0Znu22->p4().phi();
+   
+   if( h0tau1 ) tree.mc_truth_h0tau1_phi = h0tau1->p4().phi();
+   if( h0tau2 ) tree.mc_truth_h0tau2_phi = h0tau2->p4().phi();
+   if( h0taul1 ) tree.mc_truth_h0taul1_phi = h0taul1->p4().phi();
+   if( h0taunutau1 ) tree.mc_truth_h0taunutau1_phi = h0taunutau1->p4().phi();
+   if( h0taunu1 ) tree.mc_truth_h0taunu1_phi = h0taunu1->p4().phi();
+   if( h0taul2 ) tree.mc_truth_h0taul2_phi = h0taul2->p4().phi();
+   if( h0taunutau2 ) tree.mc_truth_h0taunutau2_phi = h0taunutau2->p4().phi();
+   if( h0taunu2 ) tree.mc_truth_h0taunu2_phi = h0taunu2->p4().phi();
+
+   if( h0b1 ) tree.mc_truth_h0b1_phi = h0b1->p4().phi();
+   if( h0b2 ) tree.mc_truth_h0b2_phi = h0b2->p4().phi();
+   
+   if( t ) tree.mc_truth_t_phi = t->p4().phi();
+   if( tb ) tree.mc_truth_tb_phi = tb->p4().phi();
+   
+   if( tW ) tree.mc_truth_tW_phi = tW->p4().phi();
+   if( tWnu ) tree.mc_truth_tWnu_phi = tWnu->p4().phi();
+   if( tWnutau ) tree.mc_truth_tWnutau_phi = tWnutau->p4().phi();
+   if( tWl ) tree.mc_truth_tWl_phi = tWl->p4().phi();
+   if( tWtau ) tree.mc_truth_tWtau_phi = tWtau->p4().phi();
+   if( tWtaunu ) tree.mc_truth_tWtaunu_phi = tWtaunu->p4().phi();
+   if( tWtaunutau ) tree.mc_truth_tWtaunutau_phi = tWtaunutau->p4().phi();
+   if( tWtaul ) tree.mc_truth_tWtaul_phi = tWtaul->p4().phi();
+   if( tWq1 ) tree.mc_truth_tWq1_phi = tWq1->p4().phi();
+   if( tWq2 ) tree.mc_truth_tWq2_phi = tWq2->p4().phi();
+   
+   if( j1 ) tree.mc_truth_j1_phi = j1->p4().phi();
+   if( j2 ) tree.mc_truth_j2_phi = j2->p4().phi();
+   if( j3 ) tree.mc_truth_j3_phi = j3->p4().phi();
+
+   // E
+
+   if( h0 ) tree.mc_truth_h0_E = h0->p4().E();
+
+   if( h0W1 ) tree.mc_truth_h0W1_E = h0W1->p4().E();
+   if( h0W2 ) tree.mc_truth_h0W2_E = h0W2->p4().E();
+   if( h0Wl1 ) tree.mc_truth_h0Wl1_E = h0Wl1->p4().E();
+   if( h0Wnu1 ) tree.mc_truth_h0Wnu1_E = h0Wnu1->p4().E();
+   if( h0Wtau1 ) tree.mc_truth_h0Wtau1_E = h0Wtau1->p4().E();
+   if( h0Wnutau1 ) tree.mc_truth_h0Wnutau1_E = h0Wnutau1->p4().E();
+   if( h0Wtaul1 ) tree.mc_truth_h0Wtaul1_E = h0Wtaul1->p4().E();
+   if( h0Wtaunu1 ) tree.mc_truth_h0Wtaunu1_E = h0Wtaunu1->p4().E();
+   if( h0Wtaunutau1 ) tree.mc_truth_h0Wtaunutau1_E = h0Wtaunutau1->p4().E();
+   if( h0Wl2 ) tree.mc_truth_h0Wl2_E = h0Wl2->p4().E();
+   if( h0Wnu2 ) tree.mc_truth_h0Wnu2_E = h0Wnu2->p4().E();
+   if( h0Wtau2 ) tree.mc_truth_h0Wtau2_E = h0Wtau2->p4().E();
+   if( h0Wnutau2 ) tree.mc_truth_h0Wnutau2_E = h0Wnutau2->p4().E();
+   if( h0Wtaul2 ) tree.mc_truth_h0Wtaul2_E = h0Wtaul2->p4().E();
+   if( h0Wtaunu2 ) tree.mc_truth_h0Wtaunu2_E = h0Wtaunu2->p4().E();
+   if( h0Wtaunutau2 ) tree.mc_truth_h0Wtaunutau2_E = h0Wtaunutau2->p4().E();
+   if( h0Wq11 ) tree.mc_truth_h0Wq11_E = h0Wq11->p4().E();
+   if( h0Wq21 ) tree.mc_truth_h0Wq21_E = h0Wq21->p4().E();
+   if( h0Wq12 ) tree.mc_truth_h0Wq12_E = h0Wq12->p4().E();
+   if( h0Wq22 ) tree.mc_truth_h0Wq22_E = h0Wq22->p4().E();
+   
+   if( h0Z1 ) tree.mc_truth_h0Z1_E = h0Z1->p4().E();
+   if( h0Z2 ) tree.mc_truth_h0Z2_E = h0Z2->p4().E();
+   if( h0Zl11 ) tree.mc_truth_h0Zl11_E = h0Zl11->p4().E();
+   if( h0Zl21 ) tree.mc_truth_h0Zl21_E = h0Zl21->p4().E();
+   if( h0Zl12 ) tree.mc_truth_h0Zl12_E = h0Zl12->p4().E();
+   if( h0Zl22 ) tree.mc_truth_h0Zl22_E = h0Zl22->p4().E();
+   if( h0Ztau11 ) tree.mc_truth_h0Ztau11_E = h0Ztau11->p4().E();
+   if( h0Ztau21 ) tree.mc_truth_h0Ztau21_E = h0Ztau21->p4().E();
+   if( h0Ztaul11 ) tree.mc_truth_h0Ztaul11_E = h0Ztaul11->p4().E();
+   if( h0Ztaul21 ) tree.mc_truth_h0Ztaul21_E = h0Ztaul21->p4().E();
+   if( h0Ztaunu11 ) tree.mc_truth_h0Ztaunu11_E = h0Ztaunu11->p4().E();
+   if( h0Ztaunu21 ) tree.mc_truth_h0Ztaunu21_E = h0Ztaunu21->p4().E();
+   if( h0Ztaunutau11 ) tree.mc_truth_h0Ztaunutau11_E = h0Ztaunutau11->p4().E();
+   if( h0Ztaunutau21 ) tree.mc_truth_h0Ztaunutau21_E = h0Ztaunutau21->p4().E();
+   if( h0Zq11 ) tree.mc_truth_h0Zq11_E = h0Zq11->p4().E();
+   if( h0Zq21 ) tree.mc_truth_h0Zq21_E = h0Zq21->p4().E();
+   if( h0Zq12 ) tree.mc_truth_h0Zq12_E = h0Zq12->p4().E();
+   if( h0Zq22 ) tree.mc_truth_h0Zq22_E = h0Zq22->p4().E();
+   if( h0Ztau12 ) tree.mc_truth_h0Ztau12_E = h0Ztau12->p4().E();
+   if( h0Ztau22 ) tree.mc_truth_h0Ztau22_E = h0Ztau22->p4().E();
+   if( h0Ztaul12 ) tree.mc_truth_h0Ztaul12_E = h0Ztaul12->p4().E();
+   if( h0Ztaul22 ) tree.mc_truth_h0Ztaul22_E = h0Ztaul22->p4().E();
+   if( h0Ztaunu12 ) tree.mc_truth_h0Ztaunu12_E = h0Ztaunu12->p4().E();
+   if( h0Ztaunu22 ) tree.mc_truth_h0Ztaunu22_E = h0Ztaunu22->p4().E();
+   if( h0Ztaunutau12 ) tree.mc_truth_h0Ztaunutau12_E = h0Ztaunutau12->p4().E();
+   if( h0Ztaunutau22 ) tree.mc_truth_h0Ztaunutau22_E = h0Ztaunutau22->p4().E();
+   if( h0Znu11 ) tree.mc_truth_h0Znu11_E = h0Znu11->p4().E();
+   if( h0Znu21 ) tree.mc_truth_h0Znu21_E = h0Znu21->p4().E();
+   if( h0Znu12 ) tree.mc_truth_h0Znu12_E = h0Znu12->p4().E();
+   if( h0Znu22 ) tree.mc_truth_h0Znu22_E = h0Znu22->p4().E();
+   
+   if( h0tau1 ) tree.mc_truth_h0tau1_E = h0tau1->p4().E();
+   if( h0tau2 ) tree.mc_truth_h0tau2_E = h0tau2->p4().E();
+   if( h0taul1 ) tree.mc_truth_h0taul1_E = h0taul1->p4().E();
+   if( h0taunutau1 ) tree.mc_truth_h0taunutau1_E = h0taunutau1->p4().E();
+   if( h0taunu1 ) tree.mc_truth_h0taunu1_E = h0taunu1->p4().E();
+   if( h0taul2 ) tree.mc_truth_h0taul2_E = h0taul2->p4().E();
+   if( h0taunutau2 ) tree.mc_truth_h0taunutau2_E = h0taunutau2->p4().E();
+   if( h0taunu2 ) tree.mc_truth_h0taunu2_E = h0taunu2->p4().E();
+
+   if( h0b1 ) tree.mc_truth_h0b1_E = h0b1->p4().E();
+   if( h0b2 ) tree.mc_truth_h0b2_E = h0b2->p4().E();
+   
+   if( t ) tree.mc_truth_t_E = t->p4().E();
+   if( tb ) tree.mc_truth_tb_E = tb->p4().E();
+   
+   if( tW ) tree.mc_truth_tW_E = tW->p4().E();
+   if( tWnu ) tree.mc_truth_tWnu_E = tWnu->p4().E();
+   if( tWnutau ) tree.mc_truth_tWnutau_E = tWnutau->p4().E();
+   if( tWl ) tree.mc_truth_tWl_E = tWl->p4().E();
+   if( tWtau ) tree.mc_truth_tWtau_E = tWtau->p4().E();
+   if( tWtaunu ) tree.mc_truth_tWtaunu_E = tWtaunu->p4().E();
+   if( tWtaunutau ) tree.mc_truth_tWtaunutau_E = tWtaunutau->p4().E();
+   if( tWtaul ) tree.mc_truth_tWtaul_E = tWtaul->p4().E();
+   if( tWq1 ) tree.mc_truth_tWq1_E = tWq1->p4().E();
+   if( tWq2 ) tree.mc_truth_tWq2_E = tWq2->p4().E();
+   
+   if( j1 ) tree.mc_truth_j1_E = j1->p4().E();
+   if( j2 ) tree.mc_truth_j2_E = j2->p4().E();
+   if( j3 ) tree.mc_truth_j3_E = j3->p4().E();
+   
    // pdgId
 
    if( h0 ) tree.mc_truth_h0_id = h0->pdgId();
