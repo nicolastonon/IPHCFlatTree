@@ -173,6 +173,7 @@ class FlatTree
    std::vector<float> el_gen_eta;
    std::vector<float> el_gen_phi;
    std::vector<float> el_gen_m;
+   std::vector<float> el_gen_E;
    std::vector<int> el_gen_status;
    std::vector<int> el_gen_id;
    std::vector<int> el_gen_charge;
@@ -485,6 +486,402 @@ class FlatTree
    TLorentzVector mc_truth_j2_p4;
    TLorentzVector mc_truth_j3_p4;
 
+   // pt
+
+   float mc_truth_h0_pt;
+
+   float mc_truth_h0W1_pt;
+   float mc_truth_h0W2_pt;
+   float mc_truth_h0Wl1_pt;
+   float mc_truth_h0Wnu1_pt;
+   float mc_truth_h0Wtau1_pt;
+   float mc_truth_h0Wnutau1_pt;
+   float mc_truth_h0Wtaul1_pt;
+   float mc_truth_h0Wtaunu1_pt;
+   float mc_truth_h0Wtaunutau1_pt;
+   float mc_truth_h0Wl2_pt;
+   float mc_truth_h0Wnu2_pt;
+   float mc_truth_h0Wtau2_pt;
+   float mc_truth_h0Wnutau2_pt;
+   float mc_truth_h0Wtaul2_pt;
+   float mc_truth_h0Wtaunu2_pt;
+   float mc_truth_h0Wtaunutau2_pt;
+   float mc_truth_h0Wq11_pt;
+   float mc_truth_h0Wq21_pt;
+   float mc_truth_h0Wq12_pt;
+   float mc_truth_h0Wq22_pt;
+
+   float mc_truth_h0Z1_pt;
+   float mc_truth_h0Z2_pt;
+   float mc_truth_h0Zl11_pt;
+   float mc_truth_h0Zl21_pt;
+   float mc_truth_h0Ztau11_pt;
+   float mc_truth_h0Ztau21_pt;
+   float mc_truth_h0Ztaul11_pt;
+   float mc_truth_h0Ztaul21_pt;
+   float mc_truth_h0Ztaunu11_pt;
+   float mc_truth_h0Ztaunu21_pt;
+   float mc_truth_h0Ztaunutau11_pt;
+   float mc_truth_h0Ztaunutau21_pt;
+   float mc_truth_h0Zq11_pt;
+   float mc_truth_h0Zq21_pt;
+   float mc_truth_h0Zl12_pt;
+   float mc_truth_h0Zl22_pt;
+   float mc_truth_h0Ztau12_pt;
+   float mc_truth_h0Ztau22_pt;
+   float mc_truth_h0Ztaul12_pt;
+   float mc_truth_h0Ztaul22_pt;
+   float mc_truth_h0Ztaunu12_pt;
+   float mc_truth_h0Ztaunu22_pt;
+   float mc_truth_h0Ztaunutau12_pt;
+   float mc_truth_h0Ztaunutau22_pt;
+   float mc_truth_h0Zq12_pt;
+   float mc_truth_h0Zq22_pt;
+   float mc_truth_h0Znu11_pt;
+   float mc_truth_h0Znu21_pt;
+   float mc_truth_h0Znu12_pt;
+   float mc_truth_h0Znu22_pt;
+
+   float mc_truth_h0tau1_pt;
+   float mc_truth_h0tau2_pt;
+   float mc_truth_h0taul1_pt;
+   float mc_truth_h0taunutau1_pt;
+   float mc_truth_h0taunu1_pt;
+   float mc_truth_h0taul2_pt;
+   float mc_truth_h0taunutau2_pt;
+   float mc_truth_h0taunu2_pt;
+
+   float mc_truth_h0b1_pt;
+   float mc_truth_h0b2_pt;
+   
+   float mc_truth_t1_pt;
+   float mc_truth_t2_pt;
+   float mc_truth_tb1_pt;
+   float mc_truth_tb2_pt;
+
+   float mc_truth_tW1_pt;
+   float mc_truth_tWnu1_pt;
+   float mc_truth_tWnutau1_pt;
+   float mc_truth_tWl1_pt;
+   float mc_truth_tWtau1_pt;
+   float mc_truth_tWtaunu1_pt;
+   float mc_truth_tWtaunutau1_pt;
+   float mc_truth_tWtaul1_pt;
+   float mc_truth_tWq11_pt;
+   float mc_truth_tWq21_pt;
+
+   float mc_truth_tW2_pt;
+   float mc_truth_tWnu2_pt;
+   float mc_truth_tWnutau2_pt;
+   float mc_truth_tWl2_pt;
+   float mc_truth_tWtau2_pt;
+   float mc_truth_tWtaunu2_pt;
+   float mc_truth_tWtaunutau2_pt;
+   float mc_truth_tWtaul2_pt;
+   float mc_truth_tWq12_pt;
+   float mc_truth_tWq22_pt;
+
+   float mc_truth_j1_pt;
+   float mc_truth_j2_pt;
+   float mc_truth_j3_pt;
+
+   // eta
+
+   float mc_truth_h0_eta;
+
+   float mc_truth_h0W1_eta;
+   float mc_truth_h0W2_eta;
+   float mc_truth_h0Wl1_eta;
+   float mc_truth_h0Wnu1_eta;
+   float mc_truth_h0Wtau1_eta;
+   float mc_truth_h0Wnutau1_eta;
+   float mc_truth_h0Wtaul1_eta;
+   float mc_truth_h0Wtaunu1_eta;
+   float mc_truth_h0Wtaunutau1_eta;
+   float mc_truth_h0Wl2_eta;
+   float mc_truth_h0Wnu2_eta;
+   float mc_truth_h0Wtau2_eta;
+   float mc_truth_h0Wnutau2_eta;
+   float mc_truth_h0Wtaul2_eta;
+   float mc_truth_h0Wtaunu2_eta;
+   float mc_truth_h0Wtaunutau2_eta;
+   float mc_truth_h0Wq11_eta;
+   float mc_truth_h0Wq21_eta;
+   float mc_truth_h0Wq12_eta;
+   float mc_truth_h0Wq22_eta;
+
+   float mc_truth_h0Z1_eta;
+   float mc_truth_h0Z2_eta;
+   float mc_truth_h0Zl11_eta;
+   float mc_truth_h0Zl21_eta;
+   float mc_truth_h0Ztau11_eta;
+   float mc_truth_h0Ztau21_eta;
+   float mc_truth_h0Ztaul11_eta;
+   float mc_truth_h0Ztaul21_eta;
+   float mc_truth_h0Ztaunu11_eta;
+   float mc_truth_h0Ztaunu21_eta;
+   float mc_truth_h0Ztaunutau11_eta;
+   float mc_truth_h0Ztaunutau21_eta;
+   float mc_truth_h0Zq11_eta;
+   float mc_truth_h0Zq21_eta;
+   float mc_truth_h0Zl12_eta;
+   float mc_truth_h0Zl22_eta;
+   float mc_truth_h0Ztau12_eta;
+   float mc_truth_h0Ztau22_eta;
+   float mc_truth_h0Ztaul12_eta;
+   float mc_truth_h0Ztaul22_eta;
+   float mc_truth_h0Ztaunu12_eta;
+   float mc_truth_h0Ztaunu22_eta;
+   float mc_truth_h0Ztaunutau12_eta;
+   float mc_truth_h0Ztaunutau22_eta;
+   float mc_truth_h0Zq12_eta;
+   float mc_truth_h0Zq22_eta;
+   float mc_truth_h0Znu11_eta;
+   float mc_truth_h0Znu21_eta;
+   float mc_truth_h0Znu12_eta;
+   float mc_truth_h0Znu22_eta;
+
+   float mc_truth_h0tau1_eta;
+   float mc_truth_h0tau2_eta;
+   float mc_truth_h0taul1_eta;
+   float mc_truth_h0taunutau1_eta;
+   float mc_truth_h0taunu1_eta;
+   float mc_truth_h0taul2_eta;
+   float mc_truth_h0taunutau2_eta;
+   float mc_truth_h0taunu2_eta;
+
+   float mc_truth_h0b1_eta;
+   float mc_truth_h0b2_eta;
+   
+   float mc_truth_t1_eta;
+   float mc_truth_t2_eta;
+   float mc_truth_tb1_eta;
+   float mc_truth_tb2_eta;
+
+   float mc_truth_tW1_eta;
+   float mc_truth_tWnu1_eta;
+   float mc_truth_tWnutau1_eta;
+   float mc_truth_tWl1_eta;
+   float mc_truth_tWtau1_eta;
+   float mc_truth_tWtaunu1_eta;
+   float mc_truth_tWtaunutau1_eta;
+   float mc_truth_tWtaul1_eta;
+   float mc_truth_tWq11_eta;
+   float mc_truth_tWq21_eta;
+
+   float mc_truth_tW2_eta;
+   float mc_truth_tWnu2_eta;
+   float mc_truth_tWnutau2_eta;
+   float mc_truth_tWl2_eta;
+   float mc_truth_tWtau2_eta;
+   float mc_truth_tWtaunu2_eta;
+   float mc_truth_tWtaunutau2_eta;
+   float mc_truth_tWtaul2_eta;
+   float mc_truth_tWq12_eta;
+   float mc_truth_tWq22_eta;
+
+   float mc_truth_j1_eta;
+   float mc_truth_j2_eta;
+   float mc_truth_j3_eta;
+   
+   // phi
+
+   float mc_truth_h0_phi;
+
+   float mc_truth_h0W1_phi;
+   float mc_truth_h0W2_phi;
+   float mc_truth_h0Wl1_phi;
+   float mc_truth_h0Wnu1_phi;
+   float mc_truth_h0Wtau1_phi;
+   float mc_truth_h0Wnutau1_phi;
+   float mc_truth_h0Wtaul1_phi;
+   float mc_truth_h0Wtaunu1_phi;
+   float mc_truth_h0Wtaunutau1_phi;
+   float mc_truth_h0Wl2_phi;
+   float mc_truth_h0Wnu2_phi;
+   float mc_truth_h0Wtau2_phi;
+   float mc_truth_h0Wnutau2_phi;
+   float mc_truth_h0Wtaul2_phi;
+   float mc_truth_h0Wtaunu2_phi;
+   float mc_truth_h0Wtaunutau2_phi;
+   float mc_truth_h0Wq11_phi;
+   float mc_truth_h0Wq21_phi;
+   float mc_truth_h0Wq12_phi;
+   float mc_truth_h0Wq22_phi;
+
+   float mc_truth_h0Z1_phi;
+   float mc_truth_h0Z2_phi;
+   float mc_truth_h0Zl11_phi;
+   float mc_truth_h0Zl21_phi;
+   float mc_truth_h0Ztau11_phi;
+   float mc_truth_h0Ztau21_phi;
+   float mc_truth_h0Ztaul11_phi;
+   float mc_truth_h0Ztaul21_phi;
+   float mc_truth_h0Ztaunu11_phi;
+   float mc_truth_h0Ztaunu21_phi;
+   float mc_truth_h0Ztaunutau11_phi;
+   float mc_truth_h0Ztaunutau21_phi;
+   float mc_truth_h0Zq11_phi;
+   float mc_truth_h0Zq21_phi;
+   float mc_truth_h0Zl12_phi;
+   float mc_truth_h0Zl22_phi;
+   float mc_truth_h0Ztau12_phi;
+   float mc_truth_h0Ztau22_phi;
+   float mc_truth_h0Ztaul12_phi;
+   float mc_truth_h0Ztaul22_phi;
+   float mc_truth_h0Ztaunu12_phi;
+   float mc_truth_h0Ztaunu22_phi;
+   float mc_truth_h0Ztaunutau12_phi;
+   float mc_truth_h0Ztaunutau22_phi;
+   float mc_truth_h0Zq12_phi;
+   float mc_truth_h0Zq22_phi;
+   float mc_truth_h0Znu11_phi;
+   float mc_truth_h0Znu21_phi;
+   float mc_truth_h0Znu12_phi;
+   float mc_truth_h0Znu22_phi;
+
+   float mc_truth_h0tau1_phi;
+   float mc_truth_h0tau2_phi;
+   float mc_truth_h0taul1_phi;
+   float mc_truth_h0taunutau1_phi;
+   float mc_truth_h0taunu1_phi;
+   float mc_truth_h0taul2_phi;
+   float mc_truth_h0taunutau2_phi;
+   float mc_truth_h0taunu2_phi;
+
+   float mc_truth_h0b1_phi;
+   float mc_truth_h0b2_phi;
+   
+   float mc_truth_t1_phi;
+   float mc_truth_t2_phi;
+   float mc_truth_tb1_phi;
+   float mc_truth_tb2_phi;
+
+   float mc_truth_tW1_phi;
+   float mc_truth_tWnu1_phi;
+   float mc_truth_tWnutau1_phi;
+   float mc_truth_tWl1_phi;
+   float mc_truth_tWtau1_phi;
+   float mc_truth_tWtaunu1_phi;
+   float mc_truth_tWtaunutau1_phi;
+   float mc_truth_tWtaul1_phi;
+   float mc_truth_tWq11_phi;
+   float mc_truth_tWq21_phi;
+
+   float mc_truth_tW2_phi;
+   float mc_truth_tWnu2_phi;
+   float mc_truth_tWnutau2_phi;
+   float mc_truth_tWl2_phi;
+   float mc_truth_tWtau2_phi;
+   float mc_truth_tWtaunu2_phi;
+   float mc_truth_tWtaunutau2_phi;
+   float mc_truth_tWtaul2_phi;
+   float mc_truth_tWq12_phi;
+   float mc_truth_tWq22_phi;
+
+   float mc_truth_j1_phi;
+   float mc_truth_j2_phi;
+   float mc_truth_j3_phi;
+   
+   // E
+
+   float mc_truth_h0_E;
+
+   float mc_truth_h0W1_E;
+   float mc_truth_h0W2_E;
+   float mc_truth_h0Wl1_E;
+   float mc_truth_h0Wnu1_E;
+   float mc_truth_h0Wtau1_E;
+   float mc_truth_h0Wnutau1_E;
+   float mc_truth_h0Wtaul1_E;
+   float mc_truth_h0Wtaunu1_E;
+   float mc_truth_h0Wtaunutau1_E;
+   float mc_truth_h0Wl2_E;
+   float mc_truth_h0Wnu2_E;
+   float mc_truth_h0Wtau2_E;
+   float mc_truth_h0Wnutau2_E;
+   float mc_truth_h0Wtaul2_E;
+   float mc_truth_h0Wtaunu2_E;
+   float mc_truth_h0Wtaunutau2_E;
+   float mc_truth_h0Wq11_E;
+   float mc_truth_h0Wq21_E;
+   float mc_truth_h0Wq12_E;
+   float mc_truth_h0Wq22_E;
+
+   float mc_truth_h0Z1_E;
+   float mc_truth_h0Z2_E;
+   float mc_truth_h0Zl11_E;
+   float mc_truth_h0Zl21_E;
+   float mc_truth_h0Ztau11_E;
+   float mc_truth_h0Ztau21_E;
+   float mc_truth_h0Ztaul11_E;
+   float mc_truth_h0Ztaul21_E;
+   float mc_truth_h0Ztaunu11_E;
+   float mc_truth_h0Ztaunu21_E;
+   float mc_truth_h0Ztaunutau11_E;
+   float mc_truth_h0Ztaunutau21_E;
+   float mc_truth_h0Zq11_E;
+   float mc_truth_h0Zq21_E;
+   float mc_truth_h0Zl12_E;
+   float mc_truth_h0Zl22_E;
+   float mc_truth_h0Ztau12_E;
+   float mc_truth_h0Ztau22_E;
+   float mc_truth_h0Ztaul12_E;
+   float mc_truth_h0Ztaul22_E;
+   float mc_truth_h0Ztaunu12_E;
+   float mc_truth_h0Ztaunu22_E;
+   float mc_truth_h0Ztaunutau12_E;
+   float mc_truth_h0Ztaunutau22_E;
+   float mc_truth_h0Zq12_E;
+   float mc_truth_h0Zq22_E;
+   float mc_truth_h0Znu11_E;
+   float mc_truth_h0Znu21_E;
+   float mc_truth_h0Znu12_E;
+   float mc_truth_h0Znu22_E;
+
+   float mc_truth_h0tau1_E;
+   float mc_truth_h0tau2_E;
+   float mc_truth_h0taul1_E;
+   float mc_truth_h0taunutau1_E;
+   float mc_truth_h0taunu1_E;
+   float mc_truth_h0taul2_E;
+   float mc_truth_h0taunutau2_E;
+   float mc_truth_h0taunu2_E;
+
+   float mc_truth_h0b1_E;
+   float mc_truth_h0b2_E;
+   
+   float mc_truth_t1_E;
+   float mc_truth_t2_E;
+   float mc_truth_tb1_E;
+   float mc_truth_tb2_E;
+
+   float mc_truth_tW1_E;
+   float mc_truth_tWnu1_E;
+   float mc_truth_tWnutau1_E;
+   float mc_truth_tWl1_E;
+   float mc_truth_tWtau1_E;
+   float mc_truth_tWtaunu1_E;
+   float mc_truth_tWtaunutau1_E;
+   float mc_truth_tWtaul1_E;
+   float mc_truth_tWq11_E;
+   float mc_truth_tWq21_E;
+
+   float mc_truth_tW2_E;
+   float mc_truth_tWnu2_E;
+   float mc_truth_tWnutau2_E;
+   float mc_truth_tWl2_E;
+   float mc_truth_tWtau2_E;
+   float mc_truth_tWtaunu2_E;
+   float mc_truth_tWtaunutau2_E;
+   float mc_truth_tWtaul2_E;
+   float mc_truth_tWq12_E;
+   float mc_truth_tWq22_E;
+
+   float mc_truth_j1_E;
+   float mc_truth_j2_E;
+   float mc_truth_j3_E;
+   
    // pdgId
 
    int mc_truth_h0_id;
@@ -792,6 +1189,218 @@ class FlatTree
    int mc_truth_tWq1_id;
    int mc_truth_tWq2_id;
 
+   // pt
+
+   float mc_truth_gammal1_pt;
+   float mc_truth_gammal2_pt;
+   float mc_truth_gammatau1_pt;
+   float mc_truth_gammatau2_pt;
+   float mc_truth_gammataul1_pt;
+   float mc_truth_gammataul2_pt;
+   float mc_truth_gammataunu1_pt;
+   float mc_truth_gammataunu2_pt;
+   float mc_truth_gammataunutau1_pt;
+   float mc_truth_gammataunutau2_pt;
+   
+   float mc_truth_Z_pt;
+   float mc_truth_Zl1_pt;
+   float mc_truth_Zl2_pt;
+   float mc_truth_Ztau1_pt;
+   float mc_truth_Ztau2_pt;
+   float mc_truth_Ztaul1_pt;
+   float mc_truth_Ztaul2_pt;
+   float mc_truth_Ztaunu1_pt;
+   float mc_truth_Ztaunu2_pt;
+   float mc_truth_Ztaunutau1_pt;
+   float mc_truth_Ztaunutau2_pt;
+   float mc_truth_Zq1_pt;
+   float mc_truth_Zq2_pt;
+   float mc_truth_Znu1_pt;
+   float mc_truth_Znu2_pt;
+
+   float mc_truth_W_pt;
+   float mc_truth_Wl_pt;
+   float mc_truth_Wnu_pt;
+   float mc_truth_Wtau_pt;
+   float mc_truth_Wtaunu_pt;
+   float mc_truth_Wtaunutau_pt;
+   float mc_truth_Wtaul_pt;
+   float mc_truth_Wnutau_pt;
+   float mc_truth_Wq1_pt;
+   float mc_truth_Wq2_pt;
+   
+   float mc_truth_t_pt;
+   float mc_truth_tb_pt;
+   float mc_truth_tW_pt;
+   float mc_truth_tWnu_pt;
+   float mc_truth_tWnutau_pt;
+   float mc_truth_tWl_pt;
+   float mc_truth_tWtau_pt;
+   float mc_truth_tWtaunu_pt;
+   float mc_truth_tWtaunutau_pt;
+   float mc_truth_tWtaul_pt;
+   float mc_truth_tWq1_pt;
+   float mc_truth_tWq2_pt;
+
+   // eta
+
+   float mc_truth_gammal1_eta;
+   float mc_truth_gammal2_eta;
+   float mc_truth_gammatau1_eta;
+   float mc_truth_gammatau2_eta;
+   float mc_truth_gammataul1_eta;
+   float mc_truth_gammataul2_eta;
+   float mc_truth_gammataunu1_eta;
+   float mc_truth_gammataunu2_eta;
+   float mc_truth_gammataunutau1_eta;
+   float mc_truth_gammataunutau2_eta;
+   
+   float mc_truth_Z_eta;
+   float mc_truth_Zl1_eta;
+   float mc_truth_Zl2_eta;
+   float mc_truth_Ztau1_eta;
+   float mc_truth_Ztau2_eta;
+   float mc_truth_Ztaul1_eta;
+   float mc_truth_Ztaul2_eta;
+   float mc_truth_Ztaunu1_eta;
+   float mc_truth_Ztaunu2_eta;
+   float mc_truth_Ztaunutau1_eta;
+   float mc_truth_Ztaunutau2_eta;
+   float mc_truth_Zq1_eta;
+   float mc_truth_Zq2_eta;
+   float mc_truth_Znu1_eta;
+   float mc_truth_Znu2_eta;
+
+   float mc_truth_W_eta;
+   float mc_truth_Wl_eta;
+   float mc_truth_Wnu_eta;
+   float mc_truth_Wtau_eta;
+   float mc_truth_Wtaunu_eta;
+   float mc_truth_Wtaunutau_eta;
+   float mc_truth_Wtaul_eta;
+   float mc_truth_Wnutau_eta;
+   float mc_truth_Wq1_eta;
+   float mc_truth_Wq2_eta;
+   
+   float mc_truth_t_eta;
+   float mc_truth_tb_eta;
+   float mc_truth_tW_eta;
+   float mc_truth_tWnu_eta;
+   float mc_truth_tWnutau_eta;
+   float mc_truth_tWl_eta;
+   float mc_truth_tWtau_eta;
+   float mc_truth_tWtaunu_eta;
+   float mc_truth_tWtaunutau_eta;
+   float mc_truth_tWtaul_eta;
+   float mc_truth_tWq1_eta;
+   float mc_truth_tWq2_eta;
+   
+   // phi
+
+   float mc_truth_gammal1_phi;
+   float mc_truth_gammal2_phi;
+   float mc_truth_gammatau1_phi;
+   float mc_truth_gammatau2_phi;
+   float mc_truth_gammataul1_phi;
+   float mc_truth_gammataul2_phi;
+   float mc_truth_gammataunu1_phi;
+   float mc_truth_gammataunu2_phi;
+   float mc_truth_gammataunutau1_phi;
+   float mc_truth_gammataunutau2_phi;
+   
+   float mc_truth_Z_phi;
+   float mc_truth_Zl1_phi;
+   float mc_truth_Zl2_phi;
+   float mc_truth_Ztau1_phi;
+   float mc_truth_Ztau2_phi;
+   float mc_truth_Ztaul1_phi;
+   float mc_truth_Ztaul2_phi;
+   float mc_truth_Ztaunu1_phi;
+   float mc_truth_Ztaunu2_phi;
+   float mc_truth_Ztaunutau1_phi;
+   float mc_truth_Ztaunutau2_phi;
+   float mc_truth_Zq1_phi;
+   float mc_truth_Zq2_phi;
+   float mc_truth_Znu1_phi;
+   float mc_truth_Znu2_phi;
+
+   float mc_truth_W_phi;
+   float mc_truth_Wl_phi;
+   float mc_truth_Wnu_phi;
+   float mc_truth_Wtau_phi;
+   float mc_truth_Wtaunu_phi;
+   float mc_truth_Wtaunutau_phi;
+   float mc_truth_Wtaul_phi;
+   float mc_truth_Wnutau_phi;
+   float mc_truth_Wq1_phi;
+   float mc_truth_Wq2_phi;
+   
+   float mc_truth_t_phi;
+   float mc_truth_tb_phi;
+   float mc_truth_tW_phi;
+   float mc_truth_tWnu_phi;
+   float mc_truth_tWnutau_phi;
+   float mc_truth_tWl_phi;
+   float mc_truth_tWtau_phi;
+   float mc_truth_tWtaunu_phi;
+   float mc_truth_tWtaunutau_phi;
+   float mc_truth_tWtaul_phi;
+   float mc_truth_tWq1_phi;
+   float mc_truth_tWq2_phi;
+   
+   // E
+
+   float mc_truth_gammal1_E;
+   float mc_truth_gammal2_E;
+   float mc_truth_gammatau1_E;
+   float mc_truth_gammatau2_E;
+   float mc_truth_gammataul1_E;
+   float mc_truth_gammataul2_E;
+   float mc_truth_gammataunu1_E;
+   float mc_truth_gammataunu2_E;
+   float mc_truth_gammataunutau1_E;
+   float mc_truth_gammataunutau2_E;
+   
+   float mc_truth_Z_E;
+   float mc_truth_Zl1_E;
+   float mc_truth_Zl2_E;
+   float mc_truth_Ztau1_E;
+   float mc_truth_Ztau2_E;
+   float mc_truth_Ztaul1_E;
+   float mc_truth_Ztaul2_E;
+   float mc_truth_Ztaunu1_E;
+   float mc_truth_Ztaunu2_E;
+   float mc_truth_Ztaunutau1_E;
+   float mc_truth_Ztaunutau2_E;
+   float mc_truth_Zq1_E;
+   float mc_truth_Zq2_E;
+   float mc_truth_Znu1_E;
+   float mc_truth_Znu2_E;
+
+   float mc_truth_W_E;
+   float mc_truth_Wl_E;
+   float mc_truth_Wnu_E;
+   float mc_truth_Wtau_E;
+   float mc_truth_Wtaunu_E;
+   float mc_truth_Wtaunutau_E;
+   float mc_truth_Wtaul_E;
+   float mc_truth_Wnutau_E;
+   float mc_truth_Wq1_E;
+   float mc_truth_Wq2_E;
+   
+   float mc_truth_t_E;
+   float mc_truth_tb_E;
+   float mc_truth_tW_E;
+   float mc_truth_tWnu_E;
+   float mc_truth_tWnutau_E;
+   float mc_truth_tWl_E;
+   float mc_truth_tWtau_E;
+   float mc_truth_tWtaunu_E;
+   float mc_truth_tWtaunutau_E;
+   float mc_truth_tWtaul_E;
+   float mc_truth_tWq1_E;
+   float mc_truth_tWq2_E;
+   
    // status
 
    int mc_truth_gammal1_status;
@@ -851,6 +1460,7 @@ class FlatTree
    std::vector<float> gen_eta;
    std::vector<float> gen_phi;
    std::vector<float> gen_m;
+   std::vector<float> gen_E;
    std::vector<int> gen_id;
    std::vector<int> gen_charge;
    std::vector<int> gen_status;
