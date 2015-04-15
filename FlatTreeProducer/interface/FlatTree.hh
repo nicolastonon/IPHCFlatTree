@@ -244,6 +244,7 @@ class FlatTree
    std::vector<float> mu_innerTrack_dzError;
    std::vector<float> mu_innerTrack_normalizedChi2;
 
+   std::vector<int> mu_bestTrackType;
    std::vector<float> mu_bestTrack_dxy;
    std::vector<float> mu_bestTrack_dz;
    std::vector<float> mu_bestTrack_dxyError;
