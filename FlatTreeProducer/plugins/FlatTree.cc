@@ -217,6 +217,7 @@ void FlatTree::Init()
    mu_innerTrack_dzError.clear();
    mu_innerTrack_normalizedChi2.clear();
 
+   mu_bestTrackType.clear();
    mu_bestTrack_dxy.clear();
    mu_bestTrack_dz.clear();
    mu_bestTrack_dxyError.clear();
@@ -561,6 +562,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_innerTrack_dzError") ) tree->Branch("mu_innerTrack_dzError", "std::vector<float>", &mu_innerTrack_dzError, buffersize);
    if( doWrite("mu_innerTrack_normalizedChi2") ) tree->Branch("mu_innerTrack_normalizedChi2", "std::vector<float>", &mu_innerTrack_normalizedChi2, buffersize);
 
+   if( doWrite("mu_bestTrackType") ) tree->Branch("mu_bestTrackType", "std::vector<int>", &mu_bestTrackType, buffersize);
    if( doWrite("mu_bestTrack_dxy") ) tree->Branch("mu_bestTrack_dxy", "std::vector<float>", &mu_bestTrack_dxy, buffersize);
    if( doWrite("mu_bestTrack_dz") ) tree->Branch("mu_bestTrack_dz", "std::vector<float>", &mu_bestTrack_dz, buffersize);
    if( doWrite("mu_bestTrack_dxyError") ) tree->Branch("mu_bestTrack_dxyError", "std::vector<float>", &mu_bestTrack_dxyError, buffersize);
