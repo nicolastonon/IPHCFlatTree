@@ -1450,6 +1450,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	if( primVtx ) isTightMuon = muon.isTightMuon(*primVtx);
 	ftree->mu_isTightMuon.push_back(isTightMuon);
 
+	ftree->mu_bestTrackType.push_back(muon.bestTrackType());
+	
 	if( muon.globalTrack().isNonnull() )
 	  {
 	     globalTrack_dxy = muon.globalTrack()->dxy(muon.globalTrack()->referencePoint());
