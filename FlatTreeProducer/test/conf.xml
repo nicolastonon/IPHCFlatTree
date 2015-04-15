@@ -209,6 +209,7 @@
 <var name="mu_innerTrack_dzError" save="1"></var>
 <var name="mu_innerTrack_normalizedChi2" save="1"></var>
 
+<var name="mu_bestTrackType" save="1"></var>
 <var name="mu_bestTrack_dxy" save="1"></var>
 <var name="mu_bestTrack_dz" save="1"></var>
 <var name="mu_bestTrack_dxyError" save="1"></var>
