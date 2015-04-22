@@ -5490,8 +5490,9 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 //	       {
 //		  std::cout << "found " << mcp->status() << " " << mcp->numberOfDaughters() << std::endl;
 //	       }		  
-	     
-	     if( (mcp->status() == 62) ||
+
+	     if( (mcp->status() == 62) || // higgs produced in initial state (MG)
+		 (mcp->status() == 52) || // higgs comes from top decay (MG)
 		 (mcp->status() == 3) )
 	       {
 		  h0 = const_cast<reco::GenParticle*>(mcp);
