@@ -165,8 +165,9 @@ class FlatTree
    std::vector<float> el_lepMVA_jetPtRatio;
    std::vector<float> el_lepMVA_jetBTagCSV;
    std::vector<float> el_lepMVA_sip3d;
+   std::vector<float> el_lepMVA_dxy;
+   std::vector<float> el_lepMVA_dz;
    std::vector<float> el_lepMVA_mvaId;
-   std::vector<float> el_lepMVA_innerHits;
 
    std::vector<int> el_hasMCMatch;
    std::vector<float> el_gen_pt;
@@ -224,6 +225,8 @@ class FlatTree
    std::vector<float> mu_vx;
    std::vector<float> mu_vy;
    std::vector<float> mu_vz;
+   
+   std::vector<float> mu_segmentCompatibility;
 
    std::vector<bool> mu_isTightMuon;
 
@@ -236,6 +239,9 @@ class FlatTree
    std::vector<float> mu_globalTrack_dxyError;
    std::vector<float> mu_globalTrack_dzError;   
    std::vector<float> mu_globalTrack_normalizedChi2;
+   
+   std::vector<float> mu_combinedQuality_chi2LocalPosition;
+   std::vector<float> mu_combinedQuality_trkKink;
 
    std::vector<int> mu_hasInnerTrack;
    std::vector<float> mu_innerTrack_dxy;
@@ -243,6 +249,8 @@ class FlatTree
    std::vector<float> mu_innerTrack_dxyError;
    std::vector<float> mu_innerTrack_dzError;
    std::vector<float> mu_innerTrack_normalizedChi2;
+   
+   std::vector<float> mu_innerTrack_validFraction;
 
    std::vector<int> mu_bestTrackType;
    std::vector<float> mu_bestTrack_dxy;
@@ -269,6 +277,7 @@ class FlatTree
    std::vector<float> mu_lepMVA_sip3d;
    std::vector<float> mu_lepMVA_dxy;
    std::vector<float> mu_lepMVA_dz;
+   std::vector<float> mu_lepMVA_mvaId;
 
    std::vector<int> mu_hasMCMatch;
    std::vector<float> mu_gen_pt;
