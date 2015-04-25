@@ -7,8 +7,8 @@ Install
 -------
 
 ```
-# Release to use (to be changed according to your need and CMSSW evolution)
-RELEASE=7_3_0
+# CMSSW Release
+RELEASE=7_2_3
 
 # Setup release
 cmsrel CMSSW_$RELEASE
@@ -21,12 +21,9 @@ git clone https://github.com/IPHC/IPHCFlatTree.git
 
 # Switch to release
 cd IPHCFlatTree
-git checkout v20150314_patch1
+git checkout WildBeast-patch6
 cd ../
 
 # Add the dependencies
-git cms-addpkg EgammaAnalysis/ElectronTools
-cd EgammaAnalysis/ElectronTools/data
-for FILE in `cat download.url`; do wget $FILE; done;
-cd ../../..
+git cms-merge-topic HuguesBrun:trigElecIdInCommonIsoSelection720
 ```
