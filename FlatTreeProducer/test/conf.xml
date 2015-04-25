@@ -133,8 +133,9 @@
 <var name="el_lepMVA_jetPtRatio" save="1"></var>
 <var name="el_lepMVA_jetBTagCSV" save="1"></var>
 <var name="el_lepMVA_sip3d" save="1"></var>
+<var name="el_lepMVA_dxy" save="1"></var>
+<var name="el_lepMVA_dz" save="1"></var>
 <var name="el_lepMVA_mvaId" save="1"></var>
-<var name="el_lepMVA_innerHits" save="1"></var>
 
 <var name="el_hasMatchedConversion" save="1"></var>
 
@@ -192,6 +193,8 @@
 <var name="mu_vy" save="1"></var>
 <var name="mu_vz" save="1"></var>
 
+<var name="mu_segmentCompatibility" save="1"></var>
+
 <var name="mu_hasTrack" save="1"></var>
 <var name="mu_track_trackerLayersWithMeasurement" save="1"></var>
 
@@ -202,12 +205,17 @@
 <var name="mu_globalTrack_dzError" save="1"></var>
 <var name="mu_globalTrack_normalizedChi2" save="1"></var>
 
+<var name="mu_combinedQuality_chi2LocalPosition" save="1"></var>
+<var name="mu_combinedQuality_trkKink" save="1"></var>
+
 <var name="mu_hasInnerTrack" save="1"></var>
 <var name="mu_innerTrack_dxy" save="1"></var>
 <var name="mu_innerTrack_dz" save="1"></var>
 <var name="mu_innerTrack_dxyError" save="1"></var>
 <var name="mu_innerTrack_dzError" save="1"></var>
 <var name="mu_innerTrack_normalizedChi2" save="1"></var>
+
+<var name="mu_innerTrack_validFraction" save="1"></var>
 
 <var name="mu_bestTrackType" save="1"></var>
 <var name="mu_bestTrack_dxy" save="1"></var>
@@ -233,6 +241,7 @@
 <var name="mu_lepMVA_sip3d" save="1"></var>
 <var name="mu_lepMVA_dxy" save="1"></var>
 <var name="mu_lepMVA_dz" save="1"></var>
+<var name="mu_lepMVA_mvaId" save="1"></var>
 
 <var name="mu_hasMCMatch" save="1"></var>
 <var name="mu_gen_pt" save="1"></var>
