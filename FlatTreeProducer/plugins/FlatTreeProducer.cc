@@ -30,7 +30,7 @@
 #include "IPHCFlatTree/FlatTreeProducer/interface/FlatTree.hh"
 #include "IPHCFlatTree/FlatTreeProducer/interface/MCTruth.hh"
 
-#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimator.h"
+#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimatorCSA14.h"
 
 #include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
 
@@ -90,32 +90,31 @@ class FlatTreeProducer : public edm::EDAnalyzer
    TH1D* hcount;
    TH1D* hweight;
 
-   EGammaMvaEleEstimator* elecMVA;
+   EGammaMvaEleEstimatorCSA14* elecMVA;
    std::vector<std::string> elecMVACatWeights;
 
    TMVA::Reader* mu_reader_high_b;
    TMVA::Reader* mu_reader_high_e;
-   TMVA::Reader* mu_reader_low_b;
-   TMVA::Reader* mu_reader_low_e;
+   TMVA::Reader* mu_reader_low;
+   TMVA::Reader* mu_reader_medium_b;
+   TMVA::Reader* mu_reader_medium_e;
    TMVA::Reader* ele_reader_high_cb;
    TMVA::Reader* ele_reader_high_fb;
    TMVA::Reader* ele_reader_high_ec;
-   TMVA::Reader* ele_reader_low_cb;
-   TMVA::Reader* ele_reader_low_fb;
-   TMVA::Reader* ele_reader_low_ec;
+   TMVA::Reader* ele_reader_medium_cb;
+   TMVA::Reader* ele_reader_medium_fb;
+   TMVA::Reader* ele_reader_medium_ec;
+   TMVA::Reader* ele_reader_low;
 
    float lepMVA_neuRelIso;
    float lepMVA_chRelIso;
    float lepMVA_jetDR;
    float lepMVA_jetPtRatio;
    float lepMVA_jetBTagCSV;
-   float lepMVA_sip3d;
-   
-   float lepMVA_mvaId;
-   float lepMVA_innerHits;
-
+   float lepMVA_sip3d;   
    float lepMVA_dxy;
    float lepMVA_dz;
+   float lepMVA_mvaId;
    
    XMLDocument xmlconf;
    
@@ -680,26 +679,19 @@ TMVA::Reader* FlatTreeProducer::BookLeptonMVAReader(string basePath, string weig
 {
    TMVA::Reader* reader = new TMVA::Reader("!Color:!Silent");
    
-   reader->AddVariable("relIso-chargedIso/pt",&lepMVA_neuRelIso);
-   reader->AddVariable("chargedIso/pt",       &lepMVA_chRelIso);
-   reader->AddVariable("min(dr_in,0.5)",      &lepMVA_jetDR);
-   reader->AddVariable("min(ptf_in,1.5)",     &lepMVA_jetPtRatio);
-   reader->AddVariable("max(CSV_in,0)",       &lepMVA_jetBTagCSV);
-   reader->AddVariable("sip3d",               &lepMVA_sip3d);
-
-   if (type == "ele")
-   {
-       reader->AddVariable("mvaId",           &lepMVA_mvaId);
-       reader->AddVariable("innerHits",       &lepMVA_innerHits);
-   }
-   if (type == "mu")
-   {
-       reader->AddVariable("log(abs(dxy))",   &lepMVA_dxy);
-       reader->AddVariable("log(abs(dz))",    &lepMVA_dz);
-   }
+   reader->AddVariable("LepGood_relIso03-LepGood_chargedHadRelIso03", &lepMVA_neuRelIso);
+   reader->AddVariable("LepGood_chargedHadRelIso03",                  &lepMVA_chRelIso);
+   reader->AddVariable("min(LepGood_jetDR,0.5)",                      &lepMVA_jetDR);
+   reader->AddVariable("min(LepGood_jetPtRatio,1.5)",                 &lepMVA_jetPtRatio);
+   reader->AddVariable("max(LepGood_jetBTagCSV,0)",                   &lepMVA_jetBTagCSV);
+   reader->AddVariable("LepGood_sip3d",                               &lepMVA_sip3d);
+   reader->AddVariable("log(abs(LepGood_dxy))",                       &lepMVA_dxy);
+   reader->AddVariable("log(abs(LepGood_dz))",                        &lepMVA_dz);
+   if( type == "ele" ) reader->AddVariable("LepGood_mvaIdPhys14",     &lepMVA_mvaId);
+   else reader->AddVariable("LepGood_segmentCompatibility",           &lepMVA_mvaId);
 
    reader->BookMVA("BDTG method", basePath+"/"+weightFileName);
-
+   
    return reader;
 }
 
@@ -717,29 +709,31 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    // ###############
 
    string CMSSW_BASE(getenv("CMSSW_BASE")); 
-   elecMVA = new EGammaMvaEleEstimator();
+   elecMVA = new EGammaMvaEleEstimatorCSA14();
    
    string EGammaElectronToolsPath = CMSSW_BASE+"/src/EgammaAnalysis/ElectronTools/";
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat1.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat2.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat3.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat4.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat5.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat6.weights.xml");
-   
-   elecMVA->initialize("BDT", EGammaMvaEleEstimator::kNonTrig, true, elecMVACatWeights);
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB1_5_oldscenario2phys14_BDT.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB2_5_oldscenario2phys14_BDT.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EE_5_oldscenario2phys14_BDT.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB1_10_oldscenario2phys14_BDT.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB2_10_oldscenario2phys14_BDT.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EE_10_oldscenario2phys14_BDT.weights.xml");
+
+   elecMVA->initialize("BDT", EGammaMvaEleEstimatorCSA14::kNonTrigPhys14, true, elecMVACatWeights);
 
    string FlatTreeProducerLepMVAPath = CMSSW_BASE+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/";
-   mu_reader_high_b   = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_high_b_BDTG.weights.xml" ,  "mu");
-   mu_reader_high_e   = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_high_e_BDTG.weights.xml" ,  "mu");
-   mu_reader_low_b    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_low_b_BDTG.weights.xml"  ,  "mu");
-   mu_reader_low_e    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_low_e_BDTG.weights.xml"  ,  "mu");
-   ele_reader_high_cb = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_high_cb_BDTG.weights.xml", "ele");
-   ele_reader_high_fb = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_high_fb_BDTG.weights.xml", "ele");
-   ele_reader_high_ec = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_high_ec_BDTG.weights.xml", "ele");
-   ele_reader_low_cb  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_low_cb_BDTG.weights.xml" , "ele");
-   ele_reader_low_fb  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_low_fb_BDTG.weights.xml" , "ele");
-   ele_reader_low_ec  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_low_ec_BDTG.weights.xml" , "ele");
+   mu_reader_high_b      = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_high_b_BDTG.weights.xml" ,  "mu");
+   mu_reader_high_e      = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_high_e_BDTG.weights.xml" ,  "mu");
+   mu_reader_low         = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_low_BDTG.weights.xml"  ,  "mu");
+   mu_reader_medium_b    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_medium_b_BDTG.weights.xml" ,  "mu");
+   mu_reader_medium_e    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_medium_e_BDTG.weights.xml" ,  "mu");
+   ele_reader_high_cb    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_high_cb_BDTG.weights.xml", "ele");
+   ele_reader_high_fb    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_high_fb_BDTG.weights.xml", "ele");
+   ele_reader_high_ec    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_high_ec_BDTG.weights.xml", "ele");
+   ele_reader_medium_cb  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_medium_cb_BDTG.weights.xml" , "ele");
+   ele_reader_medium_fb  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_medium_fb_BDTG.weights.xml" , "ele");
+   ele_reader_medium_ec  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_medium_ec_BDTG.weights.xml" , "ele");
+   ele_reader_low        = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_low_BDTG.weights.xml", "ele");
    
    // ###
    // Restore stdout
@@ -1124,18 +1118,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 	ftree->el_numberOfLostHits.push_back(numberOfLostHits);
 
-	bool validKF = false;
-	reco::TrackRef myTrackRef = elec.closestCtfTrackRef();
-	validKF = (myTrackRef.isAvailable());
-	validKF = (myTrackRef.isNonnull());
-
 	ftree->el_fbrem.push_back(elec.fbrem());
-	float el_kf_normalizedChi2 = ( validKF ) ? myTrackRef->normalizedChi2() : 666.;
-	if( validKF ) ftree->el_kf_normalizedChi2.push_back(myTrackRef->normalizedChi2());
-	float el_trackerLayersWithMeasurement = ( validKF ) ? myTrackRef->hitPattern().trackerLayersWithMeasurement() : -666.;
-	if( validKF ) ftree->el_trackerLayersWithMeasurement.push_back(myTrackRef->hitPattern().trackerLayersWithMeasurement());
-	if( elec.gsfTrack().isNonnull() ) ftree->el_gsf_normalizedChi2.push_back(elec.gsfTrack()->normalizedChi2());
-	float el_gsf_normalizedChi2 = ( elec.gsfTrack().isNonnull() ) ? elec.gsfTrack()->normalizedChi2() : 666.;
 
         ftree->el_deltaEtaSuperClusterTrackAtVtx.push_back(elec.deltaEtaSuperClusterTrackAtVtx());
         ftree->el_deltaPhiSuperClusterTrackAtVtx.push_back(elec.deltaPhiSuperClusterTrackAtVtx());
@@ -1169,29 +1152,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_dB3D.push_back(elec.dB(pat::Electron::PV3D));
         ftree->el_edB3D.push_back(elec.edB(pat::Electron::PV3D));
 
-	double mvaNonTrigV0 = elecMVA->mvaValue(ftree->el_fbrem.back(),
-						el_kf_normalizedChi2,
-						el_trackerLayersWithMeasurement,
-						el_gsf_normalizedChi2,
-						ftree->el_deltaEtaSuperClusterTrackAtVtx.back(),
-						ftree->el_deltaPhiSuperClusterTrackAtVtx.back(),
-						ftree->el_deltaEtaSeedClusterTrackAtCalo.back(),
-						ftree->el_see.back(),
-						ftree->el_spp.back(),
-						ftree->el_superClusterEtaWidth.back(),
-						ftree->el_superClusterPhiWidth.back(),
-						ftree->el_full5x5_OneMinusE1x5E5x5.back(),
-						ftree->el_full5x5_r9.back(),
-						ftree->el_hadronicOverEm.back(),
-						ftree->el_eSuperClusterOverP.back(),
-						ftree->el_IoEmIoP.back(),
-						ftree->el_eleEoPout.back(),
-//						   ftree->ev_rho,
-						ftree->el_PreShowerOverRaw.back(),
-						ftree->el_scleta.back(),
-						ftree->el_pt.back(),
+	double mvaNonTrigV0 = elecMVA->mvaValue(elec,
 						false);
-
+	
         ftree->el_mvaNonTrigV0.push_back(mvaNonTrigV0);
 
         ftree->el_neutralHadronIso.push_back(elec.neutralHadronIso());
@@ -1286,17 +1249,24 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	if( csv == -1000. ) csv = jets->at(jcl).bDiscriminator("pfCombinedSecondaryVertexBJetTags");
 	lepMVA_jetBTagCSV = std::max(double(csv),0.);
 	lepMVA_sip3d = fabs(ftree->el_dB3D.back()/ftree->el_edB3D.back());
+	lepMVA_dxy = log(fabs(ftree->el_dxy.back()));
+	lepMVA_dz = log(fabs(ftree->el_dz.back()));
 	lepMVA_mvaId = mvaNonTrigV0;
-	
-	if( elec.gsfTrack().isNonnull() ) lepMVA_innerHits = ftree->el_numberOfHits.back();
 
-	if( el_pt >= 10 && fabs(el_scleta) <= 0.8 ) el_lepMVA = ele_reader_high_cb->EvaluateMVA("BDTG method");
-	else if( el_pt >= 10 && fabs(el_scleta) > 0.8 && fabs(el_scleta) <= 1.479 ) el_lepMVA = ele_reader_high_fb->EvaluateMVA("BDTG method");
-	else if( el_pt >= 10 && fabs(el_scleta) > 1.479 )                           el_lepMVA = ele_reader_high_ec->EvaluateMVA("BDTG method");
-	else if( el_pt < 10  && fabs(el_scleta) <= 0.8 )                            el_lepMVA = ele_reader_low_cb ->EvaluateMVA("BDTG method");
-	else if( el_pt < 10  && fabs(el_scleta) > 0.8 && fabs(el_scleta) <= 1.479 ) el_lepMVA = ele_reader_low_fb ->EvaluateMVA("BDTG method");
-	else                                                                        el_lepMVA = ele_reader_low_ec ->EvaluateMVA("BDTG method");
-        
+	if( el_pt < 10 ) el_lepMVA = ele_reader_low->EvaluateMVA("BDTG method");
+	else if( el_pt >= 10 && el_pt < 25 )
+	  {
+	     if( fabs(el_scleta) < 0.8 ) el_lepMVA = ele_reader_medium_cb->EvaluateMVA("BDTG method");
+	     else if( fabs(el_scleta) >= 0.8 && fabs(el_scleta) < 1.479 ) el_lepMVA = ele_reader_medium_fb->EvaluateMVA("BDTG method");
+	     else if( fabs(el_scleta) >= 1.479 ) el_lepMVA = ele_reader_medium_ec->EvaluateMVA("BDTG method");
+	  }	
+	else if( el_pt >= 25 )
+	  {
+	     if( fabs(el_scleta) < 0.8 ) el_lepMVA = ele_reader_high_cb->EvaluateMVA("BDTG method");
+	     else if( fabs(el_scleta) >= 0.8 && fabs(el_scleta) < 1.479 ) el_lepMVA = ele_reader_high_fb->EvaluateMVA("BDTG method");
+	     else if( fabs(el_scleta) >= 1.479 ) el_lepMVA = ele_reader_high_ec->EvaluateMVA("BDTG method");
+	  }	
+	
 	ftree->el_lepMVA.push_back(el_lepMVA);
 
 	if( !isData_ )
@@ -1328,8 +1298,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_lepMVA_jetPtRatio.push_back(lepMVA_jetPtRatio);
         ftree->el_lepMVA_jetBTagCSV.push_back(lepMVA_jetBTagCSV);
         ftree->el_lepMVA_sip3d.push_back(lepMVA_sip3d);
+	ftree->el_lepMVA_dxy.push_back(lepMVA_dxy);
+	ftree->el_lepMVA_dz.push_back(lepMVA_dz);
         ftree->el_lepMVA_mvaId.push_back(lepMVA_mvaId);
-        ftree->el_lepMVA_innerHits.push_back(lepMVA_innerHits);
 
 	bool allowCkfMatch = true;
 	float lxyMin = 2.0;
@@ -1415,30 +1386,24 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	}
 	ftree->mu_miniIso.push_back(miniIso);
 
-        ftree->mu_isGlobalMuon.push_back(muon.isGlobalMuon());
-        ftree->mu_isTrackerMuon.push_back(muon.isTrackerMuon());
-        ftree->mu_isStandAloneMuon.push_back(muon.isStandAloneMuon());
-        ftree->mu_isCaloMuon.push_back(muon.isCaloMuon());
-        ftree->mu_isPFMuon.push_back(muon.isPFMuon());
-
-        ftree->mu_vx.push_back(muon.vx());
-        ftree->mu_vy.push_back(muon.vy());
-        ftree->mu_vz.push_back(muon.vz());
-
-        ftree->mu_hasGlobalTrack.push_back(muon.globalTrack().isNonnull());
-        ftree->mu_hasInnerTrack.push_back(muon.innerTrack().isNonnull());
+	ftree->mu_segmentCompatibility.push_back(muon.segmentCompatibility());
 
 	float globalTrack_dxy = -10E+10;
 	float globalTrack_dz = -10E+10;
 	float globalTrack_dxyError = -666.;
 	float globalTrack_dzError = -666.;	
 	float globalTrack_normalizedChi2 = -666.;
+	
+	float combinedQuality_chi2LocalPosition = -666.;
+	float combinedQuality_trkKink = -666.;
 
 	float innerTrack_dxy = -10E+10;
 	float innerTrack_dz = -10E+10;
 	float innerTrack_dxyError = -666.;
 	float innerTrack_dzError = -666.;
 	float innerTrack_normalizedChi2 = -666.;
+	
+	float innerTrack_validFraction = -666.;
 
 	float bestTrack_dxy = -10E+10;
 	float bestTrack_dz = -10E+10;
@@ -1459,6 +1424,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     globalTrack_dxyError = muon.globalTrack()->dxyError();
 	     globalTrack_dzError = muon.globalTrack()->dzError();	     
 	     globalTrack_normalizedChi2 = muon.globalTrack()->normalizedChi2();
+	     
+	     combinedQuality_chi2LocalPosition = muon.combinedQuality().chi2LocalPosition;
+	     combinedQuality_trkKink = muon.combinedQuality().trkKink;
 	  }
 	if( muon.innerTrack().isNonnull() )
 	  {
@@ -1467,6 +1435,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     innerTrack_dxyError = muon.innerTrack()->dxyError();
 	     innerTrack_dzError = muon.innerTrack()->dzError();
 	     innerTrack_normalizedChi2 = muon.innerTrack()->normalizedChi2();
+	     
+	     innerTrack_validFraction = muon.innerTrack()->validFraction();
 	  }
 
 	bestTrack_dxy = muon.bestTrack()->dxy(muon.bestTrack()->referencePoint());
@@ -1480,12 +1450,17 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_globalTrack_dxyError.push_back(globalTrack_dxyError);
         ftree->mu_globalTrack_dzError.push_back(globalTrack_dzError);	
 	ftree->mu_globalTrack_normalizedChi2.push_back(globalTrack_normalizedChi2);
+	
+	ftree->mu_combinedQuality_chi2LocalPosition.push_back(combinedQuality_chi2LocalPosition);
+	ftree->mu_combinedQuality_trkKink.push_back(combinedQuality_trkKink);
 
         ftree->mu_innerTrack_dxy.push_back(innerTrack_dxy);
         ftree->mu_innerTrack_dz.push_back(innerTrack_dz);
         ftree->mu_innerTrack_dxyError.push_back(innerTrack_dxyError);
         ftree->mu_innerTrack_dzError.push_back(innerTrack_dzError);
 	ftree->mu_innerTrack_normalizedChi2.push_back(innerTrack_normalizedChi2);
+	
+	ftree->mu_innerTrack_validFraction.push_back(innerTrack_validFraction);
 
         ftree->mu_bestTrack_dxy.push_back(bestTrack_dxy);
         ftree->mu_bestTrack_dz.push_back(bestTrack_dz);
@@ -1534,10 +1509,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	double mu_phi = muon.phi();
 	double mu_lepMVA = -666.;
 
-	double relIso = (muon.pfIsolationR04().sumChargedHadronPt +
-			 std::max(muon.pfIsolationR04().sumNeutralHadronEt +
-				  muon.pfIsolationR04().sumPhotonEt -
-				  muon.pfIsolationR04().sumPUPt/2.,0.0))/mu_pt;
+	double relIso = (muon.pfIsolationR03().sumChargedHadronPt +
+			 std::max(muon.pfIsolationR03().sumNeutralHadronEt +
+				  muon.pfIsolationR03().sumPhotonEt -
+				  muon.pfIsolationR03().sumPUPt/2.,0.0))/mu_pt;
 
 	lepMVA_chRelIso = ftree->mu_chargedHadronIso[im]/mu_pt;
 	lepMVA_neuRelIso = relIso - lepMVA_chRelIso;
@@ -1564,11 +1539,19 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	lepMVA_sip3d = fabs(ftree->mu_dB3D.back()/ftree->mu_edB3D.back());
 	lepMVA_dxy = log(fabs(ftree->mu_innerTrack_dxy.back()));
 	lepMVA_dz = log(fabs(ftree->mu_innerTrack_dz.back()));
+	lepMVA_mvaId = ftree->mu_segmentCompatibility.back();
 
-	if( mu_pt > 15 && fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_high_b->EvaluateMVA("BDTG method");
-	else if( mu_pt > 15 && fabs(mu_eta) >= 1.5 ) mu_lepMVA = mu_reader_high_e->EvaluateMVA("BDTG method");
-	else if( mu_pt <= 15 && fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_low_b->EvaluateMVA("BDTG method");
-	else mu_lepMVA = mu_reader_low_e->EvaluateMVA("BDTG method");
+	if( mu_pt < 10 ) mu_lepMVA = mu_reader_low->EvaluateMVA("BDTG method");
+	else if( mu_pt >= 10 && mu_pt < 25 )
+	  {
+	     if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_medium_b->EvaluateMVA("BDTG method");
+	     else if( fabs(mu_eta) >= 1.5 ) mu_lepMVA = mu_reader_medium_e->EvaluateMVA("BDTG method");
+	  }	
+	else if( mu_pt >= 25 )
+	  {
+	     if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_high_b->EvaluateMVA("BDTG method");
+	     else if( fabs(mu_eta) >= 1.5 ) mu_lepMVA = mu_reader_high_e->EvaluateMVA("BDTG method");
+	  }	
 
 	ftree->mu_lepMVA.push_back(mu_lepMVA);
 	
@@ -1580,6 +1563,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_lepMVA_sip3d.push_back(lepMVA_sip3d);
         ftree->mu_lepMVA_dxy.push_back(lepMVA_dxy);
         ftree->mu_lepMVA_dz.push_back(lepMVA_dz);
+	ftree->mu_lepMVA_mvaId.push_back(lepMVA_mvaId);
 
 	if( !isData_ )
 	  {
