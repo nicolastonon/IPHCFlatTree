@@ -141,8 +141,9 @@ void FlatTree::Init()
    el_lepMVA_jetPtRatio.clear();
    el_lepMVA_jetBTagCSV.clear();
    el_lepMVA_sip3d.clear();
+   el_lepMVA_dxy.clear();
+   el_lepMVA_dz.clear();
    el_lepMVA_mvaId.clear();
-   el_lepMVA_innerHits.clear();
 
    el_hasMCMatch.clear();
    el_gen_pt.clear();
@@ -197,6 +198,8 @@ void FlatTree::Init()
    mu_vx.clear();
    mu_vy.clear();
    mu_vz.clear();
+   
+   mu_segmentCompatibility.clear();
 
    mu_isTightMuon.clear();
 
@@ -209,6 +212,9 @@ void FlatTree::Init()
    mu_globalTrack_dxyError.clear();
    mu_globalTrack_dzError.clear();  
    mu_globalTrack_normalizedChi2.clear();
+   
+   mu_combinedQuality_chi2LocalPosition.clear();
+   mu_combinedQuality_trkKink.clear();
 
    mu_hasInnerTrack.clear();
    mu_innerTrack_dxy.clear();
@@ -216,6 +222,8 @@ void FlatTree::Init()
    mu_innerTrack_dxyError.clear();
    mu_innerTrack_dzError.clear();
    mu_innerTrack_normalizedChi2.clear();
+   
+   mu_innerTrack_validFraction.clear();
 
    mu_bestTrackType.clear();
    mu_bestTrack_dxy.clear();
@@ -242,6 +250,7 @@ void FlatTree::Init()
    mu_lepMVA_sip3d.clear();
    mu_lepMVA_dxy.clear();
    mu_lepMVA_dz.clear();
+   mu_lepMVA_mvaId.clear();
 
    mu_hasMCMatch.clear();
    mu_gen_pt.clear();
@@ -486,8 +495,9 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_lepMVA_jetPtRatio") ) tree->Branch("el_lepMVA_jetPtRatio", "std::vector<float>", &el_lepMVA_jetPtRatio, buffersize);
    if( doWrite("el_lepMVA_jetBTagCSV") ) tree->Branch("el_lepMVA_jetBTagCSV", "std::vector<float>", &el_lepMVA_jetBTagCSV, buffersize);
    if( doWrite("el_lepMVA_sip3d") ) tree->Branch("el_lepMVA_sip3d", "std::vector<float>", &el_lepMVA_sip3d, buffersize);
+   if( doWrite("el_lepMVA_dxy") ) tree->Branch("el_lepMVA_dxy", "std::vector<float>", &el_lepMVA_dxy, buffersize);
+   if( doWrite("el_lepMVA_dz") ) tree->Branch("el_lepMVA_dz", "std::vector<float>", &el_lepMVA_dz, buffersize);
    if( doWrite("el_lepMVA_mvaId") ) tree->Branch("el_lepMVA_mvaId", "std::vector<float>", &el_lepMVA_mvaId, buffersize);
-   if( doWrite("el_lepMVA_innerHits") ) tree->Branch("el_lepMVA_innerHits", "std::vector<float>", &el_lepMVA_innerHits, buffersize);
 
    if( doWrite("el_hasMCMatch") ) tree->Branch("el_hasMCMatch", "std::vector<int>", &el_hasMCMatch, buffersize);
    if( doWrite("el_gen_pt") ) tree->Branch("el_gen_pt", "std::vector<float>", &el_gen_pt, buffersize);
@@ -542,6 +552,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_vx") ) tree->Branch("mu_vx", "std::vector<float>", &mu_vx, buffersize);
    if( doWrite("mu_vy") ) tree->Branch("mu_vy", "std::vector<float>", &mu_vy, buffersize);
    if( doWrite("mu_vz") ) tree->Branch("mu_vz", "std::vector<float>", &mu_vz, buffersize);
+   
+   if( doWrite("mu_segmentCompatibility") ) tree->Branch("mu_segmentCompatibility", "std::vector<float>", &mu_segmentCompatibility, buffersize);
 
    if( doWrite("mu_isTightMuon") ) tree->Branch("mu_isTightMuon", "std::vector<bool>", &mu_isTightMuon, buffersize);
 
@@ -554,6 +566,9 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_globalTrack_dxyError") ) tree->Branch("mu_globalTrack_dxyError", "std::vector<float>", &mu_globalTrack_dxyError, buffersize);
    if( doWrite("mu_globalTrack_dzError") ) tree->Branch("mu_globalTrack_dzError", "std::vector<float>", &mu_globalTrack_dzError, buffersize);   
    if( doWrite("mu_globalTrack_normalizedChi2") ) tree->Branch("mu_globalTrack_normalizedChi2", "std::vector<float>", &mu_globalTrack_normalizedChi2, buffersize);
+   
+   if( doWrite("mu_combinedQuality_chi2LocalPosition") ) tree->Branch("mu_combinedQuality_chi2LocalPosition", "std::vector<float>", &mu_combinedQuality_chi2LocalPosition, buffersize);
+   if( doWrite("mu_combinedQuality_trkKink") ) tree->Branch("mu_combinedQuality_trkKink", "std::vector<float>", &mu_combinedQuality_trkKink, buffersize);
 
    if( doWrite("mu_hasInnerTrack") ) tree->Branch("mu_hasInnerTrack", "std::vector<int>", &mu_hasInnerTrack, buffersize);
    if( doWrite("mu_innerTrack_dxy") ) tree->Branch("mu_innerTrack_dxy", "std::vector<float>", &mu_innerTrack_dxy, buffersize);
@@ -561,6 +576,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_innerTrack_dxyError") ) tree->Branch("mu_innerTrack_dxyError", "std::vector<float>", &mu_innerTrack_dxyError, buffersize);
    if( doWrite("mu_innerTrack_dzError") ) tree->Branch("mu_innerTrack_dzError", "std::vector<float>", &mu_innerTrack_dzError, buffersize);
    if( doWrite("mu_innerTrack_normalizedChi2") ) tree->Branch("mu_innerTrack_normalizedChi2", "std::vector<float>", &mu_innerTrack_normalizedChi2, buffersize);
+   
+   if( doWrite("mu_innerTrack_validFraction") ) tree->Branch("mu_innerTrack_validFraction", "std::vector<float>", &mu_innerTrack_validFraction, buffersize);
 
    if( doWrite("mu_bestTrackType") ) tree->Branch("mu_bestTrackType", "std::vector<int>", &mu_bestTrackType, buffersize);
    if( doWrite("mu_bestTrack_dxy") ) tree->Branch("mu_bestTrack_dxy", "std::vector<float>", &mu_bestTrack_dxy, buffersize);
@@ -587,6 +604,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_lepMVA_sip3d") ) tree->Branch("mu_lepMVA_sip3d", "std::vector<float>", &mu_lepMVA_sip3d, buffersize);
    if( doWrite("mu_lepMVA_dxy") ) tree->Branch("mu_lepMVA_dxy", "std::vector<float>", &mu_lepMVA_dxy, buffersize);
    if( doWrite("mu_lepMVA_dz") ) tree->Branch("mu_lepMVA_dz", "std::vector<float>", &mu_lepMVA_dz, buffersize);
+   if( doWrite("mu_lepMVA_mvaId") ) tree->Branch("mu_lepMVA_mvaId", "std::vector<float>", &mu_lepMVA_mvaId, buffersize);
 
    if( doWrite("mu_hasMCMatch") ) tree->Branch("mu_hasMCMatch", "std::vector<int>", &mu_hasMCMatch, buffersize);
    if( doWrite("mu_gen_pt") ) tree->Branch("mu_gen_pt", "std::vector<float>", &mu_gen_pt, buffersize);
