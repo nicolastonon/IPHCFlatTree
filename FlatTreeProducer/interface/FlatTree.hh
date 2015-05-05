@@ -464,6 +464,8 @@ class FlatTree
 
    TLorentzVector mc_truth_h0b1_p4;
    TLorentzVector mc_truth_h0b2_p4;
+   TLorentzVector mc_truth_h0b1_IS_p4;
+   TLorentzVector mc_truth_h0b2_IS_p4;
    
    TLorentzVector mc_truth_t1_p4;
    TLorentzVector mc_truth_t2_p4;
@@ -563,6 +565,8 @@ class FlatTree
 
    float mc_truth_h0b1_pt;
    float mc_truth_h0b2_pt;
+   float mc_truth_h0b1_IS_pt;
+   float mc_truth_h0b2_IS_pt;
    
    float mc_truth_t1_pt;
    float mc_truth_t2_pt;
@@ -662,6 +666,8 @@ class FlatTree
 
    float mc_truth_h0b1_eta;
    float mc_truth_h0b2_eta;
+   float mc_truth_h0b1_IS_eta;
+   float mc_truth_h0b2_IS_eta;
    
    float mc_truth_t1_eta;
    float mc_truth_t2_eta;
@@ -761,6 +767,8 @@ class FlatTree
 
    float mc_truth_h0b1_phi;
    float mc_truth_h0b2_phi;
+   float mc_truth_h0b1_IS_phi;
+   float mc_truth_h0b2_IS_phi;
    
    float mc_truth_t1_phi;
    float mc_truth_t2_phi;
@@ -860,6 +868,8 @@ class FlatTree
 
    float mc_truth_h0b1_E;
    float mc_truth_h0b2_E;
+   float mc_truth_h0b1_IS_E;
+   float mc_truth_h0b2_IS_E;
    
    float mc_truth_t1_E;
    float mc_truth_t2_E;
@@ -959,6 +969,8 @@ class FlatTree
 
    int mc_truth_h0b1_id;
    int mc_truth_h0b2_id;
+   int mc_truth_h0b1_IS_id;
+   int mc_truth_h0b2_IS_id;
    
    int mc_truth_t1_id;
    int mc_truth_t2_id;
@@ -1058,6 +1070,8 @@ class FlatTree
 
    int mc_truth_h0b1_status;
    int mc_truth_h0b2_status;
+   int mc_truth_h0b1_IS_status;
+   int mc_truth_h0b2_IS_status;
    
    int mc_truth_t1_status;
    int mc_truth_t2_status;
@@ -1135,6 +1149,7 @@ class FlatTree
    
    TLorentzVector mc_truth_t_p4;
    TLorentzVector mc_truth_tb_p4;
+   TLorentzVector mc_truth_tb_IS_p4;
    TLorentzVector mc_truth_tW_p4;
    TLorentzVector mc_truth_tWnu_p4;
    TLorentzVector mc_truth_tWnutau_p4;
@@ -1188,6 +1203,7 @@ class FlatTree
    
    int mc_truth_t_id;
    int mc_truth_tb_id;
+   int mc_truth_tb_IS_id;
    int mc_truth_tW_id;
    int mc_truth_tWnu_id;
    int mc_truth_tWnutau_id;
@@ -1241,6 +1257,7 @@ class FlatTree
    
    float mc_truth_t_pt;
    float mc_truth_tb_pt;
+   float mc_truth_tb_IS_pt;
    float mc_truth_tW_pt;
    float mc_truth_tWnu_pt;
    float mc_truth_tWnutau_pt;
@@ -1294,6 +1311,7 @@ class FlatTree
    
    float mc_truth_t_eta;
    float mc_truth_tb_eta;
+   float mc_truth_tb_IS_eta;
    float mc_truth_tW_eta;
    float mc_truth_tWnu_eta;
    float mc_truth_tWnutau_eta;
@@ -1347,6 +1365,7 @@ class FlatTree
    
    float mc_truth_t_phi;
    float mc_truth_tb_phi;
+   float mc_truth_tb_IS_phi;
    float mc_truth_tW_phi;
    float mc_truth_tWnu_phi;
    float mc_truth_tWnutau_phi;
@@ -1400,6 +1419,7 @@ class FlatTree
    
    float mc_truth_t_E;
    float mc_truth_tb_E;
+   float mc_truth_tb_IS_E;
    float mc_truth_tW_E;
    float mc_truth_tWnu_E;
    float mc_truth_tWnutau_E;
@@ -1453,6 +1473,7 @@ class FlatTree
    
    int mc_truth_t_status;
    int mc_truth_tb_status;
+   int mc_truth_tb_IS_status;
    int mc_truth_tW_status;
    int mc_truth_tWnu_status;
    int mc_truth_tWnutau_status;
