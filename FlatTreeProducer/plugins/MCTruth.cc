@@ -5971,7 +5971,7 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 					     }
 					}				      				      
 				   }				 
-			      }
+			      }			    
 			    
 			    // h0 -> bbbar (FS)
 			    if( fabs(pf->pdgId()) == 5 )
@@ -5982,8 +5982,14 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 			    // h0 -> bbbar (IS)
 			    if( fabs(di->pdgId()) == 5 && di->status() == 23 )
 			      {
-				 if( h0b1_IS && !h0b2_IS ) {h0b2_IS = di;}
-				 if( !h0b1_IS ) {h0b1_IS = di;}
+				 if( h0b1_IS && !h0b2_IS ) 
+				   {
+				      h0b2_IS = di;
+				   }
+				 if( !h0b1_IS ) 
+				   {
+				      h0b1_IS = di;
+				   }
 			      }			    
 			 }		       
 		    }		  
@@ -5996,8 +6002,8 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 		 (mcp->status() == 3)
 	       ) )
 	  {
-	     t = const_cast<reco::GenParticle*>(mcp);}
-
+	     t = const_cast<reco::GenParticle*>(mcp);	     	
+	     
 	     const reco::GenParticleRefVector& daughterRefs = mcp->daughterRefVector();
 	     for(reco::GenParticleRefVector::const_iterator idr = daughterRefs.begin(); idr!= daughterRefs.end(); ++idr) 
 	       {
@@ -6089,6 +6095,7 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 			 }		       
 		    }		  
 	       }
+	  }	
      }   
    
    bool doCheck = 0;
