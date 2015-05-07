@@ -44,6 +44,50 @@
 <var name="mc_truth_tzq" save="0"></var>
 <var name="mc_truth_thq" save="0"></var>
 
+<var name="trigger_n" save="1"></var>
+<var name="trigger" save="1"></var>
+<var name="trigger_pass" save="1"></var>
+<var name="trigger_prescale" save="1"></var>
+
+<var name="triggerobject_isTriggerL1Mu" save="1"></var>
+<var name="triggerobject_isTriggerL1NoIsoEG" save="1"></var>
+<var name="triggerobject_isTriggerL1IsoEG" save="1"></var>
+<var name="triggerobject_isTriggerL1CenJet" save="1"></var>
+<var name="triggerobject_isTriggerL1ForJet" save="1"></var>
+<var name="triggerobject_isTriggerL1TauJet" save="1"></var>
+<var name="triggerobject_isTriggerL1ETM" save="1"></var>
+<var name="triggerobject_isTriggerL1ETT" save="1"></var>
+<var name="triggerobject_isTriggerL1HTT" save="1"></var>
+<var name="triggerobject_isTriggerL1HTM" save="1"></var>
+<var name="triggerobject_isTriggerL1JetCounts" save="1"></var>
+<var name="triggerobject_isTriggerL1HfBitCounts" save="1"></var>
+<var name="triggerobject_isTriggerL1HfRingEtSums" save="1"></var>
+<var name="triggerobject_isTriggerL1TechTrig" save="1"></var>
+<var name="triggerobject_isTriggerL1Castor" save="1"></var>
+<var name="triggerobject_isTriggerL1BPTX" save="1"></var>
+<var name="triggerobject_isTriggerL1GtExternal" save="1"></var>
+
+<var name="triggerobject_isHLT_TriggerPhoton" save="1"></var>
+<var name="triggerobject_isHLT_TriggerElectron" save="1"></var>
+<var name="triggerobject_isHLT_TriggerMuon" save="1"></var>
+<var name="triggerobject_isHLT_TriggerTau" save="1"></var>
+<var name="triggerobject_isHLT_TriggerJet" save="1"></var>
+<var name="triggerobject_isHLT_TriggerBJet" save="1"></var>
+<var name="triggerobject_isHLT_TriggerMET" save="1"></var>
+<var name="triggerobject_isHLT_TriggerTET" save="1"></var>
+<var name="triggerobject_isHLT_TriggerTHT" save="1"></var>
+<var name="triggerobject_isHLT_TriggerMHT" save="1"></var>
+<var name="triggerobject_isHLT_TriggerTrack" save="1"></var>
+<var name="triggerobject_isHLT_TriggerCluster" save="1"></var>
+<var name="triggerobject_isHLT_TriggerMETSig" save="1"></var>
+<var name="triggerobject_isHLT_TriggerELongit" save="1"></var>
+<var name="triggerobject_isHLT_TriggerMHTSig" save="1"></var>
+<var name="triggerobject_isHLT_TriggerHLongit" save="1"></var>
+
+<var name="triggerobject_pt" save="1"></var>
+<var name="triggerobject_eta" save="1"></var>
+<var name="triggerobject_phi" save="1"></var>
+
 <var name="el_n" save="1"></var>
 <var name="el_pt" save="1"></var>
 <var name="el_eta" save="1"></var>
