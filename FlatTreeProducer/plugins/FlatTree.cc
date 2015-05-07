@@ -53,6 +53,53 @@ void FlatTree::Init()
    for(unsigned int i=0;i<mc_pu_ntrks_highpT.size();i++) mc_pu_ntrks_highpT[i].clear();
    mc_pu_ntrks_highpT.clear();
 
+   trigger_n = 0;
+   trigger.clear();
+   trigger_pass.clear();
+   trigger_prescale.clear();
+
+   triggerobject_n = 0;
+   triggerobject_id.clear();
+
+   triggerobject_isTriggerL1Mu.clear();
+   triggerobject_isTriggerL1NoIsoEG.clear();
+   triggerobject_isTriggerL1IsoEG.clear();
+   triggerobject_isTriggerL1CenJet.clear();
+   triggerobject_isTriggerL1ForJet.clear();
+   triggerobject_isTriggerL1TauJet.clear();
+   triggerobject_isTriggerL1ETM.clear();
+   triggerobject_isTriggerL1ETT.clear();
+   triggerobject_isTriggerL1HTT.clear();
+   triggerobject_isTriggerL1HTM.clear();
+   triggerobject_isTriggerL1JetCounts.clear();
+   triggerobject_isTriggerL1HfBitCounts.clear();
+   triggerobject_isTriggerL1HfRingEtSums.clear();
+   triggerobject_isTriggerL1TechTrig.clear();
+   triggerobject_isTriggerL1Castor.clear();
+   triggerobject_isTriggerL1BPTX.clear();
+   triggerobject_isTriggerL1GtExternal.clear();
+
+   triggerobject_isHLT_TriggerPhoton.clear();
+   triggerobject_isHLT_TriggerElectron.clear();
+   triggerobject_isHLT_TriggerMuon.clear();
+   triggerobject_isHLT_TriggerTau.clear();
+   triggerobject_isHLT_TriggerJet.clear();
+   triggerobject_isHLT_TriggerBJet.clear();
+   triggerobject_isHLT_TriggerMET.clear();
+   triggerobject_isHLT_TriggerTET.clear();
+   triggerobject_isHLT_TriggerTHT.clear();
+   triggerobject_isHLT_TriggerMHT.clear();
+   triggerobject_isHLT_TriggerTrack.clear();
+   triggerobject_isHLT_TriggerCluster.clear();
+   triggerobject_isHLT_TriggerMETSig.clear();
+   triggerobject_isHLT_TriggerELongit.clear();
+   triggerobject_isHLT_TriggerMHTSig.clear();
+   triggerobject_isHLT_TriggerHLongit.clear();
+
+   triggerobject_pt.clear();
+   triggerobject_eta.clear();
+   triggerobject_phi.clear();
+
    el_n = 0;
    el_pt.clear();
    el_eta.clear();
@@ -405,7 +452,50 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mc_pu_sumpT_highpT") ) tree->Branch("mc_pu_sumpT_highpT", "std::vector<std::vector<float> >", &mc_pu_sumpT_highpT, buffersize);
    if( doWrite("mc_pu_ntrks_lowpT") ) tree->Branch("mc_pu_ntrks_lowpT", "std::vector<std::vector<int> >", &mc_pu_ntrks_lowpT, buffersize);
    if( doWrite("mc_pu_ntrks_highpT") ) tree->Branch("mc_pu_ntrks_highpT", "std::vector<std::vector<int> >", &mc_pu_ntrks_highpT, buffersize);
-   
+  
+   if( doWrite("trigger") ) tree->Branch("trigger", "std::vector<int>", &trigger, buffersize);
+   if( doWrite("trigger_pass") ) tree->Branch("trigger_pass", "std::vector<bool>", &trigger_pass, buffersize);
+   if( doWrite("trigger_prescale") ) tree->Branch("trigger_prescale", "std::vector<int>", &trigger_prescale, buffersize);
+
+   if( doWrite("triggerobject_isTriggerL1Mu") ) tree->Branch("triggerobject_isTriggerL1Mu", "std::vector<bool>", &triggerobject_isTriggerL1Mu, buffersize);
+   if( doWrite("triggerobject_isTriggerL1NoIsoEG") ) tree->Branch("triggerobject_isTriggerL1NoIsoEG", "std::vector<bool>", &triggerobject_isTriggerL1NoIsoEG, buffersize);
+   if( doWrite("triggerobject_isTriggerL1IsoEG") ) tree->Branch("triggerobject_isTriggerL1IsoEG", "std::vector<bool>", &triggerobject_isTriggerL1IsoEG, buffersize);
+   if( doWrite("triggerobject_isTriggerL1CenJet") ) tree->Branch("triggerobject_isTriggerL1CenJet", "std::vector<bool>", &triggerobject_isTriggerL1CenJet, buffersize);
+   if( doWrite("triggerobject_isTriggerL1ForJet") ) tree->Branch("triggerobject_isTriggerL1ForJet", "std::vector<bool>", &triggerobject_isTriggerL1ForJet, buffersize);
+   if( doWrite("triggerobject_isTriggerL1TauJet") ) tree->Branch("triggerobject_isTriggerL1TauJet", "std::vector<bool>", &triggerobject_isTriggerL1TauJet, buffersize);
+   if( doWrite("triggerobject_isTriggerL1ETM") ) tree->Branch("triggerobject_isTriggerL1ETM", "std::vector<bool>", &triggerobject_isTriggerL1ETM, buffersize);
+   if( doWrite("triggerobject_isTriggerL1ETT") ) tree->Branch("triggerobject_isTriggerL1ETT", "std::vector<bool>", &triggerobject_isTriggerL1ETT, buffersize);
+   if( doWrite("triggerobject_isTriggerL1HTT") ) tree->Branch("triggerobject_isTriggerL1HTT", "std::vector<bool>", &triggerobject_isTriggerL1HTT, buffersize);
+   if( doWrite("triggerobject_isTriggerL1HTM") ) tree->Branch("triggerobject_isTriggerL1HTM", "std::vector<bool>", &triggerobject_isTriggerL1HTM, buffersize);
+   if( doWrite("triggerobject_isTriggerL1JetCounts") ) tree->Branch("triggerobject_isTriggerL1JetCounts", "std::vector<bool>", &triggerobject_isTriggerL1JetCounts, buffersize);
+   if( doWrite("triggerobject_isTriggerL1HfBitCounts") ) tree->Branch("triggerobject_isTriggerL1HfBitCounts", "std::vector<bool>", &triggerobject_isTriggerL1HfBitCounts, buffersize);
+   if( doWrite("triggerobject_isTriggerL1HfRingEtSums") ) tree->Branch("triggerobject_isTriggerL1HfRingEtSums", "std::vector<bool>", &triggerobject_isTriggerL1HfRingEtSums, buffersize);
+   if( doWrite("triggerobject_isTriggerL1TechTrig") ) tree->Branch("triggerobject_isTriggerL1TechTrig", "std::vector<bool>", &triggerobject_isTriggerL1TechTrig, buffersize);
+   if( doWrite("triggerobject_isTriggerL1Castor") ) tree->Branch("triggerobject_isTriggerL1Castor", "std::vector<bool>", &triggerobject_isTriggerL1Castor, buffersize);
+   if( doWrite("triggerobject_isTriggerL1BPTX") ) tree->Branch("triggerobject_isTriggerL1BPTX", "std::vector<bool>", &triggerobject_isTriggerL1BPTX, buffersize);
+   if( doWrite("triggerobject_isTriggerL1GtExternal") ) tree->Branch("triggerobject_isTriggerL1GtExternal", "std::vector<bool>", &triggerobject_isTriggerL1GtExternal, buffersize);
+
+   if( doWrite("triggerobject_isHLT_TriggerPhoton") ) tree->Branch("triggerobject_isHLT_TriggerPhoton", "std::vector<bool>", &triggerobject_isHLT_TriggerPhoton, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerElectron") ) tree->Branch("triggerobject_isHLT_TriggerElectron", "std::vector<bool>", &triggerobject_isHLT_TriggerElectron, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerMuon") ) tree->Branch("triggerobject_isHLT_TriggerMuon", "std::vector<bool>", &triggerobject_isHLT_TriggerMuon, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerTau") ) tree->Branch("triggerobject_isHLT_TriggerTau", "std::vector<bool>", &triggerobject_isHLT_TriggerTau, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerJet") ) tree->Branch("triggerobject_isHLT_TriggerJet", "std::vector<bool>", &triggerobject_isHLT_TriggerJet, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerBJet") ) tree->Branch("triggerobject_isHLT_TriggerBJet", "std::vector<bool>", &triggerobject_isHLT_TriggerBJet, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerMET") ) tree->Branch("triggerobject_isHLT_TriggerMET", "std::vector<bool>", &triggerobject_isHLT_TriggerMET, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerTET") ) tree->Branch("triggerobject_isHLT_TriggerTET", "std::vector<bool>", &triggerobject_isHLT_TriggerTET, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerTHT") ) tree->Branch("triggerobject_isHLT_TriggerTHT", "std::vector<bool>", &triggerobject_isHLT_TriggerTHT, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerMHT") ) tree->Branch("triggerobject_isHLT_TriggerMHT", "std::vector<bool>", &triggerobject_isHLT_TriggerMHT, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerTrack") ) tree->Branch("triggerobject_isHLT_TriggerTrack", "std::vector<bool>", &triggerobject_isHLT_TriggerTrack, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerCluster") ) tree->Branch("triggerobject_isHLT_TriggerCluster", "std::vector<bool>", &triggerobject_isHLT_TriggerCluster, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerMETSig") ) tree->Branch("triggerobject_isHLT_TriggerMETSig", "std::vector<bool>", &triggerobject_isHLT_TriggerMETSig, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerELongit") ) tree->Branch("triggerobject_isHLT_TriggerELongit", "std::vector<bool>", &triggerobject_isHLT_TriggerELongit, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerMHTSig") ) tree->Branch("triggerobject_isHLT_TriggerMHTSig", "std::vector<bool>", &triggerobject_isHLT_TriggerMHTSig, buffersize);
+   if( doWrite("triggerobject_isHLT_TriggerHLongit") ) tree->Branch("triggerobject_isHLT_TriggerHLongit", "std::vector<bool>", &triggerobject_isHLT_TriggerHLongit, buffersize);
+
+   if( doWrite("triggerobject_pt") ) tree->Branch("triggerobject_pt", "std::vector<float>", &triggerobject_pt, buffersize);
+   if( doWrite("triggerobject_eta") ) tree->Branch("triggerobject_eta", "std::vector<float>", &triggerobject_eta, buffersize);
+   if( doWrite("triggerobject_phi") ) tree->Branch("triggerobject_phi", "std::vector<float>", &triggerobject_phi, buffersize);
+
    if( doWrite("el_n") ) tree->Branch("el_n", &el_n, "el_n/I", buffersize);
    if( doWrite("el_pt") ) tree->Branch("el_pt", "std::vector<float>", &el_pt, buffersize);
    if( doWrite("el_eta") ) tree->Branch("el_eta", "std::vector<float>", &el_eta, buffersize);

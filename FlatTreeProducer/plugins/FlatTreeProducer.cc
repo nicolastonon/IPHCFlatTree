@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "FWCore/Common/interface/TriggerNames.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -24,6 +25,9 @@
 #include "DataFormats/PatCandidates/interface/Tau.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
+#include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
+
+#include "DataFormats/Math/interface/deltaR.h"
 
 #include "IPHCFlatTree/FlatTreeProducer/interface/tinyxml2.h"
 
@@ -122,8 +126,9 @@ class FlatTreeProducer : public edm::EDAnalyzer
    bool isData_;
    
    edm::EDGetTokenT<edm::TriggerResults> triggerBits_;
+   edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> triggerObjects_;
    edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_;
-   
+
    edm::EDGetTokenT<reco::VertexCollection> vertexToken_;
    edm::EDGetTokenT<pat::ElectronCollection> electronToken_;
    edm::EDGetTokenT<pat::MuonCollection> muonToken_;
@@ -786,6 +791,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    dataFormat_        = iConfig.getParameter<std::string>("dataFormat");
    isData_            = iConfig.getParameter<bool>("isData");
    triggerBits_       = consumes<edm::TriggerResults>(edm::InputTag(std::string("TriggerResults"),std::string(""),std::string("HLT")));
+   triggerObjects_    = consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"));
    triggerPrescales_  = consumes<pat::PackedTriggerPrescales>(edm::InputTag(std::string("patTrigger")));
    vertexToken_       = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertexInput"));
    electronToken_     = consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electronInput"));
@@ -831,6 +837,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    edm::Handle<edm::TriggerResults> triggerBits;
    iEvent.getByToken(triggerBits_,triggerBits);
    const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
+
+   edm::Handle<pat::TriggerObjectStandAloneCollection> triggerObjects;
+   iEvent.getByToken(triggerObjects_, triggerObjects);
 
    edm::Handle<pat::PackedTriggerPrescales> triggerPrescales;
    iEvent.getByToken(triggerPrescales_, triggerPrescales);
@@ -1003,26 +1012,109 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #########################################
 
    std::vector<std::string> triggerIdentifiers_;
-   triggerIdentifiers_.push_back("HLT_Ele27_WP80_v*");
+   //triggerIdentifiers_.push_back("HLT_Ele27_WP80_v*");
+   triggerIdentifiers_.push_back("HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1");
+   triggerIdentifiers_.push_back("HLT_Mu17_Mu8_v1");
+   triggerIdentifiers_.push_back("HLT_Mu23_TrkIsoVVL_Ele12_Gsf_CaloId_TrackId_Iso_MediumWP_v1");
+   triggerIdentifiers_.push_back("HLT_Mu8_TrkIsoVVL_Ele23_Gsf_CaloId_TrackId_Iso_MediumWP_v1");
 
    for (unsigned int j = 0; j < triggerIdentifiers_.size(); ++j)
-     {
+   {
 	std::string idName = triggerIdentifiers_[j];
 	std::string idNameUnstarred = idName;
 	bool isStarred = (idName.find("*")!=std::string::npos);
 	if( isStarred ) idNameUnstarred.erase( idName.find("*"), 1 );
 
-	for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i)
+	  for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i)
 	  {
-	     if( (isStarred && names.triggerName(i).find(idNameUnstarred)!=std::string::npos ) ||
-		 (!isStarred && names.triggerName(i)==idName) )
-		 {
-//	     std::cout << "Trigger " << names.triggerName(i) <<
-//	       ", prescale " << triggerPrescales->getPrescaleForIndex(i) <<
-//	       ": " << (triggerBits->accept(i) ? "PASS" : "fail (or not run)") << std::endl;
-		 }
+	     //if( (isStarred && names.triggerName(i).find(idNameUnstarred)!=std::string::npos ) ||
+		 //(!isStarred && names.triggerName(i)==idName) )
+		 //{
+	     //   std::cout << "[" << i << "] " << (triggerBits->accept(i) ? "1" : "0") << "  " << names.triggerName(i)  << std::endl;
+		 //}
+
+         ftree->trigger.push_back(i);
+         ftree->trigger_pass.push_back(triggerBits->accept(i) ? true : false);
+         ftree->trigger_prescale.push_back(triggerPrescales->getPrescaleForIndex(i));
 	  }
-     }
+   }
+ 
+   //std::cout << "\n === TRIGGER OBJECTS === " << std::endl;
+   for (pat::TriggerObjectStandAlone obj : *triggerObjects) { // note: not "const &" since we want to call unpackPathNames
+        obj.unpackPathNames(names);
+        //std::cout << "\tTrigger object:  pt " << obj.pt() << ", eta " << obj.eta() << ", phi " << obj.phi() << std::endl;
+        // Print trigger object collection and type
+        //std::cout << "\t   Collection: " << obj.collection() << std::endl;
+        //std::cout << "\t   Type IDs:   ";
+
+        for (unsigned h = 0; h < obj.filterIds().size(); ++h)
+        {
+            ftree->triggerobject_isTriggerL1Mu.push_back(obj.filterIds()[h] == -81 ? true : false);
+            ftree->triggerobject_isTriggerL1NoIsoEG.push_back(obj.filterIds()[h] == -82 ? true : false);
+            ftree->triggerobject_isTriggerL1IsoEG.push_back(obj.filterIds()[h] == -83 ? true : false);
+            ftree->triggerobject_isTriggerL1CenJet.push_back(obj.filterIds()[h] == -84 ? true : false);
+            ftree->triggerobject_isTriggerL1ForJet.push_back(obj.filterIds()[h] == -85 ? true : false);
+            ftree->triggerobject_isTriggerL1TauJet.push_back(obj.filterIds()[h] == -86 ? true : false);
+            ftree->triggerobject_isTriggerL1ETM.push_back(obj.filterIds()[h] == -87 ? true : false);
+            ftree->triggerobject_isTriggerL1ETT.push_back(obj.filterIds()[h] == -88 ? true : false);
+            ftree->triggerobject_isTriggerL1HTT.push_back(obj.filterIds()[h] == -89 ? true : false);
+            ftree->triggerobject_isTriggerL1HTM.push_back(obj.filterIds()[h] == -90 ? true : false);
+            ftree->triggerobject_isTriggerL1JetCounts.push_back(obj.filterIds()[h] == -91 ? true : false);
+            ftree->triggerobject_isTriggerL1HfBitCounts.push_back(obj.filterIds()[h] == -92 ? true : false);
+            ftree->triggerobject_isTriggerL1HfRingEtSums.push_back(obj.filterIds()[h] == -93 ? true : false);
+            ftree->triggerobject_isTriggerL1TechTrig.push_back(obj.filterIds()[h] == -94 ? true : false);
+            ftree->triggerobject_isTriggerL1Castor.push_back(obj.filterIds()[h] == -95 ? true : false);
+            ftree->triggerobject_isTriggerL1BPTX.push_back(obj.filterIds()[h] == -96 ? true : false);
+            ftree->triggerobject_isTriggerL1GtExternal.push_back(obj.filterIds()[h] == -97 ? true : false);
+
+            ftree->triggerobject_isHLT_TriggerPhoton.push_back(obj.filterIds()[h] == 81 ? true : false);
+            ftree->triggerobject_isHLT_TriggerElectron.push_back(obj.filterIds()[h] == 82 ? true : false);
+            ftree->triggerobject_isHLT_TriggerMuon.push_back(obj.filterIds()[h] == 83 ? true : false);
+            ftree->triggerobject_isHLT_TriggerTau.push_back(obj.filterIds()[h] == 84 ? true : false);
+            ftree->triggerobject_isHLT_TriggerJet.push_back(obj.filterIds()[h] == 85 ? true : false);
+            ftree->triggerobject_isHLT_TriggerBJet.push_back(obj.filterIds()[h] == 86 ? true : false);
+            ftree->triggerobject_isHLT_TriggerMET.push_back(obj.filterIds()[h] == 87 ? true : false);
+            ftree->triggerobject_isHLT_TriggerTET.push_back(obj.filterIds()[h] == 88 ? true : false);
+            ftree->triggerobject_isHLT_TriggerTHT.push_back(obj.filterIds()[h] == 89 ? true : false);
+            ftree->triggerobject_isHLT_TriggerMHT.push_back(obj.filterIds()[h] == 90 ? true : false);
+            ftree->triggerobject_isHLT_TriggerTrack.push_back(obj.filterIds()[h] == 91 ? true : false);
+            ftree->triggerobject_isHLT_TriggerCluster.push_back(obj.filterIds()[h] == 92 ? true : false);
+            ftree->triggerobject_isHLT_TriggerMETSig.push_back(obj.filterIds()[h] == 93 ? true : false);
+            ftree->triggerobject_isHLT_TriggerELongit.push_back(obj.filterIds()[h] == 94 ? true : false);
+            ftree->triggerobject_isHLT_TriggerMHTSig.push_back(obj.filterIds()[h] == 95 ? true : false);
+            ftree->triggerobject_isHLT_TriggerHLongit.push_back(obj.filterIds()[h] == 96 ? true : false);
+        }
+
+        //for (unsigned h = 0; h < obj.filterIds().size(); ++h) std::cout << " " << obj.filterIds()[h] ;
+        //std::cout << std::endl;
+        // Print associated trigger filters
+        //std::cout << "\t   Filters:    ";
+        //for (unsigned h = 0; h < obj.filterLabels().size(); ++h) std::cout << " " << obj.filterLabels()[h];
+        //std::cout << std::endl;
+        std::vector<std::string> pathNamesAll  = obj.pathNames(false);
+        std::vector<std::string> pathNamesLast = obj.pathNames(true);
+        // Print all trigger paths, for each one record also if the object is associated to a 'l3' filter (always true for the
+        // definition used in the PAT trigger producer) and if it's associated to the last filter of a successfull path (which
+        // means that this object did cause this trigger to succeed; however, it doesn't work on some multi-object triggers)
+        //std::cout << "\t   Paths (" << pathNamesAll.size()<<"/"<<pathNamesLast.size()<<"):    ";
+        for (unsigned h = 0, n = pathNamesAll.size(); h < n; ++h) {
+            bool isBoth = obj.hasPathName( pathNamesAll[h], true, true ); 
+            bool isL3   = obj.hasPathName( pathNamesAll[h], false, true ); 
+            bool isLF   = obj.hasPathName( pathNamesAll[h], true, false ); 
+            bool isNone = obj.hasPathName( pathNamesAll[h], false, false ); 
+            //std::cout << "   " << pathNamesAll[h];
+            //if (isBoth) std::cout << "(L,3)";
+            //if (isL3 && !isBoth) std::cout << "(*,3)";
+            //if (isLF && !isBoth) std::cout << "(L,*)";
+            //if (isNone && !isBoth && !isL3 && !isLF) std::cout << "(*,*)";
+        }
+        //std::cout << std::endl;
+        
+        ftree->triggerobject_pt.push_back(obj.pt());
+        ftree->triggerobject_eta.push_back(obj.eta());
+        ftree->triggerobject_phi.push_back(obj.phi());
+    }
+    std::cout << std::endl;
    
    reco::Vertex *primVtx = NULL;   
 

@@ -75,6 +75,55 @@ class FlatTree
    std::vector<std::vector<int> > mc_pu_ntrks_lowpT;
    std::vector<std::vector<int> > mc_pu_ntrks_highpT;
 
+   // Trigger
+   
+   int                 trigger_n;
+   std::vector<int>    trigger;
+   std::vector<bool>   trigger_pass;
+   std::vector<int>    trigger_prescale;
+
+   int                 triggerobject_n;
+   std::vector<int>    triggerobject_id;
+
+   std::vector<bool>    triggerobject_isTriggerL1Mu;            //-81
+   std::vector<bool>    triggerobject_isTriggerL1NoIsoEG;       //-82
+   std::vector<bool>    triggerobject_isTriggerL1IsoEG;
+   std::vector<bool>    triggerobject_isTriggerL1CenJet;
+   std::vector<bool>    triggerobject_isTriggerL1ForJet;
+   std::vector<bool>    triggerobject_isTriggerL1TauJet;
+   std::vector<bool>    triggerobject_isTriggerL1ETM;
+   std::vector<bool>    triggerobject_isTriggerL1ETT;
+   std::vector<bool>    triggerobject_isTriggerL1HTT;
+   std::vector<bool>    triggerobject_isTriggerL1HTM;
+   std::vector<bool>    triggerobject_isTriggerL1JetCounts;
+   std::vector<bool>    triggerobject_isTriggerL1HfBitCounts;
+   std::vector<bool>    triggerobject_isTriggerL1HfRingEtSums;
+   std::vector<bool>    triggerobject_isTriggerL1TechTrig;
+   std::vector<bool>    triggerobject_isTriggerL1Castor;
+   std::vector<bool>    triggerobject_isTriggerL1BPTX;
+   std::vector<bool>    triggerobject_isTriggerL1GtExternal;
+
+   std::vector<bool>    triggerobject_isHLT_TriggerPhoton;      //+81
+   std::vector<bool>    triggerobject_isHLT_TriggerElectron;    //+82
+   std::vector<bool>    triggerobject_isHLT_TriggerMuon;
+   std::vector<bool>    triggerobject_isHLT_TriggerTau;
+   std::vector<bool>    triggerobject_isHLT_TriggerJet;
+   std::vector<bool>    triggerobject_isHLT_TriggerBJet;
+   std::vector<bool>    triggerobject_isHLT_TriggerMET;
+   std::vector<bool>    triggerobject_isHLT_TriggerTET;
+   std::vector<bool>    triggerobject_isHLT_TriggerTHT;
+   std::vector<bool>    triggerobject_isHLT_TriggerMHT;
+   std::vector<bool>    triggerobject_isHLT_TriggerTrack;
+   std::vector<bool>    triggerobject_isHLT_TriggerCluster;
+   std::vector<bool>    triggerobject_isHLT_TriggerMETSig;
+   std::vector<bool>    triggerobject_isHLT_TriggerELongit;
+   std::vector<bool>    triggerobject_isHLT_TriggerMHTSig;
+   std::vector<bool>    triggerobject_isHLT_TriggerHLongit;
+
+   std::vector<float>  triggerobject_pt;
+   std::vector<float>  triggerobject_eta;
+   std::vector<float>  triggerobject_phi;
+
    // Electrons
 
    int el_n;
