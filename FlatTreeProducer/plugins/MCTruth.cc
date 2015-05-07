@@ -233,6 +233,11 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_h0taul2_p4.Clear();
    tree.mc_truth_h0taunutau2_p4.Clear();
    tree.mc_truth_h0taunu2_p4.Clear();
+
+   tree.mc_truth_h0b1_p4.Clear();
+   tree.mc_truth_h0b2_p4.Clear();
+   tree.mc_truth_h0b1_IS_p4.Clear();
+   tree.mc_truth_h0b2_IS_p4.Clear();
    
    tree.mc_truth_t1_p4.Clear();
    tree.mc_truth_t2_p4.Clear();
@@ -329,6 +334,11 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_h0taul2_pt = DEFVAL;
    tree.mc_truth_h0taunutau2_pt = DEFVAL;
    tree.mc_truth_h0taunu2_pt = DEFVAL;
+
+   tree.mc_truth_h0b1_pt = DEFVAL;
+   tree.mc_truth_h0b2_pt = DEFVAL;
+   tree.mc_truth_h0b1_IS_pt = DEFVAL;
+   tree.mc_truth_h0b2_IS_pt = DEFVAL;
    
    tree.mc_truth_t1_pt = DEFVAL;
    tree.mc_truth_t2_pt = DEFVAL;
@@ -425,6 +435,11 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_h0taul2_eta = DEFVAL;
    tree.mc_truth_h0taunutau2_eta = DEFVAL;
    tree.mc_truth_h0taunu2_eta = DEFVAL;
+
+   tree.mc_truth_h0b1_eta = DEFVAL;
+   tree.mc_truth_h0b2_eta = DEFVAL;
+   tree.mc_truth_h0b1_IS_eta = DEFVAL;
+   tree.mc_truth_h0b2_IS_eta = DEFVAL;
    
    tree.mc_truth_t1_eta = DEFVAL;
    tree.mc_truth_t2_eta = DEFVAL;
@@ -521,6 +536,11 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_h0taul2_phi = DEFVAL;
    tree.mc_truth_h0taunutau2_phi = DEFVAL;
    tree.mc_truth_h0taunu2_phi = DEFVAL;
+
+   tree.mc_truth_h0b1_phi = DEFVAL;
+   tree.mc_truth_h0b2_phi = DEFVAL;
+   tree.mc_truth_h0b1_IS_phi = DEFVAL;
+   tree.mc_truth_h0b2_IS_phi = DEFVAL;
    
    tree.mc_truth_t1_phi = DEFVAL;
    tree.mc_truth_t2_phi = DEFVAL;
@@ -617,6 +637,11 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_h0taul2_E = DEFVAL;
    tree.mc_truth_h0taunutau2_E = DEFVAL;
    tree.mc_truth_h0taunu2_E = DEFVAL;
+
+   tree.mc_truth_h0b1_E = DEFVAL;
+   tree.mc_truth_h0b2_E = DEFVAL;
+   tree.mc_truth_h0b1_IS_E = DEFVAL;
+   tree.mc_truth_h0b2_IS_E = DEFVAL;
    
    tree.mc_truth_t1_E = DEFVAL;
    tree.mc_truth_t2_E = DEFVAL;
@@ -713,6 +738,11 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_h0taul2_id = DEFVAL;
    tree.mc_truth_h0taunutau2_id = DEFVAL;
    tree.mc_truth_h0taunu2_id = DEFVAL;
+
+   tree.mc_truth_h0b1_id = DEFVAL;
+   tree.mc_truth_h0b2_id = DEFVAL;
+   tree.mc_truth_h0b1_IS_id = DEFVAL;
+   tree.mc_truth_h0b2_IS_id = DEFVAL;
    
    tree.mc_truth_t1_id = DEFVAL;
    tree.mc_truth_t2_id = DEFVAL;
@@ -809,6 +839,11 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_h0taul2_status = DEFVAL;
    tree.mc_truth_h0taunutau2_status = DEFVAL;
    tree.mc_truth_h0taunu2_status = DEFVAL;
+
+   tree.mc_truth_h0b1_status = DEFVAL;
+   tree.mc_truth_h0b2_status = DEFVAL;
+   tree.mc_truth_h0b1_IS_status = DEFVAL;
+   tree.mc_truth_h0b2_IS_status = DEFVAL;
    
    tree.mc_truth_t1_status = DEFVAL;
    tree.mc_truth_t2_status = DEFVAL;
@@ -876,6 +911,7 @@ void MCTruth::Init(FlatTree &tree)
    
    tree.mc_truth_t_p4.Clear();
    tree.mc_truth_tb_p4.Clear();
+   tree.mc_truth_tb_IS_p4.Clear();
    tree.mc_truth_tW_p4.Clear();
    tree.mc_truth_tWnu_p4.Clear();
    tree.mc_truth_tWnutau_p4.Clear();
@@ -916,6 +952,7 @@ void MCTruth::Init(FlatTree &tree)
    
    tree.mc_truth_t_pt = DEFVAL;
    tree.mc_truth_tb_pt = DEFVAL;
+   tree.mc_truth_tb_IS_pt = DEFVAL;
    tree.mc_truth_tW_pt = DEFVAL;
    tree.mc_truth_tWnu_pt = DEFVAL;
    tree.mc_truth_tWnutau_pt = DEFVAL;
@@ -956,6 +993,7 @@ void MCTruth::Init(FlatTree &tree)
    
    tree.mc_truth_t_eta = DEFVAL;
    tree.mc_truth_tb_eta = DEFVAL;
+   tree.mc_truth_tb_IS_eta = DEFVAL;
    tree.mc_truth_tW_eta = DEFVAL;
    tree.mc_truth_tWnu_eta = DEFVAL;
    tree.mc_truth_tWnutau_eta = DEFVAL;
@@ -996,6 +1034,7 @@ void MCTruth::Init(FlatTree &tree)
    
    tree.mc_truth_t_phi = DEFVAL;
    tree.mc_truth_tb_phi = DEFVAL;
+   tree.mc_truth_tb_IS_phi = DEFVAL;
    tree.mc_truth_tW_phi = DEFVAL;
    tree.mc_truth_tWnu_phi = DEFVAL;
    tree.mc_truth_tWnutau_phi = DEFVAL;
@@ -1036,6 +1075,7 @@ void MCTruth::Init(FlatTree &tree)
    
    tree.mc_truth_t_E = DEFVAL;
    tree.mc_truth_tb_E = DEFVAL;
+   tree.mc_truth_tb_IS_E = DEFVAL;
    tree.mc_truth_tW_E = DEFVAL;
    tree.mc_truth_tWnu_E = DEFVAL;
    tree.mc_truth_tWnutau_E = DEFVAL;
@@ -1076,6 +1116,7 @@ void MCTruth::Init(FlatTree &tree)
    
    tree.mc_truth_t_id = DEFVAL;
    tree.mc_truth_tb_id = DEFVAL;
+   tree.mc_truth_tb_IS_id = DEFVAL;
    tree.mc_truth_tW_id = DEFVAL;
    tree.mc_truth_tWnu_id = DEFVAL;
    tree.mc_truth_tWnutau_id = DEFVAL;
@@ -1116,6 +1157,7 @@ void MCTruth::Init(FlatTree &tree)
    
    tree.mc_truth_t_status = DEFVAL;
    tree.mc_truth_tb_status = DEFVAL;
+   tree.mc_truth_tb_IS_status = DEFVAL;
    tree.mc_truth_tW_status = DEFVAL;
    tree.mc_truth_tWnu_status = DEFVAL;
    tree.mc_truth_tWnutau_status = DEFVAL;
@@ -5352,10 +5394,13 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 
    reco::GenParticle *h0b1 = 0;
    reco::GenParticle *h0b2 = 0;
+   reco::GenParticle *h0b1_IS = 0;
+   reco::GenParticle *h0b2_IS = 0;
    
    reco::GenParticle *t = 0;
 
    reco::GenParticle *tb = 0;
+   reco::GenParticle *tb_IS = 0;
    
    reco::GenParticle *tW = 0;
    reco::GenParticle *tWnu = 0;
@@ -5490,22 +5535,23 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 //	       {
 //		  std::cout << "found " << mcp->status() << " " << mcp->numberOfDaughters() << std::endl;
 //	       }		  
-
+	     	     	     
 	     if( (mcp->status() == 62) || // higgs produced in initial state (MG)
 		 (mcp->status() == 52) || // higgs comes from top decay (MG)
 		 (mcp->status() == 3) )
 	       {
 		  h0 = const_cast<reco::GenParticle*>(mcp);
-
+		  
 		  const reco::GenParticleRefVector& daughterRefs = mcp->daughterRefVector();
 		  for(reco::GenParticleRefVector::const_iterator idr = daughterRefs.begin(); idr!= daughterRefs.end(); ++idr) 
 		    {
 		       if( idr->isAvailable() ) 
-			 {		       
+			 {
 			    const reco::GenParticleRef& genParticle = (*idr);
 			    const reco::GenParticle *d = genParticle.get();
 			    reco::GenParticle *pf = getUnique(d,0);
-
+			    reco::GenParticle *di = const_cast<reco::GenParticle*>(d);
+			    
 			    // h0 -> bbbar
 			    if( fabs(pf->pdgId()) == 5 ) chan = 10000;
 			    // h0 -> ee/mumu
@@ -5925,13 +5971,25 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 					     }
 					}				      				      
 				   }				 
-			      }
+			      }			    
 			    
-			    // h0 -> bbbar
+			    // h0 -> bbbar (FS)
 			    if( fabs(pf->pdgId()) == 5 )
 			      {
 				 if( h0b1 && !h0b2 ) {h0b2 = pf;}
 				 if( !h0b1 ) {h0b1 = pf;}
+			      }			    
+			    // h0 -> bbbar (IS)
+			    if( fabs(di->pdgId()) == 5 && di->status() == 23 )
+			      {
+				 if( h0b1_IS && !h0b2_IS ) 
+				   {
+				      h0b2_IS = di;
+				   }
+				 if( !h0b1_IS ) 
+				   {
+				      h0b1_IS = di;
+				   }
 			      }			    
 			 }		       
 		    }		  
@@ -5944,8 +6002,8 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 		 (mcp->status() == 3)
 	       ) )
 	  {
-	     t = const_cast<reco::GenParticle*>(mcp);}
-
+	     t = const_cast<reco::GenParticle*>(mcp);	     	
+	     
 	     const reco::GenParticleRefVector& daughterRefs = mcp->daughterRefVector();
 	     for(reco::GenParticleRefVector::const_iterator idr = daughterRefs.begin(); idr!= daughterRefs.end(); ++idr) 
 	       {
@@ -5954,6 +6012,7 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 		       const reco::GenParticleRef& genParticle = (*idr);
 		       const reco::GenParticle *d = genParticle.get();
 		       reco::GenParticle *pf = getUnique(d,0);
+		       reco::GenParticle *di = const_cast<reco::GenParticle*>(d);
 
 //		       if( pf->status() != 3 && pf->status() != 62 ) continue;
 		       
@@ -5961,7 +6020,12 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 			 {
 			    tb = pf;
 			 }		       
-		       
+		       if( (fabs(di->pdgId()) == 5 || fabs(di->pdgId()) == 3 || fabs(di->pdgId()) == 1) &&
+			   di->status() == 23 ) // b or s or d
+			 {
+			    tb_IS = di;
+			 }		       
+
 		       if( fabs(pf->pdgId()) == 24 ) // W
 			 {
 			    tW = pf;
@@ -6031,6 +6095,7 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 			 }		       
 		    }		  
 	       }
+	  }	
      }   
    
    bool doCheck = 0;
@@ -6300,9 +6365,12 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 
    if( h0b1 ) p4toTLV(h0b1->p4(),tree.mc_truth_h0b1_p4);
    if( h0b2 ) p4toTLV(h0b2->p4(),tree.mc_truth_h0b2_p4);
+   if( h0b1_IS ) p4toTLV(h0b1_IS->p4(),tree.mc_truth_h0b1_IS_p4);
+   if( h0b2_IS ) p4toTLV(h0b2_IS->p4(),tree.mc_truth_h0b2_IS_p4);
    
    if( t ) p4toTLV(t->p4(),tree.mc_truth_t_p4);
    if( tb ) p4toTLV(tb->p4(),tree.mc_truth_tb_p4);
+   if( tb_IS ) p4toTLV(tb_IS->p4(),tree.mc_truth_tb_IS_p4);
    
    if( tW ) p4toTLV(tW->p4(),tree.mc_truth_tW_p4);
    if( tWnu ) p4toTLV(tWnu->p4(),tree.mc_truth_tWnu_p4);
@@ -6386,9 +6454,12 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 
    if( h0b1 ) tree.mc_truth_h0b1_pt = h0b1->p4().pt();
    if( h0b2 ) tree.mc_truth_h0b2_pt = h0b2->p4().pt();
+   if( h0b1_IS ) tree.mc_truth_h0b1_IS_pt = h0b1_IS->p4().pt();
+   if( h0b2_IS ) tree.mc_truth_h0b2_IS_pt = h0b2_IS->p4().pt();
    
    if( t ) tree.mc_truth_t_pt = t->p4().pt();
    if( tb ) tree.mc_truth_tb_pt = tb->p4().pt();
+   if( tb_IS ) tree.mc_truth_tb_IS_pt = tb_IS->p4().pt();
    
    if( tW ) tree.mc_truth_tW_pt = tW->p4().pt();
    if( tWnu ) tree.mc_truth_tWnu_pt = tWnu->p4().pt();
@@ -6472,9 +6543,12 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 
    if( h0b1 ) tree.mc_truth_h0b1_eta = h0b1->p4().eta();
    if( h0b2 ) tree.mc_truth_h0b2_eta = h0b2->p4().eta();
+   if( h0b1_IS ) tree.mc_truth_h0b1_IS_eta = h0b1_IS->p4().eta();
+   if( h0b2_IS ) tree.mc_truth_h0b2_IS_eta = h0b2_IS->p4().eta();
    
    if( t ) tree.mc_truth_t_eta = t->p4().eta();
    if( tb ) tree.mc_truth_tb_eta = tb->p4().eta();
+   if( tb_IS ) tree.mc_truth_tb_IS_eta = tb_IS->p4().eta();
    
    if( tW ) tree.mc_truth_tW_eta = tW->p4().eta();
    if( tWnu ) tree.mc_truth_tWnu_eta = tWnu->p4().eta();
@@ -6558,9 +6632,12 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 
    if( h0b1 ) tree.mc_truth_h0b1_phi = h0b1->p4().phi();
    if( h0b2 ) tree.mc_truth_h0b2_phi = h0b2->p4().phi();
+   if( h0b1_IS ) tree.mc_truth_h0b1_IS_phi = h0b1_IS->p4().phi();
+   if( h0b2_IS ) tree.mc_truth_h0b2_IS_phi = h0b2_IS->p4().phi();
    
    if( t ) tree.mc_truth_t_phi = t->p4().phi();
    if( tb ) tree.mc_truth_tb_phi = tb->p4().phi();
+   if( tb_IS ) tree.mc_truth_tb_IS_phi = tb_IS->p4().phi();
    
    if( tW ) tree.mc_truth_tW_phi = tW->p4().phi();
    if( tWnu ) tree.mc_truth_tWnu_phi = tWnu->p4().phi();
@@ -6644,9 +6721,12 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 
    if( h0b1 ) tree.mc_truth_h0b1_E = h0b1->p4().E();
    if( h0b2 ) tree.mc_truth_h0b2_E = h0b2->p4().E();
+   if( h0b1_IS ) tree.mc_truth_h0b1_IS_E = h0b1_IS->p4().E();
+   if( h0b2_IS ) tree.mc_truth_h0b2_IS_E = h0b2_IS->p4().E();
    
    if( t ) tree.mc_truth_t_E = t->p4().E();
    if( tb ) tree.mc_truth_tb_E = tb->p4().E();
+   if( tb_IS ) tree.mc_truth_tb_IS_E = tb_IS->p4().E();
    
    if( tW ) tree.mc_truth_tW_E = tW->p4().E();
    if( tWnu ) tree.mc_truth_tWnu_E = tWnu->p4().E();
@@ -6730,9 +6810,12 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 
    if( h0b1 ) tree.mc_truth_h0b1_id = h0b1->pdgId();
    if( h0b2 ) tree.mc_truth_h0b2_id = h0b2->pdgId();
+   if( h0b1_IS ) tree.mc_truth_h0b1_IS_id = h0b1_IS->pdgId();
+   if( h0b2_IS ) tree.mc_truth_h0b2_IS_id = h0b2_IS->pdgId();
    
    if( t ) tree.mc_truth_t_id = t->pdgId();
    if( tb ) tree.mc_truth_tb_id = tb->pdgId();
+   if( tb_IS ) tree.mc_truth_tb_IS_id = tb_IS->pdgId();
    
    if( tW ) tree.mc_truth_tW_id = tW->pdgId();
    if( tWnu ) tree.mc_truth_tWnu_id = tWnu->pdgId();
@@ -6816,9 +6899,12 @@ void MCTruth::fillTHQSignalGenParticles(const edm::Event& iEvent,
 
    if( h0b1 ) tree.mc_truth_h0b1_status = h0b1->status();
    if( h0b2 ) tree.mc_truth_h0b2_status = h0b2->status();
+   if( h0b1_IS ) tree.mc_truth_h0b1_IS_status = h0b1_IS->status();
+   if( h0b2_IS ) tree.mc_truth_h0b2_IS_status = h0b2_IS->status();
    
    if( t ) tree.mc_truth_t_status = t->status();
    if( tb ) tree.mc_truth_tb_status = tb->status();
+   if( tb_IS ) tree.mc_truth_tb_IS_status = tb_IS->status();
    
    if( tW ) tree.mc_truth_tW_status = tW->status();
    if( tWnu ) tree.mc_truth_tWnu_status = tWnu->status();
@@ -6890,7 +6976,21 @@ reco::GenParticle* MCTruth::getUnique(const reco::GenParticle* p,bool verbose)
    
    if( verbose )
      {   
-	std::cout << "FINAL = " << pcur->pdgId() << " " << pcur->status() << std::endl;
+	std::cout << "FINAL: id=" << pcur->pdgId() << " status=" << pcur->status() << 
+	  " daughters=" << pcur->numberOfDaughters() << std::endl;
+	
+	const reco::GenParticleRefVector& daughterRefs = pcur->daughterRefVector();
+	int ip = 0;
+	for(reco::GenParticleRefVector::const_iterator idr = daughterRefs.begin(); idr!= daughterRefs.end(); ++idr)
+	  {	     
+	     if( idr->isAvailable() )
+	       {		  
+		  const reco::GenParticleRef& genParticle = (*idr);
+		  const reco::GenParticle *d = genParticle.get();
+		  std::cout << "daughter #" << ip << ": id=" << d->pdgId() << std::endl;
+		  ip++;
+	       }
+	  }	
 	std::cout << "---------e--------" << std::endl;
      }
       
