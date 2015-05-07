@@ -1098,10 +1098,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         // means that this object did cause this trigger to succeed; however, it doesn't work on some multi-object triggers)
         //std::cout << "\t   Paths (" << pathNamesAll.size()<<"/"<<pathNamesLast.size()<<"):    ";
         for (unsigned h = 0, n = pathNamesAll.size(); h < n; ++h) {
-            bool isBoth = obj.hasPathName( pathNamesAll[h], true, true ); 
-            bool isL3   = obj.hasPathName( pathNamesAll[h], false, true ); 
-            bool isLF   = obj.hasPathName( pathNamesAll[h], true, false ); 
-            bool isNone = obj.hasPathName( pathNamesAll[h], false, false ); 
+//            bool isBoth = obj.hasPathName( pathNamesAll[h], true, true ); 
+//            bool isL3   = obj.hasPathName( pathNamesAll[h], false, true ); 
+//            bool isLF   = obj.hasPathName( pathNamesAll[h], true, false ); 
+//            bool isNone = obj.hasPathName( pathNamesAll[h], false, false ); 
             //std::cout << "   " << pathNamesAll[h];
             //if (isBoth) std::cout << "(L,3)";
             //if (isL3 && !isBoth) std::cout << "(*,3)";
@@ -1114,7 +1114,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->triggerobject_eta.push_back(obj.eta());
         ftree->triggerobject_phi.push_back(obj.phi());
     }
-    std::cout << std::endl;
+//    std::cout << std::endl;
    
    reco::Vertex *primVtx = NULL;   
 
