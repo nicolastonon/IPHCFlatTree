@@ -26,4 +26,7 @@ cd ../
 
 # Add the dependencies on POG CMSSW packages
 git cms-merge-topic HuguesBrun:trigElecIdInCommonIsoSelection720
+
+# Compile the monster
+scram b
 ```
