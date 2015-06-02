@@ -59,7 +59,6 @@ void FlatTree::Init()
    trigger_prescale.clear();
 
    triggerobject_n = 0;
-   triggerobject_id.clear();
 
    triggerobject_isTriggerL1Mu.clear();
    triggerobject_isTriggerL1NoIsoEG.clear();
@@ -96,6 +95,7 @@ void FlatTree::Init()
    triggerobject_isHLT_TriggerMHTSig.clear();
    triggerobject_isHLT_TriggerHLongit.clear();
 
+   triggerobject_id.clear();
    triggerobject_pt.clear();
    triggerobject_eta.clear();
    triggerobject_phi.clear();
@@ -492,6 +492,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("triggerobject_isHLT_TriggerMHTSig") ) tree->Branch("triggerobject_isHLT_TriggerMHTSig", "std::vector<bool>", &triggerobject_isHLT_TriggerMHTSig, buffersize);
    if( doWrite("triggerobject_isHLT_TriggerHLongit") ) tree->Branch("triggerobject_isHLT_TriggerHLongit", "std::vector<bool>", &triggerobject_isHLT_TriggerHLongit, buffersize);
 
+   if( doWrite("triggerobject_id") ) tree->Branch("triggerobject_id", "std::vector<int>", &triggerobject_id, buffersize);
    if( doWrite("triggerobject_pt") ) tree->Branch("triggerobject_pt", "std::vector<float>", &triggerobject_pt, buffersize);
    if( doWrite("triggerobject_eta") ) tree->Branch("triggerobject_eta", "std::vector<float>", &triggerobject_eta, buffersize);
    if( doWrite("triggerobject_phi") ) tree->Branch("triggerobject_phi", "std::vector<float>", &triggerobject_phi, buffersize);

@@ -19,7 +19,7 @@ config.Data.publication = False
 config.Data.inputDataset = 'INPUTDATASET'
 config.Data.publishDataName = 'PUBLISHDATANAME'
 config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter'
-config.Data.outLFN = 'OUTLFN'
+config.Data.outLFNDirBase = 'OUTLFN'
 config.section_('User')
 config.section_('Site')
 config.Site.storageSite = 'T2_FR_IPHC'
