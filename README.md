@@ -19,7 +19,7 @@ git cms-init
 # Clone this repo
 git clone https://github.com/IPHC/IPHCFlatTree.git
 
-# Switch to release
+# Switch to particular release, otherwise ignore these lines to use the HEAD
 cd IPHCFlatTree
 git checkout MantaRay-patch1
 cd ../
