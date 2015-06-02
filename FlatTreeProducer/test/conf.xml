@@ -84,6 +84,7 @@
 <var name="triggerobject_isHLT_TriggerMHTSig" save="1"></var>
 <var name="triggerobject_isHLT_TriggerHLongit" save="1"></var>
 
+<var name="triggerobject_id" save="1"></var>
 <var name="triggerobject_pt" save="1"></var>
 <var name="triggerobject_eta" save="1"></var>
 <var name="triggerobject_phi" save="1"></var>
