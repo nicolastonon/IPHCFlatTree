@@ -24,6 +24,6 @@ cd IPHCFlatTree
 git checkout MantaRay-patch1
 cd ../
 
-# Add the dependencies
+# Add the dependencies on POG CMSSW packages
 git cms-merge-topic HuguesBrun:trigElecIdInCommonIsoSelection720
 ```
