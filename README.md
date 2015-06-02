@@ -21,7 +21,7 @@ git clone https://github.com/IPHC/IPHCFlatTree.git
 
 # Switch to particular release, otherwise ignore these lines to use the HEAD
 cd IPHCFlatTree
-git checkout MantaRay-patch1
+git checkout MantaRay-patch2
 cd ../
 
 # Add the dependencies on POG CMSSW packages
