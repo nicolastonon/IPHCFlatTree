@@ -369,7 +369,8 @@
 <var name="jet_CMVA" save="1"></var>
 <var name="jet_CSV" save="1"></var>
 <var name="jet_CSVv2" save="1"></var>
-<var name="jet_flavour" save="1"></var>
+<var name="jet_partonFlavour" save="1"></var>
+<var name="jet_hadronFlavour" save="1"></var>
 
 <var name="jet_neutralHadronEnergy" save="1"></var>
 <var name="jet_neutralEmEnergy" save="1"></var>
@@ -390,6 +391,8 @@
 
 <var name="jet_pileupJetId" save="1"></var>
 
+<var name="jet_hasGen" save="1"></var>
+
 <var name="jet_gen_pt" save="1"></var>
 <var name="jet_gen_eta" save="1"></var>
 <var name="jet_gen_phi" save="1"></var>
@@ -398,5 +401,17 @@
 
 <var name="jet_gen_status" save="1"></var>
 <var name="jet_gen_id" save="1"></var>
+
+<var name="genJet_n" save="1"></var>
+<var name="genJet_pt" save="1"></var>
+<var name="genJet_eta" save="1"></var>
+<var name="genJet_phi" save="1"></var>
+<var name="genJet_m" save="1"></var>
+<var name="genJet_E" save="1"></var>
+<var name="genJet_emEnergy" save="1"></var>
+<var name="genJet_hadEnergy" save="1"></var>
+<var name="genJet_invisibleEnergy" save="1"></var>
+<var name="genJet_auxiliaryEnergy" save="1"></var>
+<var name="genJet_flavour" save="1"></var>
 
 <var name="gen_all" save="1"></var>
