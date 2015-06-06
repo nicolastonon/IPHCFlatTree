@@ -380,7 +380,8 @@ void FlatTree::Init()
    jet_CMVA.clear();
    jet_CSV.clear();
    jet_CSVv2.clear();
-   jet_flavour.clear();
+   jet_partonFlavour.clear();
+   jet_hadronFlavour.clear();
 
    jet_neutralHadronEnergy.clear();
    jet_neutralEmEnergy.clear();
@@ -401,6 +402,8 @@ void FlatTree::Init()
    
    jet_pileupJetId.clear();
 
+   jet_hasGen.clear();
+   
    jet_gen_pt.clear();
    jet_gen_eta.clear();
    jet_gen_phi.clear();
@@ -409,6 +412,18 @@ void FlatTree::Init()
 
    jet_gen_status.clear();
    jet_gen_id.clear();
+
+   genJet_n = 0;
+   genJet_pt.clear();
+   genJet_eta.clear();
+   genJet_phi.clear();
+   genJet_m.clear();
+   genJet_E.clear();
+   genJet_emEnergy.clear();
+   genJet_hadEnergy.clear();
+   genJet_invisibleEnergy.clear();
+   genJet_auxiliaryEnergy.clear();
+   genJet_flavour.clear();
 }
 
 void FlatTree::CreateBranches(int buffersize = 32000)
@@ -778,7 +793,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("jet_CMVA") ) tree->Branch("jet_CMVA", "std::vector<float>", &jet_CMVA, buffersize);
    if( doWrite("jet_CSV") ) tree->Branch("jet_CSV", "std::vector<float>", &jet_CSV, buffersize);
    if( doWrite("jet_CSVv2") ) tree->Branch("jet_CSVv2", "std::vector<float>", &jet_CSVv2, buffersize);
-   if( doWrite("jet_flavour") ) tree->Branch("jet_flavour", "std::vector<int>", &jet_flavour, buffersize);
+   if( doWrite("jet_partonFlavour") ) tree->Branch("jet_partonFlavour", "std::vector<int>", &jet_partonFlavour, buffersize);
+   if( doWrite("jet_hadronFlavour") ) tree->Branch("jet_hadronFlavour", "std::vector<int>", &jet_hadronFlavour, buffersize);
 
    if( doWrite("jet_neutralHadronEnergy") ) tree->Branch("jet_neutralHadronEnergy", "std::vector<float>", &jet_neutralHadronEnergy, buffersize);
    if( doWrite("jet_neutralEmEnergy") ) tree->Branch("jet_neutralEmEnergy", "std::vector<float>", &jet_neutralEmEnergy, buffersize);
@@ -799,6 +815,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("jet_pileupJetId") ) tree->Branch("jet_pileupJetId", "std::vector<float>", &jet_pileupJetId, buffersize);
 
+   if( doWrite("jet_hasGen") ) tree->Branch("jet_hasGen", "std::vector<bool>", &jet_hasGen, buffersize);
+   
    if( doWrite("jet_gen_pt") ) tree->Branch("jet_gen_pt", "std::vector<float>", &jet_gen_pt, buffersize);
    if( doWrite("jet_gen_eta") ) tree->Branch("jet_gen_eta", "std::vector<float>", &jet_gen_eta, buffersize);
    if( doWrite("jet_gen_phi") ) tree->Branch("jet_gen_phi", "std::vector<float>", &jet_gen_phi, buffersize);
@@ -808,6 +826,18 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("jet_gen_status") ) tree->Branch("jet_gen_status", "std::vector<int>", &jet_gen_status, buffersize);
    if( doWrite("jet_gen_id") ) tree->Branch("jet_gen_id", "std::vector<int>", &jet_gen_id, buffersize);
 
+   if( doWrite("genJet_n") ) tree->Branch("genJet_n", &genJet_n, "genJet_n/I", buffersize);
+   if( doWrite("genJet_pt") ) tree->Branch("genJet_pt", "std::vector<float>", &genJet_pt, buffersize);
+   if( doWrite("genJet_eta") ) tree->Branch("genJet_eta", "std::vector<float>", &genJet_eta, buffersize);
+   if( doWrite("genJet_phi") ) tree->Branch("genJet_phi", "std::vector<float>", &genJet_phi, buffersize);
+   if( doWrite("genJet_m") ) tree->Branch("genJet_m", "std::vector<float>", &genJet_m, buffersize);
+   if( doWrite("genJet_E") ) tree->Branch("genJet_E", "std::vector<float>", &genJet_E, buffersize);
+   if( doWrite("genJet_emEnergy") ) tree->Branch("genJet_emEnergy", "std::vector<float>", &genJet_emEnergy, buffersize);
+   if( doWrite("genJet_hadEnergy") ) tree->Branch("genJet_hadEnergy", "std::vector<float>", &genJet_hadEnergy, buffersize);
+   if( doWrite("genJet_invisibleEnergy") ) tree->Branch("genJet_invisibleEnergy", "std::vector<float>", &genJet_invisibleEnergy, buffersize);
+   if( doWrite("genJet_auxiliaryEnergy") ) tree->Branch("genJet_auxiliaryEnergy", "std::vector<float>", &genJet_auxiliaryEnergy, buffersize);
+   if( doWrite("genJet_flavour") ) tree->Branch("genJet_flavour", "std::vector<int>", &genJet_flavour, buffersize);
+   
    if( doWrite("mc_truth_tth") )
      {
 	tree->Branch("mc_truth_tth_channel", &mc_truth_tth_channel, "mc_truth_tth_channel/I", buffersize);
