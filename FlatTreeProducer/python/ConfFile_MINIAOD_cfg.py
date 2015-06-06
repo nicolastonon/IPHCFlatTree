@@ -27,6 +27,12 @@ process.load("Geometry.CaloEventSetup.CaloTopology_cfi");
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
+########################
+#  Additional modules  #
+########################
+
+process.load('IPHCFlatTree.FlatTreeProducer.genJetFlavorMatching')
+
 ###########
 #  Input  #
 ###########
@@ -63,6 +69,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   muonInput         = cms.InputTag("slimmedMuons"),
                   tauInput          = cms.InputTag("slimmedTaus"),
                   jetInput          = cms.InputTag("slimmedJets"),
+                  genJetInput       = cms.InputTag("slimmedGenJets"),
+                  jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
                   metInput          = cms.InputTag("slimmedMETs"),
                   rhoInput          = cms.InputTag("fixedGridRhoFastjetAll"),
                   genParticlesInput = cms.InputTag("prunedGenParticles"),
@@ -73,4 +81,5 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 #  Path  #
 ##########
 
-process.p = cms.Path(process.FlatTree)
+process.p = cms.Path(process.genJetFlavourAlg*
+                     process.FlatTree)
