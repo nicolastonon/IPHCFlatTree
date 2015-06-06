@@ -413,7 +413,8 @@ class FlatTree
    std::vector<float> jet_CMVA;
    std::vector<float> jet_CSV;
    std::vector<float> jet_CSVv2;
-   std::vector<int> jet_flavour;
+   std::vector<int> jet_partonFlavour;
+   std::vector<int> jet_hadronFlavour;
 
    std::vector<float> jet_neutralHadronEnergy;
    std::vector<float> jet_neutralEmEnergy;
@@ -434,6 +435,8 @@ class FlatTree
    
    std::vector<float> jet_pileupJetId;
 
+   std::vector<bool> jet_hasGen;
+   
    std::vector<float> jet_gen_pt;
    std::vector<float> jet_gen_eta;
    std::vector<float> jet_gen_phi;
@@ -443,6 +446,20 @@ class FlatTree
    std::vector<int> jet_gen_status;
    std::vector<int> jet_gen_id;
 
+   // GenJets
+
+   int genJet_n;
+   std::vector<float> genJet_pt;
+   std::vector<float> genJet_eta;
+   std::vector<float> genJet_phi;
+   std::vector<float> genJet_m;
+   std::vector<float> genJet_E;
+   std::vector<float> genJet_emEnergy;
+   std::vector<float> genJet_hadEnergy;
+   std::vector<float> genJet_invisibleEnergy;
+   std::vector<float> genJet_auxiliaryEnergy;
+   std::vector<int>   genJet_flavour;
+   
    // ttH
    int mc_truth_tth_channel;
 
