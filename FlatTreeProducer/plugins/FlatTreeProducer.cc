@@ -15,6 +15,7 @@
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 #include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
+#include "SimDataFormats/JetMatching/interface/JetFlavourMatching.h"
 
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
@@ -134,6 +135,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<pat::MuonCollection> muonToken_;
    edm::EDGetTokenT<pat::TauCollection> tauToken_;
    edm::EDGetTokenT<pat::JetCollection> jetToken_;
+   edm::EDGetTokenT<reco::GenJetCollection> genJetToken_;
    edm::EDGetTokenT<std::vector<pat::MET> > metTokenAOD_;
    edm::EDGetTokenT<pat::METCollection> metTokenMINIAOD_;
    edm::EDGetTokenT<double> rhoToken_;
@@ -282,10 +284,10 @@ template <typename T>
 	  if( ftree->jet_CSVv2[i] > conf_algo_value )
 	    AddValue("n_presel_jets");
      }
-   else if( !algo.compare("jet_flavour") )
+   else if( !algo.compare("jet_partonFlavour") )
      {
-	for( unsigned int i=0;i<ftree->jet_flavour.size();++i )
-	  if( ftree->jet_flavour[i] > conf_algo_value )
+	for( unsigned int i=0;i<ftree->jet_partonFlavour.size();++i )
+	  if( ftree->jet_partonFlavour[i] > conf_algo_value )
 	    AddValue("n_presel_jets");
      }
 }
@@ -567,7 +569,7 @@ std::string FlatTreeProducer::CheckAlgos()
    std::map<std::string, boost::any> jet_CMVA = keep_conf["jet_CMVA"];
    std::map<std::string, boost::any> jet_CSV = keep_conf["jet_CSV"];
    std::map<std::string, boost::any> jet_CSVv2 = keep_conf["jet_CSVv2"];
-   std::map<std::string, boost::any> jet_flavour = keep_conf["jet_flavour"];
+   std::map<std::string, boost::any> jet_partonFlavour = keep_conf["jet_partonFlavour"];
    
    nbAlgo += CheckAlgo(jet_JBP, "jet_JBP", algo);
    nbAlgo += CheckAlgo(jet_JP, "jet_JP", algo);
@@ -578,7 +580,7 @@ std::string FlatTreeProducer::CheckAlgos()
    nbAlgo += CheckAlgo(jet_CMVA, "jet_CMVA", algo);
    nbAlgo += CheckAlgo(jet_CSV, "jet_CSV", algo);
    nbAlgo += CheckAlgo(jet_CSVv2, "jet_CSVv2", algo);
-   nbAlgo += CheckAlgo(jet_flavour, "jet_flavour", algo);
+   nbAlgo += CheckAlgo(jet_partonFlavour, "jet_partonFlavour", algo);
    
    if( nbAlgo > 1 )
      {
@@ -798,6 +800,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    muonToken_         = consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonInput"));
    tauToken_          = consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("tauInput"));
    jetToken_          = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetInput"));
+   genJetToken_       = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("genJetInput"));
    metTokenAOD_       = consumes<std::vector<pat::MET> >(iConfig.getParameter<edm::InputTag>("metInput"));
    metTokenMINIAOD_   = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metInput"));
    rhoToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
@@ -860,6 +863,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    edm::Handle<pat::JetCollection> jets;
    iEvent.getByToken(jetToken_,jets);
 
+   // GenJets
+   edm::Handle<reco::GenJetCollection> genJets;
+   if( !isData_ ) iEvent.getByToken(genJetToken_,genJets);
+   edm::Handle<reco::JetFlavourMatchingCollection> genJetFlavourMatching;
+   if( !isData_ ) iEvent.getByLabel("genJetFlavour",genJetFlavourMatching);
+   
    // Muons
    edm::Handle<pat::MuonCollection> muons;
    iEvent.getByToken(muonToken_,muons);
@@ -1804,7 +1813,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 	ftree->jet_CSV.push_back(CSV);
 
-	ftree->jet_flavour.push_back(jet.partonFlavour());
+	ftree->jet_partonFlavour.push_back(jet.partonFlavour());
+	ftree->jet_hadronFlavour.push_back(jet.hadronFlavour());
 
 	ftree->jet_neutralHadronEnergy.push_back(jet.neutralHadronEnergy());
 	ftree->jet_neutralEmEnergy.push_back(jet.neutralEmEnergy());
@@ -1817,19 +1827,65 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
 
 	const reco::GenJet* genJet = jet.genJet();
-	if( genJet )
-	  {
-	     ftree->jet_gen_pt.push_back(genJet->pt());
-	     ftree->jet_gen_eta.push_back(genJet->eta());
-	     ftree->jet_gen_phi.push_back(genJet->phi());
-	     ftree->jet_gen_m.push_back(genJet->mass());
-	     ftree->jet_gen_E.push_back(genJet->energy());
+	bool hasGenInfo = (genJet);
+	ftree->jet_hasGen.push_back(hasGenInfo);
+	
+	float gen_jet_pt = -666;
+	float gen_jet_eta = -666;
+	float gen_jet_phi = -666;
+	float gen_jet_m = -666;
+	float gen_jet_E = -666;
+	int gen_jet_status = -666;
+	int gen_jet_id = -666;
 
-	     ftree->jet_gen_status.push_back(genJet->status());
-	     ftree->jet_gen_id.push_back(genJet->pdgId());
+	if( hasGenInfo )
+	  {
+	     gen_jet_pt = genJet->pt();
+	     gen_jet_eta = genJet->eta();
+	     gen_jet_phi = genJet->phi();
+	     gen_jet_m = genJet->mass();
+	     gen_jet_E = genJet->energy();
+	     gen_jet_status = genJet->status();
+	     gen_jet_id = genJet->pdgId();
 	  }
+	
+	ftree->jet_gen_pt.push_back(gen_jet_pt);
+	ftree->jet_gen_eta.push_back(gen_jet_eta);
+	ftree->jet_gen_phi.push_back(gen_jet_phi);
+	ftree->jet_gen_m.push_back(gen_jet_m);
+	ftree->jet_gen_E.push_back(gen_jet_E);
+	
+	ftree->jet_gen_status.push_back(gen_jet_status);
+	ftree->jet_gen_id.push_back(gen_jet_id);
      }
 
+   // GenJets
+
+   if( !isData_ )
+     {	
+	int nGenJet = genJets->size();
+	ftree->genJet_n = nGenJet;
+	for(int ij=0;ij<nGenJet;ij++)
+	  {
+	     const reco::GenJet& genJet = genJets->at(ij);
+
+	     ftree->genJet_pt.push_back(genJet.pt());
+	     ftree->genJet_eta.push_back(genJet.eta());
+	     ftree->genJet_phi.push_back(genJet.phi());
+	     ftree->genJet_m.push_back(genJet.mass());
+	     ftree->genJet_E.push_back(genJet.energy());
+	     
+	     ftree->genJet_emEnergy.push_back(genJet.emEnergy());
+	     ftree->genJet_hadEnergy.push_back(genJet.hadEnergy());
+	     ftree->genJet_invisibleEnergy.push_back(genJet.invisibleEnergy());
+	     ftree->genJet_auxiliaryEnergy.push_back(genJet.auxiliaryEnergy());
+	     
+	     RefToBase<reco::Jet> jetRef(RefToBaseProd<reco::Jet>(genJets),ij);
+	     int genJet_flavour = (*genJetFlavourMatching)[jetRef].getFlavour();
+	     ftree->genJet_flavour.push_back(genJet_flavour);
+	  }	
+     }
+   
    this->KeepEvent();
    ftree->tree->Fill();
    
