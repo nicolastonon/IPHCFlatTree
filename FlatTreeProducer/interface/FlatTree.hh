@@ -43,7 +43,11 @@ class FlatTree
    float met_pt;
    float met_phi;
    float met_sumet;
-
+   
+   float metPuppi_pt;
+   float metPuppi_phi;
+   float metPuppi_sumet;
+   
    float pv_x;
    float pv_y;
    float pv_z;
@@ -435,17 +439,84 @@ class FlatTree
    
    std::vector<float> jet_pileupJetId;
 
-   std::vector<bool> jet_hasGen;
+   std::vector<bool> jet_hasGenJet;   
+   std::vector<float> jet_genJet_pt;
+   std::vector<float> jet_genJet_eta;
+   std::vector<float> jet_genJet_phi;
+   std::vector<float> jet_genJet_m;
+   std::vector<float> jet_genJet_E;
+   std::vector<int> jet_genJet_status;
+   std::vector<int> jet_genJet_id;
+
+   std::vector<bool> jet_hasGenParton;
+   std::vector<float> jet_genParton_pt;
+   std::vector<float> jet_genParton_eta;
+   std::vector<float> jet_genParton_phi;
+   std::vector<float> jet_genParton_m;
+   std::vector<float> jet_genParton_E;
+   std::vector<int> jet_genParton_status;
+   std::vector<int> jet_genParton_id;
    
-   std::vector<float> jet_gen_pt;
-   std::vector<float> jet_gen_eta;
-   std::vector<float> jet_gen_phi;
-   std::vector<float> jet_gen_m;
-   std::vector<float> jet_gen_E;
+   // Puppi Jets
 
-   std::vector<int> jet_gen_status;
-   std::vector<int> jet_gen_id;
+   int jetPuppi_n;
+   std::vector<float> jetPuppi_pt;
+   std::vector<float> jetPuppi_eta;
+   std::vector<float> jetPuppi_phi;
+   std::vector<float> jetPuppi_m;
+   std::vector<float> jetPuppi_E;
 
+   std::vector<int> jetPuppi_ntrk;
+
+   std::vector<float> jetPuppi_JBP;
+   std::vector<float> jetPuppi_JP;
+   std::vector<float> jetPuppi_TCHP;
+   std::vector<float> jetPuppi_TCHE;
+   std::vector<float> jetPuppi_SSVHE;
+   std::vector<float> jetPuppi_SSVHP;
+   std::vector<float> jetPuppi_CMVA;
+   std::vector<float> jetPuppi_CSV;
+   std::vector<float> jetPuppi_CSVv2;
+   std::vector<int> jetPuppi_partonFlavour;
+   std::vector<int> jetPuppi_hadronFlavour;
+
+   std::vector<float> jetPuppi_neutralHadronEnergy;
+   std::vector<float> jetPuppi_neutralEmEnergy;
+   std::vector<float> jetPuppi_chargedHadronEnergy;
+   std::vector<float> jetPuppi_chargedEmEnergy;
+   std::vector<float> jetPuppi_electronEnergy;
+   std::vector<float> jetPuppi_muonEnergy;
+   std::vector<float> jetPuppi_photonEnergy;
+
+   std::vector<int> jetPuppi_chargedMultiplicity;
+   std::vector<int> jetPuppi_neutralMultiplicity;
+   std::vector<int> jetPuppi_chargedHadronMultiplicity;
+   
+   std::vector<float> jetPuppi_jecFactorUncorrected;
+   std::vector<float> jetPuppi_jecFactorL1FastJet;
+   std::vector<float> jetPuppi_jecFactorL2Relative;
+   std::vector<float> jetPuppi_jecFactorL3Absolute;
+   
+   std::vector<float> jetPuppi_pileupJetId;
+
+   std::vector<bool> jetPuppi_hasGenJet;   
+   std::vector<float> jetPuppi_genJet_pt;
+   std::vector<float> jetPuppi_genJet_eta;
+   std::vector<float> jetPuppi_genJet_phi;
+   std::vector<float> jetPuppi_genJet_m;
+   std::vector<float> jetPuppi_genJet_E;
+   std::vector<int> jetPuppi_genJet_status;
+   std::vector<int> jetPuppi_genJet_id;
+
+   std::vector<bool> jetPuppi_hasGenParton;   
+   std::vector<float> jetPuppi_genParton_pt;
+   std::vector<float> jetPuppi_genParton_eta;
+   std::vector<float> jetPuppi_genParton_phi;
+   std::vector<float> jetPuppi_genParton_m;
+   std::vector<float> jetPuppi_genParton_E;
+   std::vector<int> jetPuppi_genParton_status;
+   std::vector<int> jetPuppi_genParton_id;
+   
    // GenJets
 
    int genJet_n;
