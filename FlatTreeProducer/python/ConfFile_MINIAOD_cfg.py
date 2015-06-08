@@ -64,17 +64,19 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 
                   isData            = cms.bool(options.isData),
 
-                  vertexInput       = cms.InputTag("offlineSlimmedPrimaryVertices"),
-                  electronInput     = cms.InputTag("slimmedElectrons"),
-                  muonInput         = cms.InputTag("slimmedMuons"),
-                  tauInput          = cms.InputTag("slimmedTaus"),
-                  jetInput          = cms.InputTag("slimmedJets"),
-                  genJetInput       = cms.InputTag("slimmedGenJets"),
+                  vertexInput              = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                  electronInput            = cms.InputTag("slimmedElectrons"),
+                  muonInput                = cms.InputTag("slimmedMuons"),
+                  tauInput                 = cms.InputTag("slimmedTaus"),
+                  jetInput                 = cms.InputTag("slimmedJets"),
+                  jetPuppiInput            = cms.InputTag("slimmedJetsPuppi"),
+                  genJetInput              = cms.InputTag("slimmedGenJets"),
                   jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
-                  metInput          = cms.InputTag("slimmedMETs"),
-                  rhoInput          = cms.InputTag("fixedGridRhoFastjetAll"),
-                  genParticlesInput = cms.InputTag("prunedGenParticles"),
-                  objects           = cms.InputTag("selectedPatTrigger")
+                  metInput                 = cms.InputTag("slimmedMETs"),
+                  metPuppiInput            = cms.InputTag("slimmedMETsPuppi"),
+                  rhoInput                 = cms.InputTag("fixedGridRhoFastjetAll"),
+                  genParticlesInput        = cms.InputTag("prunedGenParticles"),
+                  objects                  = cms.InputTag("selectedPatTrigger")
 )
 
 ##########
