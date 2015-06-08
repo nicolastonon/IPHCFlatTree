@@ -7,6 +7,10 @@
 <var name="met_phi" save="1"></var>
 <var name="met_sumet" save="1"></var>
 
+<var name="metPuppi_pt" save="1"></var>
+<var name="metPuppi_phi" save="1"></var>
+<var name="metPuppi_sumet" save="1"></var>
+
 <var name="pv_x" save="1"></var>
 <var name="pv_y" save="1"></var>
 <var name="pv_z" save="1"></var>
@@ -391,16 +395,23 @@
 
 <var name="jet_pileupJetId" save="1"></var>
 
-<var name="jet_hasGen" save="1"></var>
+<var name="jet_hasGenJet" save="1"></var>
+<var name="jet_genJet_pt" save="1"></var>
+<var name="jet_genJet_eta" save="1"></var>
+<var name="jet_genJet_phi" save="1"></var>
+<var name="jet_genJet_m" save="1"></var>
+<var name="jet_genJet_E" save="1"></var>
+<var name="jet_genJet_status" save="1"></var>
+<var name="jet_genJet_id" save="1"></var>
 
-<var name="jet_gen_pt" save="1"></var>
-<var name="jet_gen_eta" save="1"></var>
-<var name="jet_gen_phi" save="1"></var>
-<var name="jet_gen_m" save="1"></var>
-<var name="jet_gen_E" save="1"></var>
-
-<var name="jet_gen_status" save="1"></var>
-<var name="jet_gen_id" save="1"></var>
+<var name="jet_hasGenParton" save="1"></var>
+<var name="jet_genParton_pt" save="1"></var>
+<var name="jet_genParton_eta" save="1"></var>
+<var name="jet_genParton_phi" save="1"></var>
+<var name="jet_genParton_m" save="1"></var>
+<var name="jet_genParton_E" save="1"></var>
+<var name="jet_genParton_status" save="1"></var>
+<var name="jet_genParton_id" save="1"></var>
 
 <var name="genJet_n" save="1"></var>
 <var name="genJet_pt" save="1"></var>
@@ -413,5 +424,63 @@
 <var name="genJet_invisibleEnergy" save="1"></var>
 <var name="genJet_auxiliaryEnergy" save="1"></var>
 <var name="genJet_flavour" save="1"></var>
+
+<var name="jetPuppi_n" save="1"></var>
+<var name="jetPuppi_pt" save="1"></var>
+<var name="jetPuppi_eta" save="1"></var>
+<var name="jetPuppi_phi" save="1"></var>
+<var name="jetPuppi_m" save="1"></var>
+<var name="jetPuppi_E" save="1"></var>
+
+<var name="jetPuppi_ntrk" save="1"></var>
+
+<var name="jetPuppi_JBP" save="1"></var>
+<var name="jetPuppi_JP" save="1"></var>
+<var name="jetPuppi_TCHP" save="1"></var>
+<var name="jetPuppi_TCHE" save="1"></var>
+<var name="jetPuppi_SSVHE" save="1"></var>
+<var name="jetPuppi_SSVHP" save="1"></var>
+<var name="jetPuppi_CMVA" save="1"></var>
+<var name="jetPuppi_CSV" save="1"></var>
+<var name="jetPuppi_CSVv2" save="1"></var>
+<var name="jetPuppi_partonFlavour" save="1"></var>
+<var name="jetPuppi_hadronFlavour" save="1"></var>
+
+<var name="jetPuppi_neutralHadronEnergy" save="1"></var>
+<var name="jetPuppi_neutralEmEnergy" save="1"></var>
+<var name="jetPuppi_chargedHadronEnergy" save="1"></var>
+<var name="jetPuppi_chargedEmEnergy" save="1"></var>
+<var name="jetPuppi_electronEnergy" save="1"></var>
+<var name="jetPuppi_muonEnergy" save="1"></var>
+<var name="jetPuppi_photonEnergy" save="1"></var>
+
+<var name="jetPuppi_chargedMultiplicity" save="1"></var>
+<var name="jetPuppi_neutralMultiplicity" save="1"></var>
+<var name="jetPuppi_chargedHadronMultiplicity" save="1"></var>
+
+<var name="jetPuppi_jecFactorUncorrected" save="1"></var>
+<var name="jetPuppi_jecFactorL1FastJet" save="1"></var>
+<var name="jetPuppi_jecFactorL2Relative" save="1"></var>
+<var name="jetPuppi_jecFactorL3Absolute" save="1"></var>
+
+<var name="jetPuppi_pileupJetId" save="1"></var>
+
+<var name="jetPuppi_hasGenJet" save="1"></var>
+<var name="jetPuppi_genJet_pt" save="1"></var>
+<var name="jetPuppi_genJet_eta" save="1"></var>
+<var name="jetPuppi_genJet_phi" save="1"></var>
+<var name="jetPuppi_genJet_m" save="1"></var>
+<var name="jetPuppi_genJet_E" save="1"></var>
+<var name="jetPuppi_genJet_status" save="1"></var>
+<var name="jetPuppi_genJet_id" save="1"></var>
+
+<var name="jetPuppi_hasGenParton" save="1"></var>
+<var name="jetPuppi_genParton_pt" save="1"></var>
+<var name="jetPuppi_genParton_eta" save="1"></var>
+<var name="jetPuppi_genParton_phi" save="1"></var>
+<var name="jetPuppi_genParton_m" save="1"></var>
+<var name="jetPuppi_genParton_E" save="1"></var>
+<var name="jetPuppi_genParton_status" save="1"></var>
+<var name="jetPuppi_genParton_id" save="1"></var>
 
 <var name="gen_all" save="1"></var>
