@@ -17,6 +17,10 @@ void FlatTree::Init()
    met_phi = DEFVAL;
    met_sumet = DEFVAL;
 
+   metPuppi_pt = DEFVAL;
+   metPuppi_phi = DEFVAL;
+   metPuppi_sumet = DEFVAL;
+   
    pv_x = DEFVAL;
    pv_y = DEFVAL;
    pv_z = DEFVAL;
@@ -402,17 +406,82 @@ void FlatTree::Init()
    
    jet_pileupJetId.clear();
 
-   jet_hasGen.clear();
+   jet_hasGenJet.clear();   
+   jet_genJet_pt.clear();
+   jet_genJet_eta.clear();
+   jet_genJet_phi.clear();
+   jet_genJet_m.clear();
+   jet_genJet_E.clear();
+   jet_genJet_status.clear();
+   jet_genJet_id.clear();
+
+   jet_hasGenParton.clear();   
+   jet_genParton_pt.clear();
+   jet_genParton_eta.clear();
+   jet_genParton_phi.clear();
+   jet_genParton_m.clear();
+   jet_genParton_E.clear();
+   jet_genParton_status.clear();
+   jet_genParton_id.clear();
    
-   jet_gen_pt.clear();
-   jet_gen_eta.clear();
-   jet_gen_phi.clear();
-   jet_gen_m.clear();
-   jet_gen_E.clear();
+   jetPuppi_n = 0;
+   jetPuppi_pt.clear();
+   jetPuppi_eta.clear();
+   jetPuppi_phi.clear();
+   jetPuppi_m.clear();
+   jetPuppi_E.clear();
 
-   jet_gen_status.clear();
-   jet_gen_id.clear();
+   jetPuppi_ntrk.clear();
 
+   jetPuppi_JBP.clear();
+   jetPuppi_JP.clear();
+   jetPuppi_TCHP.clear();
+   jetPuppi_TCHE.clear();
+   jetPuppi_SSVHE.clear();
+   jetPuppi_SSVHP.clear();
+   jetPuppi_CMVA.clear();
+   jetPuppi_CSV.clear();
+   jetPuppi_CSVv2.clear();
+   jetPuppi_partonFlavour.clear();
+   jetPuppi_hadronFlavour.clear();
+
+   jetPuppi_neutralHadronEnergy.clear();
+   jetPuppi_neutralEmEnergy.clear();
+   jetPuppi_chargedHadronEnergy.clear();
+   jetPuppi_chargedEmEnergy.clear();
+   jetPuppi_electronEnergy.clear();
+   jetPuppi_muonEnergy.clear();
+   jetPuppi_photonEnergy.clear();
+
+   jetPuppi_chargedMultiplicity.clear();
+   jetPuppi_neutralMultiplicity.clear();
+   jetPuppi_chargedHadronMultiplicity.clear();
+   
+   jetPuppi_jecFactorUncorrected.clear();
+   jetPuppi_jecFactorL1FastJet.clear();
+   jetPuppi_jecFactorL2Relative.clear();
+   jetPuppi_jecFactorL3Absolute.clear();
+   
+   jetPuppi_pileupJetId.clear();
+
+   jetPuppi_hasGenJet.clear();   
+   jetPuppi_genJet_pt.clear();
+   jetPuppi_genJet_eta.clear();
+   jetPuppi_genJet_phi.clear();
+   jetPuppi_genJet_m.clear();
+   jetPuppi_genJet_E.clear();
+   jetPuppi_genJet_status.clear();
+   jetPuppi_genJet_id.clear();
+
+   jetPuppi_hasGenParton.clear();   
+   jetPuppi_genParton_pt.clear();
+   jetPuppi_genParton_eta.clear();
+   jetPuppi_genParton_phi.clear();
+   jetPuppi_genParton_m.clear();
+   jetPuppi_genParton_E.clear();
+   jetPuppi_genParton_status.clear();
+   jetPuppi_genParton_id.clear();
+   
    genJet_n = 0;
    genJet_pt.clear();
    genJet_eta.clear();
@@ -436,6 +505,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("met_pt") ) tree->Branch("met_pt", &met_pt, "met_pt/F", buffersize);
    if( doWrite("met_phi") ) tree->Branch("met_phi", &met_phi, "met_phi/F", buffersize);
    if( doWrite("met_sumet") ) tree->Branch("met_sumet", &met_sumet, "met_sumet/F", buffersize);
+
+   if( doWrite("metPuppi_pt") ) tree->Branch("metPuppi_pt", &metPuppi_pt, "metPuppi_pt/F", buffersize);
+   if( doWrite("metPuppi_phi") ) tree->Branch("metPuppi_phi", &metPuppi_phi, "metPuppi_phi/F", buffersize);
+   if( doWrite("metPuppi_sumet") ) tree->Branch("metPuppi_sumet", &metPuppi_sumet, "metPuppi_sumet/F", buffersize);
    
    if( doWrite("pv_x") ) tree->Branch("pv_x", &pv_x, "pv_x/F", buffersize);
    if( doWrite("pv_y") ) tree->Branch("pv_y", &pv_y, "pv_y/F", buffersize);
@@ -815,17 +888,82 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("jet_pileupJetId") ) tree->Branch("jet_pileupJetId", "std::vector<float>", &jet_pileupJetId, buffersize);
 
-   if( doWrite("jet_hasGen") ) tree->Branch("jet_hasGen", "std::vector<bool>", &jet_hasGen, buffersize);
+   if( doWrite("jet_hasGenJet") ) tree->Branch("jet_hasGenJet", "std::vector<bool>", &jet_hasGenJet, buffersize);   
+   if( doWrite("jet_genJet_pt") ) tree->Branch("jet_genJet_pt", "std::vector<float>", &jet_genJet_pt, buffersize);
+   if( doWrite("jet_genJet_eta") ) tree->Branch("jet_genJet_eta", "std::vector<float>", &jet_genJet_eta, buffersize);
+   if( doWrite("jet_genJet_phi") ) tree->Branch("jet_genJet_phi", "std::vector<float>", &jet_genJet_phi, buffersize);
+   if( doWrite("jet_genJet_m") ) tree->Branch("jet_genJet_m", "std::vector<float>", &jet_genJet_m, buffersize);
+   if( doWrite("jet_genJet_E") ) tree->Branch("jet_genJet_E", "std::vector<float>", &jet_genJet_E, buffersize);
+   if( doWrite("jet_genJet_status") ) tree->Branch("jet_genJet_status", "std::vector<int>", &jet_genJet_status, buffersize);
+   if( doWrite("jet_genJet_id") ) tree->Branch("jet_genJet_id", "std::vector<int>", &jet_genJet_id, buffersize);
+
+   if( doWrite("jet_hasGenParton") ) tree->Branch("jet_hasGenParton", "std::vector<bool>", &jet_hasGenParton, buffersize);   
+   if( doWrite("jet_genParton_pt") ) tree->Branch("jet_genParton_pt", "std::vector<float>", &jet_genParton_pt, buffersize);
+   if( doWrite("jet_genParton_eta") ) tree->Branch("jet_genParton_eta", "std::vector<float>", &jet_genParton_eta, buffersize);
+   if( doWrite("jet_genParton_phi") ) tree->Branch("jet_genParton_phi", "std::vector<float>", &jet_genParton_phi, buffersize);
+   if( doWrite("jet_genParton_m") ) tree->Branch("jet_genParton_m", "std::vector<float>", &jet_genParton_m, buffersize);
+   if( doWrite("jet_genParton_E") ) tree->Branch("jet_genParton_E", "std::vector<float>", &jet_genParton_E, buffersize);
+   if( doWrite("jet_genParton_status") ) tree->Branch("jet_genParton_status", "std::vector<int>", &jet_genParton_status, buffersize);
+   if( doWrite("jet_genParton_id") ) tree->Branch("jet_genParton_id", "std::vector<int>", &jet_genParton_id, buffersize);
    
-   if( doWrite("jet_gen_pt") ) tree->Branch("jet_gen_pt", "std::vector<float>", &jet_gen_pt, buffersize);
-   if( doWrite("jet_gen_eta") ) tree->Branch("jet_gen_eta", "std::vector<float>", &jet_gen_eta, buffersize);
-   if( doWrite("jet_gen_phi") ) tree->Branch("jet_gen_phi", "std::vector<float>", &jet_gen_phi, buffersize);
-   if( doWrite("jet_gen_m") ) tree->Branch("jet_gen_m", "std::vector<float>", &jet_gen_m, buffersize);
-   if( doWrite("jet_gen_E") ) tree->Branch("jet_gen_E", "std::vector<float>", &jet_gen_E, buffersize);
+   if( doWrite("jetPuppi_n") ) tree->Branch("jetPuppi_n", &jetPuppi_n, "jetPuppi_n/I", buffersize);
+   if( doWrite("jetPuppi_pt") ) tree->Branch("jetPuppi_pt", "std::vector<float>", &jetPuppi_pt, buffersize);
+   if( doWrite("jetPuppi_eta") ) tree->Branch("jetPuppi_eta", "std::vector<float>", &jetPuppi_eta, buffersize);
+   if( doWrite("jetPuppi_phi") ) tree->Branch("jetPuppi_phi", "std::vector<float>", &jetPuppi_phi, buffersize);
+   if( doWrite("jetPuppi_m") ) tree->Branch("jetPuppi_m", "std::vector<float>", &jetPuppi_m, buffersize);
+   if( doWrite("jetPuppi_E") ) tree->Branch("jetPuppi_E", "std::vector<float>", &jetPuppi_E, buffersize);
 
-   if( doWrite("jet_gen_status") ) tree->Branch("jet_gen_status", "std::vector<int>", &jet_gen_status, buffersize);
-   if( doWrite("jet_gen_id") ) tree->Branch("jet_gen_id", "std::vector<int>", &jet_gen_id, buffersize);
+   if( doWrite("jetPuppi_ntrk") ) tree->Branch("jetPuppi_ntrk", "std::vector<int>", &jetPuppi_ntrk, buffersize);
 
+   if( doWrite("jetPuppi_JBP") ) tree->Branch("jetPuppi_JBP", "std::vector<float>", &jetPuppi_JBP, buffersize);
+   if( doWrite("jetPuppi_JP") ) tree->Branch("jetPuppi_JP", "std::vector<float>", &jetPuppi_JP, buffersize);
+   if( doWrite("jetPuppi_TCHP") ) tree->Branch("jetPuppi_TCHP", "std::vector<float>", &jetPuppi_TCHP, buffersize);
+   if( doWrite("jetPuppi_TCHE") ) tree->Branch("jetPuppi_TCHE", "std::vector<float>", &jetPuppi_TCHE, buffersize);
+   if( doWrite("jetPuppi_SSVHE") ) tree->Branch("jetPuppi_SSVHE", "std::vector<float>", &jetPuppi_SSVHE, buffersize);
+   if( doWrite("jetPuppi_SSVHP") ) tree->Branch("jetPuppi_SSVHP", "std::vector<float>", &jetPuppi_SSVHP, buffersize);
+   if( doWrite("jetPuppi_CMVA") ) tree->Branch("jetPuppi_CMVA", "std::vector<float>", &jetPuppi_CMVA, buffersize);
+   if( doWrite("jetPuppi_CSV") ) tree->Branch("jetPuppi_CSV", "std::vector<float>", &jetPuppi_CSV, buffersize);
+   if( doWrite("jetPuppi_CSVv2") ) tree->Branch("jetPuppi_CSVv2", "std::vector<float>", &jetPuppi_CSVv2, buffersize);
+   if( doWrite("jetPuppi_partonFlavour") ) tree->Branch("jetPuppi_partonFlavour", "std::vector<int>", &jetPuppi_partonFlavour, buffersize);
+   if( doWrite("jetPuppi_hadronFlavour") ) tree->Branch("jetPuppi_hadronFlavour", "std::vector<int>", &jetPuppi_hadronFlavour, buffersize);
+
+   if( doWrite("jetPuppi_neutralHadronEnergy") ) tree->Branch("jetPuppi_neutralHadronEnergy", "std::vector<float>", &jetPuppi_neutralHadronEnergy, buffersize);
+   if( doWrite("jetPuppi_neutralEmEnergy") ) tree->Branch("jetPuppi_neutralEmEnergy", "std::vector<float>", &jetPuppi_neutralEmEnergy, buffersize);
+   if( doWrite("jetPuppi_chargedHadronEnergy") ) tree->Branch("jetPuppi_chargedHadronEnergy", "std::vector<float>", &jetPuppi_chargedHadronEnergy, buffersize);
+   if( doWrite("jetPuppi_chargedEmEnergy") ) tree->Branch("jetPuppi_chargedEmEnergy", "std::vector<float>", &jetPuppi_chargedEmEnergy, buffersize);
+   if( doWrite("jetPuppi_electronEnergy") ) tree->Branch("jetPuppi_electronEnergy", "std::vector<float>", &jetPuppi_electronEnergy, buffersize);
+   if( doWrite("jetPuppi_muonEnergy") ) tree->Branch("jetPuppi_muonEnergy", "std::vector<float>", &jetPuppi_muonEnergy, buffersize);
+   if( doWrite("jetPuppi_photonEnergy") ) tree->Branch("jetPuppi_photonEnergy", "std::vector<float>", &jetPuppi_photonEnergy, buffersize);
+
+   if( doWrite("jetPuppi_chargedMultiplicity") ) tree->Branch("jetPuppi_chargedMultiplicity", "std::vector<int>", &jetPuppi_chargedMultiplicity, buffersize);
+   if( doWrite("jetPuppi_neutralMultiplicity") ) tree->Branch("jetPuppi_neutralMultiplicity", "std::vector<int>", &jetPuppi_neutralMultiplicity, buffersize);
+   if( doWrite("jetPuppi_chargedHadronMultiplicity") ) tree->Branch("jetPuppi_chargedHadronMultiplicity", "std::vector<int>", &jetPuppi_chargedHadronMultiplicity, buffersize);
+   
+   if( doWrite("jetPuppi_jecFactorUncorrected") ) tree->Branch("jetPuppi_jecFactorUncorrected", "std::vector<float>", &jetPuppi_jecFactorUncorrected, buffersize);
+   if( doWrite("jetPuppi_jecFactorL1FastJet") ) tree->Branch("jetPuppi_jecFactorL1FastJet", "std::vector<float>", &jetPuppi_jecFactorL1FastJet, buffersize);
+   if( doWrite("jetPuppi_jecFactorL2Relative") ) tree->Branch("jetPuppi_jecFactorL2Relative", "std::vector<float>", &jetPuppi_jecFactorL2Relative, buffersize);
+   if( doWrite("jetPuppi_jecFactorL3Absolute") ) tree->Branch("jetPuppi_jecFactorL3Absolute", "std::vector<float>", &jetPuppi_jecFactorL3Absolute, buffersize);
+   
+   if( doWrite("jetPuppi_pileupJetId") ) tree->Branch("jetPuppi_pileupJetId", "std::vector<float>", &jetPuppi_pileupJetId, buffersize);
+
+   if( doWrite("jetPuppi_hasGenJet") ) tree->Branch("jetPuppi_hasGenJet", "std::vector<bool>", &jetPuppi_hasGenJet, buffersize);   
+   if( doWrite("jetPuppi_genJet_pt") ) tree->Branch("jetPuppi_genJet_pt", "std::vector<float>", &jetPuppi_genJet_pt, buffersize);
+   if( doWrite("jetPuppi_genJet_eta") ) tree->Branch("jetPuppi_genJet_eta", "std::vector<float>", &jetPuppi_genJet_eta, buffersize);
+   if( doWrite("jetPuppi_genJet_phi") ) tree->Branch("jetPuppi_genJet_phi", "std::vector<float>", &jetPuppi_genJet_phi, buffersize);
+   if( doWrite("jetPuppi_genJet_m") ) tree->Branch("jetPuppi_genJet_m", "std::vector<float>", &jetPuppi_genJet_m, buffersize);
+   if( doWrite("jetPuppi_genJet_E") ) tree->Branch("jetPuppi_genJet_E", "std::vector<float>", &jetPuppi_genJet_E, buffersize);
+   if( doWrite("jetPuppi_genJet_status") ) tree->Branch("jetPuppi_genJet_status", "std::vector<int>", &jetPuppi_genJet_status, buffersize);
+   if( doWrite("jetPuppi_genJet_id") ) tree->Branch("jetPuppi_genJet_id", "std::vector<int>", &jetPuppi_genJet_id, buffersize);       
+
+   if( doWrite("jetPuppi_hasGenParton") ) tree->Branch("jetPuppi_hasGenJet", "std::vector<bool>", &jetPuppi_hasGenParton, buffersize);   
+   if( doWrite("jetPuppi_genParton_pt") ) tree->Branch("jetPuppi_genParton_pt", "std::vector<float>", &jetPuppi_genParton_pt, buffersize);
+   if( doWrite("jetPuppi_genParton_eta") ) tree->Branch("jetPuppi_genParton_eta", "std::vector<float>", &jetPuppi_genParton_eta, buffersize);
+   if( doWrite("jetPuppi_genParton_phi") ) tree->Branch("jetPuppi_genParton_phi", "std::vector<float>", &jetPuppi_genParton_phi, buffersize);
+   if( doWrite("jetPuppi_genParton_m") ) tree->Branch("jetPuppi_genParton_m", "std::vector<float>", &jetPuppi_genParton_m, buffersize);
+   if( doWrite("jetPuppi_genParton_E") ) tree->Branch("jetPuppi_genParton_E", "std::vector<float>", &jetPuppi_genParton_E, buffersize);
+   if( doWrite("jetPuppi_genParton_status") ) tree->Branch("jetPuppi_genParton_status", "std::vector<int>", &jetPuppi_genParton_status, buffersize);
+   if( doWrite("jetPuppi_genParton_id") ) tree->Branch("jetPuppi_genParton_id", "std::vector<int>", &jetPuppi_genParton_id, buffersize);       
+   
    if( doWrite("genJet_n") ) tree->Branch("genJet_n", &genJet_n, "genJet_n/I", buffersize);
    if( doWrite("genJet_pt") ) tree->Branch("genJet_pt", "std::vector<float>", &genJet_pt, buffersize);
    if( doWrite("genJet_eta") ) tree->Branch("genJet_eta", "std::vector<float>", &genJet_eta, buffersize);

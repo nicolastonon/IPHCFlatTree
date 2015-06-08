@@ -135,8 +135,10 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<pat::MuonCollection> muonToken_;
    edm::EDGetTokenT<pat::TauCollection> tauToken_;
    edm::EDGetTokenT<pat::JetCollection> jetToken_;
+   edm::EDGetTokenT<pat::JetCollection> jetPuppiToken_;
    edm::EDGetTokenT<reco::GenJetCollection> genJetToken_;
    edm::EDGetTokenT<std::vector<pat::MET> > metTokenAOD_;
+   edm::EDGetTokenT<pat::METCollection> metTokenPuppi_;
    edm::EDGetTokenT<pat::METCollection> metTokenMINIAOD_;
    edm::EDGetTokenT<double> rhoToken_;
    edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
@@ -800,9 +802,11 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    muonToken_         = consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonInput"));
    tauToken_          = consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("tauInput"));
    jetToken_          = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetInput"));
+   jetPuppiToken_     = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetPuppiInput"));
    genJetToken_       = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("genJetInput"));
    metTokenAOD_       = consumes<std::vector<pat::MET> >(iConfig.getParameter<edm::InputTag>("metInput"));
    metTokenMINIAOD_   = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metInput"));
+   metTokenPuppi_     = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metPuppiInput"));
    rhoToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticlesInput"));
 }
@@ -863,6 +867,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    edm::Handle<pat::JetCollection> jets;
    iEvent.getByToken(jetToken_,jets);
 
+   // PuppiJets
+   edm::Handle<pat::JetCollection> jetsPuppi;
+   try {
+      iEvent.getByToken(jetPuppiToken_,jetsPuppi);
+   }
+   catch (...) {;}   
+   
    // GenJets
    edm::Handle<reco::GenJetCollection> genJets;
    if( !isData_ ) iEvent.getByToken(genJetToken_,genJets);
@@ -1143,6 +1154,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      {
 	iEvent.getByToken(metTokenMINIAOD_,metMINIAOD);
 	const pat::MET &metv = metMINIAOD->front();
+	
 	ftree->met_pt = metv.pt();
 	ftree->met_phi = metv.phi();
 	ftree->met_sumet = metv.sumEt();
@@ -1151,11 +1163,27 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      {
 	iEvent.getByToken(metTokenAOD_,metAOD);
 	const pat::MET &metv = metAOD->front();
+	
 	ftree->met_pt = metv.pt();
 	ftree->met_phi = metv.phi();
 	ftree->met_sumet = metv.sumEt();
      }
- 
+
+   // MET Puppi
+   edm::Handle<pat::METCollection> metPuppi;
+   try {
+      iEvent.getByToken(metTokenPuppi_,metPuppi);
+   }
+   catch (...) {;}
+   if( metPuppi.isValid() )
+     {
+	const pat::MET &metv = metPuppi->front();
+	
+	ftree->metPuppi_pt = metv.pt();
+	ftree->metPuppi_phi = metv.phi();
+	ftree->metPuppi_sumet = metv.sumEt();
+     }   
+   
    // #################################################
    // #   _____ _           _                         #
    // #  | ____| | ___  ___| |_ _ __ ___  _ __  ___   #
@@ -1779,7 +1807,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    for(int ij=0;ij<nJet;ij++)
      {
 	const pat::Jet& jet = jets->at(ij);
-
+	
 	ftree->jet_pt.push_back(jet.pt());
 	ftree->jet_eta.push_back(jet.eta());
 	ftree->jet_phi.push_back(jet.phi());
@@ -1801,7 +1829,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
 	ftree->jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
 	ftree->jet_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
-	
+	  
 	ftree->jet_ntrk.push_back(jet.associatedTracks().size());
 
 	float CSVIVF = jet.bDiscriminator("combinedInclusiveSecondaryVertexBJetTags");
@@ -1828,7 +1856,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 	const reco::GenJet* genJet = jet.genJet();
 	bool hasGenInfo = (genJet);
-	ftree->jet_hasGen.push_back(hasGenInfo);
+	ftree->jet_hasGenJet.push_back(hasGenInfo);
 	
 	float gen_jet_pt = -666;
 	float gen_jet_eta = -666;
@@ -1849,16 +1877,170 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     gen_jet_id = genJet->pdgId();
 	  }
 	
-	ftree->jet_gen_pt.push_back(gen_jet_pt);
-	ftree->jet_gen_eta.push_back(gen_jet_eta);
-	ftree->jet_gen_phi.push_back(gen_jet_phi);
-	ftree->jet_gen_m.push_back(gen_jet_m);
-	ftree->jet_gen_E.push_back(gen_jet_E);
+	ftree->jet_genJet_pt.push_back(gen_jet_pt);
+	ftree->jet_genJet_eta.push_back(gen_jet_eta);
+	ftree->jet_genJet_phi.push_back(gen_jet_phi);
+	ftree->jet_genJet_m.push_back(gen_jet_m);
+	ftree->jet_genJet_E.push_back(gen_jet_E);
 	
-	ftree->jet_gen_status.push_back(gen_jet_status);
-	ftree->jet_gen_id.push_back(gen_jet_id);
-     }
+	ftree->jet_genJet_status.push_back(gen_jet_status);
+	ftree->jet_genJet_id.push_back(gen_jet_id);
+               
+	const reco::GenParticle* genParton = jet.genParton();
+	bool hasGenPartonInfo = (genParton);
+	ftree->jet_hasGenParton.push_back(hasGenPartonInfo);
+	
+	float gen_parton_pt = -666;
+	float gen_parton_eta = -666;
+	float gen_parton_phi = -666;
+	float gen_parton_m = -666;
+	float gen_parton_E = -666;
+	int gen_parton_status = -666;
+	int gen_parton_id = -666;
 
+	if( hasGenPartonInfo )
+	  {
+	     gen_parton_pt = genParton->pt();
+	     gen_parton_eta = genParton->eta();
+	     gen_parton_phi = genParton->phi();
+	     gen_parton_m = genParton->mass();
+	     gen_parton_E = genParton->energy();
+	     gen_parton_status = genParton->status();
+	     gen_parton_id = genParton->pdgId();
+	  }
+	
+	ftree->jet_genParton_pt.push_back(gen_parton_pt);
+	ftree->jet_genParton_eta.push_back(gen_parton_eta);
+	ftree->jet_genParton_phi.push_back(gen_parton_phi);
+	ftree->jet_genParton_m.push_back(gen_parton_m);
+	ftree->jet_genParton_E.push_back(gen_parton_E);
+	
+	ftree->jet_genParton_status.push_back(gen_parton_status);
+	ftree->jet_genParton_id.push_back(gen_parton_id);
+     }
+   
+   // Puppi Jets
+
+   if( jetsPuppi.isValid() )
+     {	
+	int nJetPuppi = jetsPuppi->size();
+	ftree->jetPuppi_n = nJetPuppi;
+	for(int ij=0;ij<nJetPuppi;ij++)
+	  {
+	     const pat::Jet& jet = jetsPuppi->at(ij);
+	     
+	     ftree->jetPuppi_pt.push_back(jet.pt());
+	     ftree->jetPuppi_eta.push_back(jet.eta());
+	     ftree->jetPuppi_phi.push_back(jet.phi());
+	     ftree->jetPuppi_m.push_back(jet.mass());
+	     ftree->jetPuppi_E.push_back(jet.energy());
+	     ftree->jetPuppi_JBP.push_back(jet.bDiscriminator("jetBProbabilityBJetTags"));
+	     ftree->jetPuppi_JP.push_back(jet.bDiscriminator("jetProbabilityBJetTags"));
+	     ftree->jetPuppi_TCHP.push_back(jet.bDiscriminator("trackCountingHighPurBJetTags"));
+	     ftree->jetPuppi_TCHE.push_back(jet.bDiscriminator("trackCountingHighEffBJetTags"));
+	     ftree->jetPuppi_SSVHE.push_back(jet.bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
+	     ftree->jetPuppi_SSVHP.push_back(jet.bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
+	     ftree->jetPuppi_CMVA.push_back(jet.bDiscriminator("combinedMVABJetTags"));
+	     
+	     ftree->jetPuppi_chargedMultiplicity.push_back(jet.chargedMultiplicity());
+	     ftree->jetPuppi_neutralMultiplicity.push_back(jet.neutralMultiplicity());
+	     ftree->jetPuppi_chargedHadronMultiplicity.push_back(jet.chargedHadronMultiplicity());
+	     
+	     ftree->jetPuppi_jecFactorUncorrected.push_back(jet.jecFactor("Uncorrected"));
+	     ftree->jetPuppi_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
+	     ftree->jetPuppi_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
+	     ftree->jetPuppi_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
+	     
+	     ftree->jetPuppi_ntrk.push_back(jet.associatedTracks().size());
+	     
+	     float CSVIVF = jet.bDiscriminator("combinedInclusiveSecondaryVertexBJetTags");
+	     if( CSVIVF == -1000. ) CSVIVF = jet.bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags");
+	     ftree->jetPuppi_CSVv2.push_back(CSVIVF);
+	     
+	     float CSV = jet.bDiscriminator("combinedSecondaryVertexBJetTags");
+	     if( CSV == -1000. ) CSV = jet.bDiscriminator("pfCombinedSecondaryVertexBJetTags");
+	     
+	     ftree->jetPuppi_CSV.push_back(CSV);
+	     
+	     ftree->jetPuppi_partonFlavour.push_back(jet.partonFlavour());
+	     ftree->jetPuppi_hadronFlavour.push_back(jet.hadronFlavour());
+	     
+	     ftree->jetPuppi_neutralHadronEnergy.push_back(jet.neutralHadronEnergy());
+	     ftree->jetPuppi_neutralEmEnergy.push_back(jet.neutralEmEnergy());
+	     ftree->jetPuppi_chargedHadronEnergy.push_back(jet.chargedHadronEnergy());
+	     ftree->jetPuppi_chargedEmEnergy.push_back(jet.chargedEmEnergy());
+	     ftree->jetPuppi_electronEnergy.push_back(jet.electronEnergy());
+	     ftree->jetPuppi_muonEnergy.push_back(jet.muonEnergy());
+	     ftree->jetPuppi_photonEnergy.push_back(jet.photonEnergy());
+	     
+	     ftree->jetPuppi_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	     
+	     const reco::GenJet* genJet = jet.genJet();
+	     bool hasGenInfo = (genJet);
+	     ftree->jetPuppi_hasGenJet.push_back(hasGenInfo);
+	     
+	     float gen_jet_pt = -666;
+	     float gen_jet_eta = -666;
+	     float gen_jet_phi = -666;
+	     float gen_jet_m = -666;
+	     float gen_jet_E = -666;
+	     int gen_jet_status = -666;
+	     int gen_jet_id = -666;
+	     
+	     if( hasGenInfo )
+	       {
+		  gen_jet_pt = genJet->pt();
+		  gen_jet_eta = genJet->eta();
+		  gen_jet_phi = genJet->phi();
+		  gen_jet_m = genJet->mass();
+		  gen_jet_E = genJet->energy();
+		  gen_jet_status = genJet->status();
+		  gen_jet_id = genJet->pdgId();
+	       }
+	     
+	     ftree->jetPuppi_genJet_pt.push_back(gen_jet_pt);
+	     ftree->jetPuppi_genJet_eta.push_back(gen_jet_eta);
+	     ftree->jetPuppi_genJet_phi.push_back(gen_jet_phi);
+	     ftree->jetPuppi_genJet_m.push_back(gen_jet_m);
+	     ftree->jetPuppi_genJet_E.push_back(gen_jet_E);
+	     
+	     ftree->jetPuppi_genJet_status.push_back(gen_jet_status);
+	     ftree->jetPuppi_genJet_id.push_back(gen_jet_id);
+
+	     const reco::GenParticle* genParton = jet.genParton();
+	     bool hasGenPartonInfo = (genParton);
+	     ftree->jetPuppi_hasGenParton.push_back(hasGenPartonInfo);
+	     
+	     float gen_parton_pt = -666;
+	     float gen_parton_eta = -666;
+	     float gen_parton_phi = -666;
+	     float gen_parton_m = -666;
+	     float gen_parton_E = -666;
+	     int gen_parton_status = -666;
+	     int gen_parton_id = -666;
+	     
+	     if( hasGenPartonInfo )
+	       {
+		  gen_parton_pt = genParton->pt();
+		  gen_parton_eta = genParton->eta();
+		  gen_parton_phi = genParton->phi();
+		  gen_parton_m = genParton->mass();
+		  gen_parton_E = genParton->energy();
+		  gen_parton_status = genParton->status();
+		  gen_parton_id = genParton->pdgId();
+	       }
+	     
+	     ftree->jetPuppi_genParton_pt.push_back(gen_parton_pt);
+	     ftree->jetPuppi_genParton_eta.push_back(gen_parton_eta);
+	     ftree->jetPuppi_genParton_phi.push_back(gen_parton_phi);
+	     ftree->jetPuppi_genParton_m.push_back(gen_parton_m);
+	     ftree->jetPuppi_genParton_E.push_back(gen_parton_E);
+	     
+	     ftree->jetPuppi_genParton_status.push_back(gen_parton_status);
+	     ftree->jetPuppi_genParton_id.push_back(gen_parton_id);
+	  }
+     }   
+   
    // GenJets
 
    if( !isData_ )
