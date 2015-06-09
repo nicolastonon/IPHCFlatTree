@@ -1012,11 +1012,27 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #########################################
 
    std::vector<std::string> triggerIdentifiers_;
-   //triggerIdentifiers_.push_back("HLT_Ele27_WP80_v*");
-   triggerIdentifiers_.push_back("HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1");
-   triggerIdentifiers_.push_back("HLT_Mu17_Mu8_v1");
-   triggerIdentifiers_.push_back("HLT_Mu23_TrkIsoVVL_Ele12_Gsf_CaloId_TrackId_Iso_MediumWP_v1");
-   triggerIdentifiers_.push_back("HLT_Mu8_TrkIsoVVL_Ele23_Gsf_CaloId_TrackId_Iso_MediumWP_v1");
+
+   for (unsigned int j = 0; j < triggerIdentifiers_.size(); ++j)
+   {
+   std::string idName = triggerIdentifiers_[j];
+   std::string idNameUnstarred = idName;
+   bool isStarred = (idName.find("*")!=std::string::npos);
+   if( isStarred ) idNameUnstarred.erase( idName.find("*"), 1 );
+
+     for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i)
+     {
+        //if( (isStarred && names.triggerName(i).find(idNameUnstarred)!=std::string::npos ) ||
+        //(!isStarred && names.triggerName(i)==idName) )
+        //{
+        //   std::cout << "[" << i << "] " << (triggerBits->accept(i) ? "1" : "0") << "  " << names.triggerName(i)  << std::endl;
+        //}
+
+         ftree->trigger.push_back(i);
+         ftree->trigger_pass.push_back(triggerBits->accept(i) ? true : false);
+         ftree->trigger_prescale.push_back(triggerPrescales->getPrescaleForIndex(i));
+     }
+   }
 
    //std::cout << "\n === TRIGGER OBJECTS === " << std::endl;
    for (pat::TriggerObjectStandAlone obj : *triggerObjects) { // note: not "const &" since we want to call unpackPathNames
@@ -1070,8 +1086,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         //std::cout << "\t   Filters:    ";
         //for (unsigned h = 0; h < obj.filterLabels().size(); ++h) std::cout << " " << obj.filterLabels()[h];
         //std::cout << std::endl;
-        //std::vector<std::string> pathNamesAll  = obj.pathNames(false);
-        //std::vector<std::string> pathNamesLast = obj.pathNames(true);
+        std::vector<std::string> pathNamesAll  = obj.pathNames(false);
+        std::vector<std::string> pathNamesLast = obj.pathNames(true);
         // Print all trigger paths, for each one record also if the object is associated to a 'l3' filter (always true for the
         // definition used in the PAT trigger producer) and if it's associated to the last filter of a successfull path (which
         // means that this object did cause this trigger to succeed; however, it doesn't work on some multi-object triggers)
