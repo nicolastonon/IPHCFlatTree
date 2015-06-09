@@ -3,7 +3,7 @@
 slist="list.txt"
 pset="crabConfigTemplate.py"
 ver="v20150209"
-prodv="/store/user/xcoubez/FlatTree/${ver}/"
+prodv="/store/user/xcoubez/FlatTreeWithTrigger/${ver}/"
 #was /store/group/xcoubez/... for no good reason...
 
 rm -f crabConfig.py*
