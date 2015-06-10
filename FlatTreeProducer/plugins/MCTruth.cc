@@ -57,7 +57,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 	     mother_index++;
 	  }		  
 	
-	int gen_daughter_n = 0;
+	int daughter_n = 0;
 	std::vector<int> daughter_index;
 	
 	const reco::GenParticleRefVector& daughterRefs = mcp->daughterRefVector();
@@ -85,10 +85,10 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 		    }		  
 		  
 		  daughter_index.push_back(index);
-		  gen_daughter_n++;
+		  daughter_n++;
 	       }
 	  }	
-		  
+
 	gen_pt.push_back(ptGen);
 	gen_eta.push_back(etaGen);
 	gen_phi.push_back(phiGen);
@@ -99,6 +99,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 	gen_charge.push_back(chargeGen);
 	gen_index.push_back(indexGen);
 	gen_mother_index.push_back(mother_index);
+	gen_daughter_n.push_back(daughter_n);
 	gen_daughter_index.push_back(daughter_index);
 	
 	gen_n++;
