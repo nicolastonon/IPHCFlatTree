@@ -77,13 +77,23 @@ class FlatTree
 
    // Trigger
    
-   int                 trigger_n;
-   std::vector<int>    trigger;
-   std::vector<bool>   trigger_pass;
-   std::vector<int>    trigger_prescale;
+   int                       trigger_n;
+   std::vector<int>          trigger;
+   std::vector<std::string>  trigger_name;
+   std::vector<bool>         trigger_pass;
+   std::vector<int>          trigger_prescale;
 
-   int                 triggerobject_n;
-   std::vector<int>    triggerobject_id;
+     // trigger object general informations
+   int                       triggerobject_n;
+   std::vector<float>        triggerobject_pt;
+   std::vector<float>        triggerobject_eta;
+   std::vector<float>        triggerobject_phi;
+
+   std::vector<std::string>  triggerobject_collection;
+
+     // filter Ids...
+   std::vector<int>     triggerobject_filterIds_n;
+   std::vector<int>     triggerobject_filterIds;
 
    std::vector<bool>    triggerobject_isTriggerL1Mu;            //-81
    std::vector<bool>    triggerobject_isTriggerL1NoIsoEG;       //-82
@@ -120,9 +130,18 @@ class FlatTree
    std::vector<bool>    triggerobject_isHLT_TriggerMHTSig;
    std::vector<bool>    triggerobject_isHLT_TriggerHLongit;
 
-   std::vector<float>  triggerobject_pt;
-   std::vector<float>  triggerobject_eta;
-   std::vector<float>  triggerobject_phi;
+     // filters label...
+   std::vector<int>           triggerobject_filterLabels_n;
+   std::vector<std::string>   triggerobject_filterLabels;
+
+     // paths names and status
+   std::vector<int>           triggerobject_pathNamesAll_n;
+   std::vector<std::string>   triggerobject_pathNamesAll;
+   std::vector<bool>          triggerobject_pathNamesAll_isBoth;
+   std::vector<bool>          triggerobject_pathNamesAll_isL3;
+   std::vector<bool>          triggerobject_pathNamesAll_isLF;
+   std::vector<bool>          triggerobject_pathNamesAll_isNone;
+
 
    // Electrons
 

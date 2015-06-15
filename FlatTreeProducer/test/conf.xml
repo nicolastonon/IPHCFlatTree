@@ -44,10 +44,21 @@
 <var name="mc_truth_tzq" save="0"></var>
 <var name="mc_truth_thq" save="0"></var>
 
-<var name="trigger_n" save="1"></var>
+<var name="trigger_n" save="0"></var>
 <var name="trigger" save="1"></var>
+<var name="trigger_name" save="1"></var>
 <var name="trigger_pass" save="1"></var>
 <var name="trigger_prescale" save="1"></var>
+
+<var name="triggerobject_n" save="0"></var>
+<var name="triggerobject_pt" save="1"></var>
+<var name="triggerobject_eta" save="1"></var>
+<var name="triggerobject_phi" save="1"></var>
+
+<var name="triggerobject_collection" save="1"></var>
+
+<var name="triggerobject__filtersIds_n" save="1"></var>
+<var name="triggerobject__filtersIds" save="1"></var>
 
 <var name="triggerobject_isTriggerL1Mu" save="1"></var>
 <var name="triggerobject_isTriggerL1NoIsoEG" save="1"></var>
@@ -84,10 +95,15 @@
 <var name="triggerobject_isHLT_TriggerMHTSig" save="1"></var>
 <var name="triggerobject_isHLT_TriggerHLongit" save="1"></var>
 
-<var name="triggerobject_id" save="1"></var>
-<var name="triggerobject_pt" save="1"></var>
-<var name="triggerobject_eta" save="1"></var>
-<var name="triggerobject_phi" save="1"></var>
+<var name="triggerobject_filterLabels_n" save="1"></var>
+<var name="triggerobject_filterLabels" save="1"></var>
+
+<var name="triggerobject_pathNamesAll_n" save="1"></var>
+<var name="triggerobject_pathNamesAll" save="1"></var>
+<var name="triggerobject_pathNamesAll_isBoth" save="1"></var>
+<var name="triggerobject_pathNamesAll_isL3" save="1"></var>
+<var name="triggerobject_pathNamesAll_isLF" save="1"></var>
+<var name="triggerobject_pathNamesAll_isNone" save="1"></var>
 
 <var name="el_n" save="1"></var>
 <var name="el_pt" save="1"></var>
