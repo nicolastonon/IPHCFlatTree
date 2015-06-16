@@ -59,10 +59,19 @@ void FlatTree::Init()
 
    trigger_n = 0;
    trigger.clear();
+   trigger_name.clear();
    trigger_pass.clear();
    trigger_prescale.clear();
 
    triggerobject_n = 0;
+   triggerobject_pt.clear();
+   triggerobject_eta.clear();
+   triggerobject_phi.clear();
+
+   triggerobject_collection.clear();
+
+   triggerobject_filterIds_n.clear();
+   triggerobject_filterIds.clear();
 
    triggerobject_isTriggerL1Mu.clear();
    triggerobject_isTriggerL1NoIsoEG.clear();
@@ -99,10 +108,15 @@ void FlatTree::Init()
    triggerobject_isHLT_TriggerMHTSig.clear();
    triggerobject_isHLT_TriggerHLongit.clear();
 
-   triggerobject_id.clear();
-   triggerobject_pt.clear();
-   triggerobject_eta.clear();
-   triggerobject_phi.clear();
+   triggerobject_filterLabels_n.clear();
+   triggerobject_filterLabels.clear();
+
+   triggerobject_pathNamesAll_n.clear();
+   triggerobject_pathNamesAll.clear();
+   triggerobject_pathNamesAll_isBoth.clear();
+   triggerobject_pathNamesAll_isL3.clear();
+   triggerobject_pathNamesAll_isLF.clear();
+   triggerobject_pathNamesAll_isNone.clear();
 
    el_n = 0;
    el_pt.clear();
@@ -540,10 +554,22 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mc_pu_sumpT_highpT") ) tree->Branch("mc_pu_sumpT_highpT", "std::vector<std::vector<float> >", &mc_pu_sumpT_highpT, buffersize);
    if( doWrite("mc_pu_ntrks_lowpT") ) tree->Branch("mc_pu_ntrks_lowpT", "std::vector<std::vector<int> >", &mc_pu_ntrks_lowpT, buffersize);
    if( doWrite("mc_pu_ntrks_highpT") ) tree->Branch("mc_pu_ntrks_highpT", "std::vector<std::vector<int> >", &mc_pu_ntrks_highpT, buffersize);
-  
+ 
+   if( doWrite("trigger_n") ) tree->Branch("trigger_n", &trigger_n, "trigger_n/I", buffersize); 
    if( doWrite("trigger") ) tree->Branch("trigger", "std::vector<int>", &trigger, buffersize);
+   if( doWrite("trigger_name") ) tree->Branch("trigger_name", "std::vector<string>", &trigger_name, buffersize);
    if( doWrite("trigger_pass") ) tree->Branch("trigger_pass", "std::vector<bool>", &trigger_pass, buffersize);
    if( doWrite("trigger_prescale") ) tree->Branch("trigger_prescale", "std::vector<int>", &trigger_prescale, buffersize);
+   
+   if( doWrite("triggerobject_n") ) tree->Branch("triggerobject_n", &triggerobject_n, "triggerobject_n/I",buffersize);
+   if( doWrite("triggerobject_pt") ) tree->Branch("triggerobject_pt", "std::vector<float>", &triggerobject_pt, buffersize);
+   if( doWrite("triggerobject_eta") ) tree->Branch("triggerobject_eta", "std::vector<float>", &triggerobject_eta, buffersize);
+   if( doWrite("triggerobject_phi") ) tree->Branch("triggerobject_phi", "std::vector<float>", &triggerobject_phi, buffersize);
+
+   if( doWrite("triggerobject_collection") ) tree->Branch("triggerobject_collection", "std::vector<std::string>", &triggerobject_collection, buffersize);
+
+   if( doWrite("triggerobject_filterIds_n") ) tree->Branch("triggerobject_filterIds_n", "std::vector<int>", &triggerobject_filterIds_n, buffersize);
+   if( doWrite("triggerobject_filterIds") ) tree->Branch("triggerobject_filterIds", "std::vector<int>", &triggerobject_filterIds, buffersize);
 
    if( doWrite("triggerobject_isTriggerL1Mu") ) tree->Branch("triggerobject_isTriggerL1Mu", "std::vector<bool>", &triggerobject_isTriggerL1Mu, buffersize);
    if( doWrite("triggerobject_isTriggerL1NoIsoEG") ) tree->Branch("triggerobject_isTriggerL1NoIsoEG", "std::vector<bool>", &triggerobject_isTriggerL1NoIsoEG, buffersize);
@@ -580,10 +606,15 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("triggerobject_isHLT_TriggerMHTSig") ) tree->Branch("triggerobject_isHLT_TriggerMHTSig", "std::vector<bool>", &triggerobject_isHLT_TriggerMHTSig, buffersize);
    if( doWrite("triggerobject_isHLT_TriggerHLongit") ) tree->Branch("triggerobject_isHLT_TriggerHLongit", "std::vector<bool>", &triggerobject_isHLT_TriggerHLongit, buffersize);
 
-   if( doWrite("triggerobject_id") ) tree->Branch("triggerobject_id", "std::vector<int>", &triggerobject_id, buffersize);
-   if( doWrite("triggerobject_pt") ) tree->Branch("triggerobject_pt", "std::vector<float>", &triggerobject_pt, buffersize);
-   if( doWrite("triggerobject_eta") ) tree->Branch("triggerobject_eta", "std::vector<float>", &triggerobject_eta, buffersize);
-   if( doWrite("triggerobject_phi") ) tree->Branch("triggerobject_phi", "std::vector<float>", &triggerobject_phi, buffersize);
+   if( doWrite("triggerobject_filterLabels_n") ) tree->Branch("triggerobject_filterLabels_n", "std::vector<int>", &triggerobject_filterLabels_n, buffersize);
+   if( doWrite("triggerobject_filterLabels") ) tree->Branch("triggerobject_filterLabels", "std::vector<string>", &triggerobject_filterLabels, buffersize);
+
+   if( doWrite("triggerobject_pathNamesAll_n") ) tree->Branch("triggerobject_pathNamesAll_n", "std::vector<int>", &triggerobject_pathNamesAll_n, buffersize);
+   if( doWrite("triggerobject_pathNamesAll") ) tree->Branch("triggerobject_pathNamesAll", "std::vector<string>", &triggerobject_pathNamesAll, buffersize);
+   if( doWrite("triggerobject_pathNamesAll_isBoth") ) tree->Branch("triggerobject_pathNamesAll_isBoth", "std::vector<bool>", &triggerobject_pathNamesAll_isBoth, buffersize);
+   if( doWrite("triggerobject_pathNamesAll_isL3") ) tree->Branch("triggerobject_pathNamesAll_isL3", "std::vector<bool>", &triggerobject_pathNamesAll_isL3, buffersize);
+   if( doWrite("triggerobject_pathNamesAll_isLF") ) tree->Branch("triggerobject_pathNamesAll_isLF", "std::vector<bool>", &triggerobject_pathNamesAll_isLF, buffersize);
+   if( doWrite("triggerobject_pathNamesAll_isNone") ) tree->Branch("triggerobject_pathNamesAll_isNone", "std::vector<bool>", &triggerobject_pathNamesAll_isNone, buffersize);
 
    if( doWrite("el_n") ) tree->Branch("el_n", &el_n, "el_n/I", buffersize);
    if( doWrite("el_pt") ) tree->Branch("el_pt", "std::vector<float>", &el_pt, buffersize);
