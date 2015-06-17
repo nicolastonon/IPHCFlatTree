@@ -35,7 +35,8 @@
 #include "IPHCFlatTree/FlatTreeProducer/interface/FlatTree.hh"
 #include "IPHCFlatTree/FlatTreeProducer/interface/MCTruth.hh"
 
-#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimatorCSA14.h"
+//#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimatorCSA14.h"
+#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimator.h"
 
 #include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
 
@@ -95,7 +96,8 @@ class FlatTreeProducer : public edm::EDAnalyzer
    TH1D* hcount;
    TH1D* hweight;
 
-   EGammaMvaEleEstimatorCSA14* elecMVA;
+//   EGammaMvaEleEstimatorCSA14* elecMVA;
+   EGammaMvaEleEstimator* elecMVA;
    std::vector<std::string> elecMVACatWeights;
 
    TMVA::Reader* mu_reader_high_b;
@@ -718,17 +720,27 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    // ###############
 
    string CMSSW_BASE(getenv("CMSSW_BASE")); 
-   elecMVA = new EGammaMvaEleEstimatorCSA14();
+//   elecMVA = new EGammaMvaEleEstimatorCSA14();
+   elecMVA = new EGammaMvaEleEstimator();
    
    string EGammaElectronToolsPath = CMSSW_BASE+"/src/EgammaAnalysis/ElectronTools/";
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB1_5_oldscenario2phys14_BDT.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB2_5_oldscenario2phys14_BDT.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EE_5_oldscenario2phys14_BDT.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB1_10_oldscenario2phys14_BDT.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB2_10_oldscenario2phys14_BDT.weights.xml");
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EE_10_oldscenario2phys14_BDT.weights.xml");
 
-   elecMVA->initialize("BDT", EGammaMvaEleEstimatorCSA14::kNonTrigPhys14, true, elecMVACatWeights);
+//   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB1_5_oldscenario2phys14_BDT.weights.xml");
+//   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB2_5_oldscenario2phys14_BDT.weights.xml");
+//   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EE_5_oldscenario2phys14_BDT.weights.xml");
+//   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB1_10_oldscenario2phys14_BDT.weights.xml");
+//   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB2_10_oldscenario2phys14_BDT.weights.xml");
+//   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EE_10_oldscenario2phys14_BDT.weights.xml");
+
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat1.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat2.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat3.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat4.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat5.weights.xml");
+   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat6.weights.xml");
+   
+//   elecMVA->initialize("BDT", EGammaMvaEleEstimatorCSA14::kNonTrigPhys14, true, elecMVACatWeights);
+   elecMVA->initialize("BDT", EGammaMvaEleEstimator::kNonTrig, true, elecMVACatWeights);
 
    string FlatTreeProducerLepMVAPath = CMSSW_BASE+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/";
    mu_reader_high_b      = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_high_b_BDTG.weights.xml" ,  "mu");
@@ -1139,7 +1151,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
    
 // =========== END OF TRIGGER ==========
- 
+
    reco::Vertex *primVtx = NULL;   
 
    if( ! vertices->empty() )
@@ -1285,10 +1297,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_dB3D.push_back(elec.dB(pat::Electron::PV3D));
         ftree->el_edB3D.push_back(elec.edB(pat::Electron::PV3D));
 
-	double mvaNonTrigV0 = elecMVA->mvaValue(elec,
-						false);
-	
-        ftree->el_mvaNonTrigV0.push_back(mvaNonTrigV0);
+//	double mvaNonTrigV0 = elecMVA->mvaValue(elec,
+//						false);
+	// FIXME:
+	double mvaNonTrigV0 = -1.;
+	ftree->el_mvaNonTrigV0.push_back(mvaNonTrigV0);
 
         ftree->el_neutralHadronIso.push_back(elec.neutralHadronIso());
         ftree->el_chargedHadronIso.push_back(elec.chargedHadronIso());
