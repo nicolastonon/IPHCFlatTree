@@ -1984,7 +1984,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->jetPuppi_chargedHadronMultiplicity.push_back(jet.chargedHadronMultiplicity());
 	     
 	     ftree->jetPuppi_jecFactorUncorrected.push_back(jet.jecFactor("Uncorrected"));
-	     ftree->jetPuppi_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
+	     ftree->jetPuppi_jecFactorL1FastJet.push_back(-666.);
 	     ftree->jetPuppi_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
 	     ftree->jetPuppi_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
 	     
