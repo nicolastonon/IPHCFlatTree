@@ -26,9 +26,8 @@ cd -
 git clone https://github.com/IPHC/IPHCFlatTree.git
 
 # Switch to particular release, otherwise ignore these lines to use the HEAD
-# IGNORE THIS STEP FOR 74X
 cd IPHCFlatTree
-git checkout MantaRay-patch4
+git checkout MantaRay-patch5
 cd ../
 
 # Compile the monster
