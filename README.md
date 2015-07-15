@@ -8,7 +8,7 @@ Install
 
 ```
 # CMSSW Release
-RELEASE=7_4_2
+RELEASE=7_4_7
 
 # Setup release
 cmsrel CMSSW_$RELEASE
@@ -27,7 +27,7 @@ git clone https://github.com/IPHC/IPHCFlatTree.git
 
 # Switch to particular release, otherwise ignore these lines to use the HEAD
 cd IPHCFlatTree
-git checkout MantaRay-patch5
+git checkout MantaRay-patch6
 cd ../
 
 # Compile the monster
