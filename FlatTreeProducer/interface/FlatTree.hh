@@ -223,6 +223,7 @@ class FlatTree
    std::vector<float> el_r9;
    std::vector<float> el_eSuperClusterOverP;
    std::vector<float> el_IoEmIoP;
+   std::vector<float> el_ooEmooP;
    std::vector<float> el_eleEoPout;
    std::vector<float> el_PreShowerOverRaw;
    std::vector<float> el_ecalEnergy;
@@ -253,6 +254,7 @@ class FlatTree
    std::vector<float> el_gen_dr;
 
    std::vector<bool> el_hasMatchedConversion;
+   std::vector<int> el_expectedMissingInnerHits;
 
    // Muons
 
@@ -268,6 +270,11 @@ class FlatTree
    std::vector<float> mu_dB3D;
    std::vector<float> mu_edB3D;
 
+   std::vector<float> mu_dB;
+   std::vector<float> mu_edB;
+   
+   std::vector<float> mu_muonBest_dz;
+   
    std::vector<float> mu_neutralHadronIso;
    std::vector<float> mu_chargedHadronIso;
    std::vector<float> mu_puChargedHadronIso;
@@ -455,6 +462,8 @@ class FlatTree
    std::vector<float> jet_jecFactorL1FastJet;
    std::vector<float> jet_jecFactorL2Relative;
    std::vector<float> jet_jecFactorL3Absolute;
+   
+   std::vector<float> jet_Unc;
    
    std::vector<float> jet_pileupJetId;
 
