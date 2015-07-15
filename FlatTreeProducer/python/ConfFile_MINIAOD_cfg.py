@@ -8,7 +8,7 @@ from FWCore.ParameterSet.VarParsing import VarParsing
 import os, sys
 
 options = VarParsing('analysis')
-options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.int,'Run on real data')
+options.register('isData',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run on real data')
 options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
 options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
 options.parseArguments()
@@ -27,11 +27,58 @@ process.load("Geometry.CaloEventSetup.CaloTopology_cfi");
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
+process.load('Configuration.StandardSequences.Services_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+
+process.GlobalTag.globaltag = 'MCRUN2_74_V9A::All'
+
 ########################
 #  Additional modules  #
 ########################
 
-process.load('IPHCFlatTree.FlatTreeProducer.genJetFlavorMatching')
+if not options.isData:
+    process.load('IPHCFlatTree.FlatTreeProducer.genJetFlavorMatching')
+
+#####################
+#  JES corrections  #
+#####################
+
+process.load("CondCore.DBCommon.CondDBCommon_cfi")
+from CondCore.DBCommon.CondDBSetup_cfi import *
+process.jec = cms.ESSource("PoolDBESSource",
+              DBParameters = cms.PSet(messageLevel = cms.untracked.int32(0)),
+              timetype = cms.string('runnumber'),
+              toGet = cms.VPSet(
+              cms.PSet(
+                  record = cms.string('JetCorrectionsRecord'),
+                  tag    = cms.string('JetCorrectorParametersCollection_PHYS14_V4_MC_AK4PFchs'),
+                  label  = cms.untracked.string('AK4PFchs')
+                  ),
+                  ## here you add as many jet types as you need
+                  ## note that the tag name is specific for the particular sqlite file
+                ),
+                connect = cms.string('sqlite:PHYS14_V4_MC.db')
+                # uncomment above tag lines and this comment to use MC JEC
+                # connect = cms.string('sqlite:Summer12_V7_MC.db')
+)
+## add an es_prefer statement to resolve a possible conflict from simultaneous connection to a global tag
+process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')
+
+from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetCorrFactorsUpdated
+process.load("PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff")
+process.patJetCorrFactorsReapplyJEC = process.patJetCorrFactorsUpdated.clone(
+        src = cms.InputTag("slimmedJets"),
+        levels = ['L1FastJet',
+                  'L2Relative',
+                  'L3Absolute'],
+                  payload = 'AK4PFchs' ) # Make sure to choose the appropriate levels and payload here!
+
+from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetsUpdated
+process.patJetsReapplyJEC = process.patJetsUpdated.clone(
+                            jetSource = cms.InputTag("slimmedJets"),
+                            jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJEC"))
+                            )
+process.JEC = cms.Sequence( process.patJetCorrFactorsReapplyJEC + process. patJetsReapplyJEC )
 
 ###########
 #  Input  #
@@ -40,9 +87,11 @@ process.load('IPHCFlatTree.FlatTreeProducer.genJetFlavorMatching')
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
+    'file:mc.root'
+#    'file:doubleMuon.root'
         #'file:/opt/sbg/data/safe1/cms/xcoubez/PhD/Analysis/WZAnalysisX/TriggerAgain/KirillFlatTreeStandalone/CMSSW_7_2_3_MantaRayXavier/CMSSW_7_2_3/src/IPHCFlatTree/FlatTreeProducer/test/InputRootFile/step2.root'
         #'/store/mc/Phys14DR/WZJetsTo3LNu_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/484D51C6-2673-E411-8AB0-001E67398412.root'
-        'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
+#        'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
     )
 )
 
@@ -69,7 +118,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   electronInput            = cms.InputTag("slimmedElectrons"),
                   muonInput                = cms.InputTag("slimmedMuons"),
                   tauInput                 = cms.InputTag("slimmedTaus"),
-                  jetInput                 = cms.InputTag("slimmedJets"),
+#                  jetInput                 = cms.InputTag("slimmedJets"),
+                  jetInput                 = cms.InputTag("patJetsReapplyJEC"),
                   jetPuppiInput            = cms.InputTag("slimmedJetsPuppi"),
                   genJetInput              = cms.InputTag("slimmedGenJets"),
                   jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
@@ -84,5 +134,12 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 #  Path  #
 ##########
 
-process.p = cms.Path(process.genJetFlavourAlg*
-                     process.FlatTree)
+if not options.isData:
+    process.p = cms.Path(
+    process.JEC+
+    process.genJetFlavourAlg+
+    process.FlatTree)
+else:
+    process.p = cms.Path(process.JEC+process.FlatTree)
+    
+    
