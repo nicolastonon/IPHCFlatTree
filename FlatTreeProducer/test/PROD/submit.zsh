@@ -2,8 +2,8 @@
 
 slist="list.txt"
 pset="crabConfigTemplate.py"
-ver="v20150614"
-prodv="/store/user/xcoubez/FlatTreeWithTriggerv1/${ver}/"
+ver="v20150715"
+prodv="/store/user/kskovpen/FlatTree/TEST-${ver}/"
 
 rm -f crabConfig.py*
 
