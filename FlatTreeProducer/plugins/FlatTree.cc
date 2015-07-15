@@ -192,6 +192,7 @@ void FlatTree::Init()
    el_r9.clear();
    el_eSuperClusterOverP.clear();
    el_IoEmIoP.clear();
+   el_ooEmooP.clear();
    el_eleEoPout.clear();
    el_PreShowerOverRaw.clear();
    el_ecalEnergy.clear();
@@ -221,6 +222,7 @@ void FlatTree::Init()
    el_gen_dr.clear();
 
    el_hasMatchedConversion.clear();
+   el_expectedMissingInnerHits.clear();
 
    mu_n = 0;
    mu_pt.clear();
@@ -234,6 +236,11 @@ void FlatTree::Init()
    mu_dB3D.clear();
    mu_edB3D.clear();
 
+   mu_dB.clear();
+   mu_edB.clear();
+   
+   mu_muonBest_dz.clear();
+   
    mu_neutralHadronIso.clear();
    mu_chargedHadronIso.clear();
    mu_puChargedHadronIso.clear();
@@ -417,6 +424,8 @@ void FlatTree::Init()
    jet_jecFactorL1FastJet.clear();
    jet_jecFactorL2Relative.clear();
    jet_jecFactorL3Absolute.clear();
+   
+   jet_Unc.clear();
    
    jet_pileupJetId.clear();
 
@@ -691,6 +700,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_r9") ) tree->Branch("el_r9", "std::vector<float>", &el_r9, buffersize);
    if( doWrite("el_eSuperClusterOverP") ) tree->Branch("el_eSuperClusterOverP", "std::vector<float>", &el_eSuperClusterOverP, buffersize);
    if( doWrite("el_IoEmIoP") ) tree->Branch("el_IoEmIoP", "std::vector<float>", &el_IoEmIoP, buffersize);
+   if( doWrite("el_ooEmooP") ) tree->Branch("el_ooEmooP", "std::vector<float>", &el_ooEmooP, buffersize);
    if( doWrite("el_eleEoPout") ) tree->Branch("el_eleEoPout", "std::vector<float>", &el_eleEoPout, buffersize);
    if( doWrite("el_PreShowerOverRaw") ) tree->Branch("el_PreShowerOverRaw", "std::vector<float>", &el_PreShowerOverRaw, buffersize);
    if( doWrite("el_ecalEnergy") ) tree->Branch("el_ecalEnergy", "std::vector<float>", &el_ecalEnergy, buffersize);
@@ -720,6 +730,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_gen_dr") ) tree->Branch("el_gen_dr", "std::vector<float>", &el_gen_dr, buffersize);
 
    if( doWrite("el_hasMatchedConversion") ) tree->Branch("el_hasMatchedConversion", "std::vector<bool>", &el_hasMatchedConversion, buffersize);
+   if( doWrite("el_expectedMissingInnerHits") ) tree->Branch("el_expectedMissingInnerHits", "std::vector<int>", &el_expectedMissingInnerHits, buffersize);
 
    if( doWrite("mu_n") ) tree->Branch("mu_n", &mu_n, "mu_n/I", buffersize);
    if( doWrite("mu_pt") ) tree->Branch("mu_pt", "std::vector<float>", &mu_pt, buffersize);
@@ -733,6 +744,11 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_dB3D") ) tree->Branch("mu_dB3D", "std::vector<float>", &mu_dB3D, buffersize);
    if( doWrite("mu_edB3D") ) tree->Branch("mu_edB3D", "std::vector<float>", &mu_edB3D, buffersize);
 
+   if( doWrite("mu_dB") ) tree->Branch("mu_dB", "std::vector<float>", &mu_dB, buffersize);
+   if( doWrite("mu_edB") ) tree->Branch("mu_edB", "std::vector<float>", &mu_edB, buffersize);
+   
+   if( doWrite("mu_muonBest_dz") ) tree->Branch("mu_muonBest_dz", "std::vector<float>", &mu_muonBest_dz, buffersize);
+   
    if( doWrite("mu_neutralHadronIso") ) tree->Branch("mu_neutralHadronIso", "std::vector<float>", &mu_neutralHadronIso, buffersize);
    if( doWrite("mu_chargedHadronIso") ) tree->Branch("mu_chargedHadronIso", "std::vector<float>", &mu_chargedHadronIso, buffersize);
    if( doWrite("mu_puChargedHadronIso") ) tree->Branch("mu_puChargedHadronIso", "std::vector<float>", &mu_puChargedHadronIso, buffersize);
@@ -916,6 +932,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("jet_jecFactorL1FastJet") ) tree->Branch("jet_jecFactorL1FastJet", "std::vector<float>", &jet_jecFactorL1FastJet, buffersize);
    if( doWrite("jet_jecFactorL2Relative") ) tree->Branch("jet_jecFactorL2Relative", "std::vector<float>", &jet_jecFactorL2Relative, buffersize);
    if( doWrite("jet_jecFactorL3Absolute") ) tree->Branch("jet_jecFactorL3Absolute", "std::vector<float>", &jet_jecFactorL3Absolute, buffersize);
+   
+   if( doWrite("jet_Unc") ) tree->Branch("jet_Unc", "std::vector<float>", &jet_Unc, buffersize);
    
    if( doWrite("jet_pileupJetId") ) tree->Branch("jet_pileupJetId", "std::vector<float>", &jet_pileupJetId, buffersize);
 
