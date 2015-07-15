@@ -9,7 +9,7 @@ import os, sys
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run on real data')
-options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
+options.register('applyJEC',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
 options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
 options.parseArguments()
@@ -31,7 +31,11 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
-process.GlobalTag.globaltag = 'MCRUN2_74_V9A::All'
+if not options.isData:
+    process.GlobalTag.globaltag = 'PHYS14_25_V3::All' # PHYS14 25ns
+#    process.GlobalTag.globaltag = 'MCRUN2_74_V9::All' # MCRUN2 25ns
+else:
+    process.GlobalTag.globaltag = 'GR_H_V58C::All' # DATA
 
 ########################
 #  Additional modules  #
