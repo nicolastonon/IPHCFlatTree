@@ -8,7 +8,8 @@ from FWCore.ParameterSet.VarParsing import VarParsing
 import os, sys
 
 options = VarParsing('analysis')
-options.register('isData',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run on real data')
+options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run on real data')
+options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
 options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
 options.parseArguments()
@@ -43,43 +44,48 @@ if not options.isData:
 #  JES corrections  #
 #####################
 
-process.load("CondCore.DBCommon.CondDBCommon_cfi")
-from CondCore.DBCommon.CondDBSetup_cfi import *
-process.jec = cms.ESSource("PoolDBESSource",
-              DBParameters = cms.PSet(messageLevel = cms.untracked.int32(0)),
-              timetype = cms.string('runnumber'),
-              toGet = cms.VPSet(
-              cms.PSet(
-                  record = cms.string('JetCorrectionsRecord'),
-                  tag    = cms.string('JetCorrectorParametersCollection_PHYS14_V4_MC_AK4PFchs'),
-                  label  = cms.untracked.string('AK4PFchs')
-                  ),
-                  ## here you add as many jet types as you need
-                  ## note that the tag name is specific for the particular sqlite file
-                ),
+jetsName="slimmedJets"
+
+if options.applyJEC:
+    process.load("CondCore.DBCommon.CondDBCommon_cfi")
+    from CondCore.DBCommon.CondDBSetup_cfi import *
+    process.jec = cms.ESSource("PoolDBESSource",
+                  DBParameters = cms.PSet(messageLevel = cms.untracked.int32(0)),
+                  timetype = cms.string('runnumber'),
+                  toGet = cms.VPSet(
+                          cms.PSet(
+                              record = cms.string('JetCorrectionsRecord'),
+                              tag    = cms.string('JetCorrectorParametersCollection_PHYS14_V4_MC_AK4PFchs'),
+                              label  = cms.untracked.string('AK4PFchs')
+                              ),
+                              ## here you add as many jet types as you need
+                              ## note that the tag name is specific for the particular sqlite file
+                          ),
                 connect = cms.string('sqlite:PHYS14_V4_MC.db')
                 # uncomment above tag lines and this comment to use MC JEC
                 # connect = cms.string('sqlite:Summer12_V7_MC.db')
-)
-## add an es_prefer statement to resolve a possible conflict from simultaneous connection to a global tag
-process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')
+            )
+    ## add an es_prefer statement to resolve a possible conflict from simultaneous connection to a global tag
+    process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')
 
-from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetCorrFactorsUpdated
-process.load("PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff")
-process.patJetCorrFactorsReapplyJEC = process.patJetCorrFactorsUpdated.clone(
-        src = cms.InputTag("slimmedJets"),
-        levels = ['L1FastJet',
-                  'L2Relative',
-                  'L3Absolute'],
-                  payload = 'AK4PFchs' ) # Make sure to choose the appropriate levels and payload here!
+    from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetCorrFactorsUpdated
+    process.load("PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff")
+    process.patJetCorrFactorsReapplyJEC = process.patJetCorrFactorsUpdated.clone(
+    src = cms.InputTag("slimmedJets"),
+            levels = ['L1FastJet',
+                      'L2Relative',
+                      'L3Absolute'],
+            payload = 'AK4PFchs' ) # Make sure to choose the appropriate levels and payload here!
 
-from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetsUpdated
-process.patJetsReapplyJEC = process.patJetsUpdated.clone(
-                            jetSource = cms.InputTag("slimmedJets"),
-                            jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJEC"))
-                            )
-process.JEC = cms.Sequence( process.patJetCorrFactorsReapplyJEC + process. patJetsReapplyJEC )
+    from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetsUpdated
+    process.patJetsReapplyJEC = process.patJetsUpdated.clone(
+    jetSource = cms.InputTag("slimmedJets"),
+    jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJEC"))
+    )
+    process.JEC = cms.Sequence( process.patJetCorrFactorsReapplyJEC + process. patJetsReapplyJEC )
 
+    jetsName="patJetsReapplyJEC"
+    
 ###########
 #  Input  #
 ###########
@@ -118,8 +124,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   electronInput            = cms.InputTag("slimmedElectrons"),
                   muonInput                = cms.InputTag("slimmedMuons"),
                   tauInput                 = cms.InputTag("slimmedTaus"),
-#                  jetInput                 = cms.InputTag("slimmedJets"),
-                  jetInput                 = cms.InputTag("patJetsReapplyJEC"),
+                  jetInput                 = cms.InputTag(jetsName),
                   jetPuppiInput            = cms.InputTag("slimmedJetsPuppi"),
                   genJetInput              = cms.InputTag("slimmedGenJets"),
                   jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
@@ -135,11 +140,19 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 ##########
 
 if not options.isData:
-    process.p = cms.Path(
-    process.JEC+
-    process.genJetFlavourAlg+
-    process.FlatTree)
+    if options.applyJEC:
+        process.p = cms.Path(
+        process.JEC+
+        process.genJetFlavourAlg+
+        process.FlatTree)
+    else:
+        process.p = cms.Path(
+        process.genJetFlavourAlg+
+        process.FlatTree)        
 else:
-    process.p = cms.Path(process.JEC+process.FlatTree)
+    if options.applyJEC:
+        process.p = cms.Path(process.JEC+process.FlatTree)
+    else:
+        process.p = cms.Path(process.FlatTree)
     
     
