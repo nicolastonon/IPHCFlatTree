@@ -2165,7 +2165,7 @@ void FlatTreeProducer::endJob()
 void FlatTreeProducer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 {
    edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
-   iSetup.get<JetCorrectionsRecord>().get("AK5PF",JetCorParColl);
+   iSetup.get<JetCorrectionsRecord>().get("AK4PF",JetCorParColl);
    JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
    
    jecUnc = new JetCorrectionUncertainty(JetCorPar);                
