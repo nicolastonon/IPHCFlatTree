@@ -35,7 +35,7 @@ if not options.isData:
     process.GlobalTag.globaltag = 'PHYS14_25_V3::All' # PHYS14 25ns
 #    process.GlobalTag.globaltag = 'MCRUN2_74_V9::All' # MCRUN2 25ns
 else:
-    process.GlobalTag.globaltag = 'GR_H_V58C::All' # DATA
+    process.GlobalTag.globaltag = 'GR_H_V58C' # DATA
 
 ########################
 #  Additional modules  #
