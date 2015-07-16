@@ -1903,11 +1903,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
 	ftree->jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
 	ftree->jet_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
-	  
-	jecUnc->setJetEta(fabs(jet.eta()));
-	jecUnc->setJetPt(jet.pt());
-
-	ftree->jet_Unc.push_back(jecUnc->getUncertainty(true));
+	
+	float jet_Unc = 0.;
+	if( !isData_ )
+	  {	     
+	     jecUnc->setJetEta(fabs(jet.eta()));
+	     jecUnc->setJetPt(jet.pt());
+	     jet_Unc = jecUnc->getUncertainty(true);
+	  }
+	
+	ftree->jet_Unc.push_back(jet_Unc);
 	
 	ftree->jet_ntrk.push_back(jet.associatedTracks().size());
 
@@ -2164,16 +2169,23 @@ void FlatTreeProducer::endJob()
 // ------------ method called when starting to processes a run  ------------
 void FlatTreeProducer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 {
-   edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
-   iSetup.get<JetCorrectionsRecord>().get("AK4PF",JetCorParColl);
-   JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
-   
-   jecUnc = new JetCorrectionUncertainty(JetCorPar);                
+   if( !isData_ )
+     {	
+	edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
+	iSetup.get<JetCorrectionsRecord>().get("AK4PF",JetCorParColl);
+	JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
+	
+	jecUnc = new JetCorrectionUncertainty(JetCorPar);
+     }   
 }
                 
 // ------------ method called when ending the processing of a run  ------------
 void FlatTreeProducer::endRun(edm::Run const&, edm::EventSetup const&)
 {
+   if( !isData_ )
+     {	
+	delete jecUnc;
+     }   
 }
 
 void FlatTreeProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions)
