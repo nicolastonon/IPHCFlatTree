@@ -16,12 +16,6 @@ cd CMSSW_X_Y_Z/src
 cmsenv
 git cms-init
 
-# Add the dependencies for POG CMSSW packages
-git cms-addpkg EgammaAnalysis/ElectronTools
-cd EgammaAnalysis/ElectronTools/data
-cat download.url | xargs wget
-cd -
-
 # Clone this repo
 git clone https://github.com/IPHC/IPHCFlatTree.git
 
