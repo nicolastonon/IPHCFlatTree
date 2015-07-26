@@ -9,7 +9,7 @@ import os, sys
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run on real data')
-options.register('applyJEC',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
+options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
 options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
 options.parseArguments()
@@ -31,11 +31,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
-if not options.isData:
-    process.GlobalTag.globaltag = 'PHYS14_25_V3::All' # PHYS14 25ns
-#    process.GlobalTag.globaltag = 'MCRUN2_74_V9::All' # MCRUN2 25ns
-else:
-    process.GlobalTag.globaltag = 'GR_H_V58C' # DATA
+process.GlobalTag.globaltag = 'MCRUN2_74_V9A::All'
 
 ########################
 #  Additional modules  #
@@ -89,6 +85,17 @@ if options.applyJEC:
     process.JEC = cms.Sequence( process.patJetCorrFactorsReapplyJEC + process. patJetsReapplyJEC )
 
     jetsName="patJetsReapplyJEC"
+
+# egamma
+from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
+switchOnVIDElectronIdProducer(process,DataFormat.MiniAOD)
+
+my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_PHYS14_PU20bx25_nonTrig_V1_cff']
+
+for idmod in my_id_modules:
+    setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
+
+process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
     
 ###########
 #  Input  #
@@ -97,7 +104,8 @@ if options.applyJEC:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-    'file:mc.root'
+    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
+#    'file:mc.root'
 #    'file:doubleMuon.root'
         #'file:/opt/sbg/data/safe1/cms/xcoubez/PhD/Analysis/WZAnalysisX/TriggerAgain/KirillFlatTreeStandalone/CMSSW_7_2_3_MantaRayXavier/CMSSW_7_2_3/src/IPHCFlatTree/FlatTreeProducer/test/InputRootFile/step2.root'
         #'/store/mc/Phys14DR/WZJetsTo3LNu_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/484D51C6-2673-E411-8AB0-001E67398412.root'
@@ -126,9 +134,15 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 
                   vertexInput              = cms.InputTag("offlineSlimmedPrimaryVertices"),
                   electronInput            = cms.InputTag("slimmedElectrons"),
+                  electronPATInput         = cms.InputTag("slimmedElectrons"),
+                  eleMediumIdMap           = cms.InputTag("egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp80"),
+                  eleTightIdMap            = cms.InputTag("egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp90"),
+                  mvaValuesMap             = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigValues"),
+                  mvaCategoriesMap         = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigCategories"),
                   muonInput                = cms.InputTag("slimmedMuons"),
                   tauInput                 = cms.InputTag("slimmedTaus"),
-                  jetInput                 = cms.InputTag(jetsName),
+                  jetInput                 = cms.InputTag("slimmedJets"),
+                  #jetInput                 = cms.InputTag(jetsName),
                   jetPuppiInput            = cms.InputTag("slimmedJetsPuppi"),
                   genJetInput              = cms.InputTag("slimmedGenJets"),
                   jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
@@ -146,17 +160,28 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 if not options.isData:
     if options.applyJEC:
         process.p = cms.Path(
+        process.electronMVAValueMapProducer+
+        process.egmGsfElectronIDSequence+
         process.JEC+
         process.genJetFlavourAlg+
         process.FlatTree)
     else:
         process.p = cms.Path(
+        process.electronMVAValueMapProducer+
+        process.egmGsfElectronIDSequence+
         process.genJetFlavourAlg+
         process.FlatTree)        
 else:
     if options.applyJEC:
-        process.p = cms.Path(process.JEC+process.FlatTree)
+        process.p = cms.Path(
+        process.electronMVAValueMapProducer+
+        process.egmGsfElectronIDSequence+
+        process.JEC+
+        process.FlatTree)
     else:
-        process.p = cms.Path(process.FlatTree)
+        process.p = cms.Path(
+        process.electronMVAValueMapProducer+
+        process.egmGsfElectronIDSequence+
+        process.FlatTree)
     
     
