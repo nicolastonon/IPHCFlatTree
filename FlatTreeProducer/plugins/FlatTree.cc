@@ -132,6 +132,8 @@ void FlatTree::Init()
    el_passConversionVeto.clear();
    el_dB3D.clear();
    el_edB3D.clear();
+   el_dB.clear();
+   el_edB.clear();
 
    el_neutralHadronIso.clear();
    el_chargedHadronIso.clear();
@@ -198,6 +200,9 @@ void FlatTree::Init()
    el_ecalEnergy.clear();
 
    el_mvaNonTrigV0.clear();
+   el_mvaNonTrigCat.clear();
+   el_mvaPassMedium.clear();
+   el_mvaPassTight.clear();
 
    el_lepMVA.clear();
 
@@ -640,6 +645,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_isGsfCtfScPixChargeConsistent") ) tree->Branch("el_isGsfCtfScPixChargeConsistent", "std::vector<int>", &el_isGsfCtfScPixChargeConsistent, buffersize);
    if( doWrite("el_dB3D") ) tree->Branch("el_dB3D", "std::vector<float>", &el_dB3D, buffersize);
    if( doWrite("el_edB3D") ) tree->Branch("el_edB3D", "std::vector<float>", &el_edB3D, buffersize);
+   if( doWrite("el_dB") ) tree->Branch("el_dB", "std::vector<float>", &el_dB, buffersize);
+   if( doWrite("el_edB") ) tree->Branch("el_edB", "std::vector<float>", &el_edB, buffersize);
    
    if( doWrite("el_neutralHadronIso") ) tree->Branch("el_neutralHadronIso", "std::vector<float>", &el_neutralHadronIso, buffersize);
    if( doWrite("el_chargedHadronIso") ) tree->Branch("el_chargedHadronIso", "std::vector<float>", &el_chargedHadronIso, buffersize);
@@ -706,6 +713,9 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_ecalEnergy") ) tree->Branch("el_ecalEnergy", "std::vector<float>", &el_ecalEnergy, buffersize);
 
    if( doWrite("el_mvaNonTrigV0") ) tree->Branch("el_mvaNonTrigV0", "std::vector<float>", &el_mvaNonTrigV0, buffersize);
+   if( doWrite("el_mvaNonTrigCat") ) tree->Branch("el_mvaNonTrigCat", "std::vector<float>", &el_mvaNonTrigCat, buffersize);
+   if( doWrite("el_mvaPassMedium") ) tree->Branch("el_mvaPassMedium", "std::vector<bool>", &el_mvaPassMedium, buffersize);
+   if( doWrite("el_mvaPassTight") ) tree->Branch("el_mvaPassTight", "std::vector<bool>", &el_mvaPassTight, buffersize);
 
    if( doWrite("el_lepMVA") ) tree->Branch("el_lepMVA", "std::vector<float>", &el_lepMVA, buffersize);
 
