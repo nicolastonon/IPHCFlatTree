@@ -123,6 +123,8 @@
 <var name="el_isGsfCtfScPixChargeConsistent" save="1"></var>
 <var name="el_dB3D" save="1"></var>
 <var name="el_edB3D" save="1"></var>
+<var name="el_dB" save="1"></var>
+<var name="el_edB" save="1"></var>
 
 <var name="el_neutralHadronIso" save="1"></var>
 <var name="el_chargedHadronIso" save="1"></var>
@@ -190,6 +192,9 @@
 <var name="el_ecalEnergy" save="1"></var>
 
 <var name="el_mvaNonTrigV0" save="1"></var>
+<var name="el_mvaNonTrigCat" save="1"></var>
+<var name="el_mvaPassMedium" save="1"></var>
+<var name="el_mvaPassTight" save="1"></var>
 
 <var name="el_lepMVA" save="1"></var>
 
