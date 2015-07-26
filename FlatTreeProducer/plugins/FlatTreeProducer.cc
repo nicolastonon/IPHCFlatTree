@@ -36,7 +36,7 @@
 #include "IPHCFlatTree/FlatTreeProducer/interface/MCTruth.hh"
 
 //#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimatorCSA14.h"
-#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimator.h"
+//#include "EgammaAnalysis/ElectronTools/interface/EGammaMvaEleEstimator.h"
 
 #include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
 
@@ -70,7 +70,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    virtual void beginRun(edm::Run const&, edm::EventSetup const&);
    virtual void endRun(edm::Run const&, edm::EventSetup const&);
    
-   TMVA::Reader* BookLeptonMVAReader(string basePath, string weightFileName, string type);
+//   TMVA::Reader* BookLeptonMVAReader(string basePath, string weightFileName, string type);
 
    void KeepEvent();
    bool isFloat(const std::string& s);
@@ -104,10 +104,10 @@ class FlatTreeProducer : public edm::EDAnalyzer
    TH1D* hweight;
 
 //   EGammaMvaEleEstimatorCSA14* elecMVA;
-   EGammaMvaEleEstimator* elecMVA;
-   std::vector<std::string> elecMVACatWeights;
+//   EGammaMvaEleEstimator* elecMVA;
+//   std::vector<std::string> elecMVACatWeights;
 
-   TMVA::Reader* mu_reader_high_b;
+/*   TMVA::Reader* mu_reader_high_b;
    TMVA::Reader* mu_reader_high_e;
    TMVA::Reader* mu_reader_low;
    TMVA::Reader* mu_reader_medium_b;
@@ -118,7 +118,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    TMVA::Reader* ele_reader_medium_cb;
    TMVA::Reader* ele_reader_medium_fb;
    TMVA::Reader* ele_reader_medium_ec;
-   TMVA::Reader* ele_reader_low;
+   TMVA::Reader* ele_reader_low;*/
 
    float lepMVA_neuRelIso;
    float lepMVA_chRelIso;
@@ -140,7 +140,8 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_;
 
    edm::EDGetTokenT<reco::VertexCollection> vertexToken_;
-   edm::EDGetTokenT<pat::ElectronCollection> electronToken_;
+   edm::EDGetTokenT<pat::ElectronCollection> electronPATToken_;
+   edm::EDGetTokenT<edm::View<reco::GsfElectron> > electronToken_;
    edm::EDGetTokenT<pat::MuonCollection> muonToken_;
    edm::EDGetTokenT<pat::TauCollection> tauToken_;
    edm::EDGetTokenT<pat::JetCollection> jetToken_;
@@ -151,8 +152,14 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<pat::METCollection> metTokenMINIAOD_;
    edm::EDGetTokenT<double> rhoToken_;
    edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
+
+   edm::EDGetTokenT<edm::ValueMap<bool> > eleMediumIdMapToken_;
+   edm::EDGetTokenT<edm::ValueMap<bool> > eleTightIdMapToken_;
+      
+   edm::EDGetTokenT<edm::ValueMap<float> > mvaValuesMapToken_;
+   edm::EDGetTokenT<edm::ValueMap<int> > mvaCategoriesMapToken_;
    
-   JetCorrectionUncertainty *jecUnc;
+//   JetCorrectionUncertainty *jecUnc;
 };
 
 bool FlatTreeProducer::isInt(const boost::any & operand)
@@ -695,7 +702,7 @@ void FlatTreeProducer::ReadConfFile(const std::string& confFile)
      }
 }
 
-TMVA::Reader* FlatTreeProducer::BookLeptonMVAReader(string basePath, string weightFileName, string type)
+/*TMVA::Reader* FlatTreeProducer::BookLeptonMVAReader(string basePath, string weightFileName, string type)
 {
    TMVA::Reader* reader = new TMVA::Reader("!Color:!Silent");
    
@@ -713,14 +720,14 @@ TMVA::Reader* FlatTreeProducer::BookLeptonMVAReader(string basePath, string weig
    reader->BookMVA("BDTG method", basePath+"/"+weightFileName);
    
    return reader;
-}
+}*/
 
 FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
 {
    // ###
    // Temporarily redirecting stdout to avoid huge TMVA loading dump
    // ###
-   cout << "Temporarily redirecting stdout to avoid huge TMVA dump when loading MVA readers..." << endl;
+/*   cout << "Temporarily redirecting stdout to avoid huge TMVA dump when loading MVA readers..." << endl;
    stringstream tmpBuffer;
    streambuf* oldStdout = cout.rdbuf(tmpBuffer.rdbuf());
 
@@ -732,7 +739,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
 //   elecMVA = new EGammaMvaEleEstimatorCSA14();
    elecMVA = new EGammaMvaEleEstimator();
    
-   string EGammaElectronToolsPath = CMSSW_BASE+"/src/EgammaAnalysis/ElectronTools/";
+/////   string EGammaElectronToolsPath = CMSSW_BASE+"/src/EgammaAnalysis/ElectronTools/";
 
 //   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB1_5_oldscenario2phys14_BDT.weights.xml");
 //   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB2_5_oldscenario2phys14_BDT.weights.xml");
@@ -740,17 +747,17 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
 //   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB1_10_oldscenario2phys14_BDT.weights.xml");
 //   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EB2_10_oldscenario2phys14_BDT.weights.xml");
 //   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/PHYS14/EIDmva_EE_10_oldscenario2phys14_BDT.weights.xml");
-
-   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat1.weights.xml");
+*/
+/*   elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat1.weights.xml");
    elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat2.weights.xml");
    elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat3.weights.xml");
    elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat4.weights.xml");
    elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat5.weights.xml");
    elecMVACatWeights.push_back(EGammaElectronToolsPath+"/data/Electrons_BDTG_NonTrigV0_Cat6.weights.xml");
-   
+*/
 //   elecMVA->initialize("BDT", EGammaMvaEleEstimatorCSA14::kNonTrigPhys14, true, elecMVACatWeights);
-   elecMVA->initialize("BDT", EGammaMvaEleEstimator::kNonTrig, true, elecMVACatWeights);
-
+//   elecMVA->initialize("BDT", EGammaMvaEleEstimator::kNonTrig, true, elecMVACatWeights);
+/*
    string FlatTreeProducerLepMVAPath = CMSSW_BASE+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/";
    mu_reader_high_b      = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_high_b_BDTG.weights.xml" ,  "mu");
    mu_reader_high_e      = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_pteta_high_e_BDTG.weights.xml" ,  "mu");
@@ -764,12 +771,12 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    ele_reader_medium_fb  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_medium_fb_BDTG.weights.xml" , "ele");
    ele_reader_medium_ec  = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_medium_ec_BDTG.weights.xml" , "ele");
    ele_reader_low        = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_pteta_low_BDTG.weights.xml", "ele");
-   
+*/   
    // ###
    // Restore stdout
    // ###
-   cout.rdbuf(oldStdout);
-   cout << "Stdout now restored." << endl;
+//   cout.rdbuf(oldStdout);
+//   cout << "Stdout now restored." << endl;
 
    // ########################
    // #  Create output tree  #
@@ -790,7 +797,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    triggerObjects_    = consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"));
    triggerPrescales_  = consumes<pat::PackedTriggerPrescales>(edm::InputTag(std::string("patTrigger")));
    vertexToken_       = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertexInput"));
-   electronToken_     = consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electronInput"));
+   electronPATToken_     = consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electronPATInput"));
+   electronToken_     = consumes<edm::View<reco::GsfElectron> >(iConfig.getParameter<edm::InputTag>("electronInput"));
    muonToken_         = consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonInput"));
    tauToken_          = consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("tauInput"));
    jetToken_          = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetInput"));
@@ -801,6 +809,12 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    metTokenPuppi_     = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metPuppiInput"));
    rhoToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticlesInput"));
+
+   eleMediumIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumIdMap"));
+   eleTightIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleTightIdMap"));
+
+   mvaValuesMapToken_ = consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvaValuesMap"));
+   mvaCategoriesMapToken_ = consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap"));
    
    // #########################
    // #  Read XML config file #
@@ -913,8 +927,22 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    iEvent.getByToken(muonToken_,muons);
    
    // Electrons
-   edm::Handle<pat::ElectronCollection> electrons;
+//   edm::Handle<pat::ElectronCollection> electrons;
+   edm::Handle<edm::View<reco::GsfElectron> > electrons;
    iEvent.getByToken(electronToken_,electrons);
+
+   edm::Handle<pat::ElectronCollection> electronsPAT;
+   iEvent.getByToken(electronPATToken_,electronsPAT);
+   
+   edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
+   edm::Handle<edm::ValueMap<bool> > tight_id_decisions;   
+   iEvent.getByToken(eleMediumIdMapToken_,medium_id_decisions);
+   iEvent.getByToken(eleTightIdMapToken_,tight_id_decisions);
+   
+   edm::Handle<edm::ValueMap<float> > mvaValues;
+   edm::Handle<edm::ValueMap<int> > mvaCategories;
+   iEvent.getByToken(mvaValuesMapToken_,mvaValues);
+   iEvent.getByToken(mvaCategoriesMapToken_,mvaCategories);   
    
    // Taus
    edm::Handle<pat::TauCollection> taus;
@@ -1259,7 +1287,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    
    for(int ie=0;ie<nElec;ie++)
      {
-	const pat::Electron& elec = electrons->at(ie);
+	const pat::Electron& elec = electronsPAT->at(ie);
 
 	// Skimming electrons with pT < 5 GeV.
 	if (elec.pt() < 5) continue;
@@ -1284,7 +1312,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 	if( elec.gsfTrack().isNonnull() )
 	  {
-	     numberOfLostHits = elec.gsfTrack()->hitPattern().numberOfLostHits(reco::HitPattern::HitCategory::MISSING_INNER_HITS);
+	     const reco::GsfElectron& el = electrons->at(ie);
+	     numberOfLostHits = el.gsfTrack()->hitPattern().numberOfLostHits(reco::HitPattern::HitCategory::MISSING_INNER_HITS);
 	  }
 
 	ftree->el_numberOfLostHits.push_back(numberOfLostHits);
@@ -1326,12 +1355,18 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_dB3D.push_back(elec.dB(pat::Electron::PV3D));
         ftree->el_edB3D.push_back(elec.edB(pat::Electron::PV3D));
 
+        ftree->el_dB.push_back(elec.dB());
+        ftree->el_edB.push_back(elec.edB());
+	
+	const auto el = electrons->ptrAt(ie);
 //	double mvaNonTrigV0 = elecMVA->mvaValue(elec,
 //						false);
-	// FIXME:
-	double mvaNonTrigV0 = -1.;
-	ftree->el_mvaNonTrigV0.push_back(mvaNonTrigV0);
-
+	ftree->el_mvaNonTrigV0.push_back((*mvaValues)[el]);
+	ftree->el_mvaNonTrigCat.push_back((*mvaCategories)[el]);
+	
+	ftree->el_mvaPassMedium.push_back((*medium_id_decisions)[el]);
+	ftree->el_mvaPassTight.push_back((*tight_id_decisions)[el]);
+	
         ftree->el_neutralHadronIso.push_back(elec.neutralHadronIso());
         ftree->el_chargedHadronIso.push_back(elec.chargedHadronIso());
         ftree->el_puChargedHadronIso.push_back(elec.puChargedHadronIso());
@@ -1353,11 +1388,17 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),0.05,0.2,10.,false,false);
 	  }
 	ftree->el_miniIso.push_back(miniIso);
-        ftree->el_isLoose.push_back(elec.electronID("eidLoose"));
-        ftree->el_isTight.push_back(elec.electronID("eidTight"));
-        ftree->el_isRobustLoose.push_back(elec.electronID("eidRobustLoose"));
-        ftree->el_isRobustTight.push_back(elec.electronID("eidRobustTight"));
-        ftree->el_isRobustHighEnergy.push_back(elec.electronID("eidRobustHighEnergy"));
+	// this is outdated, keep for consistency
+//        ftree->el_isLoose.push_back(elec.electronID("eidLoose"));
+  //      ftree->el_isTight.push_back(elec.electronID("eidTight"));
+    //    ftree->el_isRobustLoose.push_back(elec.electronID("eidRobustLoose"));
+      //  ftree->el_isRobustTight.push_back(elec.electronID("eidRobustTight"));
+        //ftree->el_isRobustHighEnergy.push_back(elec.electronID("eidRobustHighEnergy"));
+        ftree->el_isLoose.push_back(0);
+        ftree->el_isTight.push_back(0);
+        ftree->el_isRobustLoose.push_back(0);
+        ftree->el_isRobustTight.push_back(0);
+        ftree->el_isRobustHighEnergy.push_back(0);
 
         ftree->el_vx.push_back(elec.vx());
         ftree->el_vy.push_back(elec.vy());
@@ -1368,7 +1409,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_passConversionVeto.push_back(elec.passConversionVeto());
 	
 	constexpr reco::HitPattern::HitCategory missingHitType =  reco::HitPattern::MISSING_INNER_HITS;
-	ftree->el_expectedMissingInnerHits.push_back(elec.gsfTrack()->hitPattern().numberOfHits(missingHitType));
+	  {
+	     const reco::GsfElectron& el = electrons->at(ie);
+	     ftree->el_expectedMissingInnerHits.push_back(el.gsfTrack()->hitPattern().numberOfHits(missingHitType));
+	  }	
 	       
 	int numberOfHits = -666;
 
@@ -1379,12 +1423,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 	if( elec.gsfTrack().isNonnull() )
 	  {
-	     numberOfHits = elec.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::HitCategory::MISSING_INNER_HITS);
+	     const reco::GsfElectron& el = electrons->at(ie);
+	     numberOfHits = el.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::HitCategory::MISSING_INNER_HITS);
 
-	     if( primVtx ) dxy = elec.gsfTrack()->dxy(primVtx->position());
-	     if( primVtx ) dz = elec.gsfTrack()->dz(primVtx->position());
-	     dxyError = elec.gsfTrack()->dxyError();
-	     dzError = elec.gsfTrack()->dzError();
+	     if( primVtx ) dxy = el.gsfTrack()->dxy(primVtx->position());
+	     if( primVtx ) dz = el.gsfTrack()->dz(primVtx->position());
+	     dxyError = el.gsfTrack()->dxyError();
+	     dzError = el.gsfTrack()->dzError();
 	  }
 
         ftree->el_numberOfHits.push_back(numberOfHits);
@@ -1395,7 +1440,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 	double el_pt = elec.pt();
 	double el_eta = elec.eta();
-	double el_scleta = ftree->el_scleta.back();
+//	double el_scleta = ftree->el_scleta.back();
 	double el_phi = elec.phi();
 	double el_lepMVA = -666.;
 
@@ -1429,9 +1474,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	lepMVA_sip3d = fabs(ftree->el_dB3D.back()/ftree->el_edB3D.back());
 	lepMVA_dxy = log(fabs(ftree->el_dxy.back()));
 	lepMVA_dz = log(fabs(ftree->el_dz.back()));
-	lepMVA_mvaId = mvaNonTrigV0;
+//	lepMVA_mvaId = mvaNonTrigV0;
 
-	if( el_pt < 10 ) el_lepMVA = ele_reader_low->EvaluateMVA("BDTG method");
+/*	if( el_pt < 10 ) el_lepMVA = ele_reader_low->EvaluateMVA("BDTG method");
 	else if( el_pt >= 10 && el_pt < 25 )
 	  {
 	     if( fabs(el_scleta) < 0.8 ) el_lepMVA = ele_reader_medium_cb->EvaluateMVA("BDTG method");
@@ -1443,7 +1488,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     if( fabs(el_scleta) < 0.8 ) el_lepMVA = ele_reader_high_cb->EvaluateMVA("BDTG method");
 	     else if( fabs(el_scleta) >= 0.8 && fabs(el_scleta) < 1.479 ) el_lepMVA = ele_reader_high_fb->EvaluateMVA("BDTG method");
 	     else if( fabs(el_scleta) >= 1.479 ) el_lepMVA = ele_reader_high_ec->EvaluateMVA("BDTG method");
-	  }	
+	  }*/
 	
 	ftree->el_lepMVA.push_back(el_lepMVA);
 
@@ -1724,7 +1769,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	lepMVA_dz = log(fabs(ftree->mu_innerTrack_dz.back()));
 	lepMVA_mvaId = ftree->mu_segmentCompatibility.back();
 
-	if( mu_pt < 10 ) mu_lepMVA = mu_reader_low->EvaluateMVA("BDTG method");
+/*	if( mu_pt < 10 ) mu_lepMVA = mu_reader_low->EvaluateMVA("BDTG method");
 	else if( mu_pt >= 10 && mu_pt < 25 )
 	  {
 	     if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_medium_b->EvaluateMVA("BDTG method");
@@ -1734,7 +1779,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	  {
 	     if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_high_b->EvaluateMVA("BDTG method");
 	     else if( fabs(mu_eta) >= 1.5 ) mu_lepMVA = mu_reader_high_e->EvaluateMVA("BDTG method");
-	  }	
+	  }*/
 
 	ftree->mu_lepMVA.push_back(mu_lepMVA);
 	
@@ -1904,15 +1949,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
 	ftree->jet_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
 	
-	float jet_Unc = 0.;
-	if( !isData_ )
-	  {	     
-	     jecUnc->setJetEta(fabs(jet.eta()));
-	     jecUnc->setJetPt(jet.pt());
-	     jet_Unc = jecUnc->getUncertainty(true);
-	  }
-	
-	ftree->jet_Unc.push_back(jet_Unc);
+//	jecUnc->setJetEta(fabs(jet.eta()));
+//	jecUnc->setJetPt(jet.pt());
+
+//	ftree->jet_Unc.push_back(jecUnc->getUncertainty(true));
+//	FIXME
+	ftree->jet_Unc.push_back(-666.);
 	
 	ftree->jet_ntrk.push_back(jet.associatedTracks().size());
 
@@ -2169,23 +2211,16 @@ void FlatTreeProducer::endJob()
 // ------------ method called when starting to processes a run  ------------
 void FlatTreeProducer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 {
-   if( !isData_ )
-     {	
-	edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
-	iSetup.get<JetCorrectionsRecord>().get("AK4PF",JetCorParColl);
-	JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
-	
-	jecUnc = new JetCorrectionUncertainty(JetCorPar);
-     }   
+//   edm::Handle<JetCorrectorParametersCollection> JetCorParColl;
+//   iSetup.get<JetCorrectionsRecord>().get("AK4PF",JetCorParColl);
+//   JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
+   
+//   jecUnc = new JetCorrectionUncertainty(JetCorPar);                
 }
                 
 // ------------ method called when ending the processing of a run  ------------
 void FlatTreeProducer::endRun(edm::Run const&, edm::EventSetup const&)
 {
-   if( !isData_ )
-     {	
-	delete jecUnc;
-     }   
 }
 
 void FlatTreeProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions)
