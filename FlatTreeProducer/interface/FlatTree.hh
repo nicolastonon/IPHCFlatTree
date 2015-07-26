@@ -163,6 +163,8 @@ class FlatTree
    std::vector<int> el_isGsfCtfScPixChargeConsistent;
    std::vector<float> el_dB3D;
    std::vector<float> el_edB3D;
+   std::vector<float> el_dB;
+   std::vector<float> el_edB;
 
    std::vector<float> el_miniIso;
 
@@ -229,6 +231,9 @@ class FlatTree
    std::vector<float> el_ecalEnergy;
 
    std::vector<float> el_mvaNonTrigV0;
+   std::vector<float> el_mvaNonTrigCat;
+   std::vector<bool> el_mvaPassMedium;
+   std::vector<bool> el_mvaPassTight;
 
    std::vector<float> el_lepMVA;
 
