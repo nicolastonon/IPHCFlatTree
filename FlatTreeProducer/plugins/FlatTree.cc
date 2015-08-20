@@ -364,7 +364,8 @@ void FlatTree::Init()
    tau_byLooseCombinedIsolationDeltaBetaCorr3Hits.clear();
    tau_byMediumCombinedIsolationDeltaBetaCorr3Hits.clear();
    tau_byTightCombinedIsolationDeltaBetaCorr3Hits.clear();
-   
+   tau_byMediumIsolationMVA3newDMwLT.clear();
+
    tau_againstMuonLoose3.clear();
    tau_againstMuonTight3.clear();
    
@@ -521,6 +522,16 @@ void FlatTree::Init()
    genJet_invisibleEnergy.clear();
    genJet_auxiliaryEnergy.clear();
    genJet_flavour.clear();
+
+   pfcand_n = 0;
+   pfcand_pt.clear();
+   pfcand_eta.clear();
+   pfcand_phi.clear();
+   pfcand_E.clear();
+   pfcand_charge.clear();
+   pfcand_id.clear();
+   pfcand_dz.clear();
+
 }
 
 void FlatTree::CreateBranches(int buffersize = 32000)
@@ -877,7 +888,9 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("tau_byLooseCombinedIsolationDeltaBetaCorr3Hits") ) tree->Branch("tau_byLooseCombinedIsolationDeltaBetaCorr3Hits", "std::vector<float>", &tau_byLooseCombinedIsolationDeltaBetaCorr3Hits, buffersize);
    if( doWrite("tau_byMediumCombinedIsolationDeltaBetaCorr3Hits") ) tree->Branch("tau_byMediumCombinedIsolationDeltaBetaCorr3Hits", "std::vector<float>", &tau_byMediumCombinedIsolationDeltaBetaCorr3Hits, buffersize);
    if( doWrite("tau_byTightCombinedIsolationDeltaBetaCorr3Hits") ) tree->Branch("tau_byTightCombinedIsolationDeltaBetaCorr3Hits", "std::vector<float>", &tau_byTightCombinedIsolationDeltaBetaCorr3Hits, buffersize);
-   
+   if( doWrite("tau_byMediumIsolationMVA3newDMwLT") ) tree->Branch("tau_byMediumIsolationMVA3newDMwLT", "std::vector<float>", &tau_byMediumIsolationMVA3newDMwLT, buffersize);
+
+
    if( doWrite("tau_againstMuonLoose3") ) tree->Branch("tau_againstMuonLoose3", "std::vector<float>", &tau_againstMuonLoose3, buffersize);
    if( doWrite("tau_againstMuonTight3") ) tree->Branch("tau_againstMuonTight3", "std::vector<float>", &tau_againstMuonTight3, buffersize);
    
@@ -946,6 +959,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("jet_Unc") ) tree->Branch("jet_Unc", "std::vector<float>", &jet_Unc, buffersize);
    
    if( doWrite("jet_pileupJetId") ) tree->Branch("jet_pileupJetId", "std::vector<float>", &jet_pileupJetId, buffersize);
+   if( doWrite("jet_looseJetID") ) tree->Branch("jet_looseJetID", "std::vector<float>", &jet_looseJetID, buffersize);
+   if( doWrite("jet_tightJetID") ) tree->Branch("jet_tightJetID", "std::vector<float>", &jet_tightJetID, buffersize);
 
    if( doWrite("jet_hasGenJet") ) tree->Branch("jet_hasGenJet", "std::vector<bool>", &jet_hasGenJet, buffersize);   
    if( doWrite("jet_genJet_pt") ) tree->Branch("jet_genJet_pt", "std::vector<float>", &jet_genJet_pt, buffersize);
@@ -1034,7 +1049,16 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("genJet_invisibleEnergy") ) tree->Branch("genJet_invisibleEnergy", "std::vector<float>", &genJet_invisibleEnergy, buffersize);
    if( doWrite("genJet_auxiliaryEnergy") ) tree->Branch("genJet_auxiliaryEnergy", "std::vector<float>", &genJet_auxiliaryEnergy, buffersize);
    if( doWrite("genJet_flavour") ) tree->Branch("genJet_flavour", "std::vector<int>", &genJet_flavour, buffersize);
-   
+  
+   if( doWrite("pfcand_n") ) tree->Branch("pfcand_n", &pfcand_n, "pfcand_n/I", buffersize);
+   if( doWrite("pfcand_pt") ) tree->Branch("pfcand_pt", "std::vector<float>", &pfcand_pt, buffersize);
+   if( doWrite("pfcand_eta") ) tree->Branch("pfcand_eta", "std::vector<float>", &pfcand_eta, buffersize);
+   if( doWrite("pfcand_phi") ) tree->Branch("pfcand_phi", "std::vector<float>", &pfcand_phi, buffersize);
+   if( doWrite("pfcand_E") ) tree->Branch("pfcand_E", "std::vector<float>", &pfcand_E, buffersize);
+   if( doWrite("pfcand_charge") ) tree->Branch("pfcand_charge", "std::vector<float>", &pfcand_charge, buffersize);
+   if( doWrite("pfcand_id") ) tree->Branch("pfcand_id", "std::vector<int>", &pfcand_id, buffersize);
+   if( doWrite("pfcand_dz") ) tree->Branch("pfcand_dz", "std::vector<float>", &pfcand_dz, buffersize);
+
    if( doWrite("mc_truth_tth") )
      {
 	tree->Branch("mc_truth_tth_channel", &mc_truth_tth_channel, "mc_truth_tth_channel/I", buffersize);

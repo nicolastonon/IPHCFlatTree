@@ -1864,7 +1864,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits"));
 	ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"));
 	ftree->tau_byTightCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits"));
-	
+	ftree->tau_byMediumIsolationMVA3newDMwLT.push_back(tau.tauID("byMediumIsolationMVA3newDMwLT"));
+
 	ftree->tau_againstMuonLoose3.push_back(tau.tauID("againstMuonLoose3"));
 	ftree->tau_againstMuonTight3.push_back(tau.tauID("againstMuonTight3"));
 	
@@ -1979,6 +1980,22 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_photonEnergy.push_back(jet.photonEnergy());
 
 	ftree->jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	
+	// jetID
+	float NHF = jet.neutralHadronEnergyFraction();
+	float NEMF = jet.neutralEmEnergyFraction();
+	float CHF = jet.chargedHadronEnergyFraction();
+	float MUF = jet.muonEnergyFraction();
+	float CEMF = jet.chargedEmEnergyFraction();
+	float NumConst = jet.chargedMultiplicity()+jet.neutralMultiplicity();
+	float CHM = jet.chargedMultiplicity();
+	float eta = jet.eta();
+	bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((abs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || abs(eta)>2.4); 
+	bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((abs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || abs(eta)>2.4);         
+	
+	ftree->jet_looseJetID.push_back(looseJetID);
+	ftree->jet_tightJetID.push_back(tightJetID);
+
 
 	const reco::GenJet* genJet = jet.genJet();
 	bool hasGenInfo = (genJet);
@@ -2101,6 +2118,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     
 	     ftree->jetPuppi_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
 	     
+
+
 	     const reco::GenJet* genJet = jet.genJet();
 	     bool hasGenInfo = (genJet);
 	     ftree->jetPuppi_hasGenJet.push_back(hasGenInfo);
@@ -2193,7 +2212,24 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->genJet_flavour.push_back(genJet_flavour);
 	  }	
      }
+  
+   // ##########################
+   //   PF candidates
+   // ##########################
+   int nPfcand = pfcands->size();
+   ftree->pfcand_n = nPfcand;
    
+   for (const pat::PackedCandidate &pfc : *pfcands){
+       ftree->pfcand_pt.push_back(pfc.pt());
+       ftree->pfcand_eta.push_back(pfc.eta());
+       ftree->pfcand_phi.push_back(pfc.phi());
+       ftree->pfcand_E.push_back(pfc.energy());
+       ftree->pfcand_charge.push_back(pfc.charge());
+       ftree->pfcand_id.push_back(pfc.pdgId());
+       ftree->pfcand_dz.push_back(pfc.dz());
+   }
+    
+
    this->KeepEvent();
    ftree->tree->Fill();
    

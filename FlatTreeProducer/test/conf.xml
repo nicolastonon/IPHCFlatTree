@@ -337,6 +337,17 @@
 <var name="jet_phi" save="1"></var>
 <var name="jet_m" save="1"></var>
 <var name="jet_E" save="1"></var>
+<var name="jet_looseJetID" save="1"></var>
+<var name="jet_tightJetID" save="1"></var>
+
+<var name="pfcand_n" save="1"></var>
+<var name="pfcand_pt" save="1"></var>
+<var name="pfcand_eta" save="1"></var>
+<var name="pfcand_phi" save="1"></var>
+<var name="pfcand_E" save="1"></var>
+<var name="pfcand_charge" save="1"></var>
+<var name="pfcand_id" save="1"></var>
+<var name="pfcand_dz" save="1"></var>
 
 <var name="tau_n" save="1"></var>
 <var name="tau_pt" save="1"></var>
@@ -363,7 +374,8 @@
 <var name="tau_byLooseCombinedIsolationDeltaBetaCorr3Hits" save="1"></var>
 <var name="tau_byMediumCombinedIsolationDeltaBetaCorr3Hits" save="1"></var>
 <var name="tau_byTightCombinedIsolationDeltaBetaCorr3Hits" save="1"></var>
-   
+<var name="tau_byMediumIsolationMVA3newDMwLT" save="1"></var>  
+
 <var name="tau_againstMuonLoose3" save="1"></var>
 <var name="tau_againstMuonTight3" save="1"></var>
 

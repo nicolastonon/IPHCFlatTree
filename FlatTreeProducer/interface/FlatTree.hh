@@ -400,7 +400,8 @@ class FlatTree
    std::vector<float> tau_byLooseCombinedIsolationDeltaBetaCorr3Hits;
    std::vector<float> tau_byMediumCombinedIsolationDeltaBetaCorr3Hits;
    std::vector<float> tau_byTightCombinedIsolationDeltaBetaCorr3Hits;
-   
+   std::vector<float> tau_byMediumIsolationMVA3newDMwLT;
+
    std::vector<float> tau_againstMuonLoose3;
    std::vector<float> tau_againstMuonTight3;
 
@@ -471,6 +472,8 @@ class FlatTree
    std::vector<float> jet_Unc;
    
    std::vector<float> jet_pileupJetId;
+   std::vector<float> jet_looseJetID;
+   std::vector<float> jet_tightJetID;
 
    std::vector<bool> jet_hasGenJet;   
    std::vector<float> jet_genJet_pt;
@@ -563,7 +566,20 @@ class FlatTree
    std::vector<float> genJet_invisibleEnergy;
    std::vector<float> genJet_auxiliaryEnergy;
    std::vector<int>   genJet_flavour;
+  
+  
+   //PFcands
    
+   int pfcand_n;
+   std::vector<float> pfcand_pt;
+   std::vector<float> pfcand_eta;
+   std::vector<float> pfcand_phi;
+   std::vector<float> pfcand_E;
+   std::vector<float> pfcand_charge;
+   std::vector<int> pfcand_id;
+   std::vector<float> pfcand_dz;
+
+
    // ttH
    int mc_truth_tth_channel;
 
