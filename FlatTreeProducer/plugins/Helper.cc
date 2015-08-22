@@ -9,7 +9,8 @@ float GetDeltaR(float eta1,float phi1,float eta2,float phi2)
    return TMath::Sqrt( (eta2-eta1)*(eta2-eta1) + DeltaPhi*DeltaPhi );
 }
 
-// https://github.com/manuelfs/CfANtupler/blob/master/minicfa/interface/miniAdHocNTupler.h#L203
+// https://twiki.cern.ch/twiki/bin/view/CMS/MiniIsolationSUSY
+// https://github.com/manuelfs/CfANtupler/blob/master/minicfa/interface/miniAdHocNTupler.h
 double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
 		      const reco::Candidate* ptcl,
 		      double r_iso_min, double r_iso_max, double kt_scale,
