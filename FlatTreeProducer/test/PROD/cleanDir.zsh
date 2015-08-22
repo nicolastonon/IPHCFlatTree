@@ -1,6 +1,6 @@
 #!/bin/env zsh
 
-ntuplev="v20150614"
+ntuplev="MantaRay-patch7-v20150822"
 
 cleanf=1 # clean all ntuples ?
 opath="/dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/FlatTree/${ntuplev}/"
