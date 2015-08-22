@@ -19,9 +19,12 @@ git cms-init
 # Clone this repo
 git clone https://github.com/IPHC/IPHCFlatTree.git
 
+# Egamma ID
+git cms-merge-topic ikrav:egm_id_747_v2
+
 # Switch to particular release, otherwise ignore these lines to use the HEAD
 cd IPHCFlatTree
-git checkout MantaRay-patch6
+git checkout MantaRay-patch7
 cd ../
 
 # Compile the monster
