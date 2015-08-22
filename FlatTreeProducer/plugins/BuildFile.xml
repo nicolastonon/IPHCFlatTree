@@ -6,5 +6,6 @@
 <use name="EgammaAnalysis/ElectronTools"/>
 <use name="CondFormats/JetMETObjects"/>
 <use name="JetMETCorrections/Objects"/>
+<use name="HLTrigger/HLTcore"/>
 #<flags LDFLAGS="-L$CMSSW_BASE/src/FlatTreeProducer/tinyxml2 -ltinyxml2"/>
 <flags EDM_PLUGIN="1"/>
