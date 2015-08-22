@@ -30,7 +30,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 #process.MessageLogger.cerr.ERROR = cms.untracked.PSet( limit = cms.untracked.int32(0) )
 
 process.load('Configuration.StandardSequences.Services_cff')
-process.load("Configuration.StandardSequences.Geometry_cff")
+process.load('Configuration.Geometry.GeometryIdeal_cff')
 process.load("Configuration.StandardSequences.MagneticField_cff")
 
 if options.isData:
