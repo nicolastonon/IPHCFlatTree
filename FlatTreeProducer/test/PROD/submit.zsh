@@ -2,8 +2,8 @@
 
 slist="list.txt"
 pset="crabConfigTemplate.py"
-ver="v20150715"
-prodv="/store/user/kskovpen/FlatTree/TEST-${ver}/"
+ver="MantaRay-patch7-v20150822"
+prodv="/store/user/kskovpen/FlatTree/${ver}/"
 
 rm -f crabConfig.py*
 
