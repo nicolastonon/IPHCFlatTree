@@ -1,6 +1,7 @@
 #!/bin/env zsh
 
-wpath="https://github.com/CERN-PH-CMG/cmg-cmssw/blob/CMGTools-from-CMSSW_7_2_3/CMGTools/TTHAnalysis/data/leptonMVA/tth"
+# use blob in the link
+wpath="https://github.com/CERN-PH-CMG/cmg-cmssw/blob/CMGTools-from-CMSSW_7_4_7/CMGTools/TTHAnalysis/data/leptonMVA/tth"
 
 wget "${wpath}/el_pteta_high_cb_BDTG.weights.xml?raw=true"
 mv el_pteta_high_cb_BDTG.weights.xml\?raw\=true el_pteta_high_cb_BDTG.weights.xml
