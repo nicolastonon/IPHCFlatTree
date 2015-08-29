@@ -1105,6 +1105,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	
 	std::string triggerName = names.triggerName(i);
 	
+	if( !foundTrigger(triggerName) ) continue;
+	
 	ftree->trigger.push_back(i);
 	ftree->trigger_name.push_back(triggerName);
 	ftree->trigger_pass.push_back(triggerBits->accept(i) ? true : false);
