@@ -121,8 +121,8 @@
     <var name="triggerobject_eta" save="1"></var>
     <var name="triggerobject_phi" save="1"></var>
     <var name="triggerobject_collection" save="1"></var>    
-    <var name="triggerobject__filtersIds_n" save="1"></var>
-    <var name="triggerobject__filtersIds" save="1"></var>
+    <var name="triggerobject_filterIds_n" save="1"></var>
+    <var name="triggerobject_filterIds" save="1"></var>
     <var name="triggerobject_isTriggerL1Mu" save="1"></var>
     <var name="triggerobject_isTriggerL1NoIsoEG" save="1"></var>
     <var name="triggerobject_isTriggerL1IsoEG" save="1"></var>
