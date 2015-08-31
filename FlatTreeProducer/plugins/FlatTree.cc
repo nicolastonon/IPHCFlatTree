@@ -1689,8 +1689,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("jet_pileupJetId") ) tree->Branch("jet_pileupJetId", "std::vector<float>", &jet_pileupJetId, buffersize);
    
-   if( doWrite("jet_looseJetID") ) tree->Branch("jet_looseJetID", "std::vector<float>", &jet_looseJetID, buffersize);
-   if( doWrite("jet_tightJetID") ) tree->Branch("jet_tightJetID", "std::vector<float>", &jet_tightJetID, buffersize);
+   if( doWrite("jet_looseJetID") ) tree->Branch("jet_looseJetID", "std::vector<bool>", &jet_looseJetID, buffersize);
+   if( doWrite("jet_tightJetID") ) tree->Branch("jet_tightJetID", "std::vector<bool>", &jet_tightJetID, buffersize);
 
    if( doWrite("jet_hasGenJet") ) tree->Branch("jet_hasGenJet", "std::vector<bool>", &jet_hasGenJet, buffersize);   
    if( doWrite("jet_genJet_pt") ) tree->Branch("jet_genJet_pt", "std::vector<float>", &jet_genJet_pt, buffersize);
