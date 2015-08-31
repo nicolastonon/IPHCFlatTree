@@ -841,8 +841,8 @@ class FlatTree
    
    std::vector<float> jet_pileupJetId;
    
-   std::vector<float> jet_looseJetID;
-   std::vector<float> jet_tightJetID;
+   std::vector<bool> jet_looseJetID;
+   std::vector<bool> jet_tightJetID;
 
    std::vector<bool> jet_hasGenJet;   
    std::vector<float> jet_genJet_pt;
