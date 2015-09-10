@@ -2571,15 +2571,48 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    int nPfcand = pfcands->size();
    ftree->pfcand_n = nPfcand;
+   bool do_sel_pfc = ftree->doWrite("sel_pfcand");
    for( const pat::PackedCandidate &pfc : *pfcands )
      {
-	ftree->pfcand_pt.push_back(pfc.pt());
-	ftree->pfcand_eta.push_back(pfc.eta());
-	ftree->pfcand_phi.push_back(pfc.phi());
-	ftree->pfcand_E.push_back(pfc.energy());
-	ftree->pfcand_charge.push_back(pfc.charge());
-	ftree->pfcand_id.push_back(pfc.pdgId());
-	ftree->pfcand_dz.push_back(pfc.dz());
+	//compute track Iso
+	double trackIso = 0;
+   	// run over all pf candidates
+	for( const pat::PackedCandidate &pfc2 : *pfcands )
+	{
+		if(&pfc==&pfc2) continue ; // do not count particle itself
+		if(pfc.charge()==0) continue;
+		if(pfc.dz()>0.1) continue;
+		if(pfc.pt()<0) continue;
+		if(deltaR(pfc,pfc2)<0.3) trackIso+=pfc2.pt();	
+	}
+	
+	if(do_sel_pfc){
+		if(pfc.charge()==0) continue;
+		if(pfc.dz()>0.1) continue;
+		if(pfc.pt()<10) continue;
+		if(fabs(pfc.eta())>2.4) continue;
+		if( (trackIso<6 && pfc.pt()>=60 ) || (trackIso/pfc.pt()<0.1) ){
+			ftree->pfcand_pt.push_back(pfc.pt());
+			ftree->pfcand_eta.push_back(pfc.eta());
+			ftree->pfcand_phi.push_back(pfc.phi());
+			ftree->pfcand_E.push_back(pfc.energy());
+			ftree->pfcand_charge.push_back(pfc.charge());
+			ftree->pfcand_id.push_back(pfc.pdgId());
+			ftree->pfcand_dz.push_back(pfc.dz());
+			ftree->pfcand_trackIso.push_back(trackIso);
+     		}
+	}
+	else{
+			ftree->pfcand_pt.push_back(pfc.pt());
+			ftree->pfcand_eta.push_back(pfc.eta());
+			ftree->pfcand_phi.push_back(pfc.phi());
+			ftree->pfcand_E.push_back(pfc.energy());
+			ftree->pfcand_charge.push_back(pfc.charge());
+			ftree->pfcand_id.push_back(pfc.pdgId());
+			ftree->pfcand_dz.push_back(pfc.dz());
+			ftree->pfcand_trackIso.push_back(trackIso);
+		
+	}
      }   
 
    this->KeepEvent();

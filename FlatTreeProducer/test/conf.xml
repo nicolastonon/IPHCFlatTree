@@ -104,7 +104,7 @@
     <var name="mc_pu_ntrks_lowpT" save="1" mc="1"></var>
     <var name="mc_pu_ntrks_highpT" save="1" mc="1"></var>
     <var name="mc_truth_p4" save="0" mc="1"></var>
-    <var name="mc_truth_tth" save="0" mc="1"></var>
+    <var name="mc_truth_tth" save="1" mc="1"></var>
     <var name="mc_truth_ttz" save="0" mc="1"></var>
     <var name="mc_truth_ttw" save="0" mc="1"></var>
     <var name="mc_truth_tzq" save="0" mc="1"></var>
@@ -772,6 +772,7 @@
     <var name="jetPuppi_genParton_E" save="1" mc="1"></var>
     <var name="jetPuppi_genParton_status" save="1" mc="1"></var>
     <var name="jetPuppi_genParton_id" save="1" mc="1"></var>
+    <var name="sel_pfcand" save="1"></var>
     <var name="pfcand_n" save="1"></var>
     <var name="pfcand_pt" save="1"></var>
     <var name="pfcand_eta" save="1"></var>
@@ -780,5 +781,6 @@
     <var name="pfcand_charge" save="1"></var>
     <var name="pfcand_id" save="1"></var>
     <var name="pfcand_dz" save="1"></var>
-    <var name="gen_all" save="1" mc="1"></var>
+    <var name="pfcand_trackIso" save="1"></var>
+    <var name="gen_all" save="0" mc="1"></var>
 </variables>

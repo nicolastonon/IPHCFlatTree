@@ -945,6 +945,7 @@ class FlatTree
    std::vector<float> pfcand_charge;
    std::vector<int> pfcand_id;
    std::vector<float> pfcand_dz;
+   std::vector<float> pfcand_trackIso;
    
    // ttH
    int mc_truth_tth_channel;
