@@ -270,6 +270,17 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_j1_p4.Clear();
    tree.mc_truth_j2_p4.Clear();
    tree.mc_truth_j3_p4.Clear();
+   
+   tree.mc_truth_gammal1_p4.Clear();
+   tree.mc_truth_gammal2_p4.Clear();
+   tree.mc_truth_gammatau1_p4.Clear();
+   tree.mc_truth_gammatau2_p4.Clear();
+   tree.mc_truth_gammataul1_p4.Clear();
+   tree.mc_truth_gammataul2_p4.Clear();
+   tree.mc_truth_gammataunu1_p4.Clear();
+   tree.mc_truth_gammataunu2_p4.Clear();
+   tree.mc_truth_gammataunutau1_p4.Clear();
+   tree.mc_truth_gammataunutau2_p4.Clear();
 
    // pt
 
@@ -372,6 +383,17 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_j2_pt = DEFVAL;
    tree.mc_truth_j3_pt = DEFVAL;
    
+   tree.mc_truth_gammal1_pt = DEFVAL;
+   tree.mc_truth_gammal2_pt = DEFVAL;
+   tree.mc_truth_gammatau1_pt = DEFVAL;
+   tree.mc_truth_gammatau2_pt = DEFVAL;
+   tree.mc_truth_gammataul1_pt = DEFVAL;
+   tree.mc_truth_gammataul2_pt = DEFVAL;
+   tree.mc_truth_gammataunu1_pt = DEFVAL;
+   tree.mc_truth_gammataunu2_pt = DEFVAL;
+   tree.mc_truth_gammataunutau1_pt = DEFVAL;
+   tree.mc_truth_gammataunutau2_pt = DEFVAL;
+
    // eta
 
    tree.mc_truth_h0_eta = DEFVAL;
@@ -472,6 +494,17 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_j1_eta = DEFVAL;
    tree.mc_truth_j2_eta = DEFVAL;
    tree.mc_truth_j3_eta = DEFVAL;
+   
+   tree.mc_truth_gammal1_eta = DEFVAL;
+   tree.mc_truth_gammal2_eta = DEFVAL;
+   tree.mc_truth_gammatau1_eta = DEFVAL;
+   tree.mc_truth_gammatau2_eta = DEFVAL;
+   tree.mc_truth_gammataul1_eta = DEFVAL;
+   tree.mc_truth_gammataul2_eta = DEFVAL;
+   tree.mc_truth_gammataunu1_eta = DEFVAL;
+   tree.mc_truth_gammataunu2_eta = DEFVAL;
+   tree.mc_truth_gammataunutau1_eta = DEFVAL;
+   tree.mc_truth_gammataunutau2_eta = DEFVAL;
    
    // phi
    
@@ -574,6 +607,17 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_j2_phi = DEFVAL;
    tree.mc_truth_j3_phi = DEFVAL;
    
+   tree.mc_truth_gammal1_phi = DEFVAL;
+   tree.mc_truth_gammal2_phi = DEFVAL;
+   tree.mc_truth_gammatau1_phi = DEFVAL;
+   tree.mc_truth_gammatau2_phi = DEFVAL;
+   tree.mc_truth_gammataul1_phi = DEFVAL;
+   tree.mc_truth_gammataul2_phi = DEFVAL;
+   tree.mc_truth_gammataunu1_phi = DEFVAL;
+   tree.mc_truth_gammataunu2_phi = DEFVAL;
+   tree.mc_truth_gammataunutau1_phi = DEFVAL;
+   tree.mc_truth_gammataunutau2_phi = DEFVAL;
+  
    // E
    
    tree.mc_truth_h0_E = DEFVAL;
@@ -675,6 +719,17 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_j2_E = DEFVAL;
    tree.mc_truth_j3_E = DEFVAL;
    
+   tree.mc_truth_gammal1_E = DEFVAL;
+   tree.mc_truth_gammal2_E = DEFVAL;
+   tree.mc_truth_gammatau1_E = DEFVAL;
+   tree.mc_truth_gammatau2_E = DEFVAL;
+   tree.mc_truth_gammataul1_E = DEFVAL;
+   tree.mc_truth_gammataul2_E = DEFVAL;
+   tree.mc_truth_gammataunu1_E = DEFVAL;
+   tree.mc_truth_gammataunu2_E = DEFVAL;
+   tree.mc_truth_gammataunutau1_E = DEFVAL;
+   tree.mc_truth_gammataunutau2_E = DEFVAL;
+  
    // pdgId
    
    tree.mc_truth_h0_id = DEFVAL;
@@ -775,7 +830,18 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_j1_id = DEFVAL;
    tree.mc_truth_j2_id = DEFVAL;
    tree.mc_truth_j3_id = DEFVAL;
-
+   
+   tree.mc_truth_gammal1_id = DEFVAL;
+   tree.mc_truth_gammal2_id = DEFVAL;
+   tree.mc_truth_gammatau1_id = DEFVAL;
+   tree.mc_truth_gammatau2_id = DEFVAL;
+   tree.mc_truth_gammataul1_id = DEFVAL;
+   tree.mc_truth_gammataul2_id = DEFVAL;
+   tree.mc_truth_gammataunu1_id = DEFVAL;
+   tree.mc_truth_gammataunu2_id = DEFVAL;
+   tree.mc_truth_gammataunutau1_id = DEFVAL;
+   tree.mc_truth_gammataunutau2_id = DEFVAL;
+  
    // status
 
    tree.mc_truth_h0_status = DEFVAL;
@@ -876,6 +942,18 @@ void MCTruth::Init(FlatTree &tree)
    tree.mc_truth_j1_status = DEFVAL;
    tree.mc_truth_j2_status = DEFVAL;
    tree.mc_truth_j3_status = DEFVAL;
+   
+   tree.mc_truth_gammal1_status = DEFVAL;
+   tree.mc_truth_gammal2_status = DEFVAL;
+   tree.mc_truth_gammatau1_status = DEFVAL;
+   tree.mc_truth_gammatau2_status = DEFVAL;
+   tree.mc_truth_gammataul1_status = DEFVAL;
+   tree.mc_truth_gammataul2_status = DEFVAL;
+   tree.mc_truth_gammataunu1_status = DEFVAL;
+   tree.mc_truth_gammataunu2_status = DEFVAL;
+   tree.mc_truth_gammataunutau1_status = DEFVAL;
+   tree.mc_truth_gammataunutau2_status = DEFVAL;
+  
 
    // tZq
    tree.mc_truth_tzq_channel = DEFVAL;
@@ -2977,6 +3055,7 @@ void MCTruth::fillTTZSignalGenParticles(const edm::Event& iEvent,
    
    int ipart = 0;
    
+    
    for(genParticleSrc = genParticlesCollection.begin();
        genParticleSrc != genParticlesCollection.end(); 
        genParticleSrc++)
@@ -2998,25 +3077,42 @@ void MCTruth::fillTTZSignalGenParticles(const edm::Event& iEvent,
 	     else if( !j3 )
 	       j3 = mcp;
 	  }	
-
-	if( ((fabs(mcp->pdgId()) == 11 ||
-	      fabs(mcp->pdgId()) == 13) &&
-	     mcp->status() == 3) ||
+	  
+            
+	if(( (fabs(mcp->pdgId()) == 11 ||
+	     fabs(mcp->pdgId()) == 13) &&
+	     mcp->status() == 1
+	     )      
+	     ||
 	    (fabs(mcp->pdgId()) == 15 &&
-		mcp->status() == 2) )
-	  {
-	     if( fabs(mcp->pdgId()) == 11 ||
+		mcp->status() == 2
+		) 
+	    )
+	  {  
+	      
+	  //std::cout <<"lepton "<< mcp->pdgId()<<" " << mcp->status() <<" "<<  mcp->p4().pt()<< " " << barcode << std::endl;
+	  //std::cout <<"lepton "<< getMother(*mcp)->pdgId() << " " << getMother(*mcp)->status() << std::endl;
+	  //std::cout << "mother form mother "<<(getMother(*getMother(*mcp)))->pdgId() << std::endl;
+	   
+	 if  ((fabs(getMother(*mcp)->pdgId()) == 21 || (fabs(getMother(*mcp)->pdgId()) >= 1 && fabs(getMother(*mcp)->pdgId()) <= 6)) && getMother(*mcp)->status() == 21) 
+	   { 
+	   
+	       if( fabs(mcp->pdgId()) == 11 ||
 		 fabs(mcp->pdgId()) == 13 ) // l
-	       {
-		  if( gammal1 && !gammal2 ) {gammal2 = mcp;}
+	       {  
+	       
+	          //std::cout <<"youpiii "<< fabs(getMother(*mcp)->pdgId()) <<" "<< getMother(*mcp)->status() <<  std::endl;//}
+		  
+	          if( gammal1 && !gammal2 ) {gammal2 = mcp;}
 		  if( !gammal1 ) {gammal1 = mcp;}
+		  
 	       }			    
 	     if( fabs(mcp->pdgId()) == 15 ) // tau
 	       {
 		  if( gammatau1 )
 		    {
 		       gammatau2 = mcp;
-				      
+		             
 		       const reco::GenParticleRefVector& daughterRefs = gammatau2->daughterRefVector();
 		       for(reco::GenParticleRefVector::const_iterator gammatau2_idr = daughterRefs.begin();
 			   gammatau2_idr!= daughterRefs.end(); ++gammatau2_idr)
@@ -3077,11 +3173,15 @@ void MCTruth::fillTTZSignalGenParticles(const edm::Event& iEvent,
 		    }
 	       }	     
 	  }		  
+       }
 	
 	// Z
 	if( fabs(mcp->pdgId()) == 23 &&
-	    (mcp->status() == 62 || mcp->status() == 3) )
-	  {
+	     (mcp->status() == 62 || mcp->status() == 3) 
+	    )
+	  {  
+	     //std::cout << "Z " <<fabs(mcp->pdgId()) << " " << mcp->status() <<" " << mcp->mass()<< std::endl;
+	  
 	     if( !Z ) {Z = mcp;}
 	     
 	     if( Z )
@@ -3095,7 +3195,8 @@ void MCTruth::fillTTZSignalGenParticles(const edm::Event& iEvent,
 			    const reco::GenParticleRef& genParticle = (*Z_idr);
 			    const reco::GenParticle *Z_d = genParticle.get();
 			    reco::GenParticle *pff = getUnique(Z_d,0);
-			    
+			      
+			      
 			    if( fabs(pff->pdgId()) == 11 ||
 				fabs(pff->pdgId()) == 13 ) // l
 			      {
@@ -3185,12 +3286,17 @@ void MCTruth::fillTTZSignalGenParticles(const edm::Event& iEvent,
 	       }
 	  }	
 	
+	
+	
 	// top decays
 	if( fabs(mcp->pdgId()) == 6
 	    && ( (mcp->status() == 62) || 
 		 (mcp->status() == 3)
-	       ) )
-	  {
+	       ) 
+	       )
+	  { 
+	     //std::cout <<"top "<< mcp->status() <<" "<<mcp->pdgId() << std::endl;
+	     	  
 	     if( t1 && !t2 ) {t2 = const_cast<reco::GenParticle*>(mcp);}
 	     if( !t1 ) {t1 = const_cast<reco::GenParticle*>(mcp);}
 
@@ -3827,6 +3933,7 @@ void MCTruth::fillTTZSignalGenParticles(const edm::Event& iEvent,
    if( j1 ) tree.mc_truth_j1_status = j1->status();
    if( j2 ) tree.mc_truth_j2_status = j2->status();
    if( j3 ) tree.mc_truth_j3_status = j3->status();
+   	
 }
 
 void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
