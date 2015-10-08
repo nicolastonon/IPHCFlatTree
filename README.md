@@ -8,7 +8,7 @@ Install
 
 ```
 # CMSSW Release
-RELEASE=7_4_7
+RELEASE=7_4_12
 
 # Setup release
 cmsrel CMSSW_$RELEASE
@@ -20,11 +20,11 @@ git cms-init
 git clone https://github.com/IPHC/IPHCFlatTree.git
 
 # Egamma ID
-git cms-merge-topic ikrav:egm_id_747_v2
+git cms-merge-topic ikrav:egm_id_7.4.12_v1
 
 # Switch to particular release, otherwise ignore these lines to use the HEAD
 cd IPHCFlatTree
-git checkout MantaRay-patch7
+git checkout MantaRay-patch8
 cd ../
 
 # Compile the monster
