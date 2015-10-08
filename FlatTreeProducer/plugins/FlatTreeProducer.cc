@@ -1291,15 +1291,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->met_phi = metv.phi();
 	ftree->met_sumet = metv.sumEt();
 	
-	ftree->met_uncorrectedPt = metv.uncorrectedPt();
-	ftree->met_uncorrectedPhi = metv.uncorrectedPhi();
-	ftree->met_uncorrectedSumEt = metv.uncorrectedSumEt();
+	ftree->met_uncorrectedPt = metv.uncorPt();
+	ftree->met_uncorrectedPhi = metv.uncorPhi();
+	ftree->met_uncorrectedSumEt = metv.uncorSumEt();
 
 	ftree->met_caloMETPt = metv.caloMETPt();
 	ftree->met_caloMETPhi = metv.caloMETPhi();
 	ftree->met_caloMETSumEt = metv.caloMETSumEt();
 	
-	pat::MET::METUncertaintyLevel level = pat::MET::METUncertaintyLevel::Type1;
+	pat::MET::METCorrectionLevel level = pat::MET::METCorrectionLevel::Type1;
 	
 	ftree->met_shiftedPx_JetEnUp = metv.shiftedPx(pat::MET::METUncertainty::JetEnUp,level);
 	ftree->met_shiftedPx_JetEnDown = metv.shiftedPx(pat::MET::METUncertainty::JetEnDown,level);
