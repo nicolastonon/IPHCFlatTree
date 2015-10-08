@@ -3954,6 +3954,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    reco::GenParticle *Wq1 = 0;
    reco::GenParticle *Wq2 = 0;
 
+   /*
    reco::GenParticle *gammal1 = 0;
    reco::GenParticle *gammal2 = 0;
    reco::GenParticle *gammatau1 = 0;
@@ -3963,7 +3964,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    reco::GenParticle *gammataunu1 = 0;
    reco::GenParticle *gammataunu2 = 0;
    reco::GenParticle *gammataunutau1 = 0;
-   reco::GenParticle *gammataunutau2 = 0;
+   reco::GenParticle *gammataunutau2 = 0;*/
 
    reco::GenParticle *t1 = 0;
    reco::GenParticle *t2 = 0;   
@@ -4024,7 +4025,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
 	       j3 = mcp;
 	  }	
 
-	if( ((fabs(mcp->pdgId()) == 11 ||
+	/*if( ((fabs(mcp->pdgId()) == 11 ||
 	      fabs(mcp->pdgId()) == 13) &&
 	     mcp->status() == 3) ||
 	    (fabs(mcp->pdgId()) == 15 &&
@@ -4101,7 +4102,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
 			 }							  
 		    }
 	       }	     
-	  }		  
+	  }*/		  
 	
 	// W
 	if( fabs(mcp->pdgId()) == 24 &&
@@ -4365,6 +4366,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
 	     std::cout << "j2 = " << bool(j2) << std::endl;
 	     std::cout << "j3 = " << bool(j3) << std::endl;
 
+	     /*
 	     std::cout << "gamma->l1 = " << bool(gammal1) << std::endl;
 	     std::cout << "gamma->l2 = " << bool(gammal2) << std::endl;
 	     std::cout << "gamma->tau1 = " << bool(gammatau1) << std::endl;
@@ -4374,7 +4376,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
 	     std::cout << "gamma->tau2 = " << bool(gammatau2) << std::endl;
 	     std::cout << "gamma->tau2->l = " << bool(gammataul2) << std::endl;
 	     std::cout << "gamma->tau2->nu = " << bool(gammataunu2) << std::endl;
-	     std::cout << "gamma->tau2->nutau = " << bool(gammataunutau2) << std::endl;
+	     std::cout << "gamma->tau2->nutau = " << bool(gammataunutau2) << std::endl;*/
 
 	     std::cout << "W = " << bool(W) << std::endl;
 	     std::cout << "W->l = " << bool(Wl) << std::endl;
@@ -4393,6 +4395,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    
    // TLV
 
+   /*
    if( gammal1 ) p4toTLV(gammal1->p4(),tree.mc_truth_gammal1_p4);
    if( gammal2 ) p4toTLV(gammal2->p4(),tree.mc_truth_gammal2_p4);
    if( gammatau1 ) p4toTLV(gammatau1->p4(),tree.mc_truth_gammatau1_p4);
@@ -4402,7 +4405,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    if( gammataunu1 ) p4toTLV(gammataunu1->p4(),tree.mc_truth_gammataunu1_p4);
    if( gammataunu2 ) p4toTLV(gammataunu2->p4(),tree.mc_truth_gammataunu2_p4);
    if( gammataunutau1 ) p4toTLV(gammataunutau1->p4(),tree.mc_truth_gammataunutau1_p4);
-   if( gammataunutau2 ) p4toTLV(gammataunutau2->p4(),tree.mc_truth_gammataunutau2_p4);
+   if( gammataunutau2 ) p4toTLV(gammataunutau2->p4(),tree.mc_truth_gammataunutau2_p4);*/
 
    if( W ) p4toTLV(W->p4(),tree.mc_truth_W_p4);
    if( Wnu ) p4toTLV(Wnu->p4(),tree.mc_truth_Wnu_p4);
@@ -4448,6 +4451,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
 
    // pt
    
+   /*
    if( gammal1 ) tree.mc_truth_gammal1_pt = gammal1->p4().pt();
    if( gammal2 ) tree.mc_truth_gammal2_pt = gammal2->p4().pt();
    if( gammatau1 ) tree.mc_truth_gammatau1_pt = gammatau1->p4().pt();
@@ -4457,7 +4461,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    if( gammataunu1 ) tree.mc_truth_gammataunu1_pt = gammataunu1->p4().pt();
    if( gammataunu2 ) tree.mc_truth_gammataunu2_pt = gammataunu2->p4().pt();
    if( gammataunutau1 ) tree.mc_truth_gammataunutau1_pt = gammataunutau1->p4().pt();
-   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_pt = gammataunutau2->p4().pt();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_pt = gammataunutau2->p4().pt();*/
 
    if( W ) tree.mc_truth_W_pt = W->p4().pt();
    if( Wnu ) tree.mc_truth_Wnu_pt = Wnu->p4().pt();
@@ -4503,6 +4507,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
 
    // eta
    
+   /*
    if( gammal1 ) tree.mc_truth_gammal1_eta = gammal1->p4().eta();
    if( gammal2 ) tree.mc_truth_gammal2_eta = gammal2->p4().eta();
    if( gammatau1 ) tree.mc_truth_gammatau1_eta = gammatau1->p4().eta();
@@ -4512,7 +4517,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    if( gammataunu1 ) tree.mc_truth_gammataunu1_eta = gammataunu1->p4().eta();
    if( gammataunu2 ) tree.mc_truth_gammataunu2_eta = gammataunu2->p4().eta();
    if( gammataunutau1 ) tree.mc_truth_gammataunutau1_eta = gammataunutau1->p4().eta();
-   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_eta = gammataunutau2->p4().eta();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_eta = gammataunutau2->p4().eta();*/
 
    if( W ) tree.mc_truth_W_eta = W->p4().eta();
    if( Wnu ) tree.mc_truth_Wnu_eta = Wnu->p4().eta();
@@ -4558,6 +4563,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
 
    // phi
    
+   /*
    if( gammal1 ) tree.mc_truth_gammal1_phi = gammal1->p4().phi();
    if( gammal2 ) tree.mc_truth_gammal2_phi = gammal2->p4().phi();
    if( gammatau1 ) tree.mc_truth_gammatau1_phi = gammatau1->p4().phi();
@@ -4567,7 +4573,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    if( gammataunu1 ) tree.mc_truth_gammataunu1_phi = gammataunu1->p4().phi();
    if( gammataunu2 ) tree.mc_truth_gammataunu2_phi = gammataunu2->p4().phi();
    if( gammataunutau1 ) tree.mc_truth_gammataunutau1_phi = gammataunutau1->p4().phi();
-   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_phi = gammataunutau2->p4().phi();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_phi = gammataunutau2->p4().phi();*/
 
    if( W ) tree.mc_truth_W_phi = W->p4().phi();
    if( Wnu ) tree.mc_truth_Wnu_phi = Wnu->p4().phi();
@@ -4613,6 +4619,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
 
    // E
    
+   /*
    if( gammal1 ) tree.mc_truth_gammal1_E = gammal1->p4().E();
    if( gammal2 ) tree.mc_truth_gammal2_E = gammal2->p4().E();
    if( gammatau1 ) tree.mc_truth_gammatau1_E = gammatau1->p4().E();
@@ -4622,7 +4629,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    if( gammataunu1 ) tree.mc_truth_gammataunu1_E = gammataunu1->p4().E();
    if( gammataunu2 ) tree.mc_truth_gammataunu2_E = gammataunu2->p4().E();
    if( gammataunutau1 ) tree.mc_truth_gammataunutau1_E = gammataunutau1->p4().E();
-   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_E = gammataunutau2->p4().E();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_E = gammataunutau2->p4().E();*/
 
    if( W ) tree.mc_truth_W_E = W->p4().E();
    if( Wnu ) tree.mc_truth_Wnu_E = Wnu->p4().E();
@@ -4668,6 +4675,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    
    // pdgId
 
+   /*
    if( gammal1 ) tree.mc_truth_gammal1_id = gammal1->pdgId();
    if( gammal2 ) tree.mc_truth_gammal2_id = gammal2->pdgId();
    if( gammatau1 ) tree.mc_truth_gammatau1_id = gammatau1->pdgId();
@@ -4677,7 +4685,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    if( gammataunu1 ) tree.mc_truth_gammataunu1_id = gammataunu1->pdgId();
    if( gammataunu2 ) tree.mc_truth_gammataunu2_id = gammataunu2->pdgId();
    if( gammataunutau1 ) tree.mc_truth_gammataunutau1_id = gammataunutau1->pdgId();
-   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_id = gammataunutau2->pdgId();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_id = gammataunutau2->pdgId();*/
 
    if( W ) tree.mc_truth_W_id = W->pdgId();
    if( Wnu ) tree.mc_truth_Wnu_id = Wnu->pdgId();
@@ -4723,6 +4731,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    
    // status
 
+   /*
    if( gammal1 ) tree.mc_truth_gammal1_status = gammal1->status();
    if( gammal2 ) tree.mc_truth_gammal2_status = gammal2->status();
    if( gammatau1 ) tree.mc_truth_gammatau1_status = gammatau1->status();
@@ -4732,7 +4741,7 @@ void MCTruth::fillTTWSignalGenParticles(const edm::Event& iEvent,
    if( gammataunu1 ) tree.mc_truth_gammataunu1_status = gammataunu1->status();
    if( gammataunu2 ) tree.mc_truth_gammataunu2_status = gammataunu2->status();
    if( gammataunutau1 ) tree.mc_truth_gammataunutau1_status = gammataunutau1->status();
-   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_status = gammataunutau2->status();
+   if( gammataunutau2 ) tree.mc_truth_gammataunutau2_status = gammataunutau2->status();*/
 
    if( W ) tree.mc_truth_W_status = W->status();
    if( Wnu ) tree.mc_truth_Wnu_status = Wnu->status();
