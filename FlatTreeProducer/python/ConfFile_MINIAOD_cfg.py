@@ -36,12 +36,13 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 if options.isData:
     process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
     from Configuration.AlCa.GlobalTag import GlobalTag
-    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v1' # DATA 50ns
+    #process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v1' # DATA 50ns
+    process.GlobalTag.globaltag = '74X_dataRun2_v2' # DATA 25ns
 else:
     process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
     from Configuration.AlCa.GlobalTag import GlobalTag
-    process.GlobalTag.globaltag = 'MCRUN2_74_V9A::All' # MC 50ns
-    #process.GlobalTag.globaltag = 'MCRUN2_74_V9::All' # MC 25ns
+    #process.GlobalTag.globaltag = 'MCRUN2_74_V9A::All' # MC 50ns
+    process.GlobalTag.globaltag = 'MCRUN2_74_V9::All' # MC 25ns
     
 ########################
 #  Additional modules  #
@@ -126,6 +127,36 @@ process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
    reverseDecision = cms.bool(False)
 )
 
+#####################
+# MET Significance  #
+#####################
+process.load("RecoMET/METProducers.METSignificance_cfi")
+process.load("RecoMET/METProducers.METSignificanceParams_cfi")
+from RecoMET.METProducers.testInputFiles_cff import recoMETtestInputFiles
+
+#######################
+# Quark gluon tagging #
+#######################
+qgDatabaseVersion = 'v1' # check https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
+
+from CondCore.DBCommon.CondDBSetup_cfi import *
+QGPoolDBESSource = cms.ESSource("PoolDBESSource",
+      CondDBSetup,
+      toGet = cms.VPSet(),
+      connect = cms.string('frontier://FrontierProd/CMS_COND_PAT_000'),
+)
+
+for type in ['AK4PFchs','AK4PFchs_antib']:
+    QGPoolDBESSource.toGet.extend(cms.VPSet(cms.PSet(
+      record = cms.string('QGLikelihoodRcd'),
+      tag    = cms.string('QGLikelihoodObject_'+qgDatabaseVersion+'_'+type),
+      label  = cms.untracked.string('QGL_'+type)
+)))
+
+process.load('RecoJets.JetProducers.QGTagger_cfi')
+process.QGTagger.srcJets          = cms.InputTag('slimmedJets') # Could be reco::PFJetCollection or pat::JetCollection (both AOD and miniAOD)
+process.QGTagger.jetsLabel        = cms.string('QGL_AK4PFchs') # Other options: see https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
+
 ###########
 #  Input  #
 ###########
@@ -134,9 +165,8 @@ process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
 #    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
-    'file:MC.root'
+    'file:088378DB-3D24-E511-8B0E-20CF3027A589.root'
 #    'file:DATA.root'
-        #'file:/opt/sbg/data/safe1/cms/xcoubez/PhD/Analysis/WZAnalysisX/TriggerAgain/KirillFlatTreeStandalone/CMSSW_7_2_3_MantaRayXavier/CMSSW_7_2_3/src/IPHCFlatTree/FlatTreeProducer/test/InputRootFile/step2.root'
         #'/store/mc/Phys14DR/WZJetsTo3LNu_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/484D51C6-2673-E411-8AB0-001E67398412.root'
 #        'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
     )
@@ -165,10 +195,10 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   electronInput            = cms.InputTag("slimmedElectrons"),
                   electronPATInput         = cms.InputTag("slimmedElectrons"),
                   
-                  eleVetoCBIdMap           = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V1-standalone-veto"),
-                  eleLooseCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V1-standalone-loose"),
-                  eleMediumCBIdMap         = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V1-standalone-medium"),
-                  eleTightCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V1-standalone-tight"),
+                  eleVetoCBIdMap           = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-veto"),
+                  eleLooseCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-loose"),
+                  eleMediumCBIdMap         = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-medium"),
+                  eleTightCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-tight"),
                   eleHEEPCBIdMap           = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV60"),
 
                   eleMediumMVAIdMap        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp90"),
@@ -282,10 +312,12 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   tauInput                 = cms.InputTag("slimmedTaus"),
                   jetInput                 = cms.InputTag(jetsName),
                   jetPuppiInput            = cms.InputTag("slimmedJetsPuppi"),
+                  ak8jetInput              = cms.InputTag("slimmedJetsAK8"),                  
                   genJetInput              = cms.InputTag("slimmedGenJets"),
                   jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
                   metInput                 = cms.InputTag("slimmedMETs"),
                   metPuppiInput            = cms.InputTag("slimmedMETsPuppi"),
+                  metSigInput              = cms.InputTag("METSignificance"),
                   rhoInput                 = cms.InputTag("fixedGridRhoFastjetAll"),
                   genParticlesInput        = cms.InputTag("prunedGenParticles"),
                   objects                  = cms.InputTag("selectedPatTrigger")
@@ -304,6 +336,8 @@ if not options.isData:
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.genJetFlavourAlg+
+        process.METSignificance+
+        process.QGTagger+
         process.FlatTree)
     else:
         process.p = cms.Path(
@@ -312,6 +346,8 @@ if not options.isData:
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.genJetFlavourAlg+
+        process.METSignificance+
+        process.QGTagger+
         process.FlatTree)        
 else:
     if options.applyJEC:
@@ -321,6 +357,8 @@ else:
         process.JEC+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
+        process.METSignificance+
+        process.QGTagger+
         process.FlatTree)
     else:
         process.p = cms.Path(
@@ -328,6 +366,8 @@ else:
         process.ApplyBaselineHBHENoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
+        process.METSignificance+
+        process.QGTagger+
         process.FlatTree)
     
     
