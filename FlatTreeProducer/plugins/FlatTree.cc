@@ -262,6 +262,7 @@ void FlatTree::Init()
    el_pfIso_sumPUPt.clear();
    
    el_miniIso.clear();
+   el_miniIsoTTH.clear();
 
    el_vx.clear();
    el_vy.clear();
@@ -462,6 +463,7 @@ void FlatTree::Init()
    mu_pfSumIso04_sumPUPt.clear();
    
    mu_miniIso.clear();
+   mu_miniIsoTTH.clear();
 
    mu_isGlobalMuon.clear();
    mu_isTrackerMuon.clear();
@@ -1223,6 +1225,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_pfIso_sumPUPt") ) tree->Branch("el_pfIso_sumPUPt", "std::vector<float>", &el_pfIso_sumPUPt, buffersize);
    
    if( doWrite("el_miniIso") ) tree->Branch("el_miniIso", "std::vector<float>", &el_miniIso, buffersize);
+   if( doWrite("el_miniIsoTTH") ) tree->Branch("el_miniIsoTTH", "std::vector<float>", &el_miniIsoTTH, buffersize);
    
    if( doWrite("el_vx") ) tree->Branch("el_vx", "std::vector<float>", &el_vx, buffersize);
    if( doWrite("el_vy") ) tree->Branch("el_vy", "std::vector<float>", &el_vy, buffersize);
@@ -1423,6 +1426,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_pfSumIso04_sumPUPt") ) tree->Branch("mu_pfSumIso04_sumPUPt", "std::vector<float>", &mu_pfSumIso04_sumPUPt, buffersize);
    
    if( doWrite("mu_miniIso") ) tree->Branch("mu_miniIso", "std::vector<float>", &mu_miniIso, buffersize);
+   if( doWrite("mu_miniIsoTTH") ) tree->Branch("mu_miniIsoTTH", "std::vector<float>", &mu_miniIsoTTH, buffersize);
 
    if( doWrite("mu_isGlobalMuon") ) tree->Branch("mu_isGlobalMuon", "std::vector<int>", &mu_isGlobalMuon, buffersize);
    if( doWrite("mu_isTrackerMuon") ) tree->Branch("mu_isTrackerMuon", "std::vector<int>", &mu_isTrackerMuon, buffersize);
