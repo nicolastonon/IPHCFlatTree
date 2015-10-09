@@ -130,6 +130,8 @@ class FlatTree
    int pv_ndof;
    float pv_rho;
    int pv_isFake;
+   
+   double met_sig;
 
    float mc_weight;
    int mc_id;
@@ -386,10 +388,11 @@ class FlatTree
    
    std::vector<float> el_lepMVA;
 
-   std::vector<float> el_lepMVA_neuRelIso;
-   std::vector<float> el_lepMVA_chRelIso;
-   std::vector<float> el_lepMVA_jetDR;
+   std::vector<float> el_lepMVA_pt;
+   std::vector<float> el_lepMVA_miniRelIsoCharged;
+   std::vector<float> el_lepMVA_miniRelIsoNeutral;
    std::vector<float> el_lepMVA_jetPtRatio;
+   std::vector<float> el_lepMVA_jetPtRelv2;
    std::vector<float> el_lepMVA_jetBTagCSV;
    std::vector<float> el_lepMVA_sip3d;
    std::vector<float> el_lepMVA_dxy;
@@ -703,10 +706,11 @@ class FlatTree
    
    std::vector<float> mu_lepMVA;
 
-   std::vector<float> mu_lepMVA_neuRelIso;
-   std::vector<float> mu_lepMVA_chRelIso;
-   std::vector<float> mu_lepMVA_jetDR;
+   std::vector<float> mu_lepMVA_pt;
+   std::vector<float> mu_lepMVA_miniRelIsoCharged;
+   std::vector<float> mu_lepMVA_miniRelIsoNeutral;
    std::vector<float> mu_lepMVA_jetPtRatio;
+   std::vector<float> mu_lepMVA_jetPtRelv2;
    std::vector<float> mu_lepMVA_jetBTagCSV;
    std::vector<float> mu_lepMVA_sip3d;
    std::vector<float> mu_lepMVA_dxy;
@@ -746,9 +750,11 @@ class FlatTree
    std::vector<bool> tau_hasLeadChargedHadrCand;
    std::vector<float> tau_leadingTrackPt;
    std::vector<int> tau_leadingTrackCharge;
+   std::vector<float> tau_leadingTrackDz;
+   std::vector<float> tau_leadingTrackDxy;
    
    std::vector<int> tau_decayMode;
-//   std::vector<float> tau_decayModeFindingOldDMs;
+   std::vector<float> tau_decayModeFindingOldDMs;
    std::vector<float> tau_decayModeFindingNewDMs;
    
    std::vector<float> tau_puCorrPtSum;
@@ -920,6 +926,81 @@ class FlatTree
    std::vector<float> jetPuppi_genParton_E;
    std::vector<int> jetPuppi_genParton_status;
    std::vector<int> jetPuppi_genParton_id;
+
+   // ak8 Jets (w-tagging/top-tagging)
+   
+   int ak8jet_n;
+   std::vector<float> ak8jet_pt;
+   std::vector<float> ak8jet_eta;
+   std::vector<float> ak8jet_phi;
+   std::vector<float> ak8jet_m;
+   std::vector<float> ak8jet_E;
+   
+   std::vector<int> ak8jet_ntrk;
+   
+   std::vector<float> ak8jet_JBP;
+   std::vector<float> ak8jet_JP;
+   std::vector<float> ak8jet_TCHP;
+   std::vector<float> ak8jet_TCHE;
+   std::vector<float> ak8jet_SSVHE;
+   std::vector<float> ak8jet_SSVHP;
+   std::vector<float> ak8jet_CMVA;
+   
+   std::vector<float> ak8jet_CSVv2;
+   std::vector<int> ak8jet_partonFlavour;
+   std::vector<int> ak8jet_hadronFlavour;
+   
+   std::vector<float> ak8jet_neutralHadronEnergy;
+   std::vector<float> ak8jet_neutralEmEnergy;
+   std::vector<float> ak8jet_chargedHadronEnergy;
+   std::vector<float> ak8jet_chargedEmEnergy;
+   std::vector<float> ak8jet_electronEnergy;
+   std::vector<float> ak8jet_muonEnergy;
+   std::vector<float> ak8jet_photonEnergy;
+   
+   std::vector<int> ak8jet_chargedMultiplicity;
+   std::vector<int> ak8jet_neutralMultiplicity;
+   std::vector<int> ak8jet_chargedHadronMultiplicity;
+   
+   std::vector<float> ak8jet_jecFactorUncorrected;
+   std::vector<float> ak8jet_jecFactorL1FastJet;
+   std::vector<float> ak8jet_jecFactorL2Relative;
+   std::vector<float> ak8jet_jecFactorL3Absolute;
+   
+   std::vector<float> ak8jet_jetArea;
+   
+   std::vector<float> ak8jet_pileupJetId;
+   std::vector<bool> ak8jet_looseJetID;
+   std::vector<bool> ak8jet_tightJetID;
+      
+   std::vector<bool> ak8jet_hasGenJet;
+   std::vector<float> ak8jet_genJet_pt;
+   std::vector<float> ak8jet_genJet_eta;
+   std::vector<float> ak8jet_genJet_phi;
+   std::vector<float> ak8jet_genJet_m;
+   std::vector<float> ak8jet_genJet_E;
+   std::vector<int> ak8jet_genJet_status;
+   std::vector<int> ak8jet_genJet_id;
+   
+   std::vector<bool> ak8jet_hasGenParton;
+   std::vector<float> ak8jet_genParton_pt;
+   std::vector<float> ak8jet_genParton_eta;
+   std::vector<float> ak8jet_genParton_phi;
+   std::vector<float> ak8jet_genParton_m;
+   std::vector<float> ak8jet_genParton_E;
+   std::vector<int> ak8jet_genParton_status;
+   std::vector<int> ak8jet_genParton_id;
+      
+   std::vector<float> ak8jet_tau1;
+   std::vector<float> ak8jet_tau2;
+   std::vector<float> ak8jet_tau3;
+   std::vector<float> ak8jet_softdrop_mass;
+   std::vector<float> ak8jet_trimmed_mass;
+   std::vector<float> ak8jet_pruned_mass;
+   std::vector<float> ak8jet_filtered_mass;
+   std::vector<float> ak8jet_minMass;
+   std::vector<float> ak8jet_topMass;
+   std::vector<int> ak8jet_nSubJets;
    
    // GenJets
 
