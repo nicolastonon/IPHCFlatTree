@@ -1594,11 +1594,24 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	
 	// mini-iso
 	float miniIso = -666;
+	float miniIsoTTH = -666;
+	float miniIsoTTHCharged = -666;
+	float miniIsoTTHNeutral = -666;
 	if( dataFormat_ != "AOD" )
 	  {
+	     float miniIsoR = 10.0/std::min(std::max(float(elec.pt()),float(50.)),float(200.));
+	     float EffArea = 0.; // TO BE UPDATED
+	     float correction = ftree->ev_rho*EffArea*(miniIsoR/0.3)*(miniIsoR/0.3);
 	     miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),0.05,0.2,10.,false,false);
+	     float pfIsoCharged = ElecPfIsoCharged(elec,pfcands,miniIsoR);
+	     float pfIsoNeutral = ElecPfIsoNeutral(elec,pfcands,miniIsoR);
+	     float pfIsoPUSubtracted = std::max(float(0.0),float(pfIsoNeutral-correction));
+	     miniIsoTTH = (pfIsoCharged + pfIsoPUSubtracted)/elec.pt();
+	     miniIsoTTHCharged = pfIsoCharged;
+	     miniIsoTTHNeutral = pfIsoNeutral;
 	  }
 	ftree->el_miniIso.push_back(miniIso);
+	ftree->el_miniIsoTTH.push_back(miniIsoTTH);
 
         ftree->el_vx.push_back(elec.vx());
         ftree->el_vy.push_back(elec.vy());
@@ -1608,41 +1621,38 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	
         ftree->el_passConversionVeto.push_back(elec.passConversionVeto());
 
-/*	double el_pt = elec.pt();
+	double el_pt = elec.pt();
 	double el_eta = elec.eta();
-	double el_phi = elec.phi();*/
+	double el_phi = elec.phi();
 	double el_lepMVA = -666.;
 
-/*	double relIso = (ftree->el_pfIso_sumChargedHadronPt.back() +
-			 std::max(ftree->el_pfIso_sumNeutralHadronEt.back() +
-				  ftree->el_pfIso_sumPhotonEt.back() -
-				  ftree->el_pfIso_sumPUPt.back()/2.,0.0))/el_pt;
-
-	lepMVA_neuRelIso = relIso - ftree->el_chargedHadronIso.back()/el_pt;
-	lepMVA_chRelIso = ftree->el_chargedHadronIso.back()/el_pt;
 	float drmin = 0.5;
 	int jcl = -1;
 	for(unsigned int ij=0;ij<jets->size();ij++)
-	  {
+	  {	     
 	     if( jets->at(ij).pt() < 10. ) continue;
 	     float dr = GetDeltaR(jets->at(ij).eta(),
 				  jets->at(ij).phi(),
 				  el_eta,
 				  el_phi);
 	     if( dr < drmin )
-	       {
+	       {		  
 		  drmin = dr;
 		  jcl = ij;
-	       }
-	  }
-	lepMVA_jetDR = drmin;
+	       }	     
+	  }	
+	
+	lepMVA_pt = el_pt;
+	lepMVA_miniRelIsoNeutral = miniIsoTTHNeutral;
+	lepMVA_miniRelIsoCharged = miniIsoTTHCharged;
 	lepMVA_jetPtRatio = (jcl >= 0) ? std::min(el_pt/jets->at(jcl).pt(),1.5) : 1.5;
+	lepMVA_jetPtRelv2 = (jcl >= 0) ? ptRelElec(elec,jets->at(jcl)) : 0.0;
 	float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
 	lepMVA_jetBTagCSV = std::max(double(csv),0.);
 	lepMVA_sip3d = fabs(ftree->el_ip3d.back()/ftree->el_ip3dErr.back());
 	lepMVA_dxy = log(fabs(ftree->el_gsfTrack_PV_dxy.back()));
 	lepMVA_dz = log(fabs(ftree->el_gsfTrack_PV_dz.back()));
-	lepMVA_mvaId = ftree->el_mvaNonTrigV0.back();*/
+	lepMVA_mvaId = ftree->el_mvaNonTrigV0.back();
 
 	float el_scleta = ftree->el_superCluster_eta.back();
 	if( fabs(el_scleta) < 0.8 ) el_lepMVA = ele_reader_cb->EvaluateMVA("BDTG method");
@@ -1709,17 +1719,18 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		  ftree->el_genPAT_charge.push_back(-666);
 	       }	     
 	  }
-	
-/*        ftree->el_lepMVA_neuRelIso.push_back(lepMVA_neuRelIso);
-        ftree->el_lepMVA_chRelIso.push_back(lepMVA_chRelIso);
-        ftree->el_lepMVA_jetDR.push_back(lepMVA_jetDR);
+
+	ftree->el_lepMVA_pt.push_back(lepMVA_pt);
+        ftree->el_lepMVA_miniRelIsoCharged.push_back(lepMVA_miniRelIsoCharged);
+        ftree->el_lepMVA_miniRelIsoNeutral.push_back(lepMVA_miniRelIsoNeutral);
         ftree->el_lepMVA_jetPtRatio.push_back(lepMVA_jetPtRatio);
+	ftree->el_lepMVA_jetPtRelv2.push_back(lepMVA_jetPtRelv2);
         ftree->el_lepMVA_jetBTagCSV.push_back(lepMVA_jetBTagCSV);
         ftree->el_lepMVA_sip3d.push_back(lepMVA_sip3d);
 	ftree->el_lepMVA_dxy.push_back(lepMVA_dxy);
 	ftree->el_lepMVA_dz.push_back(lepMVA_dz);
         ftree->el_lepMVA_mvaId.push_back(lepMVA_mvaId);
-*/
+
 	bool allowCkfMatch = true;
 	float lxyMin = 2.0;
 	float probMin = 1e-6;
@@ -1999,11 +2010,30 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 	// mini-iso
 	float miniIso = -666;
+	float miniIsoTTH = -666;
+	float miniIsoTTHCharged = -666;
+	float miniIsoTTHNeutral = -666;
 	if( dataFormat_ != "AOD" )
-	{
-	  miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&muon),0.05,0.2,10.,false,false);
-	}
+	  {
+	     float miniIsoR = 10.0/std::min(std::max(float(muon.pt()),float(50.)),float(200.));
+	     float EffArea = 0.;
+	     float eta = muon.eta();
+	     if( fabs(eta) > 0 && fabs(eta) < 0.8 ) EffArea = 0.0735;
+	     else if( fabs(eta) >= 0.8 && fabs(eta) < 1.3 ) EffArea = 0.0619;
+	     else if( fabs(eta) >= 1.3 && fabs(eta) < 2.0 ) EffArea = 0.0465;
+	     else if( fabs(eta) >= 2.0 && fabs(eta) < 2.2 ) EffArea = 0.0433;
+	     else if( fabs(eta) >= 2.2 && fabs(eta) < 2.5 ) EffArea = 0.0577;
+	     float correction = ftree->ev_rho*EffArea*(miniIsoR/0.3)*(miniIsoR/0.3);
+	     miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&muon),0.05,0.2,10.,false,false);
+	     float pfIsoCharged = MuonPfIsoCharged(muon,pfcands,miniIsoR);
+	     float pfIsoNeutral = MuonPfIsoNeutral(muon,pfcands,miniIsoR);
+	     float pfIsoPUSubtracted = std::max(float(0.0),float(pfIsoNeutral-correction));
+	     miniIsoTTH = (pfIsoCharged + pfIsoPUSubtracted)/muon.pt();
+	     miniIsoTTHCharged = pfIsoCharged;
+	     miniIsoTTHNeutral = pfIsoNeutral;
+	  }
 	ftree->mu_miniIso.push_back(miniIso);
+	ftree->mu_miniIsoTTH.push_back(miniIsoTTH);
 
 	// https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMuonAnalysis#Muon_identification
 	ftree->mu_isGoodMuon_AllGlobalMuons.push_back(muon::isGoodMuon(muon,muon::AllGlobalMuons));
@@ -2070,57 +2100,55 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->mu_isolationR05_nJets.push_back(isoIsValid ? muon.isolationR05().nJets : -666.);
 
 	// ttH lepton MVA
-//	double mu_pt = muon.pt();
+	double mu_pt = muon.pt();
 	double mu_eta = muon.eta();
-//	double mu_phi = muon.phi();
+	double mu_phi = muon.phi();
 	double mu_lepMVA = -666.;
 
-/*	double relIso = (muon.pfIsolationR03().sumChargedHadronPt +
-			 std::max(muon.pfIsolationR03().sumNeutralHadronEt +
-				  muon.pfIsolationR03().sumPhotonEt -
-				  muon.pfIsolationR03().sumPUPt/2.,0.0))/mu_pt;
-
-	lepMVA_chRelIso = ftree->mu_chargedHadronIso[im]/mu_pt;
-	lepMVA_neuRelIso = relIso - lepMVA_chRelIso;
 	float drmin = 0.5;
 	int jcl = -1;
 	for(unsigned int ij=0;ij<jets->size();ij++)
-	  {
+	  {	     
 	     if( jets->at(ij).pt() < 10. ) continue;
 	     float dr = GetDeltaR(jets->at(ij).eta(),
 				  jets->at(ij).phi(),
 				  mu_eta,
 				  mu_phi);
 	     if( dr < drmin )
-	       {
+	       {		  
 		  drmin = dr;
 		  jcl = ij;
-	       }
-	  }
-	lepMVA_jetDR = drmin;
+	       }	     
+	  }	
+	
+	lepMVA_pt = mu_pt;
+	lepMVA_miniRelIsoNeutral = miniIsoTTHNeutral;
+	lepMVA_miniRelIsoCharged = miniIsoTTHCharged;
 	lepMVA_jetPtRatio = (jcl >= 0) ? std::min(mu_pt/jets->at(jcl).pt(),1.5) : 1.5;
+	lepMVA_jetPtRelv2 = (jcl >= 0) ? ptRelMuon(muon,jets->at(jcl)) : 0.0;
 	float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
 	lepMVA_jetBTagCSV = std::max(double(csv),0.);
 	lepMVA_sip3d = fabs(ftree->mu_ip3d.back()/ftree->mu_ip3dErr.back());
 	lepMVA_dxy = log(fabs(ftree->mu_innerTrack_PV_dxy.back()));
 	lepMVA_dz = log(fabs(ftree->mu_innerTrack_PV_dz.back()));
-	lepMVA_mvaId = ftree->mu_segmentCompatibility.back();*/
-
+	lepMVA_mvaId = ftree->mu_segmentCompatibility.back();
+	
 	if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_b->EvaluateMVA("BDTG method");
 	else mu_lepMVA = mu_reader_e->EvaluateMVA("BDTG method");
 
 	ftree->mu_lepMVA.push_back(mu_lepMVA);
-	
-/*        ftree->mu_lepMVA_neuRelIso.push_back(lepMVA_neuRelIso);
-        ftree->mu_lepMVA_chRelIso.push_back(lepMVA_chRelIso);
-        ftree->mu_lepMVA_jetDR.push_back(lepMVA_jetDR);
+
+	ftree->mu_lepMVA_pt.push_back(lepMVA_pt);
+        ftree->mu_lepMVA_miniRelIsoCharged.push_back(lepMVA_miniRelIsoCharged);
+        ftree->mu_lepMVA_miniRelIsoNeutral.push_back(lepMVA_miniRelIsoNeutral);
         ftree->mu_lepMVA_jetPtRatio.push_back(lepMVA_jetPtRatio);
+	ftree->mu_lepMVA_jetPtRelv2.push_back(lepMVA_jetPtRelv2);
         ftree->mu_lepMVA_jetBTagCSV.push_back(lepMVA_jetBTagCSV);
         ftree->mu_lepMVA_sip3d.push_back(lepMVA_sip3d);
-        ftree->mu_lepMVA_dxy.push_back(lepMVA_dxy);
-        ftree->mu_lepMVA_dz.push_back(lepMVA_dz);
-	ftree->mu_lepMVA_mvaId.push_back(lepMVA_mvaId);
-*/
+	ftree->mu_lepMVA_dxy.push_back(lepMVA_dxy);
+	ftree->mu_lepMVA_dz.push_back(lepMVA_dz);
+        ftree->mu_lepMVA_mvaId.push_back(lepMVA_mvaId);
+
 	if( !isData_ )
 	  {
 	     // Internal matching
@@ -2358,8 +2386,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	float NumConst = jet.chargedMultiplicity()+jet.neutralMultiplicity();
 	float CHM = jet.chargedMultiplicity();
 	float eta = jet.eta();
-	bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((abs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || abs(eta)>2.4);
-	bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((abs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || abs(eta)>2.4);
+	bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
+	bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || fabs(eta)>2.4);
 
 	ftree->jet_neutralHadronEnergyFraction.push_back(jet.neutralHadronEnergyFraction());
 	ftree->jet_neutralEmEnergyFraction.push_back(jet.neutralEmEnergyFraction());
@@ -2612,8 +2640,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     float NumConst = jet.chargedMultiplicity()+jet.neutralMultiplicity();
 	     float CHM = jet.chargedMultiplicity();
 	     float eta = jet.eta();
-	     bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((abs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || abs(eta)>2.4);
-	     bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((abs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || abs(eta)>2.4);
+	     bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
+	     bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || fabs(eta)>2.4);
 	     
 	     ftree->ak8jet_looseJetID.push_back(looseJetID);
 	     ftree->ak8jet_tightJetID.push_back(tightJetID);
