@@ -256,9 +256,9 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
 
 float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
 {
-   float j_x = jet.px();
-   float j_y = jet.py();
-   float j_z = jet.pz();
+   float j_x = jet.px()+elec.px();
+   float j_y = jet.py()+elec.py();
+   float j_z = jet.pz()+elec.pz();
 
    float l_x = elec.px();
    float l_y = elec.py();
@@ -278,9 +278,9 @@ float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
 
 float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
 {
-   float j_x = jet.px();
-   float j_y = jet.py();
-   float j_z = jet.pz();
+   float j_x = jet.px()+muon.px();
+   float j_y = jet.py()+muon.py();
+   float j_z = jet.pz()+muon.pz();
 
    float l_x = muon.px();
    float l_y = muon.py();
