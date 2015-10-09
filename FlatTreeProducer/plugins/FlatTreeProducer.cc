@@ -2307,13 +2307,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_phi.push_back(jet.phi());
 	ftree->jet_m.push_back(jet.mass());
 	ftree->jet_E.push_back(jet.energy());
-	ftree->jet_JBP.push_back(jet.bDiscriminator("jetBProbabilityBJetTags"));
-	ftree->jet_JP.push_back(jet.bDiscriminator("jetProbabilityBJetTags"));
-	ftree->jet_TCHP.push_back(jet.bDiscriminator("trackCountingHighPurBJetTags"));
-	ftree->jet_TCHE.push_back(jet.bDiscriminator("trackCountingHighEffBJetTags"));
-	ftree->jet_SSVHE.push_back(jet.bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
-	ftree->jet_SSVHP.push_back(jet.bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
-	ftree->jet_CMVA.push_back(jet.bDiscriminator("combinedMVABJetTags"));
+	ftree->jet_JBP.push_back(jet.bDiscriminator("pfJetBProbabilityBJetTags"));
+	ftree->jet_JP.push_back(jet.bDiscriminator("pfJetProbabilityBJetTags"));
+	ftree->jet_TCHP.push_back(jet.bDiscriminator("pfTrackCountingHighPurBJetTags"));
+	ftree->jet_TCHE.push_back(jet.bDiscriminator("pfTrackCountingHighEffBJetTags"));
+	ftree->jet_SSVHE.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
+	ftree->jet_SSVHP.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
+	ftree->jet_CMVA.push_back(jet.bDiscriminator("pfCombinedMVABJetTags"));
 	
 	ftree->jet_chargedMultiplicity.push_back(jet.chargedMultiplicity());
 	ftree->jet_neutralMultiplicity.push_back(jet.neutralMultiplicity());
@@ -2450,13 +2450,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->jetPuppi_phi.push_back(jet.phi());
 	     ftree->jetPuppi_m.push_back(jet.mass());
 	     ftree->jetPuppi_E.push_back(jet.energy());
-	     ftree->jetPuppi_JBP.push_back(jet.bDiscriminator("jetBProbabilityBJetTags"));
-	     ftree->jetPuppi_JP.push_back(jet.bDiscriminator("jetProbabilityBJetTags"));
-	     ftree->jetPuppi_TCHP.push_back(jet.bDiscriminator("trackCountingHighPurBJetTags"));
-	     ftree->jetPuppi_TCHE.push_back(jet.bDiscriminator("trackCountingHighEffBJetTags"));
-	     ftree->jetPuppi_SSVHE.push_back(jet.bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
-	     ftree->jetPuppi_SSVHP.push_back(jet.bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
-	     ftree->jetPuppi_CMVA.push_back(jet.bDiscriminator("combinedMVABJetTags"));
+	     ftree->jetPuppi_JBP.push_back(jet.bDiscriminator("pfJetBProbabilityBJetTags"));
+	     ftree->jetPuppi_JP.push_back(jet.bDiscriminator("pfJetProbabilityBJetTags"));
+	     ftree->jetPuppi_TCHP.push_back(jet.bDiscriminator("pfTrackCountingHighPurBJetTags"));
+	     ftree->jetPuppi_TCHE.push_back(jet.bDiscriminator("pfTrackCountingHighEffBJetTags"));
+	     ftree->jetPuppi_SSVHE.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
+	     ftree->jetPuppi_SSVHP.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
+	     ftree->jetPuppi_CMVA.push_back(jet.bDiscriminator("pfCombinedMVABJetTags"));
 	     
 	     ftree->jetPuppi_chargedMultiplicity.push_back(jet.chargedMultiplicity());
 	     ftree->jetPuppi_neutralMultiplicity.push_back(jet.neutralMultiplicity());
@@ -2566,13 +2566,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->ak8jet_m.push_back(jet.mass());
 	     ftree->ak8jet_E.push_back(jet.energy());
 	     
-	     ftree->ak8jet_JBP.push_back(jet.bDiscriminator("jetBProbabilityBJetTags"));
-	     ftree->ak8jet_JP.push_back(jet.bDiscriminator("jetProbabilityBJetTags"));
-	     ftree->ak8jet_TCHP.push_back(jet.bDiscriminator("trackCountingHighPurBJetTags"));
-	     ftree->ak8jet_TCHE.push_back(jet.bDiscriminator("trackCountingHighEffBJetTags"));
-	     ftree->ak8jet_SSVHE.push_back(jet.bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
-	     ftree->ak8jet_SSVHP.push_back(jet.bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
-	     ftree->ak8jet_CMVA.push_back(jet.bDiscriminator("combinedMVABJetTags"));
+	     ftree->ak8jet_JBP.push_back(jet.bDiscriminator("pfJetBProbabilityBJetTags"));
+	     ftree->ak8jet_JP.push_back(jet.bDiscriminator("pfJetProbabilityBJetTags"));
+	     ftree->ak8jet_TCHP.push_back(jet.bDiscriminator("pfTrackCountingHighPurBJetTags"));
+	     ftree->ak8jet_TCHE.push_back(jet.bDiscriminator("pfTrackCountingHighEffBJetTags"));
+	     ftree->ak8jet_SSVHE.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
+	     ftree->ak8jet_SSVHP.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
+	     ftree->ak8jet_CMVA.push_back(jet.bDiscriminator("pfCombinedMVABJetTags"));
 	     
 	     ftree->ak8jet_chargedMultiplicity.push_back(jet.chargedMultiplicity());
 	     ftree->ak8jet_neutralMultiplicity.push_back(jet.neutralMultiplicity());
