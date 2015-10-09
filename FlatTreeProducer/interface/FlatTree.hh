@@ -255,6 +255,7 @@ class FlatTree
    std::vector<float> el_ip2dBSErr;
 
    std::vector<float> el_miniIso;
+   std::vector<float> el_miniIsoTTH;
 
    std::vector<float> el_neutralHadronIso;
    std::vector<float> el_chargedHadronIso;
@@ -500,6 +501,7 @@ class FlatTree
    std::vector<float> mu_pfSumIso04_sumPUPt;
    
    std::vector<float> mu_miniIso;
+   std::vector<float> mu_miniIsoTTH;
 
    std::vector<int> mu_isGlobalMuon;
    std::vector<int> mu_isTrackerMuon;
