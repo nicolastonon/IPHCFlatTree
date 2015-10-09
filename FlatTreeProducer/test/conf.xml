@@ -219,7 +219,8 @@
     <var name="el_eEleClusterOverPout" save="1"></var>
     <var name="el_deltaEtaEleClusterTrackAtCalo" save="1"></var>
     <var name="el_deltaPhiEleClusterTrackAtCalo" save="1"></var>
-    <var name="el_miniIso" save="1"></var>    
+    <var name="el_miniIso" save="1"></var>
+    <var name="el_miniIsoTTH" save="1"></var>
     <var name="el_vx" save="1"></var>
     <var name="el_vy" save="1"></var>
     <var name="el_vz" save="1"></var>
@@ -395,7 +396,8 @@
     <var name="mu_pfSumIso04_sumPUPt" save="1"></var>
     <var name="mu_numberOfMatches" save="1"></var>
     <var name="mu_numberOfMatchedStations" save="1"></var>    
-    <var name="mu_miniIso" save="1"></var>    
+    <var name="mu_miniIso" save="1"></var>
+    <var name="mu_miniIsoTTH" save="1"></var>
     <var name="mu_isGlobalMuon" save="1"></var>
     <var name="mu_isTrackerMuon" save="1"></var>
     <var name="mu_isStandAloneMuon" save="1"></var>
