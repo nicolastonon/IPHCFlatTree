@@ -2,11 +2,146 @@
 
 #include "TMath.h"
 
+namespace 
+{   
+   struct ByEta 
+     {	
+	bool operator()(const pat::PackedCandidate *c1, const pat::PackedCandidate *c2) const 
+	  {	     
+	     return c1->eta() < c2->eta();
+	  }	
+	bool operator()(float c1eta, const pat::PackedCandidate *c2) const 
+	  {	     
+	     return c1eta < c2->eta();
+	  }	
+	bool operator()(const pat::PackedCandidate *c1, float c2eta) const 
+	  {	     
+	     return c1->eta() < c2eta;
+	  }	
+     };
+}
+
 float GetDeltaR(float eta1,float phi1,float eta2,float phi2)
 {
    float DeltaPhi = TMath::Abs(phi2 - phi1);
       if (DeltaPhi > 3.141593 ) DeltaPhi -= 2.*3.141593;
    return TMath::Sqrt( (eta2-eta1)*(eta2-eta1) + DeltaPhi*DeltaPhi );
+}
+
+// part of miniIso for ttH
+float isoSumRaw(const std::vector<const pat::PackedCandidate *> & cands, const reco::Candidate &cand, float dR, float innerR, float threshold, SelfVetoPolicy::SelfVetoPolicy selfVeto, int pdgId)
+{
+   std::vector<const reco::Candidate *> vetos_;
+   
+   float dR2 = dR*dR, innerR2 = innerR*innerR;
+   
+   std::vector<const reco::Candidate *> vetos(vetos_);
+   for( unsigned int i=0,n=cand.numberOfSourceCandidatePtrs();i<n;++i )
+     {
+	if(selfVeto == SelfVetoPolicy::selfVetoNone) break;
+	const reco::CandidatePtr &cp = cand.sourceCandidatePtr(i);
+	if( cp.isNonnull() && cp.isAvailable() )
+	  {
+	     vetos.push_back(&*cp);
+	     if (selfVeto == SelfVetoPolicy::selfVetoFirst) break;
+	  }
+     }   
+   
+   typedef std::vector<const pat::PackedCandidate *>::const_iterator IT;
+   IT candsbegin = std::lower_bound(cands.begin(), cands.end(), cand.eta() - dR, ByEta());
+   IT candsend = std::upper_bound(candsbegin, cands.end(), cand.eta() + dR, ByEta());
+   
+   double isosum = 0;
+   for( IT icharged=candsbegin;icharged<candsend;++icharged )
+     {
+	// pdgId
+	if( pdgId > 0 && abs((*icharged)->pdgId()) != pdgId ) continue;
+	// threshold
+	if( threshold > 0 && (*icharged)->pt() < threshold ) continue;
+	// cone
+	float mydr2 = reco::deltaR2(**icharged, cand);
+	if( mydr2 >= dR2 || mydr2 < innerR2 ) continue;
+	// veto
+	if( std::find(vetos.begin(), vetos.end(), *icharged) != vetos.end() )
+	  {
+	     continue;	     
+	  }
+	// add to sum
+	isosum += (*icharged)->pt();
+     }
+   return isosum;
+}
+
+float ElecPfIsoCharged(const pat::Electron& elec,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR)
+{
+   std::vector<const pat::PackedCandidate *> charged;
+   
+   for( const pat::PackedCandidate &p : *pfcands )
+     {
+	if( p.charge() != 0 )
+	  {
+	     if( abs(p.pdgId()) == 211 )
+	       {
+		  if (p.fromPV() > 1 && fabs(p.dz()) < 9999. )
+		    {
+		       charged.push_back(&p);
+		    }		  
+	       }	     
+	  }	
+     }   
+	
+   return isoSumRaw(charged,elec,miniIsoR,0.0001,0.0,SelfVetoPolicy::selfVetoAll);
+}
+
+float MuonPfIsoCharged(const pat::Muon& muon,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR)
+{
+   std::vector<const pat::PackedCandidate *> charged;
+   
+   for( const pat::PackedCandidate &p : *pfcands )
+     {
+	if( p.charge() != 0 )
+	  {
+	     if( abs(p.pdgId()) == 211 )
+	       {
+		  if (p.fromPV() > 1 && fabs(p.dz()) < 9999. )
+		    {
+		       charged.push_back(&p);
+		    }		  
+	       }	     
+	  }	
+     }   
+	
+   return isoSumRaw(charged,muon,miniIsoR,0.0001,0.0,SelfVetoPolicy::selfVetoAll);
+}
+
+float ElecPfIsoNeutral(const pat::Electron& elec,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR)
+{
+   std::vector<const pat::PackedCandidate *> neutral;
+   
+   for( const pat::PackedCandidate &p : *pfcands )
+     {
+	if( p.charge() == 0 )
+	  {
+	     neutral.push_back(&p);
+	  }
+     }   
+   
+   return isoSumRaw(neutral,elec,miniIsoR,0.01,0.5,SelfVetoPolicy::selfVetoAll);
+}
+
+float MuonPfIsoNeutral(const pat::Muon& muon,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR)
+{
+   std::vector<const pat::PackedCandidate *> neutral;
+   
+   for( const pat::PackedCandidate &p : *pfcands )
+     {
+	if( p.charge() == 0 )
+	  {
+	     neutral.push_back(&p);
+	  }
+     }   
+   
+   return isoSumRaw(neutral,muon,miniIsoR,0.01,0.5,SelfVetoPolicy::selfVetoAll);
 }
 
 // https://twiki.cern.ch/twiki/bin/view/CMS/MiniIsolationSUSY
@@ -119,4 +254,46 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
    return iso;
 }
 
+float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
+{
+   float j_x = jet.px();
+   float j_y = jet.py();
+   float j_z = jet.pz();
+
+   float l_x = elec.px();
+   float l_y = elec.py();
+   float l_z = elec.pz();
    
+   float j2 = j_x*j_x+j_y*j_y+j_z*j_z;
+   float l2 = l_x*l_x+l_y*l_y+l_z*l_z;
+   
+   float lXj = l_x*j_x+l_y*j_y+l_z*j_z;
+   
+   float pLrel2 = lXj*lXj/j2;
+   
+   float pTrel2 = l2-pLrel2;
+   
+   return (pTrel2 > 0) ? std::sqrt(pTrel2) : 0.0;
+}
+
+float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
+{
+   float j_x = jet.px();
+   float j_y = jet.py();
+   float j_z = jet.pz();
+
+   float l_x = muon.px();
+   float l_y = muon.py();
+   float l_z = muon.pz();
+   
+   float j2 = j_x*j_x+j_y*j_y+j_z*j_z;
+   float l2 = l_x*l_x+l_y*l_y+l_z*l_z;
+   
+   float lXj = l_x*j_x+l_y*j_y+l_z*j_z;
+   
+   float pLrel2 = lXj*lXj/j2;
+   
+   float pTrel2 = l2-pLrel2;
+   
+   return (pTrel2 > 0) ? std::sqrt(pTrel2) : 0.0;
+}
