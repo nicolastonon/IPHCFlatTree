@@ -2823,7 +2823,7 @@ void FlatTreeProducer::beginRun(const edm::Run& iRun, const edm::EventSetup& iSe
      << "HLT" << " in run " << iRun.run() << std::endl;
    
    edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
-   iSetup.get<JetCorrectionsRecord>().get("AK4PF",JetCorParColl);
+   iSetup.get<JetCorrectionsRecord>().get("AK4PFchs",JetCorParColl);
 //   iSetup.get<JetCorrectionsRecord>().get("AK5PF",JetCorParColl);
    JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
   
