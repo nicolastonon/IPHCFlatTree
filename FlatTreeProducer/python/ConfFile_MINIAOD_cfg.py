@@ -37,7 +37,7 @@ if options.isData:
     process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
     from Configuration.AlCa.GlobalTag import GlobalTag
     #process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v1' # DATA 50ns
-    process.GlobalTag.globaltag = '74X_dataRun2_v2' # DATA 25ns
+    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v2' # DATA 25ns
 else:
     process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
     from Configuration.AlCa.GlobalTag import GlobalTag
