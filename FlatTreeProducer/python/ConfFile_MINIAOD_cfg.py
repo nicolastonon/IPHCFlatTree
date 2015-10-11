@@ -119,6 +119,28 @@ if options.applyJEC:
 
     jetsName="patJetsReapplyJEC"
 
+# add bTag info
+from PhysicsTools.PatAlgos.tools.jetTools import switchJetCollection
+switchJetCollection(
+    process,
+    jetSource = cms.InputTag(jetsName),
+    btagDiscriminators = [
+    'pfJetProbabilityBJetTags',
+    'pfJetBProbabilityBJetTags',
+    'pfTrackCountingHighPurBJetTags',
+    'pfTrackCountingHighEffBJetTags',
+    'pfCombinedSecondaryVertexV2BJetTags',
+    'pfCombinedMVABJetTags'
+    ],
+    btagInfos = [
+    'pfImpactParameterTagInfos',
+    'pfSecondaryVertexTagInfos',
+    'pfInclusiveSecondaryVertexFinderTagInfos',
+    'softPFMuonsTagInfos',
+    'softPFElectronsTagInfos'
+    ]
+)
+    
 # egamma
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 switchOnVIDElectronIdProducer(process,DataFormat.MiniAOD)
