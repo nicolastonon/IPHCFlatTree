@@ -43,6 +43,19 @@ else:
     from Configuration.AlCa.GlobalTag import GlobalTag
     #process.GlobalTag.globaltag = 'MCRUN2_74_V9A::All' # MC 50ns
     process.GlobalTag.globaltag = 'MCRUN2_74_V9::All' # MC 25ns
+
+### to activate the new JP calibration: using the data base
+if options.isData:
+    trkProbaCalibTag = "JPcalib_Data74X_2015D_v1"
+else:
+    trkProbaCalibTag = "JPcalib_MC74X_25ns_v1"
+    
+process.GlobalTag.toGet = cms.VPSet(
+cms.PSet(record = cms.string("BTagTrackProbability3DRcd"),
+         tag = cms.string(trkProbaCalibTag),
+         connect = cms.untracked.string("frontier://FrontierPrep/CMS_CONDITIONS")
+         )
+)
     
 ########################
 #  Additional modules  #
