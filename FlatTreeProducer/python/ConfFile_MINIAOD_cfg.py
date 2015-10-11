@@ -9,7 +9,7 @@ import os, sys
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run on real data')
-options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
+options.register('applyJEC',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
 options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
 options.parseArguments()
@@ -58,6 +58,13 @@ if not options.isData:
 jetsName="slimmedJets"
 
 if options.applyJEC:
+
+    if options.isData:
+        JECName = "sqlite:Summer15_25nsV5_DATA.db"
+        tagName = "JetCorrectorParametersCollection_Summer15_25nsV5_DATA_AK4PFchs"
+    else:
+        JECName = "sqlite:Summer15_25nsV5_MC.db"
+        tagName = "JetCorrectorParametersCollection_Summer15_25nsV5_MC_AK4PFchs"
     
     process.load("CondCore.DBCommon.CondDBCommon_cfi")
     from CondCore.DBCommon.CondDBSetup_cfi import *
@@ -69,15 +76,13 @@ if options.applyJEC:
          toGet = cms.VPSet(
          cms.PSet(
                record = cms.string('JetCorrectionsRecord'),
-               tag    = cms.string('JetCorrectorParametersCollection_Summer15_50nsV2_MC_AK4PFchs'),
+               tag    = cms.string(tagName),
                label  = cms.untracked.string('AK4PFchs')
                ),
          ## here you add as many jet types as you need
          ## note that the tag name is specific for the particular sqlite file
          ),
-         connect = cms.string('sqlite:Summer15_50nsV2_MC.db')
-         # uncomment above tag lines and this comment to use MC JEC
-         # connect = cms.string('sqlite:Summer12_V7_MC.db')
+         connect = cms.string(JECName)
     )
     ## add an es_prefer statement to resolve a possible conflict from simultaneous connection to a global tag
     process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')
@@ -107,9 +112,12 @@ switchOnVIDElectronIdProducer(process,DataFormat.MiniAOD)
 
 # https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
 # https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2
-my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_50ns_V2_cff',
+my_id_modules = [
+'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_50ns_V2_cff',
+'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
-'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
+'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff'
+]
 
 for idmod in my_id_modules:
     setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
@@ -194,11 +202,11 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   vertexInput              = cms.InputTag("offlineSlimmedPrimaryVertices"),
                   electronInput            = cms.InputTag("slimmedElectrons"),
                   electronPATInput         = cms.InputTag("slimmedElectrons"),
-                  
-                  eleVetoCBIdMap           = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-veto"),
-                  eleLooseCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-loose"),
-                  eleMediumCBIdMap         = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-medium"),
-                  eleTightCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-tight"),
+
+                  eleVetoCBIdMap           = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"),
+                  eleLooseCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
+                  eleMediumCBIdMap         = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
+                  eleTightCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
                   eleHEEPCBIdMap           = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV60"),
 
                   eleMediumMVAIdMap        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp90"),
