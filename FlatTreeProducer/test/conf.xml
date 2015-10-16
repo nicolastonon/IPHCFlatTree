@@ -299,10 +299,10 @@
     <var name="el_fbrem" save="1"></var>
     <var name="el_kf_normalizedChi2" save="1"></var>
     <var name="el_gsf_normalizedChi2" save="1"></var>
-    <var name="el_deltaEtaSuperClusterTrackAtVtx" save="0"></var>
-    <var name="el_deltaPhiSuperClusterTrackAtVtx" save="0"></var>
-    <var name="el_deltaEtaSeedClusterTrackAtCalo" save="0"></var>
-    <var name="el_deltaPhiSeedClusterTrackAtCalo" save="0"></var>
+    <var name="el_deltaEtaSuperClusterTrackAtVtx" save="1"></var>
+    <var name="el_deltaPhiSuperClusterTrackAtVtx" save="1"></var>
+    <var name="el_deltaEtaSeedClusterTrackAtCalo" save="1"></var>
+    <var name="el_deltaPhiSeedClusterTrackAtCalo" save="1"></var>
     <var name="el_full5x5_OneMinusE1x5E5x5" save="0"></var>
     <var name="el_OneMinusE1x5E5x5" save="0"></var>
     <var name="el_eSuperClusterOverP" save="1"></var>
@@ -724,6 +724,7 @@
     <var name="jet_pileupJetId" save="1"></var>
     <var name="jet_looseJetID" save="1"></var>
     <var name="jet_tightJetID" save="1"></var>
+    <var name="jet_qgtag" save="1"></var>
     <var name="jet_hasGenJet" save="1" mc="1"></var>
     <var name="jet_genJet_pt" save="1" mc="1"></var>
     <var name="jet_genJet_eta" save="1" mc="1"></var>
