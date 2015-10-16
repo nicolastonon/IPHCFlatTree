@@ -7,7 +7,17 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 {
    reco::GenParticleCollection genParticlesCollection = *GenParticles;
    reco::GenParticleCollection::const_iterator genParticleSrc;
-  
+
+   float gen_PVz = -666;
+   for( size_t i=0;i<GenParticles->size();++i )
+     {	
+	const reco::GenParticle & genIt = (*GenParticles)[i];
+	
+	int status = genIt.status();
+	if( (status>=21 && status<=29) || status==3 ) gen_PVz = genIt.vz();
+     }
+   tree.gen_PVz = gen_PVz;
+   
    int gen_n = 0;
    
    std::vector<float> gen_pt;
