@@ -1022,7 +1022,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	if( genEventInfo->binningValues().size() > 0 ) ftree->mc_ptHat = genEventInfo->binningValues()[0];
      }
    
-   if( fillMCScaleWeight_ )
+   if( !isData_ && fillMCScaleWeight_ )
      {
 	ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(EventHandle->weights()[2].wgt)/(EventHandle->originalXWGTUP()); // muF = 0.5 | muR = 1
 	ftree->weight_scale_muF2   = (genEventInfo->weight())*(EventHandle->weights()[1].wgt)/(EventHandle->originalXWGTUP()); // muF = 2   | muR = 1
