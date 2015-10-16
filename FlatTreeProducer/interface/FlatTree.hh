@@ -159,6 +159,13 @@ class FlatTree
    float mc_scale;
    float mc_ptHat;
 
+   float weight_scale_muF0p5;
+   float weight_scale_muF2;
+   float weight_scale_muR0p5;
+   float weight_scale_muR2;
+   
+   std::vector<float> mc_pdfweights;
+   
    int mc_pu_intime_NumInt;
    int mc_pu_trueNumInt;
    int mc_pu_before_npu;
