@@ -8,6 +8,17 @@
     <var name="met_pt" save="1"></var>
     <var name="met_phi" save="1"></var>
     <var name="met_sumet" save="1"></var>
+    <var name="metGen_px" save="1" mc="1"></var>
+    <var name="metGen_py" save="1" mc="1"></var>
+    <var name="metGen_pt" save="1" mc="1"></var>
+    <var name="metGen_phi" save="1" mc="1"></var>
+    <var name="metGen_sumet" save="1" mc="1"></var>
+    <var name="metGen_NeutralEMEt" save="1" mc="1"></var>
+    <var name="metGen_ChargedEMEt" save="1" mc="1"></var>
+    <var name="metGen_NeutralHadEt" save="1" mc="1"></var>
+    <var name="metGen_ChargedHadEt" save="1" mc="1"></var>
+    <var name="metGen_MuonEt" save="1" mc="1"></var>
+    <var name="metGen_InvisibleEt" save="1" mc="1"></var>
     <var name="met_sig" save="1"></var>
     <var name="met_uncorrectedPt" save="1"></var>
     <var name="met_uncorrectedPhi" save="1"></var>
@@ -28,7 +39,8 @@
     <var name="met_shiftedPx_UnclusteredEnUp" save="1"></var>
     <var name="met_shiftedPx_UnclusteredEnDown" save="1"></var>
     <var name="met_shiftedPx_NoShift" save="1"></var>
-    <var name="met_shiftedPx_METUncertaintySize" save="1"></var>
+    <var name="met_shiftedPx_PhotonEnUp" save="1"></var>
+    <var name="met_shiftedPx_PhotonEnDown" save="1"></var>
     <var name="met_shiftedPy_JetEnUp" save="1"></var>
     <var name="met_shiftedPy_JetEnDown" save="1"></var>
     <var name="met_shiftedPy_JetResUp" save="1"></var>
@@ -42,7 +54,8 @@
     <var name="met_shiftedPy_UnclusteredEnUp" save="1"></var>
     <var name="met_shiftedPy_UnclusteredEnDown" save="1"></var>
     <var name="met_shiftedPy_NoShift" save="1"></var>
-    <var name="met_shiftedPy_METUncertaintySize" save="1"></var>
+    <var name="met_shiftedPy_PhotonEnUp" save="1"></var>
+    <var name="met_shiftedPy_PhotonEnDown" save="1"></var>
     <var name="met_shiftedPhi_JetEnUp" save="1"></var>
     <var name="met_shiftedPhi_JetEnDown" save="1"></var>
     <var name="met_shiftedPhi_JetResUp" save="1"></var>
@@ -56,7 +69,8 @@
     <var name="met_shiftedPhi_UnclusteredEnUp" save="1"></var>
     <var name="met_shiftedPhi_UnclusteredEnDown" save="1"></var>
     <var name="met_shiftedPhi_NoShift" save="1"></var>
-    <var name="met_shiftedPhi_METUncertaintySize" save="1"></var>
+    <var name="met_shiftedPhi_PhotonEnUp" save="1"></var>
+    <var name="met_shiftedPhi_PhotonEnDown" save="1"></var>
     <var name="met_shiftedSumEt_JetEnUp" save="1"></var>
     <var name="met_shiftedSumEt_JetEnDown" save="1"></var>
     <var name="met_shiftedSumEt_JetResUp" save="1"></var>
@@ -70,7 +84,8 @@
     <var name="met_shiftedSumEt_UnclusteredEnUp" save="1"></var>
     <var name="met_shiftedSumEt_UnclusteredEnDown" save="1"></var>
     <var name="met_shiftedSumEt_NoShift" save="1"></var>
-    <var name="met_shiftedSumEt_METUncertaintySize" save="1"></var>
+    <var name="met_shiftedSumEt_PhotonEnUp" save="1"></var>
+    <var name="met_shiftedSumEt_PhotonEnDown" save="1"></var>
     <var name="metPuppi_pt" save="1"></var>
     <var name="metPuppi_phi" save="1"></var>
     <var name="metPuppi_sumet" save="1"></var>
@@ -843,5 +858,6 @@
     <var name="pfcand_id" save="1"></var>
     <var name="pfcand_dz" save="1"></var>
     <var name="pfcand_trackIso" save="1"></var>
+    <var name="gen_PVz" save="1" mc="1"></var>
     <var name="gen_all" save="0" mc="1"></var>
 </variables>
