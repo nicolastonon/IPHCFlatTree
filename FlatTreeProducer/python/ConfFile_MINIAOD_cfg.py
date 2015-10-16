@@ -12,6 +12,8 @@ options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.var
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 # runBTag option is not fully functional - please don't use it
 options.register('runBTag',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run b-tagging')
+options.register('fillMCScaleWeight',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PDF weights')
+options.register('nPDF', 0, VarParsing.multiplicity.singleton, VarParsing.varType.int, "nPDF")
 options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
 options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
 options.parseArguments()
@@ -338,8 +340,8 @@ process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
 #    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
-#    'file:088378DB-3D24-E511-8B0E-20CF3027A589.root'
-    'file:data.root'
+    'file:088378DB-3D24-E511-8B0E-20CF3027A589.root'
+#    'file:data.root'
         #'/store/mc/Phys14DR/WZJetsTo3LNu_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/484D51C6-2673-E411-8AB0-001E67398412.root'
 #        'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
     )
@@ -368,6 +370,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   confFile          = cms.string(options.confFile),
 
                   isData            = cms.bool(options.isData),
+                  fillMCScaleWeight = cms.bool(options.fillMCScaleWeight),
+                  nPDF              = cms.int32(options.nPDF),
                   
                   vertexInput              = cms.InputTag("offlineSlimmedPrimaryVertices"),
                   electronInput            = cms.InputTag("slimmedElectrons"),
