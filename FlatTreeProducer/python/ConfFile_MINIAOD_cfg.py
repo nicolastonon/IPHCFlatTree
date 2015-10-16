@@ -12,7 +12,7 @@ options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.var
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 # runBTag option is not fully functional - please don't use it
 options.register('runBTag',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run b-tagging')
-options.register('fillMCScaleWeight',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PDF weights')
+options.register('fillMCScaleWeight',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PDF weights')
 options.register('nPDF', 0, VarParsing.multiplicity.singleton, VarParsing.varType.int, "nPDF")
 options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
 options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
@@ -235,7 +235,7 @@ if options.runBTag:
         elSource = cms.InputTag('slimmedElectrons'),
         btagDiscriminators = bTagDiscriminators,
         btagInfos = bTagInfos,
-        jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'), # FIXME !!!
+        jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'),
         genJetCollection = cms.InputTag('ak8GenJetsNoNuPruned','SubJets'),
         genParticles = cms.InputTag('prunedGenParticles'),
         explicitJTA = True,  # needed for subjet b tagging
@@ -293,13 +293,19 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 
 # MET
 # https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
-# for now only HBHE should be rerun on MINIAOD
 process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
 process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
+process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False)
+process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
 
 process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
-   inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
-   reverseDecision = cms.bool(False)
+    inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
+    reverseDecision = cms.bool(False)
+)
+
+process.ApplyBaselineHBHEIsoNoiseFilter = cms.EDFilter('BooleanFlagFilter',
+    inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHEIsoNoiseFilterResult'),
+    reverseDecision = cms.bool(False)
 )
 
 #####################
@@ -514,6 +520,7 @@ if not options.isData:
         process.p = cms.Path(
         process.HBHENoiseFilterResultProducer+
         process.ApplyBaselineHBHENoiseFilter+
+        process.ApplyBaselineHBHEIsoNoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.METSignificance+
@@ -524,6 +531,7 @@ if not options.isData:
         process.p = cms.Path(
         process.HBHENoiseFilterResultProducer+
         process.ApplyBaselineHBHENoiseFilter+
+        process.ApplyBaselineHBHEIsoNoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
 #        process.genJetFlavourAlg+
@@ -536,6 +544,7 @@ else:
         process.p = cms.Path(
         process.HBHENoiseFilterResultProducer+
         process.ApplyBaselineHBHENoiseFilter+
+        process.ApplyBaselineHBHEIsoNoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.METSignificance+
@@ -546,6 +555,7 @@ else:
         process.p = cms.Path(
         process.HBHENoiseFilterResultProducer+
         process.ApplyBaselineHBHENoiseFilter+
+        process.ApplyBaselineHBHEIsoNoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
