@@ -832,6 +832,7 @@ void FlatTree::Init()
 
    jet_looseJetID.clear();
    jet_tightJetID.clear();
+   jet_qgtag.clear();   
    
    jet_hasGenJet.clear();   
    jet_genJet_pt.clear();
@@ -1818,6 +1819,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("jet_looseJetID") ) tree->Branch("jet_looseJetID", "std::vector<bool>", &jet_looseJetID, buffersize);
    if( doWrite("jet_tightJetID") ) tree->Branch("jet_tightJetID", "std::vector<bool>", &jet_tightJetID, buffersize);
+   if( doWrite("jet_qgtag") ) tree->Branch("jet_qgtag", "std::vector<float>", &jet_qgtag, buffersize);
 
    if( doWrite("jet_hasGenJet") ) tree->Branch("jet_hasGenJet", "std::vector<bool>", &jet_hasGenJet, buffersize);   
    if( doWrite("jet_genJet_pt") ) tree->Branch("jet_genJet_pt", "std::vector<float>", &jet_genJet_pt, buffersize);
