@@ -901,7 +901,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      }
    if( !metSigPtr.isValid() or metSigPtr.failedToGet() )
      std::cerr << " Fail to access METSignificance branch " << std::endl;
-   
+
    // Packed candidate collection
    edm::Handle<pat::PackedCandidateCollection> pfcands;
    if( dataFormat_ != "AOD" ) iEvent.getByLabel("packedPFCandidates",pfcands);
@@ -915,13 +915,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    
    edm::Handle<edm::ValueMap<float> > qgHandle;
    iEvent.getByToken(qgToken_, qgHandle);
-   
+
    // PuppiJets
    edm::Handle<pat::JetCollection> jetsPuppi;
    try {
       iEvent.getByToken(jetPuppiToken_,jetsPuppi);
    }
-   catch (...) {;}   
+   catch (...) {;}
 
    // W-jets
    edm::Handle<pat::JetCollection> ak8jets;
@@ -931,7 +931,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    edm::Handle<reco::GenJetCollection> genJets;
    if( !isData_ ) iEvent.getByToken(genJetToken_,genJets);
    edm::Handle<reco::JetFlavourMatchingCollection> genJetFlavourMatching;
-   if( !isData_ ) iEvent.getByLabel("genJetFlavour",genJetFlavourMatching);
+   if( !isData_ ) 
+     {
+//	iEvent.getByLabel("genJetFlavour",genJetFlavourMatching);
+     }   
       
    // Muons
    edm::Handle<pat::MuonCollection> muons;
@@ -966,7 +969,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    edm::Handle<edm::ValueMap<int> > mvaCategories;
    iEvent.getByToken(mvaValuesMapToken_,mvaValues);
    iEvent.getByToken(mvaCategoriesMapToken_,mvaCategories);   
-   
+
    // Taus
    edm::Handle<pat::TauCollection> taus;
    iEvent.getByToken(tauToken_,taus);
@@ -1012,7 +1015,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      }
    
    ftree->mc_weight = mc_weight;
-   
+
    hweight->SetBinContent(1,hweight->GetBinContent(1)+ftree->mc_weight);
    
    // ####################################
@@ -1119,7 +1122,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #               |___/ |___/             #
    // #                                       #
    // #########################################
-   
+
    //std::cout << "\n === TRIGGER PATHS === " << std::endl;
    for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i)
      {
@@ -1260,8 +1263,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         
         ftree->triggerobject_n = ftree->triggerobject_pt.size();
     }
-   
-// =========== END OF TRIGGER ==========
+
+   // =========== END OF TRIGGER ==========
    
    reco::Vertex *primVtx = NULL;   
 
@@ -1301,7 +1304,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    // met significance
    ftree->met_sig = *metSigPtr;
-   
+
    // MET
    edm::Handle<std::vector<pat::MET> > metAOD;
    edm::Handle<pat::METCollection> metMINIAOD;
@@ -1315,6 +1318,22 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->met_pt = metv.pt();
 	ftree->met_phi = metv.phi();
 	ftree->met_sumet = metv.sumEt();
+
+	if( !isData_ )
+	  {
+	     ftree->metGen_px = metv.genMET()->px();
+	     ftree->metGen_py = metv.genMET()->py();
+	     ftree->metGen_pt = metv.genMET()->pt();
+	     ftree->metGen_phi = metv.genMET()->phi();	
+	     ftree->metGen_sumet = metv.genMET()->sumEt();
+	     
+	     ftree->metGen_NeutralEMEt = metv.genMET()->NeutralEMEt();
+	     ftree->metGen_ChargedEMEt = metv.genMET()->ChargedEMEt();
+	     ftree->metGen_NeutralHadEt = metv.genMET()->NeutralHadEt();
+	     ftree->metGen_ChargedHadEt = metv.genMET()->ChargedHadEt();
+	     ftree->metGen_MuonEt = metv.genMET()->MuonEt();
+	     ftree->metGen_InvisibleEt = metv.genMET()->InvisibleEt();
+	  }
 	
 	ftree->met_uncorrectedPt = metv.uncorPt();
 	ftree->met_uncorrectedPhi = metv.uncorPhi();
@@ -1325,7 +1344,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->met_caloMETSumEt = metv.caloMETSumEt();
 	
 	pat::MET::METCorrectionLevel level = pat::MET::METCorrectionLevel::Type1;
-	
+
 	ftree->met_shiftedPx_JetEnUp = metv.shiftedPx(pat::MET::METUncertainty::JetEnUp,level);
 	ftree->met_shiftedPx_JetEnDown = metv.shiftedPx(pat::MET::METUncertainty::JetEnDown,level);
 	ftree->met_shiftedPx_JetResUp = metv.shiftedPx(pat::MET::METUncertainty::JetResUp,level);
@@ -1339,7 +1358,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->met_shiftedPx_UnclusteredEnUp = metv.shiftedPx(pat::MET::METUncertainty::UnclusteredEnUp,level);
 	ftree->met_shiftedPx_UnclusteredEnDown = metv.shiftedPx(pat::MET::METUncertainty::UnclusteredEnDown,level);
 	ftree->met_shiftedPx_NoShift = metv.shiftedPx(pat::MET::METUncertainty::NoShift,level);
-	ftree->met_shiftedPx_METUncertaintySize = metv.shiftedPx(pat::MET::METUncertainty::METUncertaintySize,level);
+	ftree->met_shiftedPx_PhotonEnUp = metv.shiftedPx(pat::MET::METUncertainty::PhotonEnUp,level);
+	ftree->met_shiftedPx_PhotonEnDown = metv.shiftedPx(pat::MET::METUncertainty::PhotonEnDown,level);
 
 	ftree->met_shiftedPy_JetEnUp = metv.shiftedPy(pat::MET::METUncertainty::JetEnUp,level);
 	ftree->met_shiftedPy_JetEnDown = metv.shiftedPy(pat::MET::METUncertainty::JetEnDown,level);
@@ -1354,7 +1374,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->met_shiftedPy_UnclusteredEnUp = metv.shiftedPy(pat::MET::METUncertainty::UnclusteredEnUp,level);
 	ftree->met_shiftedPy_UnclusteredEnDown = metv.shiftedPy(pat::MET::METUncertainty::UnclusteredEnDown,level);
 	ftree->met_shiftedPy_NoShift = metv.shiftedPy(pat::MET::METUncertainty::NoShift,level);
-	ftree->met_shiftedPy_METUncertaintySize = metv.shiftedPy(pat::MET::METUncertainty::METUncertaintySize,level);
+	ftree->met_shiftedPy_PhotonEnUp = metv.shiftedPy(pat::MET::METUncertainty::PhotonEnUp,level);
+	ftree->met_shiftedPy_PhotonEnDown = metv.shiftedPy(pat::MET::METUncertainty::PhotonEnDown,level);
 	
 	ftree->met_shiftedPhi_JetEnUp = metv.shiftedPhi(pat::MET::METUncertainty::JetEnUp,level);
 	ftree->met_shiftedPhi_JetEnDown = metv.shiftedPhi(pat::MET::METUncertainty::JetEnDown,level);
@@ -1369,7 +1390,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->met_shiftedPhi_UnclusteredEnUp = metv.shiftedPhi(pat::MET::METUncertainty::UnclusteredEnUp,level);
 	ftree->met_shiftedPhi_UnclusteredEnDown = metv.shiftedPhi(pat::MET::METUncertainty::UnclusteredEnDown,level);
 	ftree->met_shiftedPhi_NoShift = metv.shiftedPhi(pat::MET::METUncertainty::NoShift,level);
-	ftree->met_shiftedPhi_METUncertaintySize = metv.shiftedPhi(pat::MET::METUncertainty::METUncertaintySize,level);
+	ftree->met_shiftedPhi_PhotonEnUp = metv.shiftedPhi(pat::MET::METUncertainty::PhotonEnUp,level);
+	ftree->met_shiftedPhi_PhotonEnDown = metv.shiftedPhi(pat::MET::METUncertainty::PhotonEnDown,level);
 	
 	ftree->met_shiftedSumEt_JetEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::JetEnUp,level);
 	ftree->met_shiftedSumEt_JetEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::JetEnDown,level);
@@ -1384,7 +1406,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->met_shiftedSumEt_UnclusteredEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::UnclusteredEnUp,level);
 	ftree->met_shiftedSumEt_UnclusteredEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::UnclusteredEnDown,level);
 	ftree->met_shiftedSumEt_NoShift = metv.shiftedSumEt(pat::MET::METUncertainty::NoShift,level);
-	ftree->met_shiftedSumEt_METUncertaintySize = metv.shiftedSumEt(pat::MET::METUncertainty::METUncertaintySize,level);
+	ftree->met_shiftedSumEt_PhotonEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::PhotonEnUp,level);
+	ftree->met_shiftedSumEt_PhotonEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::PhotonEnDown,level);
      }
    else
      {
@@ -1600,7 +1623,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	if( dataFormat_ != "AOD" )
 	  {
 	     float miniIsoR = 10.0/std::min(std::max(float(elec.pt()),float(50.)),float(200.));
-	     float EffArea = 0.; // TO BE UPDATED
+	     float EffArea = 0.;
+	     float eta = elec.eta();
+	     if( fabs(eta) > 0 && fabs(eta) < 1.0 ) EffArea = 0.1752;
+	     else if( fabs(eta) >= 1.0 && fabs(eta) < 1.479 ) EffArea = 0.1862;
+	     else if( fabs(eta) >= 1.479 && fabs(eta) < 2.0 ) EffArea = 0.1411;
+	     else if( fabs(eta) >= 2.0 && fabs(eta) < 2.2 ) EffArea = 0.1534;
+	     else if( fabs(eta) >= 2.2 && fabs(eta) < 2.3 ) EffArea = 0.1903;
+	     else if( fabs(eta) >= 2.3 && fabs(eta) < 2.4 ) EffArea = 0.2243;
+	     else if( fabs(eta) >= 2.4 && fabs(eta) < 2.5 ) EffArea = 0.2687;
 	     float correction = ftree->ev_rho*EffArea*(miniIsoR/0.3)*(miniIsoR/0.3);
 	     miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),0.05,0.2,10.,false,false);
 	     float pfIsoCharged = ElecPfIsoCharged(elec,pfcands,miniIsoR);
@@ -2312,7 +2343,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->tau_pfEssential_dxy_Sig.push_back(tau.pfEssential().dxy_Sig);*/
      }   
    ftree->tau_n = ftree->tau_pt.size();
-   
+
    // ##########################
    // #       _      _         #
    // #      | | ___| |_ ___   #
@@ -2358,8 +2389,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	jecUnc->setJetPt(jet.pt());
 
 	ftree->jet_Unc.push_back(jecUnc->getUncertainty(true));
-	
+
 	ftree->jet_ntrk.push_back(jet.associatedTracks().size());
+//	std::cout << jet.hasTagInfo("pfInclusiveSecondaryVertexFinderTagInfos") << std::endl;
 
 	float CSVIVF = jet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
 	ftree->jet_CSVv2.push_back(CSVIVF);
@@ -2577,7 +2609,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->jetPuppi_genParton_status.push_back(gen_parton_status);
 	     ftree->jetPuppi_genParton_id.push_back(gen_parton_id);
 	  }
-     }   
+     }
 
    // ak8 jets (W-jets)
    if( ak8jets.isValid() )
@@ -2586,7 +2618,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->ak8jet_n = nak8Jet;
 	for(int ij=0;ij<nak8Jet;ij++)
 	  {
-	     const pat::Jet& jet = jetsPuppi->at(ij);
+	     const pat::Jet& jet = ak8jets->at(ij);
 	     
 	     ftree->ak8jet_pt.push_back(jet.pt());
 	     ftree->ak8jet_eta.push_back(jet.eta());
@@ -2729,8 +2761,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		  ftree->ak8jet_nSubJets.push_back(tagInfo->properties().nSubJets);
 	       }
 	  }	
-     }   
-   
+     }
+
    // GenJets
 
    if( !isData_ )
@@ -2752,12 +2784,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->genJet_invisibleEnergy.push_back(genJet.invisibleEnergy());
 	     ftree->genJet_auxiliaryEnergy.push_back(genJet.auxiliaryEnergy());
 	     
-	     RefToBase<reco::Jet> jetRef(RefToBaseProd<reco::Jet>(genJets),ij);
-	     int genJet_flavour = (*genJetFlavourMatching)[jetRef].getFlavour();
-	     ftree->genJet_flavour.push_back(genJet_flavour);
+//	     RefToBase<reco::Jet> jetRef(RefToBaseProd<reco::Jet>(genJets),ij);
+//	     int genJet_flavour = (*genJetFlavourMatching)[jetRef].getFlavour();
+//	     ftree->genJet_flavour.push_back(genJet_flavour);
+	     ftree->genJet_flavour.push_back(-666); // FIXME
 	  }	
      }
-   
+
    // ##########################
    //   PF candidates
    // ##########################
@@ -2807,7 +2840,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		
 	}
      }   
-
+   
    this->KeepEvent();
    ftree->tree->Fill();
    
