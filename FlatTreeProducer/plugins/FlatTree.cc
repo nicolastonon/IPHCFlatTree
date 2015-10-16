@@ -20,6 +20,19 @@ void FlatTree::Init()
    met_sumet = DEFVAL;
    met_sig = DEFVAL;
 
+   metGen_px = DEFVAL;
+   metGen_py = DEFVAL;
+   metGen_pt = DEFVAL;
+   metGen_phi = DEFVAL;
+   metGen_sumet = DEFVAL;
+   
+   metGen_NeutralEMEt = DEFVAL;
+   metGen_ChargedEMEt = DEFVAL;
+   metGen_NeutralHadEt = DEFVAL;
+   metGen_ChargedHadEt = DEFVAL;
+   metGen_MuonEt = DEFVAL;
+   metGen_InvisibleEt = DEFVAL;
+   
    met_uncorrectedPt = DEFVAL;
    met_uncorrectedPhi = DEFVAL;
    met_uncorrectedSumEt = DEFVAL;
@@ -41,7 +54,8 @@ void FlatTree::Init()
    met_shiftedPx_UnclusteredEnUp = DEFVAL;
    met_shiftedPx_UnclusteredEnDown = DEFVAL;
    met_shiftedPx_NoShift = DEFVAL;
-   met_shiftedPx_METUncertaintySize = DEFVAL;
+   met_shiftedPx_PhotonEnUp = DEFVAL;
+   met_shiftedPx_PhotonEnDown = DEFVAL;
 
    met_shiftedPy_JetEnUp = DEFVAL;
    met_shiftedPy_JetEnDown = DEFVAL;
@@ -56,7 +70,8 @@ void FlatTree::Init()
    met_shiftedPy_UnclusteredEnUp = DEFVAL;
    met_shiftedPy_UnclusteredEnDown = DEFVAL;
    met_shiftedPy_NoShift = DEFVAL;
-   met_shiftedPy_METUncertaintySize = DEFVAL;
+   met_shiftedPy_PhotonEnUp = DEFVAL;
+   met_shiftedPy_PhotonEnDown = DEFVAL;
 
    met_shiftedPhi_JetEnUp = DEFVAL;
    met_shiftedPhi_JetEnDown = DEFVAL;
@@ -71,7 +86,8 @@ void FlatTree::Init()
    met_shiftedPhi_UnclusteredEnUp = DEFVAL;
    met_shiftedPhi_UnclusteredEnDown = DEFVAL;
    met_shiftedPhi_NoShift = DEFVAL;
-   met_shiftedPhi_METUncertaintySize = DEFVAL;
+   met_shiftedPhi_PhotonEnUp = DEFVAL;
+   met_shiftedPhi_PhotonEnDown = DEFVAL;
    
    met_shiftedSumEt_JetEnUp = DEFVAL;
    met_shiftedSumEt_JetEnDown = DEFVAL;
@@ -86,7 +102,8 @@ void FlatTree::Init()
    met_shiftedSumEt_UnclusteredEnUp = DEFVAL;
    met_shiftedSumEt_UnclusteredEnDown = DEFVAL;
    met_shiftedSumEt_NoShift = DEFVAL;
-   met_shiftedSumEt_METUncertaintySize = DEFVAL;
+   met_shiftedSumEt_PhotonEnUp = DEFVAL;
+   met_shiftedSumEt_PhotonEnDown = DEFVAL;
    
    metPuppi_pt = DEFVAL;
    metPuppi_phi = DEFVAL;
@@ -987,6 +1004,19 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("met_phi") ) tree->Branch("met_phi", &met_phi, "met_phi/F", buffersize);
    if( doWrite("met_sumet") ) tree->Branch("met_sumet", &met_sumet, "met_sumet/F", buffersize);
    if( doWrite("met_sig") ) tree->Branch("met_sig", &met_sig, "met_sig/D", buffersize);
+
+   if( doWrite("metGen_px") ) tree->Branch("metGen_px", &metGen_px, "metGen_px/F", buffersize);
+   if( doWrite("metGen_py") ) tree->Branch("metGen_py", &metGen_py, "metGen_py/F", buffersize);
+   if( doWrite("metGen_pt") ) tree->Branch("metGen_pt", &metGen_pt, "metGen_pt/F", buffersize);
+   if( doWrite("metGen_phi") ) tree->Branch("metGen_phi", &metGen_phi, "metGen_phi/F", buffersize);
+   if( doWrite("metGen_sumet") ) tree->Branch("metGen_sumet", &metGen_sumet, "metGen_sumet/F", buffersize);
+   
+   if( doWrite("metGen_NeutralEMEt") ) tree->Branch("metGen_NeutralEMEt", &metGen_NeutralEMEt, "metGen_NeutralEMEt/F", buffersize);
+   if( doWrite("metGen_ChargedEMEt") ) tree->Branch("metGen_ChargedEMEt", &metGen_ChargedEMEt, "metGen_ChargedEMEt/F", buffersize);
+   if( doWrite("metGen_NeutralHadEt") ) tree->Branch("metGen_NeutralHadEt", &metGen_NeutralHadEt, "metGen_NeutralHadEt/F", buffersize);
+   if( doWrite("metGen_ChargedHadEt") ) tree->Branch("metGen_ChargedHadEt", &metGen_ChargedHadEt, "metGen_ChargedHadEt/F", buffersize);
+   if( doWrite("metGen_MuonEt") ) tree->Branch("metGen_MuonEt", &metGen_MuonEt, "metGen_MuonEt/F", buffersize);
+   if( doWrite("metGen_InvisibleEt") ) tree->Branch("metGen_InvisibleEt", &metGen_InvisibleEt, "metGen_InvisibleEt/F", buffersize);
    
    if( doWrite("met_uncorrectedPt") ) tree->Branch("met_uncorrectedPt", &met_uncorrectedPt, "met_uncorrectedPt/F", buffersize);
    if( doWrite("met_uncorrectedPhi") ) tree->Branch("met_uncorrectedPhi", &met_uncorrectedPhi, "met_uncorrectedPhi/F", buffersize);
@@ -1009,7 +1039,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("met_shiftedPx_UnclusteredEnUp") ) tree->Branch("met_shiftedPx_UnclusteredEnUp", &met_shiftedPx_UnclusteredEnUp, "met_shiftedPx_UnclusteredEnUp/F", buffersize);
    if( doWrite("met_shiftedPx_UnclusteredEnDown") ) tree->Branch("met_shiftedPx_UnclusteredEnDown", &met_shiftedPx_UnclusteredEnDown, "met_shiftedPx_UnclusteredEnDown/F", buffersize);
    if( doWrite("met_shiftedPx_NoShift") ) tree->Branch("met_shiftedPx_NoShift", &met_shiftedPx_NoShift, "met_shiftedPx_NoShift/F", buffersize);
-   if( doWrite("met_shiftedPx_METUncertaintySize") ) tree->Branch("met_shiftedPx_METUncertaintySize", &met_shiftedPx_METUncertaintySize, "met_shiftedPx_METUncertaintySize/F", buffersize);
+   if( doWrite("met_shiftedPx_PhotonEnUp") ) tree->Branch("met_shiftedPx_PhotonEnUp", &met_shiftedPx_PhotonEnUp, "met_shiftedPx_PhotonEnUp/F", buffersize);
+   if( doWrite("met_shiftedPx_PhotonEnDown") ) tree->Branch("met_shiftedPx_PhotonEnDown", &met_shiftedPx_PhotonEnDown, "met_shiftedPx_PhotonEnDown/F", buffersize);
 
    if( doWrite("met_shiftedPy_JetEnUp") ) tree->Branch("met_shiftedPy_JetEnUp", &met_shiftedPy_JetEnUp, "met_shiftedPy_JetEnUp/F", buffersize);
    if( doWrite("met_shiftedPy_JetEnDown") ) tree->Branch("met_shiftedPy_JetEnDown", &met_shiftedPy_JetEnDown, "met_shiftedPy_JetEnDown/F", buffersize);
@@ -1024,7 +1055,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("met_shiftedPy_UnclusteredEnUp") ) tree->Branch("met_shiftedPy_UnclusteredEnUp", &met_shiftedPy_UnclusteredEnUp, "met_shiftedPy_UnclusteredEnUp/F", buffersize);
    if( doWrite("met_shiftedPy_UnclusteredEnDown") ) tree->Branch("met_shiftedPy_UnclusteredEnDown", &met_shiftedPy_UnclusteredEnDown, "met_shiftedPy_UnclusteredEnDown/F", buffersize);
    if( doWrite("met_shiftedPy_NoShift") ) tree->Branch("met_shiftedPy_NoShift", &met_shiftedPy_NoShift, "met_shiftedPy_NoShift/F", buffersize);
-   if( doWrite("met_shiftedPy_METUncertaintySize") ) tree->Branch("met_shiftedPy_METUncertaintySize", &met_shiftedPy_METUncertaintySize, "met_shiftedPy_METUncertaintySize/F", buffersize);
+   if( doWrite("met_shiftedPy_PhotonEnUp") ) tree->Branch("met_shiftedPy_PhotonEnUp", &met_shiftedPy_PhotonEnUp, "met_shiftedPy_PhotonEnUp/F", buffersize);
+   if( doWrite("met_shiftedPy_PhotonEnDown") ) tree->Branch("met_shiftedPy_PhotonEnDown", &met_shiftedPy_PhotonEnDown, "met_shiftedPy_PhotonEnDown/F", buffersize);
    
    if( doWrite("met_shiftedPhi_JetEnUp") ) tree->Branch("met_shiftedPhi_JetEnUp", &met_shiftedPhi_JetEnUp, "met_shiftedPhi_JetEnUp/F", buffersize);
    if( doWrite("met_shiftedPhi_JetEnDown") ) tree->Branch("met_shiftedPhi_JetEnDown", &met_shiftedPhi_JetEnDown, "met_shiftedPhi_JetEnDown/F", buffersize);
@@ -1039,7 +1071,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("met_shiftedPhi_UnclusteredEnUp") ) tree->Branch("met_shiftedPhi_UnclusteredEnUp", &met_shiftedPhi_UnclusteredEnUp, "met_shiftedPhi_UnclusteredEnUp/F", buffersize);
    if( doWrite("met_shiftedPhi_UnclusteredEnDown") ) tree->Branch("met_shiftedPhi_UnclusteredEnDown", &met_shiftedPhi_UnclusteredEnDown, "met_shiftedPhi_UnclusteredEnDown/F", buffersize);
    if( doWrite("met_shiftedPhi_NoShift") ) tree->Branch("met_shiftedPhi_NoShift", &met_shiftedPhi_NoShift, "met_shiftedPhi_NoShift/F", buffersize);
-   if( doWrite("met_shiftedPhi_METUncertaintySize") ) tree->Branch("met_shiftedPhi_METUncertaintySize", &met_shiftedPhi_METUncertaintySize, "met_shiftedPhi_METUncertaintySize/F", buffersize);
+   if( doWrite("met_shiftedPhi_PhotonEnUp") ) tree->Branch("met_shiftedPhi_PhotonEnUp", &met_shiftedPhi_PhotonEnUp, "met_shiftedPhi_PhotonEnUp/F", buffersize);
+   if( doWrite("met_shiftedPhi_PhotonEnDown") ) tree->Branch("met_shiftedPhi_PhotonEnDown", &met_shiftedPhi_PhotonEnDown, "met_shiftedPhi_PhotonEnDown/F", buffersize);
 
    if( doWrite("met_shiftedSumEt_JetEnUp") ) tree->Branch("met_shiftedSumEt_JetEnUp", &met_shiftedSumEt_JetEnUp, "met_shiftedSumEt_JetEnUp/F", buffersize);
    if( doWrite("met_shiftedSumEt_JetEnDown") ) tree->Branch("met_shiftedSumEt_JetEnDown", &met_shiftedSumEt_JetEnDown, "met_shiftedSumEt_JetEnDown/F", buffersize);
@@ -1054,7 +1087,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("met_shiftedSumEt_UnclusteredEnUp") ) tree->Branch("met_shiftedSumEt_UnclusteredEnUp", &met_shiftedSumEt_UnclusteredEnUp, "met_shiftedSumEt_UnclusteredEnUp/F", buffersize);
    if( doWrite("met_shiftedSumEt_UnclusteredEnDown") ) tree->Branch("met_shiftedSumEt_UnclusteredEnDown", &met_shiftedSumEt_UnclusteredEnDown, "met_shiftedSumEt_UnclusteredEnDown/F", buffersize);
    if( doWrite("met_shiftedSumEt_NoShift") ) tree->Branch("met_shiftedSumEt_NoShift", &met_shiftedSumEt_NoShift, "met_shiftedSumEt_NoShift/F", buffersize);
-   if( doWrite("met_shiftedSumEt_METUncertaintySize") ) tree->Branch("met_shiftedSumEt_METUncertaintySize", &met_shiftedSumEt_METUncertaintySize, "met_shiftedSumEt_METUncertaintySize/F", buffersize);
+   if( doWrite("met_shiftedSumEt_PhotonEnUp") ) tree->Branch("met_shiftedSumEt_PhotonEnUp", &met_shiftedSumEt_PhotonEnUp, "met_shiftedSumEt_PhotonEnUp/F", buffersize);
+   if( doWrite("met_shiftedSumEt_PhotonEnDown") ) tree->Branch("met_shiftedSumEt_PhotonEnDown", &met_shiftedSumEt_PhotonEnDown, "met_shiftedSumEt_PhotonEnDown/F", buffersize);
    
    if( doWrite("metPuppi_pt") ) tree->Branch("metPuppi_pt", &metPuppi_pt, "metPuppi_pt/F", buffersize);
    if( doWrite("metPuppi_phi") ) tree->Branch("metPuppi_phi", &metPuppi_phi, "metPuppi_phi/F", buffersize);
@@ -4229,6 +4263,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_j2_status", &mc_truth_j2_status, "mc_truth_j2_status/I", buffersize);
 	tree->Branch("mc_truth_j3_status", &mc_truth_j3_status, "mc_truth_j3_status/I", buffersize);
      }
+   
+   if( doWrite("gen_PVz") ) tree->Branch("gen_PVz", &gen_PVz, "gen_PVz/F", buffersize);
    
    if( doWrite("gen_all") )
      {
