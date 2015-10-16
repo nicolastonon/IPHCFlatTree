@@ -132,6 +132,8 @@ class FlatTreeProducer : public edm::EDAnalyzer
    
    std::string dataFormat_;
    bool isData_;
+   bool fillMCScaleWeight_;
+   int nPdf_;
 
    HLTConfigProvider hltConfig_;
    
@@ -768,6 +770,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    // #############################################################
 
    dataFormat_        = iConfig.getParameter<std::string>("dataFormat");
+   nPdf_              = iConfig.getParameter<int>("nPDF");
+   fillMCScaleWeight_ = iConfig.getParameter<bool>("fillMCScaleWeight");
    isData_            = iConfig.getParameter<bool>("isData");
    triggerBits_       = consumes<edm::TriggerResults>(edm::InputTag(std::string("TriggerResults"),std::string(""),std::string("HLT")));
    triggerObjects_    = consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"));
@@ -856,6 +860,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // Initial-state info
    edm::Handle<GenEventInfoProduct> genEventInfo;
    if( !isData_ ) iEvent.getByLabel("generator",genEventInfo);
+   
+   // LHE
+   edm::Handle<LHEEventProduct> EventHandle;
+   if( !isData_ && fillMCScaleWeight_ ) iEvent.getByLabel("externalLHEProducer",EventHandle);
    
    // Gen particles
    edm::Handle<reco::GenParticleCollection> genParticlesHandle;                                                          
@@ -1013,6 +1021,20 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->mc_scale = genEventInfo->pdf()->scalePDF;
 	if( genEventInfo->binningValues().size() > 0 ) ftree->mc_ptHat = genEventInfo->binningValues()[0];
      }
+   
+   if( fillMCScaleWeight_ )
+     {
+	ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(EventHandle->weights()[2].wgt)/(EventHandle->originalXWGTUP()); // muF = 0.5 | muR = 1
+	ftree->weight_scale_muF2   = (genEventInfo->weight())*(EventHandle->weights()[1].wgt)/(EventHandle->originalXWGTUP()); // muF = 2   | muR = 1
+	ftree->weight_scale_muR0p5 = (genEventInfo->weight())*(EventHandle->weights()[6].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 0.5
+	ftree->weight_scale_muR2   = (genEventInfo->weight())*(EventHandle->weights()[3].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 2
+     }   	
+   
+   for( int w=9;w<9+nPdf_;w++ )
+     {
+	const LHEEventProduct::WGT& wgt = EventHandle->weights().at(w);
+	ftree->mc_pdfweights.push_back(wgt.wgt);
+     }   
    
    ftree->mc_weight = mc_weight;
 
