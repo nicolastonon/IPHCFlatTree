@@ -100,6 +100,11 @@
     <var name="pv_rho" save="1"></var>
     <var name="pv_isFake" save="1"></var>
     <var name="mc_weight" save="1"></var>
+    <var name="weight_scale_muF0p5" save="1"></var>
+    <var name="weight_scale_muF2" save="1"></var>
+    <var name="weight_scale_muR0p5" save="1"></var>
+    <var name="weight_scale_muR2" save="1"></var>
+    <var name="mc_pdfweights" save="1"></var>
     <var name="mc_id" save="1" mc="1"></var>
     <var name="mc_f1" save="1" mc="1"></var>
     <var name="mc_f2" save="1" mc="1"></var>
