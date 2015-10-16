@@ -46,6 +46,19 @@ class FlatTree
    float met_phi;
    float met_sumet;
 
+   float metGen_px;
+   float metGen_py;
+   float metGen_pt;
+   float metGen_phi;
+   float metGen_sumet;
+   
+   float metGen_NeutralEMEt;
+   float metGen_ChargedEMEt;
+   float metGen_NeutralHadEt;
+   float metGen_ChargedHadEt;
+   float metGen_MuonEt;
+   float metGen_InvisibleEt;
+   
    float met_uncorrectedPt;
    float met_uncorrectedPhi;
    float met_uncorrectedSumEt;
@@ -67,7 +80,8 @@ class FlatTree
    float met_shiftedPx_UnclusteredEnUp;
    float met_shiftedPx_UnclusteredEnDown;
    float met_shiftedPx_NoShift;
-   float met_shiftedPx_METUncertaintySize;
+   float met_shiftedPx_PhotonEnUp;
+   float met_shiftedPx_PhotonEnDown;
 
    float met_shiftedPy_JetEnUp;
    float met_shiftedPy_JetEnDown;
@@ -82,7 +96,8 @@ class FlatTree
    float met_shiftedPy_UnclusteredEnUp;
    float met_shiftedPy_UnclusteredEnDown;
    float met_shiftedPy_NoShift;
-   float met_shiftedPy_METUncertaintySize;
+   float met_shiftedPy_PhotonEnUp;
+   float met_shiftedPy_PhotonEnDown;
    
    float met_shiftedPhi_JetEnUp;
    float met_shiftedPhi_JetEnDown;
@@ -97,7 +112,8 @@ class FlatTree
    float met_shiftedPhi_UnclusteredEnUp;
    float met_shiftedPhi_UnclusteredEnDown;
    float met_shiftedPhi_NoShift;
-   float met_shiftedPhi_METUncertaintySize;
+   float met_shiftedPhi_PhotonEnUp;
+   float met_shiftedPhi_PhotonEnDown;
    
    float met_shiftedSumEt_JetEnUp;
    float met_shiftedSumEt_JetEnDown;
@@ -112,7 +128,8 @@ class FlatTree
    float met_shiftedSumEt_UnclusteredEnUp;
    float met_shiftedSumEt_UnclusteredEnDown;
    float met_shiftedSumEt_NoShift;
-   float met_shiftedSumEt_METUncertaintySize;
+   float met_shiftedSumEt_PhotonEnUp;
+   float met_shiftedSumEt_PhotonEnDown;
    
    float metPuppi_pt;
    float metPuppi_phi;
@@ -2122,6 +2139,7 @@ class FlatTree
    int mc_truth_tWq2_status;
 
    // gen
+   float gen_PVz;
    int gen_n;
    std::vector<float> gen_pt;
    std::vector<float> gen_eta;
