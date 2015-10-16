@@ -875,6 +875,7 @@ class FlatTree
    
    std::vector<bool> jet_looseJetID;
    std::vector<bool> jet_tightJetID;
+   std::vector<float> jet_qgtag;
 
    std::vector<bool> jet_hasGenJet;   
    std::vector<float> jet_genJet_pt;
