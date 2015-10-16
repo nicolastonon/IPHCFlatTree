@@ -2452,6 +2452,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_looseJetID.push_back(looseJetID);
 	ftree->jet_tightJetID.push_back(tightJetID);
 	
+	//Quark-gluon tagging
+	const auto jetRef = view_jets->ptrAt(ij);
+	ftree->jet_qgtag.push_back((*qgHandle)[jetRef]);
+	
 	const reco::GenJet* genJet = jet.genJet();
 	bool hasGenInfo = (genJet);
 	ftree->jet_hasGenJet.push_back(hasGenInfo);
