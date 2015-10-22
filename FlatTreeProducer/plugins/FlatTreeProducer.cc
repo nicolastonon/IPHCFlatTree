@@ -133,6 +133,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    std::string dataFormat_;
    bool isData_;
    bool fillMCScaleWeight_;
+   bool fillPUInfo_;
    int nPdf_;
 
    HLTConfigProvider hltConfig_;
@@ -157,6 +158,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<pat::METCollection> metTokenMINIAOD_;
    edm::EDGetTokenT<double> rhoToken_;
    edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
+   edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puInfoToken_;
 
    edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
    edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseCBIdMapToken_;
@@ -773,6 +775,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    dataFormat_        = iConfig.getParameter<std::string>("dataFormat");
    nPdf_              = iConfig.getParameter<int>("nPDF");
    fillMCScaleWeight_ = iConfig.getParameter<bool>("fillMCScaleWeight");
+   fillPUInfo_ = iConfig.getParameter<bool>("fillPUInfo");
    isData_            = iConfig.getParameter<bool>("isData");
    triggerBits_       = consumes<edm::TriggerResults>(edm::InputTag(std::string("TriggerResults"),std::string(""),std::string("HLT")));
    triggerObjects_    = consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"));
@@ -793,7 +796,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    metTokenPuppi_     = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metPuppiInput"));
    rhoToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticlesInput"));
-   
+   puInfoToken_ = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoInput"));
+
    eleVetoCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
    eleLooseCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
    eleMediumCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumCBIdMap"));
@@ -893,7 +897,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    
    // Pile-up
    edm::Handle<std::vector< PileupSummaryInfo> > pileupInfo;
-   if( !isData_ ) iEvent.getByLabel("slimmedAddPileupInfo",pileupInfo);
+   //if( !isData_ && fillPUInfo_ ) iEvent.getByLabel("slimmedAddPileupInfo",pileupInfo);
+   //if( !isData_ && fillPUInfo_ ) iEvent.getByLabel("addPileupInfo",pileupInfo);
+   if( !isData_ && fillPUInfo_ ) iEvent.getByToken(puInfoToken_,pileupInfo);
    
    // Rho info
    edm::Handle<double> rhoPtr;
@@ -1028,7 +1034,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->mc_scale = genEventInfo->pdf()->scalePDF;
 	if( genEventInfo->binningValues().size() > 0 ) ftree->mc_ptHat = genEventInfo->binningValues()[0];
      }
-   
+  
+   if(! EventHandle.failedToGet()){
    if( !isData_ && fillMCScaleWeight_ )
      {
 	ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(EventHandle->weights()[2].wgt)/(EventHandle->originalXWGTUP()); // muF = 0.5 | muR = 1
@@ -1042,6 +1049,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	const LHEEventProduct::WGT& wgt = EventHandle->weights().at(w);
 	ftree->mc_pdfweights.push_back(wgt.wgt);
      }   
+   }
    
    ftree->mc_weight = mc_weight;
 
@@ -1057,7 +1065,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #                                  #                      
    // ####################################
    
-   if( !isData_ )
+   if( !isData_ && fillPUInfo_)
      {	
 	ftree->mc_pu_Npvi = pileupInfo->size();
 	for(std::vector<PileupSummaryInfo>::const_iterator pvi=pileupInfo->begin();
@@ -1294,6 +1302,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
 
    // =========== END OF TRIGGER ==========
+   
    
    reco::Vertex *primVtx = NULL;   
 
