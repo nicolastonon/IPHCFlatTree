@@ -150,6 +150,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<edm::View<pat::Jet> > viewJetToken_;
    edm::EDGetTokenT<pat::JetCollection> jetPuppiToken_;
    edm::EDGetTokenT<pat::JetCollection> ak8jetToken_;
+   edm::EDGetTokenT<pat::JetCollection> ak10jetToken_;
    edm::EDGetTokenT<reco::GenJetCollection> genJetToken_;
    edm::EDGetTokenT<std::vector<pat::MET> > metTokenAOD_;
    edm::EDGetTokenT<pat::METCollection> metTokenPuppi_;
@@ -784,6 +785,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    jetToken_          = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetInput"));
    viewJetToken_      = consumes<edm::View<pat::Jet> >(iConfig.getParameter<edm::InputTag>("jetInput"));
    ak8jetToken_       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ak8jetInput"));
+   ak10jetToken_       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ak10jetInput"));
    jetPuppiToken_     = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetPuppiInput"));
    genJetToken_       = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("genJetInput"));
    metTokenAOD_       = consumes<std::vector<pat::MET> >(iConfig.getParameter<edm::InputTag>("metInput"));
@@ -934,6 +936,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // W-jets
    edm::Handle<pat::JetCollection> ak8jets;
    iEvent.getByToken(ak8jetToken_,ak8jets);
+   
+   
+   // AK10: W-jets
+   edm::Handle<pat::JetCollection> ak10jets;
+   iEvent.getByToken(ak10jetToken_,ak10jets);
    
    // GenJets
    edm::Handle<reco::GenJetCollection> genJets;
@@ -2786,8 +2793,171 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		  ftree->ak8jet_topMass.push_back(tagInfo->properties().topMass);
 		  ftree->ak8jet_nSubJets.push_back(tagInfo->properties().nSubJets);
 	       }
+	      else{
+		  ftree->ak8jet_minMass.push_back(-666);
+		  ftree->ak8jet_topMass.push_back(-666);
+		  ftree->ak8jet_nSubJets.push_back(-666);
+	      }
 	  }	
      }
+   
+   // ak8 jets (W-jets)
+   if( ak10jets.isValid() )
+     {
+	int nak10Jet = ak10jets->size();
+	ftree->ak10jet_n = nak10Jet;
+	for(int ij=0;ij<nak10Jet;ij++)
+	  {
+	     const pat::Jet& jet = ak10jets->at(ij);
+	     
+	     ftree->ak10jet_pt.push_back(jet.pt());
+	     ftree->ak10jet_eta.push_back(jet.eta());
+	     ftree->ak10jet_phi.push_back(jet.phi());
+	     ftree->ak10jet_m.push_back(jet.mass());
+	     ftree->ak10jet_E.push_back(jet.energy());
+	     
+	     ftree->ak10jet_JBP.push_back(jet.bDiscriminator("pfJetBProbabilityBJetTags"));
+	     ftree->ak10jet_JP.push_back(jet.bDiscriminator("pfJetProbabilityBJetTags"));
+	     ftree->ak10jet_TCHP.push_back(jet.bDiscriminator("pfTrackCountingHighPurBJetTags"));
+	     ftree->ak10jet_TCHE.push_back(jet.bDiscriminator("pfTrackCountingHighEffBJetTags"));
+	     ftree->ak10jet_SSVHE.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
+	     ftree->ak10jet_SSVHP.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
+	     ftree->ak10jet_CMVA.push_back(jet.bDiscriminator("pfCombinedMVABJetTags"));
+	     
+	     ftree->ak10jet_chargedMultiplicity.push_back(jet.chargedMultiplicity());
+	     ftree->ak10jet_neutralMultiplicity.push_back(jet.neutralMultiplicity());
+	     ftree->ak10jet_chargedHadronMultiplicity.push_back(jet.chargedHadronMultiplicity());
+	     
+	     ftree->ak10jet_jecFactorUncorrected.push_back(jet.jecFactor("Uncorrected"));
+	     ftree->ak10jet_jecFactorL1FastJet.push_back(-666.);
+	     ftree->ak10jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
+	     ftree->ak10jet_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
+	     
+	     ftree->ak10jet_ntrk.push_back(jet.associatedTracks().size());
+	               
+	     float CSVIVF = jet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+	     ftree->ak10jet_CSVv2.push_back(CSVIVF);
+	     
+	     ftree->ak10jet_partonFlavour.push_back(jet.partonFlavour());
+	     ftree->ak10jet_hadronFlavour.push_back(jet.hadronFlavour());
+	     
+	     ftree->ak10jet_neutralHadronEnergy.push_back(jet.neutralHadronEnergy());
+	     ftree->ak10jet_neutralEmEnergy.push_back(jet.neutralEmEnergy());
+	     ftree->ak10jet_chargedHadronEnergy.push_back(jet.chargedHadronEnergy());
+	     ftree->ak10jet_chargedEmEnergy.push_back(jet.chargedEmEnergy());
+	     ftree->ak10jet_electronEnergy.push_back(jet.electronEnergy());
+	     ftree->ak10jet_muonEnergy.push_back(jet.muonEnergy());
+	     ftree->ak10jet_photonEnergy.push_back(jet.photonEnergy());
+	     
+	     ftree->ak10jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	     
+	     ftree->ak10jet_jetArea.push_back(jet.jetArea());
+	     
+	     // Jet ID
+	     float NHF = jet.neutralHadronEnergyFraction();
+	     float NEMF = jet.neutralEmEnergyFraction();
+	     float CHF = jet.chargedHadronEnergyFraction();
+	     float MUF = jet.muonEnergyFraction();
+	     float CEMF = jet.chargedEmEnergyFraction();
+	     float NumConst = jet.chargedMultiplicity()+jet.neutralMultiplicity();
+	     float CHM = jet.chargedMultiplicity();
+	     float eta = jet.eta();
+	     bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
+	     bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || fabs(eta)>2.4);
+	     
+	     ftree->ak10jet_looseJetID.push_back(looseJetID);
+	     ftree->ak10jet_tightJetID.push_back(tightJetID);
+	     
+	     const reco::GenJet* genJet = jet.genJet();
+	     bool hasGenInfo = (genJet);
+	     ftree->ak10jet_hasGenJet.push_back(hasGenInfo);
+	     
+	     float gen_jet_pt = -666;
+	     float gen_jet_eta = -666;
+	     float gen_jet_phi = -666;
+	     float gen_jet_m = -666;
+	     float gen_jet_E = -666;
+	     int gen_jet_status = -666;
+	     int gen_jet_id = -666;
+	     
+	     if( hasGenInfo )
+	       {		  
+		  gen_jet_pt = genJet->pt();
+		  gen_jet_eta = genJet->eta();
+		  gen_jet_phi = genJet->phi();
+		  gen_jet_m = genJet->mass();
+		  gen_jet_E = genJet->energy();
+		  gen_jet_status = genJet->status();
+		  gen_jet_id = genJet->pdgId();
+	       }
+	     
+	     ftree->ak10jet_genJet_pt.push_back(gen_jet_pt);
+	     ftree->ak10jet_genJet_eta.push_back(gen_jet_eta);
+	     ftree->ak10jet_genJet_phi.push_back(gen_jet_phi);
+	     ftree->ak10jet_genJet_m.push_back(gen_jet_m);
+	     ftree->ak10jet_genJet_E.push_back(gen_jet_E);
+	     
+	     ftree->ak10jet_genJet_status.push_back(gen_jet_status);
+	     ftree->ak10jet_genJet_id.push_back(gen_jet_id);
+	     
+	     const reco::GenParticle* genParton = (!isData_) ? jet.genParton() : 0;
+	     bool hasGenPartonInfo = (genParton);
+	     ftree->ak10jet_hasGenParton.push_back(hasGenPartonInfo);
+	     
+	     float gen_parton_pt = -666;
+	     float gen_parton_eta = -666;
+	     float gen_parton_phi = -666;
+	     float gen_parton_m = -666;
+	     float gen_parton_E = -666;
+	     int gen_parton_status = -666;
+	     int gen_parton_id = -666;
+	     
+	     if( hasGenPartonInfo )
+	       {		  
+		  gen_parton_pt = genParton->pt();
+		  gen_parton_eta = genParton->eta();
+		  gen_parton_phi = genParton->phi();
+		  gen_parton_m = genParton->mass();
+		  gen_parton_E = genParton->energy();
+		  gen_parton_status = genParton->status();
+		  gen_parton_id = genParton->pdgId();
+	       }
+	     
+	     ftree->ak10jet_genParton_pt.push_back(gen_parton_pt);
+	     ftree->ak10jet_genParton_eta.push_back(gen_parton_eta);
+	     ftree->ak10jet_genParton_phi.push_back(gen_parton_phi);
+	     ftree->ak10jet_genParton_m.push_back(gen_parton_m);
+	     ftree->ak10jet_genParton_E.push_back(gen_parton_E);
+	     
+	     ftree->ak10jet_genParton_status.push_back(gen_parton_status);
+	     ftree->ak10jet_genParton_id.push_back(gen_parton_id);
+	     
+	     // access to the W-tagging variables
+	     ftree->ak10jet_tau1.push_back(jet.userFloat("NjettinessAK8:tau1")); //
+	     ftree->ak10jet_tau2.push_back(jet.userFloat("NjettinessAK8:tau2")); // Access the n-subjettiness variables
+	     ftree->ak10jet_tau3.push_back(jet.userFloat("NjettinessAK8:tau3")); //
+	     
+	     ftree->ak10jet_softdrop_mass.push_back(jet.userFloat("ak10PFJetsCHSSoftDropMass")); // access to filtered mass
+	     ftree->ak10jet_trimmed_mass.push_back(jet.userFloat("ak10PFJetsCHSTrimmedMass"));   // access to trimmed mass
+	     ftree->ak10jet_pruned_mass.push_back(jet.userFloat("ak10PFJetsCHSPrunedMass"));     // access to pruned mass
+	     ftree->ak10jet_filtered_mass.push_back(jet.userFloat("ak10PFJetsCHSFilteredMass")); // access to filtered mass
+	     
+	     // access to the top-tagging variables
+	     reco::CATopJetTagInfo const * tagInfo =  dynamic_cast<reco::CATopJetTagInfo const *>( jet.tagInfo("caTop"));
+	     if ( tagInfo != 0 ) 
+	       {
+		  ftree->ak10jet_minMass.push_back(tagInfo->properties().minMass);
+		  ftree->ak10jet_topMass.push_back(tagInfo->properties().topMass);
+		  ftree->ak10jet_nSubJets.push_back(tagInfo->properties().nSubJets);
+	       }
+	      else{
+		  ftree->ak10jet_minMass.push_back(-666);
+		  ftree->ak10jet_topMass.push_back(-666);
+		  ftree->ak10jet_nSubJets.push_back(-666);
+	      }
+	  }	
+     }
+
 
    // GenJets
 

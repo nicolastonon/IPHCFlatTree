@@ -854,6 +854,60 @@
     <var name="ak8jet_genParton_E" save="1" mc="1"></var>
     <var name="ak8jet_genParton_status" save="1" mc="1"></var>
     <var name="ak8jet_genParton_id" save="1" mc="1"></var>
+    <var name="ak10jet_n" save="1"></var>
+    <var name="ak10jet_pt" save="1" cut_min="0.0"></var>
+    <var name="ak10jet_eta" save="1" cut_max="75.0"></var>
+    <var name="ak10jet_phi" save="1"></var>
+    <var name="ak10jet_m" save="1"></var>
+    <var name="ak10jet_E" save="1"></var>
+    <var name="ak10jet_tau1" save="1"></var>
+    <var name="ak10jet_tau2" save="1"></var>
+    <var name="ak10jet_tau3" save="1"></var>
+    <var name="ak10jet_softdrop_mass" save="1"></var>
+    <var name="ak10jet_trimmed_mass" save="1"></var>
+    <var name="ak10jet_pruned_mass" save="1"></var>
+    <var name="ak10jet_filtered_mass" save="1"></var>
+    <var name="ak10jet_minMass" save="1"></var>
+    <var name="ak10jet_topMass" save="1"></var>
+    <var name="ak10jet_nSubJets" save="1"></var>
+    <var name="ak10jetntrk" save="1"></var>
+    <var name="ak10jet_CSVv2" save="1"></var>
+    <var name="ak10jet_partonFlavour" save="1"></var>
+    <var name="ak10jet_hadronFlavour" save="1"></var>
+    <var name="ak10jet_neutralHadronEnergy" save="1"></var>
+    <var name="ak10jet_neutralEmEnergy" save="1"></var>
+    <var name="ak10jet_chargedHadronEnergy" save="1"></var>
+    <var name="ak10jet_chargedEmEnergy" save="1"></var>
+    <var name="ak10jet_electronEnergy" save="1"></var>
+    <var name="ak10jet_muonEnergy" save="1"></var>
+    <var name="ak10jet_photonEnergy" save="1"></var>
+    <var name="ak10jet_jetArea" save="1"></var>
+    <var name="ak10jet_chargedMultiplicity" save="0"></var>
+    <var name="ak10jet_neutralMultiplicity" save="0"></var>
+    <var name="ak10jet_chargedHadronMultiplicity" save="0"></var>
+    <var name="ak10jet_jecFactorUncorrected" save="1"></var>
+    <var name="ak10jet_jecFactorL1FastJet" save="1"></var>
+    <var name="ak10jet_jecFactorL2Relative" save="1"></var>
+    <var name="ak10jet_jecFactorL3Absolute" save="1"></var>
+    <var name="ak10jet_pileupJetId" save="1"></var>
+    <var name="ak10jet_looseJetID" save="1"></var>
+    <var name="ak10jet_tightJetID" save="1"></var>
+    <var name="ak10jet_hasGenJet" save="1" mc="1"></var>
+    <var name="ak10jet_genJet_pt" save="1" mc="1"></var>
+    <var name="ak10jet_genJet_eta" save="1" mc="1"></var>
+    <var name="ak10jet_genJet_phi" save="1" mc="1"></var>
+    <var name="ak10jet_genJet_m" save="1" mc="1"></var>
+    <var name="ak10jet_genJet_E" save="1" mc="1"></var>
+    <var name="ak10jet_genJet_status" save="1" mc="1"></var>
+    <var name="ak10jet_genJet_id" save="1" mc="1"></var>
+    <var name="ak10jet_hasGenParton" save="1" mc="1"></var>
+    <var name="ak10jet_genParton_pt" save="1" mc="1"></var>
+    <var name="ak10jet_genParton_eta" save="1" mc="1"></var>
+    <var name="ak10jet_genParton_phi" save="1" mc="1"></var>
+    <var name="ak10jet_genParton_m" save="1" mc="1"></var>
+    <var name="ak10jet_genParton_E" save="1" mc="1"></var>
+    <var name="ak10jet_genParton_status" save="1" mc="1"></var>
+    <var name="ak10jet_genParton_id" save="1" mc="1"></var>
     <var name="sel_pfcand" save="1"></var>
     <var name="pfcand_n" save="1"></var>
     <var name="pfcand_pt" save="1"></var>

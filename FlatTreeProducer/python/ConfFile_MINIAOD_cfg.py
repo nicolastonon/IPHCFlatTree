@@ -90,6 +90,7 @@ process.patJetsReapplyJECAK8 = process.patJetsUpdated.clone(
 
 jetsNameAK4="patJetsReapplyJEC"
 jetsNameAK8="patJetsReapplyJECAK8"
+jetsNameAK10="patJetsReapplyJECAK10"
 
 if options.runBTag:
     bTagDiscriminators = [
@@ -264,6 +265,7 @@ if options.runBTag:
     
     jetsNameAK4="selectedPatJetsAK4"
     jetsNameAK8="selectedPatJetsAK8"
+    jetsNameAK10="selectedPatJetsAK10"
 
 ########################
 #  Additional modules  #
@@ -315,6 +317,13 @@ process.load("RecoMET/METProducers.METSignificance_cfi")
 process.load("RecoMET/METProducers.METSignificanceParams_cfi")
 from RecoMET.METProducers.testInputFiles_cff import recoMETtestInputFiles
 
+
+#######################
+# AK10 collection     #
+#######################
+from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
+jetToolbox( process, 'ak10', 'ak10JetSubs', 'out', addPruning=True, addSoftDrop=True , addPrunedSubjets=True, addSoftDropSubjets=True, addNsub=True, maxTau=6, addTrimming=True, addFiltering=True, JETCorrPayload='AK3Pachs', subJETCorrPayload='AK10PFchs', JETCorrLevels=['L1FastJet', 'L2Relative'], addEnergyCorrFunc=True, maxECF=5 )
+
 #######################
 # Quark gluon tagging #
 #######################
@@ -346,10 +355,11 @@ process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
 #    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
-    'file:088378DB-3D24-E511-8B0E-20CF3027A589.root'
+#    'file:rootfiles/MC.root',
 #    'file:data.root'
         #'/store/mc/Phys14DR/WZJetsTo3LNu_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/484D51C6-2673-E411-8AB0-001E67398412.root'
-#        'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
+        #'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
+    	'/store/mc/RunIISpring15MiniAODv2/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v3/60000/00181849-176A-E511-8B11-848F69FD4C94.root'
     )
 )
 
@@ -361,7 +371,7 @@ process.TFileService = cms.Service("TFileService", fileName = cms.string("output
 
 process.options   = cms.untracked.PSet(
     wantSummary = cms.untracked.bool(False),
-    allowUnscheduled = cms.untracked.bool(True)
+    allowUnscheduled = cms.untracked.bool(True)	 # needed for ak10 computation (JMEAnalysis/JetToolbox)
 )
         
 #############################
@@ -501,6 +511,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   jetInput                 = cms.InputTag(jetsNameAK4),
                   jetPuppiInput            = cms.InputTag("slimmedJetsPuppi"),
                   ak8jetInput              = cms.InputTag(jetsNameAK8),
+                  ak10jetInput             = cms.InputTag(jetsNameAK10),
                   genJetInput              = cms.InputTag("slimmedGenJets"),
                   jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
                   metInput                 = cms.InputTag("slimmedMETs"),
@@ -514,6 +525,12 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 ##########
 #  Path  #
 ##########
+
+# talk to output module
+#process.out = cms.OutputModule("PoolOutputModule",
+#                fileName = cms.untracked.string("test2.root")
+#		        )
+
 
 if not options.isData:
     if options.runBTag:
@@ -564,4 +581,5 @@ else:
         process.FlatTree)
         
     
-    
+# A list of analyzers or output modules to be run after all paths have been run.
+#process.outpath = cms.EndPath(process.out)
