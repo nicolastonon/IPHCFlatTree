@@ -19,6 +19,9 @@ git cms-init
 # Clone this repo
 git clone https://github.com/IPHC/IPHCFlatTree.git
 
+# Tools needed for AK10 jet collection
+git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
+
 # Egamma ID
 git cms-merge-topic ikrav:egm_id_7.4.12_v1
 
