@@ -24,6 +24,11 @@ class MCTruth
 			 const edm::EventSetup& iSetup,
 			 FlatTree& tree,
 			 const edm::Handle<std::vector<reco::GenParticle> >& GenParticles);
+
+   void fillGenPV(const edm::Event& iEvent,
+		  const edm::EventSetup& iSetup,
+		  FlatTree& tree,
+		  const edm::Handle<std::vector<reco::GenParticle> >& GenParticles);
    
    bool doMatch(const edm::Event& iEvent,
 		const edm::EventSetup& iSetup,
