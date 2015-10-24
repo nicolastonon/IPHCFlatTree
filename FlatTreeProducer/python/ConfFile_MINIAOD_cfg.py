@@ -91,7 +91,8 @@ process.patJetsReapplyJECAK8 = process.patJetsUpdated.clone(
 
 jetsNameAK4="patJetsReapplyJEC"
 jetsNameAK8="patJetsReapplyJECAK8"
-jetsNameAK10="patJetsReapplyJECAK10"
+#jetsNameAK10="patJetsReapplyJECAK10"
+jetsNameAK10="selectedPatJetsAK10PFCHS"
 
 if options.runBTag:
     bTagDiscriminators = [
@@ -323,8 +324,12 @@ from RecoMET.METProducers.testInputFiles_cff import recoMETtestInputFiles
 # AK10 collection     #
 #######################
 from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
-jetToolbox( process, 'ak10', 'ak10JetSubs', 'out', addPruning=True, addSoftDrop=True , addPrunedSubjets=True, addSoftDropSubjets=True, addNsub=True, maxTau=6, addTrimming=True, addFiltering=True, JETCorrPayload='AK3Pachs', subJETCorrPayload='AK10PFchs', JETCorrLevels=['L1FastJet', 'L2Relative'], addEnergyCorrFunc=True, maxECF=5 )
-
+jetToolbox( process, 'ak10', 'ak10JetSubs', 'out', runOnMC=(not options.isData),
+            addPruning=True, addSoftDrop=True , addPrunedSubjets=True, addSoftDropSubjets=True,
+            JETCorrPayload='AK3Pachs', subJETCorrPayload='AK10PFchs', JETCorrLevels=['L1FastJet', 'L2Relative', 'L3Absolute'],
+            addNsub=True, maxTau=6, addTrimming=True, addFiltering=True,
+            addEnergyCorrFunc=True, maxECF=5 )    
+                
 #######################
 # Quark gluon tagging #
 #######################
@@ -356,13 +361,13 @@ process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
 #    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
-#    'file:rootfiles/MC.root',
-#    'file:data.root'
+    'file:MC.root',
+#    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/data/Run2015D/SingleMuon/MINIAOD/05Oct2015-v1/10000/FE6C2E85-8F6F-E511-89C4-0025905A6080.root'
         #'/store/mc/Phys14DR/WZJetsTo3LNu_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/484D51C6-2673-E411-8AB0-001E67398412.root'
         #'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
     	#'/store/mc/RunIISpring15MiniAODv2/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v3/60000/00181849-176A-E511-8B11-848F69FD4C94.root'
     	#'root://sbgse1.in2p3.fr//store/mc/Phys14DR/SMS-T2tt_2J_mStop-850_mLSP-100_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v1/00000/563CD412-C16B-E411-ACE1-C4346BC8E730.root'
-    	'file:/opt/sbg/scratch1/cms/echabert/store/SignalMiniAOD/t2tb_miniAODs/test/toto.root'
+#    	'file:/opt/sbg/scratch1/cms/echabert/store/SignalMiniAOD/t2tb_miniAODs/test/toto.root'
     )
 )
 
@@ -523,7 +528,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   metSigInput              = cms.InputTag("METSignificance"),
                   rhoInput                 = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
                   genParticlesInput        = cms.InputTag("prunedGenParticles"),
-		  puInfoInput		   = cms.InputTag("addPileupInfo"),
+		  puInfoInput		   = cms.InputTag("slimmedAddPileupInfo"),
                   objects                  = cms.InputTag("selectedPatTrigger")
 )
 
