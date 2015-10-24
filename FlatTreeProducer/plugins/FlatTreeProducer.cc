@@ -960,7 +960,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // Muons
    edm::Handle<pat::MuonCollection> muons;
    iEvent.getByToken(muonToken_,muons);
-   
+
    // Electrons
    edm::Handle<edm::View<reco::GsfElectron> > electrons;
    iEvent.getByToken(electronToken_,electrons);
@@ -1022,7 +1022,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // ##########################################################
    
    float mc_weight = 1.;
-   
+
    if( genEventInfo.isValid() )
      {	
 	mc_weight = genEventInfo->weight();
@@ -1034,22 +1034,26 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->mc_scale = genEventInfo->pdf()->scalePDF;
 	if( genEventInfo->binningValues().size() > 0 ) ftree->mc_ptHat = genEventInfo->binningValues()[0];
      }
-  
-   if(! EventHandle.failedToGet()){
-   if( !isData_ && fillMCScaleWeight_ )
+
+   if(! EventHandle.failedToGet())
      {
-	ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(EventHandle->weights()[2].wgt)/(EventHandle->originalXWGTUP()); // muF = 0.5 | muR = 1
-	ftree->weight_scale_muF2   = (genEventInfo->weight())*(EventHandle->weights()[1].wgt)/(EventHandle->originalXWGTUP()); // muF = 2   | muR = 1
-	ftree->weight_scale_muR0p5 = (genEventInfo->weight())*(EventHandle->weights()[6].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 0.5
-	ftree->weight_scale_muR2   = (genEventInfo->weight())*(EventHandle->weights()[3].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 2
-     }   	
-   
-   for( int w=9;w<9+nPdf_;w++ )
-     {
-	const LHEEventProduct::WGT& wgt = EventHandle->weights().at(w);
-	ftree->mc_pdfweights.push_back(wgt.wgt);
-     }   
-   }
+	if( !isData_ && fillMCScaleWeight_ )
+	  {
+	     if( EventHandle->weights().size() > 0 )
+	       {	
+		  ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(EventHandle->weights()[2].wgt)/(EventHandle->originalXWGTUP()); // muF = 0.5 | muR = 1
+		  ftree->weight_scale_muF2   = (genEventInfo->weight())*(EventHandle->weights()[1].wgt)/(EventHandle->originalXWGTUP()); // muF = 2   | muR = 1
+		  ftree->weight_scale_muR0p5 = (genEventInfo->weight())*(EventHandle->weights()[6].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 0.5
+		  ftree->weight_scale_muR2   = (genEventInfo->weight())*(EventHandle->weights()[3].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 2
+	       }
+	
+	     for( int w=9;w<9+nPdf_;w++ )
+	       {
+		  const LHEEventProduct::WGT& wgt = EventHandle->weights().at(w);
+		  ftree->mc_pdfweights.push_back(wgt.wgt);
+	       }   
+	  }	
+     }
    
    ftree->mc_weight = mc_weight;
 
@@ -1148,8 +1152,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      {
 	if( !reqMCTruth ) mc_truth->Init(*ftree);
 	mc_truth->fillGenParticles(iEvent,iSetup,*ftree,genParticlesHandle);
+	reqMCTruth = 1;
      }
 
+   if( !isData_ )
+     {
+	if( !reqMCTruth ) mc_truth->Init(*ftree);
+	mc_truth->fillGenPV(iEvent,iSetup,*ftree,genParticlesHandle);
+	reqMCTruth = 1;
+     }
+   
    // #########################################
    // #   _____     _                         #
    // #  |_   _| __(_) __ _  __ _  ___ _ __   #
@@ -2681,7 +2693,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->ak8jet_chargedHadronMultiplicity.push_back(jet.chargedHadronMultiplicity());
 	     
 	     ftree->ak8jet_jecFactorUncorrected.push_back(jet.jecFactor("Uncorrected"));
-	     ftree->ak8jet_jecFactorL1FastJet.push_back(-666.);
+	     ftree->ak8jet_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
 	     ftree->ak8jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
 	     ftree->ak8jet_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
 	     
@@ -2809,8 +2821,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	      }
 	  }	
      }
-   
-   // ak8 jets (W-jets)
+
+   // ak10 jets
    if( ak10jets.isValid() )
      {
 	int nak10Jet = ak10jets->size();
@@ -2838,9 +2850,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->ak10jet_chargedHadronMultiplicity.push_back(jet.chargedHadronMultiplicity());
 	     
 	     ftree->ak10jet_jecFactorUncorrected.push_back(jet.jecFactor("Uncorrected"));
-	     ftree->ak10jet_jecFactorL1FastJet.push_back(-666.);
+	     ftree->ak10jet_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
 	     ftree->ak10jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
-	     ftree->ak10jet_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
+	     ftree->ak10jet_jecFactorL3Absolute.push_back(-666.);
 	     
 	     ftree->ak10jet_ntrk.push_back(jet.associatedTracks().size());
 	               
@@ -2966,7 +2978,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	      }
 	  }	
      }
-
 
    // GenJets
 
