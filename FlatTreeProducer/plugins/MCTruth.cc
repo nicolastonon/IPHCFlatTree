@@ -8,16 +8,6 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
    reco::GenParticleCollection genParticlesCollection = *GenParticles;
    reco::GenParticleCollection::const_iterator genParticleSrc;
 
-   float gen_PVz = -666;
-   for( size_t i=0;i<GenParticles->size();++i )
-     {	
-	const reco::GenParticle & genIt = (*GenParticles)[i];
-	
-	int status = genIt.status();
-	if( (status>=21 && status<=29) || status==3 ) gen_PVz = genIt.vz();
-     }
-   tree.gen_PVz = gen_PVz;
-   
    int gen_n = 0;
    
    std::vector<float> gen_pt;
@@ -128,6 +118,28 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
    tree.gen_mother_index = gen_mother_index;
    tree.gen_daughter_n = gen_daughter_n;
    tree.gen_daughter_index = gen_daughter_index;
+}
+
+void MCTruth::fillGenPV(const edm::Event& iEvent,
+			const edm::EventSetup& iSetup,
+			FlatTree& tree,
+			const edm::Handle<std::vector<reco::GenParticle> >& GenParticles)
+{
+   reco::GenParticleCollection genParticlesCollection = *GenParticles;
+   reco::GenParticleCollection::const_iterator genParticleSrc;
+
+   float gen_PVz = -666;
+   for( size_t i=0;i<GenParticles->size();++i )
+     {	
+	const reco::GenParticle & genIt = (*GenParticles)[i];
+	
+	int status = genIt.status();
+	if( (status>=21 && status<=29) || status==3 ) 
+	  {
+	     gen_PVz = genIt.vz();
+	  }	
+     }
+   tree.gen_PVz = gen_PVz;
 }
 
 bool MCTruth::doMatch(const edm::Event& iEvent,
