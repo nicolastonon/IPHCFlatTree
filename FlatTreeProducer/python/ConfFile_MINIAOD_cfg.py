@@ -12,6 +12,8 @@ options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.var
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 # runBTag option is not fully functional - please don't use it
 options.register('runBTag',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run b-tagging')
+options.register('runAK10',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK10 jets')
+options.register('runQG',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger')
 options.register('fillMCScaleWeight',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PDF weights')
 options.register('fillPUInfo',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PU info')
 options.register('nPDF', 0, VarParsing.multiplicity.singleton, VarParsing.varType.int, "nPDF")
@@ -323,35 +325,37 @@ from RecoMET.METProducers.testInputFiles_cff import recoMETtestInputFiles
 #######################
 # AK10 collection     #
 #######################
-from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
-jetToolbox( process, 'ak10', 'ak10JetSubs', 'out', runOnMC=(not options.isData),
-            addPruning=True, addSoftDrop=True , addPrunedSubjets=True, addSoftDropSubjets=True,
-            JETCorrPayload='AK3Pachs', subJETCorrPayload='AK10PFchs', JETCorrLevels=['L1FastJet', 'L2Relative', 'L3Absolute'],
-            addNsub=True, maxTau=6, addTrimming=True, addFiltering=True,
-            addEnergyCorrFunc=True, maxECF=5 )    
+if options.runAK10:
+    from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
+    jetToolbox( process, 'ak10', 'ak10JetSubs', 'out', runOnMC=(not options.isData),
+                addPruning=True, addSoftDrop=True , addPrunedSubjets=True, addSoftDropSubjets=True,
+                JETCorrPayload='AK3Pachs', subJETCorrPayload='AK10PFchs', JETCorrLevels=['L1FastJet', 'L2Relative', 'L3Absolute'],
+                addNsub=True, maxTau=6, addTrimming=True, addFiltering=True,
+                addEnergyCorrFunc=True, maxECF=5 )    
                 
 #######################
 # Quark gluon tagging #
 #######################
-qgDatabaseVersion = 'v1' # check https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
+if options.runQG:
+    qgDatabaseVersion = 'v1' # check https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
 
-from CondCore.DBCommon.CondDBSetup_cfi import *
-QGPoolDBESSource = cms.ESSource("PoolDBESSource",
-      CondDBSetup,
-      toGet = cms.VPSet(),
-      connect = cms.string('frontier://FrontierProd/CMS_COND_PAT_000'),
-)
+    from CondCore.DBCommon.CondDBSetup_cfi import *
+    QGPoolDBESSource = cms.ESSource("PoolDBESSource",
+          CondDBSetup,
+          toGet = cms.VPSet(),
+          connect = cms.string('frontier://FrontierProd/CMS_COND_PAT_000'),
+    )
 
-for type in ['AK4PFchs','AK4PFchs_antib']:
-    QGPoolDBESSource.toGet.extend(cms.VPSet(cms.PSet(
-      record = cms.string('QGLikelihoodRcd'),
-      tag    = cms.string('QGLikelihoodObject_'+qgDatabaseVersion+'_'+type),
-      label  = cms.untracked.string('QGL_'+type)
-)))
+    for type in ['AK4PFchs','AK4PFchs_antib']:
+        QGPoolDBESSource.toGet.extend(cms.VPSet(cms.PSet(
+              record = cms.string('QGLikelihoodRcd'),
+              tag    = cms.string('QGLikelihoodObject_'+qgDatabaseVersion+'_'+type),
+              label  = cms.untracked.string('QGL_'+type)
+        )))
 
-process.load('RecoJets.JetProducers.QGTagger_cfi')
-process.QGTagger.srcJets          = cms.InputTag(jetsNameAK4) # Could be reco::PFJetCollection or pat::JetCollection (both AOD and miniAOD)
-process.QGTagger.jetsLabel        = cms.string('QGL_AK4PFchs') # Other options: see https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
+    process.load('RecoJets.JetProducers.QGTagger_cfi')
+    process.QGTagger.srcJets          = cms.InputTag(jetsNameAK4) # Could be reco::PFJetCollection or pat::JetCollection (both AOD and miniAOD)
+    process.QGTagger.jetsLabel        = cms.string('QGL_AK4PFchs') # Other options: see https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
 
 ###########
 #  Input  #
@@ -552,20 +556,32 @@ if not options.isData:
         process.egmGsfElectronIDSequence+
         process.METSignificance+
         process.selectedPatJetsAK8PFCHS+process.selectedPatJetsAK8PFCHSPrunedPacked+
-        process.QGTagger+
+#        process.QGTagger+
         process.FlatTree)
     else:
-        process.p = cms.Path(
-        process.HBHENoiseFilterResultProducer+
-        process.ApplyBaselineHBHENoiseFilter+
-        process.ApplyBaselineHBHEIsoNoiseFilter+
-        process.electronMVAValueMapProducer+
-        process.egmGsfElectronIDSequence+
-#        process.genJetFlavourAlg+
-        process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
-        process.METSignificance+
-        process.QGTagger+
-        process.FlatTree)        
+        if options.runQG:
+            process.p = cms.Path(
+            process.HBHENoiseFilterResultProducer+
+            process.ApplyBaselineHBHENoiseFilter+
+            process.ApplyBaselineHBHEIsoNoiseFilter+
+            process.electronMVAValueMapProducer+
+            process.egmGsfElectronIDSequence+
+            #        process.genJetFlavourAlg+
+            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
+            process.METSignificance+
+            process.QGTagger+
+            process.FlatTree)
+        else:
+            process.p = cms.Path(
+            process.HBHENoiseFilterResultProducer+
+            process.ApplyBaselineHBHENoiseFilter+
+            process.ApplyBaselineHBHEIsoNoiseFilter+
+            process.electronMVAValueMapProducer+
+            process.egmGsfElectronIDSequence+
+            #        process.genJetFlavourAlg+
+            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
+            process.METSignificance+
+            process.FlatTree)            
 else:
     if options.runBTag:
         process.p = cms.Path(
@@ -579,17 +595,27 @@ else:
         process.QGTagger+
         process.FlatTree)
     else:
-        process.p = cms.Path(
-        process.HBHENoiseFilterResultProducer+
-        process.ApplyBaselineHBHENoiseFilter+
-        process.ApplyBaselineHBHEIsoNoiseFilter+
-        process.electronMVAValueMapProducer+
-        process.egmGsfElectronIDSequence+
-        process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
-        process.METSignificance+
-        process.QGTagger+
-        process.FlatTree)
-        
+        if options.runQG:
+            process.p = cms.Path(
+            process.HBHENoiseFilterResultProducer+
+            process.ApplyBaselineHBHENoiseFilter+
+            process.ApplyBaselineHBHEIsoNoiseFilter+
+            process.electronMVAValueMapProducer+
+            process.egmGsfElectronIDSequence+
+            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
+            process.METSignificance+
+            process.QGTagger+
+            process.FlatTree)
+        else:
+            process.p = cms.Path(
+            process.HBHENoiseFilterResultProducer+
+            process.ApplyBaselineHBHENoiseFilter+
+            process.ApplyBaselineHBHEIsoNoiseFilter+
+            process.electronMVAValueMapProducer+
+            process.egmGsfElectronIDSequence+
+            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
+            process.METSignificance+
+            process.FlatTree)        
     
 # A list of analyzers or output modules to be run after all paths have been run.
 #process.outpath = cms.EndPath(process.out)
