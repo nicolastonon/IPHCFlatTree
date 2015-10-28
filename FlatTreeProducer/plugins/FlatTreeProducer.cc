@@ -1027,6 +1027,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      {	
 	float wGen = genEventInfo->weight();
 	mc_weight = (wGen > 0 ) ? 1. : -1.;
+	
 	ftree->mc_id = genEventInfo->signalProcessID();
 	ftree->mc_f1 = genEventInfo->pdf()->id.first;
 	ftree->mc_f2 = genEventInfo->pdf()->id.second;
