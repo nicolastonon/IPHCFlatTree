@@ -899,7 +899,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    edm::Handle<std::vector< PileupSummaryInfo> > pileupInfo;
    //if( !isData && fillPUInfo ) iEvent.getByLabel("slimmedAddPileupInfo",pileupInfo);
    //if( !isData && fillPUInfo ) iEvent.getByLabel("addPileupInfo",pileupInfo);
-   if( !isData && fillPUInfo ) iEvent.getByToken(puInfoToken_,pileupInfo);
+   if( !isData_ && fillPUInfo_ ) iEvent.getByToken(puInfoToken_,pileupInfo);
 
    // Rho info
    edm::Handle<double> rhoPtr;

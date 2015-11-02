@@ -1,0 +1,6 @@
+TODO:
+
+check variables associated with jets for leptons (PtRatio, PtRel of muons and electrons)
+add METnoHF
+add electron directly from miniAOD in the production
+
