@@ -159,6 +159,13 @@ class FlatTree
    float mc_scale;
    float mc_ptHat;
 
+   float weight_scale_muF0p5;
+   float weight_scale_muF2;
+   float weight_scale_muR0p5;
+   float weight_scale_muR2;
+   
+   std::vector<float> mc_pdfweights;
+   
    int mc_pu_intime_NumInt;
    int mc_pu_trueNumInt;
    int mc_pu_before_npu;
@@ -868,6 +875,7 @@ class FlatTree
    
    std::vector<bool> jet_looseJetID;
    std::vector<bool> jet_tightJetID;
+   std::vector<float> jet_qgtag;
 
    std::vector<bool> jet_hasGenJet;   
    std::vector<float> jet_genJet_pt;
@@ -1020,6 +1028,82 @@ class FlatTree
    std::vector<float> ak8jet_minMass;
    std::vector<float> ak8jet_topMass;
    std::vector<int> ak8jet_nSubJets;
+   
+   
+   // ak10 Jets (w-tagging/top-tagging)
+   
+   int ak10jet_n;
+   std::vector<float> ak10jet_pt;
+   std::vector<float> ak10jet_eta;
+   std::vector<float> ak10jet_phi;
+   std::vector<float> ak10jet_m;
+   std::vector<float> ak10jet_E;
+   
+   std::vector<int> ak10jet_ntrk;
+   
+   std::vector<float> ak10jet_JBP;
+   std::vector<float> ak10jet_JP;
+   std::vector<float> ak10jet_TCHP;
+   std::vector<float> ak10jet_TCHE;
+   std::vector<float> ak10jet_SSVHE;
+   std::vector<float> ak10jet_SSVHP;
+   std::vector<float> ak10jet_CMVA;
+   
+   std::vector<float> ak10jet_CSVv2;
+   std::vector<int> ak10jet_partonFlavour;
+   std::vector<int> ak10jet_hadronFlavour;
+   
+   std::vector<float> ak10jet_neutralHadronEnergy;
+   std::vector<float> ak10jet_neutralEmEnergy;
+   std::vector<float> ak10jet_chargedHadronEnergy;
+   std::vector<float> ak10jet_chargedEmEnergy;
+   std::vector<float> ak10jet_electronEnergy;
+   std::vector<float> ak10jet_muonEnergy;
+   std::vector<float> ak10jet_photonEnergy;
+   
+   std::vector<int> ak10jet_chargedMultiplicity;
+   std::vector<int> ak10jet_neutralMultiplicity;
+   std::vector<int> ak10jet_chargedHadronMultiplicity;
+   
+   std::vector<float> ak10jet_jecFactorUncorrected;
+   std::vector<float> ak10jet_jecFactorL1FastJet;
+   std::vector<float> ak10jet_jecFactorL2Relative;
+   std::vector<float> ak10jet_jecFactorL3Absolute;
+   
+   std::vector<float> ak10jet_jetArea;
+   
+   std::vector<float> ak10jet_pileupJetId;
+   std::vector<bool> ak10jet_looseJetID;
+   std::vector<bool> ak10jet_tightJetID;
+      
+   std::vector<bool> ak10jet_hasGenJet;
+   std::vector<float> ak10jet_genJet_pt;
+   std::vector<float> ak10jet_genJet_eta;
+   std::vector<float> ak10jet_genJet_phi;
+   std::vector<float> ak10jet_genJet_m;
+   std::vector<float> ak10jet_genJet_E;
+   std::vector<int> ak10jet_genJet_status;
+   std::vector<int> ak10jet_genJet_id;
+   
+   std::vector<bool> ak10jet_hasGenParton;
+   std::vector<float> ak10jet_genParton_pt;
+   std::vector<float> ak10jet_genParton_eta;
+   std::vector<float> ak10jet_genParton_phi;
+   std::vector<float> ak10jet_genParton_m;
+   std::vector<float> ak10jet_genParton_E;
+   std::vector<int> ak10jet_genParton_status;
+   std::vector<int> ak10jet_genParton_id;
+      
+   std::vector<float> ak10jet_tau1;
+   std::vector<float> ak10jet_tau2;
+   std::vector<float> ak10jet_tau3;
+   std::vector<float> ak10jet_softdrop_mass;
+   std::vector<float> ak10jet_trimmed_mass;
+   std::vector<float> ak10jet_pruned_mass;
+   std::vector<float> ak10jet_filtered_mass;
+   std::vector<float> ak10jet_minMass;
+   std::vector<float> ak10jet_topMass;
+   std::vector<int> ak10jet_nSubJets;
    
    // GenJets
 

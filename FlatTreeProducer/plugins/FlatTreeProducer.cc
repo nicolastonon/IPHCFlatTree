@@ -132,6 +132,9 @@ class FlatTreeProducer : public edm::EDAnalyzer
    
    std::string dataFormat_;
    bool isData_;
+   bool fillMCScaleWeight_;
+   bool fillPUInfo_;
+   int nPdf_;
 
    HLTConfigProvider hltConfig_;
    
@@ -148,12 +151,14 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<edm::View<pat::Jet> > viewJetToken_;
    edm::EDGetTokenT<pat::JetCollection> jetPuppiToken_;
    edm::EDGetTokenT<pat::JetCollection> ak8jetToken_;
+   edm::EDGetTokenT<pat::JetCollection> ak10jetToken_;
    edm::EDGetTokenT<reco::GenJetCollection> genJetToken_;
    edm::EDGetTokenT<std::vector<pat::MET> > metTokenAOD_;
    edm::EDGetTokenT<pat::METCollection> metTokenPuppi_;
    edm::EDGetTokenT<pat::METCollection> metTokenMINIAOD_;
    edm::EDGetTokenT<double> rhoToken_;
    edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
+   edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puInfoToken_;
 
    edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
    edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseCBIdMapToken_;
@@ -768,6 +773,9 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    // #############################################################
 
    dataFormat_        = iConfig.getParameter<std::string>("dataFormat");
+   nPdf_              = iConfig.getParameter<int>("nPDF");
+   fillMCScaleWeight_ = iConfig.getParameter<bool>("fillMCScaleWeight");
+   fillPUInfo_ = iConfig.getParameter<bool>("fillPUInfo");
    isData_            = iConfig.getParameter<bool>("isData");
    triggerBits_       = consumes<edm::TriggerResults>(edm::InputTag(std::string("TriggerResults"),std::string(""),std::string("HLT")));
    triggerObjects_    = consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"));
@@ -780,6 +788,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    jetToken_          = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetInput"));
    viewJetToken_      = consumes<edm::View<pat::Jet> >(iConfig.getParameter<edm::InputTag>("jetInput"));
    ak8jetToken_       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ak8jetInput"));
+   ak10jetToken_       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ak10jetInput"));
    jetPuppiToken_     = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetPuppiInput"));
    genJetToken_       = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("genJetInput"));
    metTokenAOD_       = consumes<std::vector<pat::MET> >(iConfig.getParameter<edm::InputTag>("metInput"));
@@ -787,7 +796,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    metTokenPuppi_     = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metPuppiInput"));
    rhoToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticlesInput"));
-   
+   puInfoToken_ = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoInput"));
+
    eleVetoCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
    eleLooseCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
    eleMediumCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumCBIdMap"));
@@ -857,6 +867,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    edm::Handle<GenEventInfoProduct> genEventInfo;
    if( !isData_ ) iEvent.getByLabel("generator",genEventInfo);
    
+   // LHE
+   edm::Handle<LHEEventProduct> EventHandle;
+   if( !isData_ && fillMCScaleWeight_ ) iEvent.getByLabel("externalLHEProducer",EventHandle);
+
    // Gen particles
    edm::Handle<reco::GenParticleCollection> genParticlesHandle;                                                          
    if( !isData_ ) iEvent.getByToken(genParticlesToken_,genParticlesHandle);
@@ -883,8 +897,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    
    // Pile-up
    edm::Handle<std::vector< PileupSummaryInfo> > pileupInfo;
-   if( !isData_ ) iEvent.getByLabel("slimmedAddPileupInfo",pileupInfo);
-   
+   //if( !isData && fillPUInfo ) iEvent.getByLabel("slimmedAddPileupInfo",pileupInfo);
+   //if( !isData && fillPUInfo ) iEvent.getByLabel("addPileupInfo",pileupInfo);
+   if( !isData && fillPUInfo ) iEvent.getByToken(puInfoToken_,pileupInfo);
+
    // Rho info
    edm::Handle<double> rhoPtr;
    iEvent.getByToken(rhoToken_,rhoPtr);
@@ -927,6 +943,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    edm::Handle<pat::JetCollection> ak8jets;
    iEvent.getByToken(ak8jetToken_,ak8jets);
    
+   
+   // AK10: W-jets
+   edm::Handle<pat::JetCollection> ak10jets;
+   iEvent.getByToken(ak10jetToken_,ak10jets);
+   
    // GenJets
    edm::Handle<reco::GenJetCollection> genJets;
    if( !isData_ ) iEvent.getByToken(genJetToken_,genJets);
@@ -939,7 +960,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // Muons
    edm::Handle<pat::MuonCollection> muons;
    iEvent.getByToken(muonToken_,muons);
-   
+
    // Electrons
    edm::Handle<edm::View<reco::GsfElectron> > electrons;
    iEvent.getByToken(electronToken_,electrons);
@@ -1003,10 +1024,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // ##########################################################
    
    float mc_weight = 1.;
-   
+
    if( genEventInfo.isValid() )
      {	
-	mc_weight = genEventInfo->weight();
+	float wGen = genEventInfo->weight();
+	mc_weight = (wGen > 0 ) ? 1. : -1.;
+	
 	ftree->mc_id = genEventInfo->signalProcessID();
 	ftree->mc_f1 = genEventInfo->pdf()->id.first;
 	ftree->mc_f2 = genEventInfo->pdf()->id.second;
@@ -1014,6 +1037,26 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->mc_x2 = genEventInfo->pdf()->x.second;
 	ftree->mc_scale = genEventInfo->pdf()->scalePDF;
 	if( genEventInfo->binningValues().size() > 0 ) ftree->mc_ptHat = genEventInfo->binningValues()[0];
+     }
+
+   if(! EventHandle.failedToGet())
+     {
+	if( !isData_ && fillMCScaleWeight_ )
+	  {
+	     if( EventHandle->weights().size() > 0 )
+	       {	
+		  ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(EventHandle->weights()[2].wgt)/(EventHandle->originalXWGTUP()); // muF = 0.5 | muR = 1
+		  ftree->weight_scale_muF2   = (genEventInfo->weight())*(EventHandle->weights()[1].wgt)/(EventHandle->originalXWGTUP()); // muF = 2   | muR = 1
+		  ftree->weight_scale_muR0p5 = (genEventInfo->weight())*(EventHandle->weights()[6].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 0.5
+		  ftree->weight_scale_muR2   = (genEventInfo->weight())*(EventHandle->weights()[3].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 2
+	       }
+	
+	     for( int w=9;w<9+nPdf_;w++ )
+	       {
+		  const LHEEventProduct::WGT& wgt = EventHandle->weights().at(w);
+		  ftree->mc_pdfweights.push_back(wgt.wgt);
+	       }   
+	  }	
      }
    
    ftree->mc_weight = mc_weight;
@@ -1030,7 +1073,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #                                  #                      
    // ####################################
    
-   if( !isData_ )
+   if( !isData_ && fillPUInfo_)
      {	
 	ftree->mc_pu_Npvi = pileupInfo->size();
 	for(std::vector<PileupSummaryInfo>::const_iterator pvi=pileupInfo->begin();
@@ -1113,8 +1156,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      {
 	if( !reqMCTruth ) mc_truth->Init(*ftree);
 	mc_truth->fillGenParticles(iEvent,iSetup,*ftree,genParticlesHandle);
+	reqMCTruth = 1;
      }
 
+   if( !isData_ )
+     {
+	if( !reqMCTruth ) mc_truth->Init(*ftree);
+	mc_truth->fillGenPV(iEvent,iSetup,*ftree,genParticlesHandle);
+	reqMCTruth = 1;
+     }
+   
    // #########################################
    // #   _____     _                         #
    // #  |_   _| __(_) __ _  __ _  ___ _ __   #
@@ -1267,6 +1318,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
 
    // =========== END OF TRIGGER ==========
+   
    
    reco::Vertex *primVtx = NULL;   
 
@@ -2456,6 +2508,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->jet_looseJetID.push_back(looseJetID);
 	ftree->jet_tightJetID.push_back(tightJetID);
 	
+	//Quark-gluon tagging
+	const auto jetRef = view_jets->ptrAt(ij);
+	if( ! qgHandle.failedToGet() )
+	  ftree->jet_qgtag.push_back((*qgHandle)[jetRef]);
+	else
+	  ftree->jet_qgtag.push_back(-666.);
+	  
 	const reco::GenJet* genJet = jet.genJet();
 	bool hasGenInfo = (genJet);
 	ftree->jet_hasGenJet.push_back(hasGenInfo);
@@ -2665,7 +2724,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->ak8jet_chargedHadronMultiplicity.push_back(jet.chargedHadronMultiplicity());
 	     
 	     ftree->ak8jet_jecFactorUncorrected.push_back(jet.jecFactor("Uncorrected"));
-	     ftree->ak8jet_jecFactorL1FastJet.push_back(-666.);
+	     ftree->ak8jet_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
 	     ftree->ak8jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
 	     ftree->ak8jet_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
 	     
@@ -2786,6 +2845,168 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		  ftree->ak8jet_topMass.push_back(tagInfo->properties().topMass);
 		  ftree->ak8jet_nSubJets.push_back(tagInfo->properties().nSubJets);
 	       }
+	      else{
+		  ftree->ak8jet_minMass.push_back(-666);
+		  ftree->ak8jet_topMass.push_back(-666);
+		  ftree->ak8jet_nSubJets.push_back(-666);
+	      }
+	  }	
+     }
+
+   // ak10 jets
+   if( ak10jets.isValid() )
+     {
+	int nak10Jet = ak10jets->size();
+	ftree->ak10jet_n = nak10Jet;
+	for(int ij=0;ij<nak10Jet;ij++)
+	  {
+	     const pat::Jet& jet = ak10jets->at(ij);
+	     
+	     ftree->ak10jet_pt.push_back(jet.pt());
+	     ftree->ak10jet_eta.push_back(jet.eta());
+	     ftree->ak10jet_phi.push_back(jet.phi());
+	     ftree->ak10jet_m.push_back(jet.mass());
+	     ftree->ak10jet_E.push_back(jet.energy());
+	     
+	     ftree->ak10jet_JBP.push_back(jet.bDiscriminator("pfJetBProbabilityBJetTags"));
+	     ftree->ak10jet_JP.push_back(jet.bDiscriminator("pfJetProbabilityBJetTags"));
+	     ftree->ak10jet_TCHP.push_back(jet.bDiscriminator("pfTrackCountingHighPurBJetTags"));
+	     ftree->ak10jet_TCHE.push_back(jet.bDiscriminator("pfTrackCountingHighEffBJetTags"));
+	     ftree->ak10jet_SSVHE.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
+	     ftree->ak10jet_SSVHP.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
+	     ftree->ak10jet_CMVA.push_back(jet.bDiscriminator("pfCombinedMVABJetTags"));
+	     
+	     ftree->ak10jet_chargedMultiplicity.push_back(jet.chargedMultiplicity());
+	     ftree->ak10jet_neutralMultiplicity.push_back(jet.neutralMultiplicity());
+	     ftree->ak10jet_chargedHadronMultiplicity.push_back(jet.chargedHadronMultiplicity());
+	     
+	     ftree->ak10jet_jecFactorUncorrected.push_back(jet.jecFactor("Uncorrected"));
+	     ftree->ak10jet_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
+	     ftree->ak10jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
+	     ftree->ak10jet_jecFactorL3Absolute.push_back(-666.);
+	     
+	     ftree->ak10jet_ntrk.push_back(jet.associatedTracks().size());
+	               
+	     float CSVIVF = jet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+	     ftree->ak10jet_CSVv2.push_back(CSVIVF);
+	     
+	     ftree->ak10jet_partonFlavour.push_back(jet.partonFlavour());
+	     ftree->ak10jet_hadronFlavour.push_back(jet.hadronFlavour());
+	     
+	     ftree->ak10jet_neutralHadronEnergy.push_back(jet.neutralHadronEnergy());
+	     ftree->ak10jet_neutralEmEnergy.push_back(jet.neutralEmEnergy());
+	     ftree->ak10jet_chargedHadronEnergy.push_back(jet.chargedHadronEnergy());
+	     ftree->ak10jet_chargedEmEnergy.push_back(jet.chargedEmEnergy());
+	     ftree->ak10jet_electronEnergy.push_back(jet.electronEnergy());
+	     ftree->ak10jet_muonEnergy.push_back(jet.muonEnergy());
+	     ftree->ak10jet_photonEnergy.push_back(jet.photonEnergy());
+	     
+	     ftree->ak10jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	     
+	     ftree->ak10jet_jetArea.push_back(jet.jetArea());
+	     
+	     // Jet ID
+	     float NHF = jet.neutralHadronEnergyFraction();
+	     float NEMF = jet.neutralEmEnergyFraction();
+	     float CHF = jet.chargedHadronEnergyFraction();
+	     float MUF = jet.muonEnergyFraction();
+	     float CEMF = jet.chargedEmEnergyFraction();
+	     float NumConst = jet.chargedMultiplicity()+jet.neutralMultiplicity();
+	     float CHM = jet.chargedMultiplicity();
+	     float eta = jet.eta();
+	     bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
+	     bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || fabs(eta)>2.4);
+	     
+	     ftree->ak10jet_looseJetID.push_back(looseJetID);
+	     ftree->ak10jet_tightJetID.push_back(tightJetID);
+	     
+	     const reco::GenJet* genJet = jet.genJet();
+	     bool hasGenInfo = (genJet);
+	     ftree->ak10jet_hasGenJet.push_back(hasGenInfo);
+	     
+	     float gen_jet_pt = -666;
+	     float gen_jet_eta = -666;
+	     float gen_jet_phi = -666;
+	     float gen_jet_m = -666;
+	     float gen_jet_E = -666;
+	     int gen_jet_status = -666;
+	     int gen_jet_id = -666;
+	     
+	     if( hasGenInfo )
+	       {		  
+		  gen_jet_pt = genJet->pt();
+		  gen_jet_eta = genJet->eta();
+		  gen_jet_phi = genJet->phi();
+		  gen_jet_m = genJet->mass();
+		  gen_jet_E = genJet->energy();
+		  gen_jet_status = genJet->status();
+		  gen_jet_id = genJet->pdgId();
+	       }
+	     
+	     ftree->ak10jet_genJet_pt.push_back(gen_jet_pt);
+	     ftree->ak10jet_genJet_eta.push_back(gen_jet_eta);
+	     ftree->ak10jet_genJet_phi.push_back(gen_jet_phi);
+	     ftree->ak10jet_genJet_m.push_back(gen_jet_m);
+	     ftree->ak10jet_genJet_E.push_back(gen_jet_E);
+	     
+	     ftree->ak10jet_genJet_status.push_back(gen_jet_status);
+	     ftree->ak10jet_genJet_id.push_back(gen_jet_id);
+	     
+	     const reco::GenParticle* genParton = (!isData_) ? jet.genParton() : 0;
+	     bool hasGenPartonInfo = (genParton);
+	     ftree->ak10jet_hasGenParton.push_back(hasGenPartonInfo);
+	     
+	     float gen_parton_pt = -666;
+	     float gen_parton_eta = -666;
+	     float gen_parton_phi = -666;
+	     float gen_parton_m = -666;
+	     float gen_parton_E = -666;
+	     int gen_parton_status = -666;
+	     int gen_parton_id = -666;
+	     
+	     if( hasGenPartonInfo )
+	       {		  
+		  gen_parton_pt = genParton->pt();
+		  gen_parton_eta = genParton->eta();
+		  gen_parton_phi = genParton->phi();
+		  gen_parton_m = genParton->mass();
+		  gen_parton_E = genParton->energy();
+		  gen_parton_status = genParton->status();
+		  gen_parton_id = genParton->pdgId();
+	       }
+	     
+	     ftree->ak10jet_genParton_pt.push_back(gen_parton_pt);
+	     ftree->ak10jet_genParton_eta.push_back(gen_parton_eta);
+	     ftree->ak10jet_genParton_phi.push_back(gen_parton_phi);
+	     ftree->ak10jet_genParton_m.push_back(gen_parton_m);
+	     ftree->ak10jet_genParton_E.push_back(gen_parton_E);
+	     
+	     ftree->ak10jet_genParton_status.push_back(gen_parton_status);
+	     ftree->ak10jet_genParton_id.push_back(gen_parton_id);
+	     
+	     // access to the W-tagging variables
+	     ftree->ak10jet_tau1.push_back(jet.userFloat("NjettinessAK8:tau1")); //
+	     ftree->ak10jet_tau2.push_back(jet.userFloat("NjettinessAK8:tau2")); // Access the n-subjettiness variables
+	     ftree->ak10jet_tau3.push_back(jet.userFloat("NjettinessAK8:tau3")); //
+	     
+	     ftree->ak10jet_softdrop_mass.push_back(jet.userFloat("ak10PFJetsCHSSoftDropMass")); // access to filtered mass
+	     ftree->ak10jet_trimmed_mass.push_back(jet.userFloat("ak10PFJetsCHSTrimmedMass"));   // access to trimmed mass
+	     ftree->ak10jet_pruned_mass.push_back(jet.userFloat("ak10PFJetsCHSPrunedMass"));     // access to pruned mass
+	     ftree->ak10jet_filtered_mass.push_back(jet.userFloat("ak10PFJetsCHSFilteredMass")); // access to filtered mass
+	     
+	     // access to the top-tagging variables
+	     reco::CATopJetTagInfo const * tagInfo =  dynamic_cast<reco::CATopJetTagInfo const *>( jet.tagInfo("caTop"));
+	     if ( tagInfo != 0 ) 
+	       {
+		  ftree->ak10jet_minMass.push_back(tagInfo->properties().minMass);
+		  ftree->ak10jet_topMass.push_back(tagInfo->properties().topMass);
+		  ftree->ak10jet_nSubJets.push_back(tagInfo->properties().nSubJets);
+	       }
+	      else{
+		  ftree->ak10jet_minMass.push_back(-666);
+		  ftree->ak10jet_topMass.push_back(-666);
+		  ftree->ak10jet_nSubJets.push_back(-666);
+	      }
 	  }	
      }
 

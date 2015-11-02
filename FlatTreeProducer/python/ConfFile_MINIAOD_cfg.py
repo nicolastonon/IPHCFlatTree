@@ -12,6 +12,11 @@ options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.var
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 # runBTag option is not fully functional - please don't use it
 options.register('runBTag',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run b-tagging')
+options.register('runAK10',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK10 jets')
+options.register('runQG',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger')
+options.register('fillMCScaleWeight',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PDF weights')
+options.register('fillPUInfo',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PU info')
+options.register('nPDF', 0, VarParsing.multiplicity.singleton, VarParsing.varType.int, "nPDF")
 options.register('confFile', 'conf.xml', VarParsing.multiplicity.singleton, VarParsing.varType.string, "Flattree variables configuration")
 options.register('bufferSize', 32000, VarParsing.multiplicity.singleton, VarParsing.varType.int, "Buffer size for branches of the flat tree")
 options.parseArguments()
@@ -88,6 +93,8 @@ process.patJetsReapplyJECAK8 = process.patJetsUpdated.clone(
 
 jetsNameAK4="patJetsReapplyJEC"
 jetsNameAK8="patJetsReapplyJECAK8"
+#jetsNameAK10="patJetsReapplyJECAK10"
+jetsNameAK10="selectedPatJetsAK10PFCHS"
 
 if options.runBTag:
     bTagDiscriminators = [
@@ -233,7 +240,7 @@ if options.runBTag:
         elSource = cms.InputTag('slimmedElectrons'),
         btagDiscriminators = bTagDiscriminators,
         btagInfos = bTagInfos,
-        jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'), # FIXME !!!
+        jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'),
         genJetCollection = cms.InputTag('ak8GenJetsNoNuPruned','SubJets'),
         genParticles = cms.InputTag('prunedGenParticles'),
         explicitJTA = True,  # needed for subjet b tagging
@@ -262,6 +269,7 @@ if options.runBTag:
     
     jetsNameAK4="selectedPatJetsAK4"
     jetsNameAK8="selectedPatJetsAK8"
+    jetsNameAK10="selectedPatJetsAK10"
 
 ########################
 #  Additional modules  #
@@ -291,13 +299,19 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 
 # MET
 # https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
-# for now only HBHE should be rerun on MINIAOD
 process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
 process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
+process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False)
+process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
 
 process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
-   inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
-   reverseDecision = cms.bool(False)
+    inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
+    reverseDecision = cms.bool(False)
+)
+
+process.ApplyBaselineHBHEIsoNoiseFilter = cms.EDFilter('BooleanFlagFilter',
+    inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHEIsoNoiseFilterResult'),
+    reverseDecision = cms.bool(False)
 )
 
 #####################
@@ -307,28 +321,41 @@ process.load("RecoMET/METProducers.METSignificance_cfi")
 process.load("RecoMET/METProducers.METSignificanceParams_cfi")
 from RecoMET.METProducers.testInputFiles_cff import recoMETtestInputFiles
 
+
+#######################
+# AK10 collection     #
+#######################
+if options.runAK10:
+    from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
+    jetToolbox( process, 'ak10', 'ak10JetSubs', 'out', runOnMC=(not options.isData),
+                addPruning=True, addSoftDrop=True , addPrunedSubjets=True, addSoftDropSubjets=True,
+                JETCorrPayload='AK3Pachs', subJETCorrPayload='AK10PFchs', JETCorrLevels=['L1FastJet', 'L2Relative', 'L3Absolute'],
+                addNsub=True, maxTau=6, addTrimming=True, addFiltering=True,
+                addEnergyCorrFunc=True, maxECF=5 )    
+                
 #######################
 # Quark gluon tagging #
 #######################
-qgDatabaseVersion = 'v1' # check https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
+if options.runQG:
+    qgDatabaseVersion = 'v1' # check https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
 
-from CondCore.DBCommon.CondDBSetup_cfi import *
-QGPoolDBESSource = cms.ESSource("PoolDBESSource",
-      CondDBSetup,
-      toGet = cms.VPSet(),
-      connect = cms.string('frontier://FrontierProd/CMS_COND_PAT_000'),
-)
+    from CondCore.DBCommon.CondDBSetup_cfi import *
+    QGPoolDBESSource = cms.ESSource("PoolDBESSource",
+          CondDBSetup,
+          toGet = cms.VPSet(),
+          connect = cms.string('frontier://FrontierProd/CMS_COND_PAT_000'),
+    )
 
-for type in ['AK4PFchs','AK4PFchs_antib']:
-    QGPoolDBESSource.toGet.extend(cms.VPSet(cms.PSet(
-      record = cms.string('QGLikelihoodRcd'),
-      tag    = cms.string('QGLikelihoodObject_'+qgDatabaseVersion+'_'+type),
-      label  = cms.untracked.string('QGL_'+type)
-)))
+    for type in ['AK4PFchs','AK4PFchs_antib']:
+        QGPoolDBESSource.toGet.extend(cms.VPSet(cms.PSet(
+              record = cms.string('QGLikelihoodRcd'),
+              tag    = cms.string('QGLikelihoodObject_'+qgDatabaseVersion+'_'+type),
+              label  = cms.untracked.string('QGL_'+type)
+        )))
 
-process.load('RecoJets.JetProducers.QGTagger_cfi')
-process.QGTagger.srcJets          = cms.InputTag(jetsNameAK4) # Could be reco::PFJetCollection or pat::JetCollection (both AOD and miniAOD)
-process.QGTagger.jetsLabel        = cms.string('QGL_AK4PFchs') # Other options: see https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
+    process.load('RecoJets.JetProducers.QGTagger_cfi')
+    process.QGTagger.srcJets          = cms.InputTag(jetsNameAK4) # Could be reco::PFJetCollection or pat::JetCollection (both AOD and miniAOD)
+    process.QGTagger.jetsLabel        = cms.string('QGL_AK4PFchs') # Other options: see https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
 
 ###########
 #  Input  #
@@ -349,7 +376,7 @@ process.TFileService = cms.Service("TFileService", fileName = cms.string("output
 
 process.options   = cms.untracked.PSet(
     wantSummary = cms.untracked.bool(False),
-    allowUnscheduled = cms.untracked.bool(True)
+    allowUnscheduled = cms.untracked.bool(True)	 # needed for ak10 computation (JMEAnalysis/JetToolbox)
 )
         
 #############################
@@ -364,6 +391,9 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   confFile          = cms.string(options.confFile),
 
                   isData            = cms.bool(options.isData),
+                  fillMCScaleWeight = cms.bool(options.fillMCScaleWeight),
+                  fillPUInfo	    = cms.bool(options.fillPUInfo),
+                  nPDF              = cms.int32(options.nPDF),
                   
                   vertexInput              = cms.InputTag("offlineSlimmedPrimaryVertices"),
                   electronInput            = cms.InputTag("slimmedElectrons"),
@@ -388,7 +418,10 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   "HLT_DoubleMu38NoFiltersNoVtx_v*",
                   "HLT_Ele22_eta2p1_WPLoose_Gsf_v*",
                   "HLT_Ele22_eta2p1_WPTight_Gsf_v*",
+                  "HLT_Ele22_eta2p1_WP75_Gsf_v*",
                   "HLT_Ele23_WPLoose_Gsf_v*",
+                  "HLT_Ele23_WP75_Gsf_v*",
+                  "HLT_Ele27_eta2p1_WP75_Gsf_v*",
                   "HLT_Ele27_eta2p1_WPLoose_Gsf_CentralPFJet30_BTagCSV07_v*",
                   "HLT_Ele27_eta2p1_WPLoose_Gsf_v*",
                   "HLT_Ele27_eta2p1_WPTight_Gsf_v*",
@@ -399,6 +432,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   "HLT_Ele115_CaloIdVT_GsfTrkIdT_v*",
                   "HLT_IsoMu17_eta2p1_v*",
                   "HLT_DoubleIsoMu17_eta2p1_v*",
+                  "HLT_IsoMu18_v*",
                   "HLT_IsoMu20_eta2p1_CentralPFJet30_BTagCSV07_v*",
                   "HLT_IsoMu20_v*",
                   "HLT_IsoMu20_eta2p1_v*",
@@ -479,7 +513,11 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   "HLT_Ele23_CaloIdM_TrackIdM_PFJet30_v*",
                   "HLT_Ele33_CaloIdM_TrackIdM_PFJet30_v*",
                   "HLT_Mu300_v*",
-                  "HLT_Mu350_v*"
+                  "HLT_Mu350_v*",
+                  "HLT_PFHT450_SixJet40_PFBTagCSV0p72_v*",
+                  "HLT_PFHT400_SixJet30_BTagCSV0p55_2PFBTagCSV0p72_v*",
+                  "HLT_PFHT450_SixJet40_PFBTagCSV_v*",
+                  "HLT_PFHT400_SixJet30_BTagCSV0p5_2PFBTagCSV_v*"
                   ),
                   
                   muonInput                = cms.InputTag("slimmedMuons"),
@@ -487,6 +525,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   jetInput                 = cms.InputTag(jetsNameAK4),
                   jetPuppiInput            = cms.InputTag("slimmedJetsPuppi"),
                   ak8jetInput              = cms.InputTag(jetsNameAK8),
+                  ak10jetInput             = cms.InputTag(jetsNameAK10),
                   genJetInput              = cms.InputTag("slimmedGenJets"),
                   jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
                   metInput                 = cms.InputTag("slimmedMETs"),
@@ -494,6 +533,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   metSigInput              = cms.InputTag("METSignificance"),
                   rhoInput                 = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
                   genParticlesInput        = cms.InputTag("prunedGenParticles"),
+		  puInfoInput		   = cms.InputTag("slimmedAddPileupInfo"),
+#                  puInfoInput		   = cms.InputTag("addPileupInfo"),
                   objects                  = cms.InputTag("selectedPatTrigger")
 )
 
@@ -501,33 +542,54 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 #  Path  #
 ##########
 
+# talk to output module
+#process.out = cms.OutputModule("PoolOutputModule",
+#                fileName = cms.untracked.string("test2.root")
+#		        )
+
+
 if not options.isData:
     if options.runBTag:
         process.p = cms.Path(
-        #process.HBHENoiseFilterResultProducer+
-        #process.ApplyBaselineHBHENoiseFilter+
+#        process.HBHENoiseFilterResultProducer+
+#        process.ApplyBaselineHBHENoiseFilter+
+#        process.ApplyBaselineHBHEIsoNoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.METSignificance+
         process.selectedPatJetsAK8PFCHS+process.selectedPatJetsAK8PFCHSPrunedPacked+
-        process.QGTagger+
+#        process.QGTagger+
         process.FlatTree)
     else:
-        process.p = cms.Path(
-        #process.HBHENoiseFilterResultProducer+
-        #process.ApplyBaselineHBHENoiseFilter+
-        process.electronMVAValueMapProducer+
-        process.egmGsfElectronIDSequence+
-#        process.genJetFlavourAlg+
-        process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
-        process.METSignificance+
-        process.QGTagger+
-        process.FlatTree)        
+        if options.runQG:
+            process.p = cms.Path(
+#            process.HBHENoiseFilterResultProducer+
+#            process.ApplyBaselineHBHENoiseFilter+
+#            process.ApplyBaselineHBHEIsoNoiseFilter+
+            process.electronMVAValueMapProducer+
+            process.egmGsfElectronIDSequence+
+            #        process.genJetFlavourAlg+
+            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
+            process.METSignificance+
+            process.QGTagger+
+            process.FlatTree)
+        else:
+            process.p = cms.Path(
+#            process.HBHENoiseFilterResultProducer+
+#            process.ApplyBaselineHBHENoiseFilter+
+#            process.ApplyBaselineHBHEIsoNoiseFilter+
+            process.electronMVAValueMapProducer+
+            process.egmGsfElectronIDSequence+
+            #        process.genJetFlavourAlg+
+            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
+            process.METSignificance+
+            process.FlatTree)            
 else:
     if options.runBTag:
         process.p = cms.Path(
-        #process.HBHENoiseFilterResultProducer+
-        #process.ApplyBaselineHBHENoiseFilter+
+#        process.HBHENoiseFilterResultProducer+
+#        process.ApplyBaselineHBHENoiseFilter+
+#        process.ApplyBaselineHBHEIsoNoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.METSignificance+
@@ -535,15 +597,27 @@ else:
         process.QGTagger+
         process.FlatTree)
     else:
-        process.p = cms.Path(
-        #process.HBHENoiseFilterResultProducer+
-        #process.ApplyBaselineHBHENoiseFilter+
-        process.electronMVAValueMapProducer+
-        process.egmGsfElectronIDSequence+
-        process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
-        process.METSignificance+
-        process.QGTagger+
-        process.FlatTree)
-        
+        if options.runQG:
+            process.p = cms.Path(
+#            process.HBHENoiseFilterResultProducer+
+#            process.ApplyBaselineHBHENoiseFilter+
+#            process.ApplyBaselineHBHEIsoNoiseFilter+
+            process.electronMVAValueMapProducer+
+            process.egmGsfElectronIDSequence+
+            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
+            process.METSignificance+
+            process.QGTagger+
+            process.FlatTree)
+        else:
+            process.p = cms.Path(
+#            process.HBHENoiseFilterResultProducer+
+#            process.ApplyBaselineHBHENoiseFilter+
+#            process.ApplyBaselineHBHEIsoNoiseFilter+
+            process.electronMVAValueMapProducer+
+            process.egmGsfElectronIDSequence+
+            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
+            process.METSignificance+
+            process.FlatTree)        
     
-    
+# A list of analyzers or output modules to be run after all paths have been run.
+#process.outpath = cms.EndPath(process.out)
