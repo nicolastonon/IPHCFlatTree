@@ -337,12 +337,8 @@ process.QGTagger.jetsLabel        = cms.string('QGL_AK4PFchs') # Other options: 
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-#    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
-#    'file:088378DB-3D24-E511-8B0E-20CF3027A589.root'
-    'file:data.root'
-        #'/store/mc/Phys14DR/WZJetsTo3LNu_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/484D51C6-2673-E411-8AB0-001E67398412.root'
-#        'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_ev_2.root'
-    )
+            '/store/mc/RunIISpring15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/02FE2DB6-D06D-E511-8BC7-0025905C431C.root'
+            )
 )
 
 ############
@@ -508,8 +504,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 if not options.isData:
     if options.runBTag:
         process.p = cms.Path(
-        process.HBHENoiseFilterResultProducer+
-        process.ApplyBaselineHBHENoiseFilter+
+        #process.HBHENoiseFilterResultProducer+
+        #process.ApplyBaselineHBHENoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.METSignificance+
@@ -518,8 +514,8 @@ if not options.isData:
         process.FlatTree)
     else:
         process.p = cms.Path(
-        process.HBHENoiseFilterResultProducer+
-        process.ApplyBaselineHBHENoiseFilter+
+        #process.HBHENoiseFilterResultProducer+
+        #process.ApplyBaselineHBHENoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
 #        process.genJetFlavourAlg+
@@ -530,8 +526,8 @@ if not options.isData:
 else:
     if options.runBTag:
         process.p = cms.Path(
-        process.HBHENoiseFilterResultProducer+
-        process.ApplyBaselineHBHENoiseFilter+
+        #process.HBHENoiseFilterResultProducer+
+        #process.ApplyBaselineHBHENoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.METSignificance+
@@ -540,8 +536,8 @@ else:
         process.FlatTree)
     else:
         process.p = cms.Path(
-        process.HBHENoiseFilterResultProducer+
-        process.ApplyBaselineHBHENoiseFilter+
+        #process.HBHENoiseFilterResultProducer+
+        #process.ApplyBaselineHBHENoiseFilter+
         process.electronMVAValueMapProducer+
         process.egmGsfElectronIDSequence+
         process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
