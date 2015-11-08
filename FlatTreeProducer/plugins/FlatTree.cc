@@ -108,7 +108,10 @@ void FlatTree::Init()
    metPuppi_pt = DEFVAL;
    metPuppi_phi = DEFVAL;
    metPuppi_sumet = DEFVAL;
-   
+  
+   nvertex = DEFVAL;
+
+   pv_n = DEFVAL;
    pv_x = DEFVAL;
    pv_y = DEFVAL;
    pv_z = DEFVAL;
@@ -1195,6 +1198,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("metPuppi_phi") ) tree->Branch("metPuppi_phi", &metPuppi_phi, "metPuppi_phi/F", buffersize);
    if( doWrite("metPuppi_sumet") ) tree->Branch("metPuppi_sumet", &metPuppi_sumet, "metPuppi_sumet/F", buffersize);
    
+   if( doWrite("pv_n") ) tree->Branch("pv_n", &pv_n, "pv_n/I", buffersize);
    if( doWrite("pv_x") ) tree->Branch("pv_x", &pv_x, "pv_x/F", buffersize);
    if( doWrite("pv_y") ) tree->Branch("pv_y", &pv_y, "pv_y/F", buffersize);
    if( doWrite("pv_z") ) tree->Branch("pv_z", &pv_z, "pv_z/F", buffersize);
@@ -1299,6 +1303,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("triggerobject_pathNamesAll_isL3") ) tree->Branch("triggerobject_pathNamesAll_isL3", "std::vector<bool>", &triggerobject_pathNamesAll_isL3, buffersize);
    if( doWrite("triggerobject_pathNamesAll_isLF") ) tree->Branch("triggerobject_pathNamesAll_isLF", "std::vector<bool>", &triggerobject_pathNamesAll_isLF, buffersize);
    if( doWrite("triggerobject_pathNamesAll_isNone") ) tree->Branch("triggerobject_pathNamesAll_isNone", "std::vector<bool>", &triggerobject_pathNamesAll_isNone, buffersize);
+
+   if( doWrite("nvertex") ) tree->Branch("nvertex", &nvertex, "nvertex/I", buffersize);
 
    if( doWrite("el_n") ) tree->Branch("el_n", &el_n, "el_n/I", buffersize);
    if( doWrite("el_pt") ) tree->Branch("el_pt", "std::vector<float>", &el_pt, buffersize);

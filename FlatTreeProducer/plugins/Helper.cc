@@ -1,6 +1,7 @@
 #include "IPHCFlatTree/FlatTreeProducer/interface/Helper.hh"
 #include <iostream>
 #include "TMath.h"
+#include "TLorentzVector.h"
 
 namespace 
 {   
@@ -302,69 +303,87 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
     return iso;
 }
 
-float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
+double ptRatioElec(const pat::Electron& elec, const pat::Jet& jet)
 {
-    float j_x = jet.px()+elec.px();
-    float j_y = jet.py()+elec.py();
-    float j_z = jet.pz()+elec.pz();
+    pat::Jet myUncJet;
+    pat::Jet myCorJet;
 
-    float l_x = elec.px();
-    float l_y = elec.py();
-    float l_z = elec.pz();
+    myUncJet.setP4(jet.correctedJet("Uncorrected").p4());
+    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-    float j2 = j_x*j_x+j_y*j_y+j_z*j_z;
-    float l2 = l_x*l_x+l_y*l_y+l_z*l_z;
+    float          SF          = myUncJet.p4().E() / myCorJet.p4().E();
 
-    float lXj = l_x*j_x+l_y*j_y+l_z*j_z;
+    auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
 
-    float pLrel2 = lXj*lXj/j2;
+    float ptRatio = elec.pt() / lepAwareJetp4.pt();
 
-    float pTrel2 = l2-pLrel2;
+    //std::cout << "Electron ptRatio:            " << ptRatio                      << std::endl;
 
-    return (pTrel2 > 0) ? std::sqrt(pTrel2) : 0.0;
+    return (ptRatio > 0) ? ptRatio : 0.0;
 }
 
-float ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet)
+float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
 {
-    float j_x = jet.px();//-muon.px();
-    float j_y = jet.py();//-muon.py();
-    float j_z = jet.pz();//-muon.pz();
+    pat::Jet myUncJet;
+    pat::Jet myCorJet;
 
-    float l_x = muon.px();
-    float l_y = muon.py();
-    float l_z = muon.pz();
+    myUncJet.setP4(jet.correctedJet("Uncorrected").p4());
+    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-    float j2 = j_x*j_x+j_y*j_y+j_z*j_z;
-    float l2 = l_x*l_x+l_y*l_y+l_z*l_z;
+    float          SF          = myUncJet.p4().E() / myCorJet.p4().E();
+    
+    auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
+    
+    TLorentzVector elecV = TLorentzVector(elec.px(),elec.py(),elec.pz(),elec.p4().E());
+    TLorentzVector jetV = TLorentzVector(lepAwareJetp4.px(),lepAwareJetp4.py(),lepAwareJetp4.pz(),lepAwareJetp4.E());
+    
+    float PtRel = elecV.Perp( (jetV - elecV).Vect() );
 
-    float lXj = l_x*j_x+l_y*j_y+l_z*j_z;
+    //std::cout << "Electron PtRel (lep aware):   " << PtRel                      << std::endl; 
 
-    float pLrel2 = lXj*lXj/j2;
+    return (PtRel > 0) ? PtRel : 0.0;
+}
 
-    float pTrel2 = l2-pLrel2;
+double ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet)
+{
+    //std::cout << " =================================== " << std::endl;
 
-    return (pTrel2 > 0) ? std::sqrt(pTrel2) : 0.0;
+    pat::Jet myUncJet;
+    pat::Jet myCorJet;
+
+    myUncJet.setP4(jet.correctedJet("Uncorrected").p4());
+    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
+
+    float          SF          = myUncJet.p4().E() / myCorJet.p4().E();
+
+    auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
+
+    float ptRatio = muon.pt() / lepAwareJetp4.pt();
+
+    //std::cout << "Muon ptRatio (lep aware):     " << ptRatio << std::endl;
+
+    return (ptRatio > 0) ? ptRatio : 0.0;
 }
 
 float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
 {
-    float j_x = jet.px();//-muon.px();
-    float j_y = jet.py();//-muon.py();
-    float j_z = jet.pz();//-muon.pz();
+    pat::Jet myUncJet;
+    pat::Jet myCorJet;
 
-    float l_x = muon.px();
-    float l_y = muon.py();
-    float l_z = muon.pz();
+    myUncJet.setP4(jet.correctedJet("Uncorrected").p4());
+    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-    float j2 = j_x*j_x+j_y*j_y+j_z*j_z;
-    float l2 = l_x*l_x+l_y*l_y+l_z*l_z;
+    float          SF          = myUncJet.p4().E() / myCorJet.p4().E();
 
-    float lXj = l_x*j_x+l_y*j_y+l_z*j_z;
+    auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
+    
+    TLorentzVector muonV = TLorentzVector(muon.px(),muon.py(),muon.pz(),muon.p4().E());
+    TLorentzVector jetV = TLorentzVector(lepAwareJetp4.px(),lepAwareJetp4.py(),lepAwareJetp4.pz(),lepAwareJetp4.E());
 
-    float pLrel2 = lXj*lXj/j2;
+    float PtRel = muonV.Perp( (jetV - muonV).Vect() );
 
-    float pTrel2 = l2-pLrel2;
+    //std::cout << "Muon PtRel (lep aware):   " << PtRel                      << std::endl;  
 
-    return (pTrel2 > 0) ? std::sqrt(pTrel2) : 0.0;
+    return (PtRel > 0) ? PtRel : 0.0;
 }
 

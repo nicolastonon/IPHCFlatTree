@@ -1012,7 +1012,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    ftree->ev_id = iEvent.id().event();
    ftree->ev_lumi = iEvent.id().luminosityBlock();
 
-   //std::cout << iEvent.id().event() << std::endl ;
+   //std::cout << " Event =================================================================== " << std::endl << "No: " << iEvent.id().event() << std::endl ;
 
    // ##########################################################
    // #   ___       _ _   _       _         _        _         #
@@ -1319,29 +1319,32 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    // =========== END OF TRIGGER ==========
    
-   
+
    reco::Vertex *primVtx = NULL;   
 
-   if( ! vertices->empty() )
-     {
-	const reco::Vertex &PV = vertices->front();
-	primVtx = (reco::Vertex*)&PV;
-     }
-   if( primVtx )
-     {
-	ftree->pv_x = primVtx->position().x();
-	ftree->pv_y = primVtx->position().y();
-	ftree->pv_z = primVtx->position().z();
+   ftree->nvertex = int(vertices->size());
 
-	ftree->pv_x = primVtx->xError();
-	ftree->pv_y = primVtx->yError();
-	ftree->pv_z = primVtx->zError();
-	
-	ftree->pv_ndof = primVtx->chi2();
-	ftree->pv_ndof = primVtx->ndof();
-	ftree->pv_rho = primVtx->position().Rho();
-	ftree->pv_isFake = primVtx->isFake();
-     }
+   if( ! vertices->empty() )
+   {
+       const reco::Vertex &PV = vertices->front();
+       primVtx = (reco::Vertex*)&PV;
+   }
+
+   if( primVtx )
+   {
+       ftree->pv_x = primVtx->position().x();
+       ftree->pv_y = primVtx->position().y();
+       ftree->pv_z = primVtx->position().z();
+
+       ftree->pv_x = primVtx->xError();
+       ftree->pv_y = primVtx->yError();
+       ftree->pv_z = primVtx->zError();
+
+       ftree->pv_ndof = primVtx->chi2();
+       ftree->pv_ndof = primVtx->ndof();
+       ftree->pv_rho = primVtx->position().Rho();
+       ftree->pv_isFake = primVtx->isFake();
+   }
 
    // Rho
    ftree->ev_rho = *rhoPtr;
@@ -1746,7 +1749,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
        lepMVA_pt = el_pt;
        lepMVA_miniRelIsoNeutral = miniIsoTTHNeutral;
        lepMVA_miniRelIsoCharged = miniIsoTTHCharged;
-       lepMVA_jetPtRatio = (jcl >= 0) ? std::min(el_pt/jets->at(jcl).pt(),1.5) : 1.5;
+       lepMVA_jetPtRatio = (jcl >= 0) ? std::min(ptRatioElec(elec,jets->at(jcl)),1.5) : 1.5;
        lepMVA_jetPtRelv2 = (jcl >= 0) ? ptRelElec(elec,jets->at(jcl)) : 0.0;
        float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
        lepMVA_jetBTagCSV = std::max(double(csv),0.);

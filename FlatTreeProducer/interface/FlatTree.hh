@@ -134,6 +134,8 @@ class FlatTree
    float metPuppi_pt;
    float metPuppi_phi;
    float metPuppi_sumet;
+
+   int   pv_n;
    
    float pv_x;
    float pv_y;
@@ -144,16 +146,16 @@ class FlatTree
    float pv_zError;
    
    float pv_chi2;
-   int pv_ndof;
+   int   pv_ndof;
    float pv_rho;
-   int pv_isFake;
+   int   pv_isFake;
    
    double met_sig;
 
    float mc_weight;
-   int mc_id;
-   int mc_f1;
-   int mc_f2;
+   int   mc_id;
+   int   mc_f1;
+   int   mc_f2;
    float mc_x1;
    float mc_x2;
    float mc_scale;
@@ -249,6 +251,7 @@ class FlatTree
    std::vector<bool>          triggerobject_pathNamesAll_isLF;
    std::vector<bool>          triggerobject_pathNamesAll_isNone;
 
+   int nvertex;
 
    // Electrons
 

@@ -15,8 +15,9 @@ namespace SelfVetoPolicy
 
 float GetDeltaR(float,float,float,float);
 
+double ptRatioElec(const pat::Electron& elec,const pat::Jet& jet);
 float ptRelElec(const pat::Electron& elec,const pat::Jet& jet);
-float ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet);
+double ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet);
 float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet);
 
 float ElecPfIsoCharged(const pat::Electron& elec,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR);
