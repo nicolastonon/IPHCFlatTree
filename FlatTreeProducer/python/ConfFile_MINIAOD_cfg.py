@@ -530,10 +530,11 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
                   metInput                 = cms.InputTag("slimmedMETs"),
                   metPuppiInput            = cms.InputTag("slimmedMETsPuppi"),
+                  metNoHFInput             = cms.InputTag("slimmedMETsNoHF"),
                   metSigInput              = cms.InputTag("METSignificance"),
                   rhoInput                 = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
                   genParticlesInput        = cms.InputTag("prunedGenParticles"),
-		  puInfoInput		   = cms.InputTag("slimmedAddPileupInfo"),
+		          puInfoInput		       = cms.InputTag("slimmedAddPileupInfo"),
 #                  puInfoInput		   = cms.InputTag("addPileupInfo"),
                   objects                  = cms.InputTag("selectedPatTrigger")
 )

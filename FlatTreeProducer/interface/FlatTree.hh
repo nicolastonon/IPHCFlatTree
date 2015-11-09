@@ -130,7 +130,11 @@ class FlatTree
    float met_shiftedSumEt_NoShift;
    float met_shiftedSumEt_PhotonEnUp;
    float met_shiftedSumEt_PhotonEnDown;
-   
+  
+   float metNoHF_pt;
+   float metNoHF_phi;
+   float metNoHF_sumet;
+
    float metPuppi_pt;
    float metPuppi_phi;
    float metPuppi_sumet;

@@ -86,9 +86,12 @@
     <var name="met_shiftedSumEt_NoShift" save="1"></var>
     <var name="met_shiftedSumEt_PhotonEnUp" save="1"></var>
     <var name="met_shiftedSumEt_PhotonEnDown" save="1"></var>
-    <var name="metPuppi_pt" save="0"></var>
-    <var name="metPuppi_phi" save="0"></var>
-    <var name="metPuppi_sumet" save="0"></var>
+    <var name="metNoHF_pt" save="1"></var>
+    <var name="metNoHF_phi" save="1"></var>
+    <var name="metNoHF_sumet" save="1"></var>
+    <var name="metPuppi_pt" save="1"></var>
+    <var name="metPuppi_phi" save="1"></var>
+    <var name="metPuppi_sumet" save="1"></var>
     <var name="nvertex" save="1"></var>
     <var name="pv_x" save="1"></var>
     <var name="pv_y" save="1"></var>
