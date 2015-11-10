@@ -104,9 +104,13 @@ void FlatTree::Init()
    met_shiftedSumEt_NoShift = DEFVAL;
    met_shiftedSumEt_PhotonEnUp = DEFVAL;
    met_shiftedSumEt_PhotonEnDown = DEFVAL;
-   
-   metPuppi_pt = DEFVAL;
-   metPuppi_phi = DEFVAL;
+  
+   metNoHF_pt     = DEFVAL;
+   metNoHF_phi    = DEFVAL;
+   metNoHF_sumet  = DEFVAL;
+
+   metPuppi_pt    = DEFVAL;
+   metPuppi_phi   = DEFVAL;
    metPuppi_sumet = DEFVAL;
   
    nvertex = DEFVAL;
@@ -1193,9 +1197,13 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("met_shiftedSumEt_NoShift") ) tree->Branch("met_shiftedSumEt_NoShift", &met_shiftedSumEt_NoShift, "met_shiftedSumEt_NoShift/F", buffersize);
    if( doWrite("met_shiftedSumEt_PhotonEnUp") ) tree->Branch("met_shiftedSumEt_PhotonEnUp", &met_shiftedSumEt_PhotonEnUp, "met_shiftedSumEt_PhotonEnUp/F", buffersize);
    if( doWrite("met_shiftedSumEt_PhotonEnDown") ) tree->Branch("met_shiftedSumEt_PhotonEnDown", &met_shiftedSumEt_PhotonEnDown, "met_shiftedSumEt_PhotonEnDown/F", buffersize);
-   
-   if( doWrite("metPuppi_pt") ) tree->Branch("metPuppi_pt", &metPuppi_pt, "metPuppi_pt/F", buffersize);
-   if( doWrite("metPuppi_phi") ) tree->Branch("metPuppi_phi", &metPuppi_phi, "metPuppi_phi/F", buffersize);
+  
+   if( doWrite("metNoHF_pt") )     tree->Branch("metNoHF_pt",    &metNoHF_pt,    "metNoHF_pt/F",    buffersize);
+   if( doWrite("metNoHF_phi") )    tree->Branch("metNoHF_phi",   &metNoHF_phi,   "metNoHF_phi/F",   buffersize);
+   if( doWrite("metNoHF_sumet") )  tree->Branch("metNoHF_sumet", &metNoHF_sumet, "metNoHF_sumet/F", buffersize);
+
+   if( doWrite("metPuppi_pt") )    tree->Branch("metPuppi_pt",    &metPuppi_pt,    "metPuppi_pt/F",    buffersize);
+   if( doWrite("metPuppi_phi") )   tree->Branch("metPuppi_phi",   &metPuppi_phi,   "metPuppi_phi/F",   buffersize);
    if( doWrite("metPuppi_sumet") ) tree->Branch("metPuppi_sumet", &metPuppi_sumet, "metPuppi_sumet/F", buffersize);
    
    if( doWrite("pv_n") ) tree->Branch("pv_n", &pv_n, "pv_n/I", buffersize);

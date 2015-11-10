@@ -154,6 +154,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<pat::JetCollection> ak10jetToken_;
    edm::EDGetTokenT<reco::GenJetCollection> genJetToken_;
    edm::EDGetTokenT<std::vector<pat::MET> > metTokenAOD_;
+   edm::EDGetTokenT<pat::METCollection> metTokenNoHF_;
    edm::EDGetTokenT<pat::METCollection> metTokenPuppi_;
    edm::EDGetTokenT<pat::METCollection> metTokenMINIAOD_;
    edm::EDGetTokenT<double> rhoToken_;
@@ -775,51 +776,52 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    dataFormat_        = iConfig.getParameter<std::string>("dataFormat");
    nPdf_              = iConfig.getParameter<int>("nPDF");
    fillMCScaleWeight_ = iConfig.getParameter<bool>("fillMCScaleWeight");
-   fillPUInfo_ = iConfig.getParameter<bool>("fillPUInfo");
+   fillPUInfo_        = iConfig.getParameter<bool>("fillPUInfo");
    isData_            = iConfig.getParameter<bool>("isData");
    triggerBits_       = consumes<edm::TriggerResults>(edm::InputTag(std::string("TriggerResults"),std::string(""),std::string("HLT")));
    triggerObjects_    = consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"));
    triggerPrescales_  = consumes<pat::PackedTriggerPrescales>(edm::InputTag(std::string("patTrigger")));
    vertexToken_       = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertexInput"));
-   electronPATToken_     = consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electronPATInput"));
+   electronPATToken_  = consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electronPATInput"));
    electronToken_     = consumes<edm::View<reco::GsfElectron> >(iConfig.getParameter<edm::InputTag>("electronInput"));
    muonToken_         = consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonInput"));
    tauToken_          = consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("tauInput"));
    jetToken_          = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetInput"));
    viewJetToken_      = consumes<edm::View<pat::Jet> >(iConfig.getParameter<edm::InputTag>("jetInput"));
    ak8jetToken_       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ak8jetInput"));
-   ak10jetToken_       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ak10jetInput"));
+   ak10jetToken_      = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ak10jetInput"));
    jetPuppiToken_     = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetPuppiInput"));
    genJetToken_       = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("genJetInput"));
    metTokenAOD_       = consumes<std::vector<pat::MET> >(iConfig.getParameter<edm::InputTag>("metInput"));
    metTokenMINIAOD_   = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metInput"));
+   metTokenNoHF_       = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metNoHFInput"));
    metTokenPuppi_     = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metPuppiInput"));
    rhoToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticlesInput"));
-   puInfoToken_ = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoInput"));
+   puInfoToken_       = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoInput"));
 
-   eleVetoCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
-   eleLooseCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
-   eleMediumCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumCBIdMap"));
-   eleTightCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleTightCBIdMap"));
-   eleHEEPCBIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleHEEPCBIdMap"));
+   eleVetoCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
+   eleLooseCBIdMapToken_   = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
+   eleMediumCBIdMapToken_  = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumCBIdMap"));
+   eleTightCBIdMapToken_   = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleTightCBIdMap"));
+   eleHEEPCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleHEEPCBIdMap"));
 
    eleMediumMVAIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumMVAIdMap"));
-   eleTightMVAIdMapToken_ = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleTightMVAIdMap"));
-   mvaValuesMapToken_ = consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvaValuesMap"));
-   mvaCategoriesMapToken_ = consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap"));
+   eleTightMVAIdMapToken_  = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleTightMVAIdMap"));
+   mvaValuesMapToken_      = consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvaValuesMap"));
+   mvaCategoriesMapToken_  = consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap"));
 
-   filterTriggerNames_ = iConfig.getUntrackedParameter<std::vector<std::string> >("filterTriggerNames");
+   filterTriggerNames_     = iConfig.getUntrackedParameter<std::vector<std::string> >("filterTriggerNames");
    
-   metSigToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("metSigInput"));
-   qgToken_ = consumes<edm::ValueMap<float>>(edm::InputTag("QGTagger", "qgLikelihood"));
+   metSigToken_            = consumes<double>(iConfig.getParameter<edm::InputTag>("metSigInput"));
+   qgToken_                = consumes<edm::ValueMap<float>>(edm::InputTag("QGTagger", "qgLikelihood"));
    
    // #########################
    // #  Read XML config file #
    // #########################
 
    std::string confFile = iConfig.getParameter<std::string>("confFile");
-//   ReadConfFile(confFile);
+   //   ReadConfFile(confFile);
    int buffersize = iConfig.getParameter<int>("bufferSize");
    if (buffersize <= 0) buffersize = 32000;
    
@@ -827,22 +829,22 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    XMLElement* tElement = xmlconf.FirstChildElement("variables")->FirstChildElement("var");
 
    for( XMLElement* child=tElement;child!=0;child=child->NextSiblingElement() )
-     {
-	std::string vname = child->ToElement()->Attribute("name");
-	std::string vsave = child->ToElement()->Attribute("save");
-	bool bsave = atoi(vsave.c_str());
-	if( child->ToElement()->Attribute("mc") )
-	  {	 
-	     std::string vmc = child->ToElement()->Attribute("mc");
-	     bool mc =  atoi(vmc.c_str());
-	     if( isData_ && mc ) bsave = 0; // force the exclusion of mc-related variables when running on data
-	  }	
+   {
+       std::string vname = child->ToElement()->Attribute("name");
+       std::string vsave = child->ToElement()->Attribute("save");
+       bool bsave = atoi(vsave.c_str());
+       if( child->ToElement()->Attribute("mc") )
+       {	 
+           std::string vmc = child->ToElement()->Attribute("mc");
+           bool mc =  atoi(vmc.c_str());
+           if( isData_ && mc ) bsave = 0; // force the exclusion of mc-related variables when running on data
+       }	
 
-	ftree->conf.insert(std::make_pair(vname,bsave));
-     }
+       ftree->conf.insert(std::make_pair(vname,bsave));
+   }
 
    ftree->CreateBranches(buffersize);
-   
+
    // ###############################
    // #  Add count & weight histos  #
    // ###############################
@@ -1026,43 +1028,43 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    float mc_weight = 1.;
 
    if( genEventInfo.isValid() )
-     {	
-	float wGen = genEventInfo->weight();
-	mc_weight = (wGen > 0 ) ? 1. : -1.;
-	
-	ftree->mc_id = genEventInfo->signalProcessID();
-	ftree->mc_f1 = genEventInfo->pdf()->id.first;
-	ftree->mc_f2 = genEventInfo->pdf()->id.second;
-	ftree->mc_x1 = genEventInfo->pdf()->x.first;
-	ftree->mc_x2 = genEventInfo->pdf()->x.second;
-	ftree->mc_scale = genEventInfo->pdf()->scalePDF;
-	if( genEventInfo->binningValues().size() > 0 ) ftree->mc_ptHat = genEventInfo->binningValues()[0];
-     }
+   {	
+       float wGen = genEventInfo->weight();
+       mc_weight = (wGen > 0 ) ? 1. : -1.;
+
+       ftree->mc_id = genEventInfo->signalProcessID();
+       ftree->mc_f1 = genEventInfo->pdf()->id.first;
+       ftree->mc_f2 = genEventInfo->pdf()->id.second;
+       ftree->mc_x1 = genEventInfo->pdf()->x.first;
+       ftree->mc_x2 = genEventInfo->pdf()->x.second;
+       ftree->mc_scale = genEventInfo->pdf()->scalePDF;
+       if( genEventInfo->binningValues().size() > 0 ) ftree->mc_ptHat = genEventInfo->binningValues()[0];
+   }
 
    if(! EventHandle.failedToGet())
-     {
-	if( !isData_ && fillMCScaleWeight_ )
-	  {
-	     if( EventHandle->weights().size() > 0 )
-	       {	
-		  ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(EventHandle->weights()[2].wgt)/(EventHandle->originalXWGTUP()); // muF = 0.5 | muR = 1
-		  ftree->weight_scale_muF2   = (genEventInfo->weight())*(EventHandle->weights()[1].wgt)/(EventHandle->originalXWGTUP()); // muF = 2   | muR = 1
-		  ftree->weight_scale_muR0p5 = (genEventInfo->weight())*(EventHandle->weights()[6].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 0.5
-		  ftree->weight_scale_muR2   = (genEventInfo->weight())*(EventHandle->weights()[3].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 2
-	       }
-	
-	     for( int w=9;w<9+nPdf_;w++ )
-	       {
-		  const LHEEventProduct::WGT& wgt = EventHandle->weights().at(w);
-		  ftree->mc_pdfweights.push_back(wgt.wgt);
-	       }   
-	  }	
-     }
-   
+   {
+       if( !isData_ && fillMCScaleWeight_ )
+       {
+           if( EventHandle->weights().size() > 0 )
+           {	
+               ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(EventHandle->weights()[2].wgt)/(EventHandle->originalXWGTUP()); // muF = 0.5 | muR = 1
+               ftree->weight_scale_muF2   = (genEventInfo->weight())*(EventHandle->weights()[1].wgt)/(EventHandle->originalXWGTUP()); // muF = 2   | muR = 1
+               ftree->weight_scale_muR0p5 = (genEventInfo->weight())*(EventHandle->weights()[6].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 0.5
+               ftree->weight_scale_muR2   = (genEventInfo->weight())*(EventHandle->weights()[3].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 2
+           }
+
+           for( int w=9;w<9+nPdf_;w++ )
+           {
+               const LHEEventProduct::WGT& wgt = EventHandle->weights().at(w);
+               ftree->mc_pdfweights.push_back(wgt.wgt);
+           }   
+       }	
+   }
+
    ftree->mc_weight = mc_weight;
 
    hweight->SetBinContent(1,hweight->GetBinContent(1)+ftree->mc_weight);
-   
+
    // ####################################
    // #   ____  _ _                      #
    // #  |  _ \(_) | ___   _   _ _ __    #
@@ -1366,32 +1368,32 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    edm::Handle<std::vector<pat::MET> > metAOD;
    edm::Handle<pat::METCollection> metMINIAOD;
    if( dataFormat_ != "AOD" )
-     {
-	iEvent.getByToken(metTokenMINIAOD_,metMINIAOD);
-	const pat::MET &metv = metMINIAOD->front();
-	
-	ftree->met_px = metv.px();
-	ftree->met_py = metv.py();
-	ftree->met_pt = metv.pt();
-	ftree->met_phi = metv.phi();
-	ftree->met_sumet = metv.sumEt();
+   {
+       iEvent.getByToken(metTokenMINIAOD_,metMINIAOD);
+       const pat::MET &metv = metMINIAOD->front();
 
-	if( !isData_ )
-	  {
-	     ftree->metGen_px = metv.genMET()->px();
-	     ftree->metGen_py = metv.genMET()->py();
-	     ftree->metGen_pt = metv.genMET()->pt();
-	     ftree->metGen_phi = metv.genMET()->phi();	
-	     ftree->metGen_sumet = metv.genMET()->sumEt();
-	     
-	     ftree->metGen_NeutralEMEt = metv.genMET()->NeutralEMEt();
-	     ftree->metGen_ChargedEMEt = metv.genMET()->ChargedEMEt();
-	     ftree->metGen_NeutralHadEt = metv.genMET()->NeutralHadEt();
-	     ftree->metGen_ChargedHadEt = metv.genMET()->ChargedHadEt();
-	     ftree->metGen_MuonEt = metv.genMET()->MuonEt();
-	     ftree->metGen_InvisibleEt = metv.genMET()->InvisibleEt();
-	  }
-	
+       ftree->met_px = metv.px();
+       ftree->met_py = metv.py();
+       ftree->met_pt = metv.pt();
+       ftree->met_phi = metv.phi();
+       ftree->met_sumet = metv.sumEt();
+
+       if( !isData_ )
+       {
+           ftree->metGen_px = metv.genMET()->px();
+           ftree->metGen_py = metv.genMET()->py();
+           ftree->metGen_pt = metv.genMET()->pt();
+           ftree->metGen_phi = metv.genMET()->phi();	
+           ftree->metGen_sumet = metv.genMET()->sumEt();
+
+           ftree->metGen_NeutralEMEt = metv.genMET()->NeutralEMEt();
+           ftree->metGen_ChargedEMEt = metv.genMET()->ChargedEMEt();
+           ftree->metGen_NeutralHadEt = metv.genMET()->NeutralHadEt();
+           ftree->metGen_ChargedHadEt = metv.genMET()->ChargedHadEt();
+           ftree->metGen_MuonEt = metv.genMET()->MuonEt();
+           ftree->metGen_InvisibleEt = metv.genMET()->InvisibleEt();
+       }
+
 	ftree->met_uncorrectedPt = metv.uncorPt();
 	ftree->met_uncorrectedPhi = metv.uncorPhi();
 	ftree->met_uncorrectedSumEt = metv.uncorSumEt();
@@ -1435,61 +1437,76 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	ftree->met_shiftedPy_PhotonEnDown = metv.shiftedPy(pat::MET::METUncertainty::PhotonEnDown,level);
 	
 	ftree->met_shiftedPhi_JetEnUp = metv.shiftedPhi(pat::MET::METUncertainty::JetEnUp,level);
-	ftree->met_shiftedPhi_JetEnDown = metv.shiftedPhi(pat::MET::METUncertainty::JetEnDown,level);
-	ftree->met_shiftedPhi_JetResUp = metv.shiftedPhi(pat::MET::METUncertainty::JetResUp,level);
-	ftree->met_shiftedPhi_JetResDown = metv.shiftedPhi(pat::MET::METUncertainty::JetResDown,level);
-	ftree->met_shiftedPhi_MuonEnUp = metv.shiftedPhi(pat::MET::METUncertainty::MuonEnUp,level);
-	ftree->met_shiftedPhi_MuonEnDown = metv.shiftedPhi(pat::MET::METUncertainty::MuonEnDown,level);
-	ftree->met_shiftedPhi_ElectronEnUp = metv.shiftedPhi(pat::MET::METUncertainty::ElectronEnUp,level);
-	ftree->met_shiftedPhi_ElectronEnDown = metv.shiftedPhi(pat::MET::METUncertainty::ElectronEnDown,level);
-	ftree->met_shiftedPhi_TauEnUp = metv.shiftedPhi(pat::MET::METUncertainty::TauEnUp,level);
-	ftree->met_shiftedPhi_TauEnDown = metv.shiftedPhi(pat::MET::METUncertainty::TauEnDown,level);
-	ftree->met_shiftedPhi_UnclusteredEnUp = metv.shiftedPhi(pat::MET::METUncertainty::UnclusteredEnUp,level);
-	ftree->met_shiftedPhi_UnclusteredEnDown = metv.shiftedPhi(pat::MET::METUncertainty::UnclusteredEnDown,level);
-	ftree->met_shiftedPhi_NoShift = metv.shiftedPhi(pat::MET::METUncertainty::NoShift,level);
-	ftree->met_shiftedPhi_PhotonEnUp = metv.shiftedPhi(pat::MET::METUncertainty::PhotonEnUp,level);
-	ftree->met_shiftedPhi_PhotonEnDown = metv.shiftedPhi(pat::MET::METUncertainty::PhotonEnDown,level);
-	
-	ftree->met_shiftedSumEt_JetEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::JetEnUp,level);
-	ftree->met_shiftedSumEt_JetEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::JetEnDown,level);
-	ftree->met_shiftedSumEt_JetResUp = metv.shiftedSumEt(pat::MET::METUncertainty::JetResUp,level);
-	ftree->met_shiftedSumEt_JetResDown = metv.shiftedSumEt(pat::MET::METUncertainty::JetResDown,level);
-	ftree->met_shiftedSumEt_MuonEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::MuonEnUp,level);
-	ftree->met_shiftedSumEt_MuonEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::MuonEnDown,level);
-	ftree->met_shiftedSumEt_ElectronEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::ElectronEnUp,level);
-	ftree->met_shiftedSumEt_ElectronEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::ElectronEnDown,level);
-	ftree->met_shiftedSumEt_TauEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::TauEnUp,level);
-	ftree->met_shiftedSumEt_TauEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::TauEnDown,level);
-	ftree->met_shiftedSumEt_UnclusteredEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::UnclusteredEnUp,level);
-	ftree->met_shiftedSumEt_UnclusteredEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::UnclusteredEnDown,level);
-	ftree->met_shiftedSumEt_NoShift = metv.shiftedSumEt(pat::MET::METUncertainty::NoShift,level);
-	ftree->met_shiftedSumEt_PhotonEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::PhotonEnUp,level);
-	ftree->met_shiftedSumEt_PhotonEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::PhotonEnDown,level);
-     }
+    ftree->met_shiftedPhi_JetEnDown = metv.shiftedPhi(pat::MET::METUncertainty::JetEnDown,level);
+    ftree->met_shiftedPhi_JetResUp = metv.shiftedPhi(pat::MET::METUncertainty::JetResUp,level);
+    ftree->met_shiftedPhi_JetResDown = metv.shiftedPhi(pat::MET::METUncertainty::JetResDown,level);
+    ftree->met_shiftedPhi_MuonEnUp = metv.shiftedPhi(pat::MET::METUncertainty::MuonEnUp,level);
+    ftree->met_shiftedPhi_MuonEnDown = metv.shiftedPhi(pat::MET::METUncertainty::MuonEnDown,level);
+    ftree->met_shiftedPhi_ElectronEnUp = metv.shiftedPhi(pat::MET::METUncertainty::ElectronEnUp,level);
+    ftree->met_shiftedPhi_ElectronEnDown = metv.shiftedPhi(pat::MET::METUncertainty::ElectronEnDown,level);
+    ftree->met_shiftedPhi_TauEnUp = metv.shiftedPhi(pat::MET::METUncertainty::TauEnUp,level);
+    ftree->met_shiftedPhi_TauEnDown = metv.shiftedPhi(pat::MET::METUncertainty::TauEnDown,level);
+    ftree->met_shiftedPhi_UnclusteredEnUp = metv.shiftedPhi(pat::MET::METUncertainty::UnclusteredEnUp,level);
+    ftree->met_shiftedPhi_UnclusteredEnDown = metv.shiftedPhi(pat::MET::METUncertainty::UnclusteredEnDown,level);
+    ftree->met_shiftedPhi_NoShift = metv.shiftedPhi(pat::MET::METUncertainty::NoShift,level);
+    ftree->met_shiftedPhi_PhotonEnUp = metv.shiftedPhi(pat::MET::METUncertainty::PhotonEnUp,level);
+    ftree->met_shiftedPhi_PhotonEnDown = metv.shiftedPhi(pat::MET::METUncertainty::PhotonEnDown,level);
+
+    ftree->met_shiftedSumEt_JetEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::JetEnUp,level);
+    ftree->met_shiftedSumEt_JetEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::JetEnDown,level);
+    ftree->met_shiftedSumEt_JetResUp = metv.shiftedSumEt(pat::MET::METUncertainty::JetResUp,level);
+    ftree->met_shiftedSumEt_JetResDown = metv.shiftedSumEt(pat::MET::METUncertainty::JetResDown,level);
+    ftree->met_shiftedSumEt_MuonEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::MuonEnUp,level);
+    ftree->met_shiftedSumEt_MuonEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::MuonEnDown,level);
+    ftree->met_shiftedSumEt_ElectronEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::ElectronEnUp,level);
+    ftree->met_shiftedSumEt_ElectronEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::ElectronEnDown,level);
+    ftree->met_shiftedSumEt_TauEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::TauEnUp,level);
+    ftree->met_shiftedSumEt_TauEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::TauEnDown,level);
+    ftree->met_shiftedSumEt_UnclusteredEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::UnclusteredEnUp,level);
+    ftree->met_shiftedSumEt_UnclusteredEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::UnclusteredEnDown,level);
+    ftree->met_shiftedSumEt_NoShift = metv.shiftedSumEt(pat::MET::METUncertainty::NoShift,level);
+    ftree->met_shiftedSumEt_PhotonEnUp = metv.shiftedSumEt(pat::MET::METUncertainty::PhotonEnUp,level);
+    ftree->met_shiftedSumEt_PhotonEnDown = metv.shiftedSumEt(pat::MET::METUncertainty::PhotonEnDown,level);
+   }
    else
-     {
-	iEvent.getByToken(metTokenAOD_,metAOD);
-	const pat::MET &metv = metAOD->front();
-	
-	ftree->met_pt = metv.pt();
-	ftree->met_phi = metv.phi();
-	ftree->met_sumet = metv.sumEt();
-     }
+   {
+       iEvent.getByToken(metTokenAOD_,metAOD);
+       const pat::MET &metv = metAOD->front();
+
+       ftree->met_pt = metv.pt();
+       ftree->met_phi = metv.phi();
+       ftree->met_sumet = metv.sumEt();
+   }
+
+   // MET no HF
+   edm::Handle<pat::METCollection> metNoHF;
+   try {
+       iEvent.getByToken(metTokenNoHF_,metNoHF);
+   }
+   catch (...) {;}
+   if( metNoHF.isValid() )
+   {
+       const pat::MET &metv = metNoHF->front();
+
+       ftree->metNoHF_pt    = metv.pt();
+       ftree->metNoHF_phi   = metv.phi();
+       ftree->metNoHF_sumet = metv.sumEt();
+   }
 
    // MET Puppi
    edm::Handle<pat::METCollection> metPuppi;
    try {
-      iEvent.getByToken(metTokenPuppi_,metPuppi);
+       iEvent.getByToken(metTokenPuppi_,metPuppi);
    }
    catch (...) {;}
    if( metPuppi.isValid() )
-     {
-	const pat::MET &metv = metPuppi->front();
-	
-	ftree->metPuppi_pt = metv.pt();
-	ftree->metPuppi_phi = metv.phi();
-	ftree->metPuppi_sumet = metv.sumEt();
-     }   
+   {
+       const pat::MET &metv = metPuppi->front();
+
+       ftree->metPuppi_pt    = metv.pt();
+       ftree->metPuppi_phi   = metv.phi();
+       ftree->metPuppi_sumet = metv.sumEt();
+   }   
 
    // #################################################
    // #   _____ _           _                         #
