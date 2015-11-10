@@ -1338,9 +1338,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->pv_y = primVtx->position().y();
         ftree->pv_z = primVtx->position().z();
 
-        ftree->pv_x = primVtx->xError();
-        ftree->pv_y = primVtx->yError();
-        ftree->pv_z = primVtx->zError();
+        ftree->pv_xError = primVtx->xError();
+        ftree->pv_yError = primVtx->yError();
+        ftree->pv_zError = primVtx->zError();
 
         ftree->pv_ndof = primVtx->chi2();
         ftree->pv_ndof = primVtx->ndof();
