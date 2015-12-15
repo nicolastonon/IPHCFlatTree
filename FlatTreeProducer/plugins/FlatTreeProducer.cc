@@ -2405,7 +2405,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->tau_leadingTrackDxy.push_back(tau_leadingTrackDxy);
 
         ftree->tau_decayMode.push_back(tau.decayMode());
-        ftree->tau_decayModeFinding.push_back(tau.tauID("decayModeFinding"));
 	ftree->tau_decayModeFindingOldDMs.push_back(tau.tauID("decayModeFinding"));
         ftree->tau_decayModeFindingNewDMs.push_back(tau.tauID("decayModeFindingNewDMs"));
 

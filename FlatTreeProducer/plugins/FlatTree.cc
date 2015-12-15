@@ -749,7 +749,6 @@ void FlatTree::Init()
    tau_leadingTrackDxy.clear();
    
    tau_decayMode.clear();
-   tau_decayModeFinding.clear();
    tau_decayModeFindingOldDMs.clear();
    tau_decayModeFindingNewDMs.clear();
    
@@ -1840,7 +1839,6 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("tau_leadingTrackDxy") ) tree->Branch("tau_leadingTrackDxy", "std::vector<float>", &tau_leadingTrackDxy, buffersize);
    
    if( doWrite("tau_decayMode") ) tree->Branch("tau_decayMode", "std::vector<int>", &tau_decayMode, buffersize);
-   if( doWrite("tau_decayModeFinding") ) tree->Branch("tau_decayModeFinding", "std::vector<float>", &tau_decayModeFinding, buffersize);
    if( doWrite("tau_decayModeFindingOldDMs") ) tree->Branch("tau_decayModeFindingOldDMs", "std::vector<float>", &tau_decayModeFindingOldDMs, buffersize);
    if( doWrite("tau_decayModeFindingNewDMs") ) tree->Branch("tau_decayModeFindingNewDMs", "std::vector<float>", &tau_decayModeFindingNewDMs, buffersize);
    

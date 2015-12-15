@@ -790,7 +790,6 @@ class FlatTree
    std::vector<float> tau_leadingTrackDxy;
    
    std::vector<int> tau_decayMode;
-   std::vector<float> tau_decayModeFinding;
    std::vector<float> tau_decayModeFindingOldDMs;
    std::vector<float> tau_decayModeFindingNewDMs;
    
