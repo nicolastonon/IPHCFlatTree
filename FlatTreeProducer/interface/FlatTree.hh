@@ -415,6 +415,9 @@ class FlatTree
    std::vector<bool> el_tightCBId;
    std::vector<bool> el_heepCBId;
 
+   std::vector<bool> el_vetoStopID;
+   std::vector<bool> el_mediumStopID;
+
    std::vector<bool> el_mediumMVAId;
    std::vector<bool> el_tightMVAId;
    
@@ -787,6 +790,7 @@ class FlatTree
    std::vector<float> tau_leadingTrackDxy;
    
    std::vector<int> tau_decayMode;
+   std::vector<float> tau_decayModeFinding;
    std::vector<float> tau_decayModeFindingOldDMs;
    std::vector<float> tau_decayModeFindingNewDMs;
    

@@ -31,6 +31,7 @@
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
+#include "DataFormats/PatCandidates/interface/VIDCutFlowResult.h"
 #include "DataFormats/MuonReco/interface/MuonSelectors.h"
 #include "DataFormats/BTauReco/interface/CATopJetTagInfo.h"
 
@@ -171,6 +172,9 @@ class FlatTreeProducer : public edm::EDAnalyzer
         edm::EDGetTokenT<edm::ValueMap<bool> > eleTightMVAIdMapToken_;
         edm::EDGetTokenT<edm::ValueMap<float> > mvaValuesMapToken_;
         edm::EDGetTokenT<edm::ValueMap<int> > mvaCategoriesMapToken_;
+
+	edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult> > vetoIdFullInfoMapToken_;
+        edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult> > mediumIdFullInfoMapToken_;
 
         edm::EDGetTokenT<double> metSigToken_;
         edm::EDGetTokenT<edm::ValueMap<float> > qgToken_;
@@ -811,6 +815,10 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
     mvaValuesMapToken_      = consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvaValuesMap"));
     mvaCategoriesMapToken_  = consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap"));
 
+    //for stop analysis
+    vetoIdFullInfoMapToken_ = consumes<edm::ValueMap<vid::CutFlowResult> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
+    mediumIdFullInfoMapToken_ = consumes<edm::ValueMap<vid::CutFlowResult> >(iConfig.getParameter<edm::InputTag>("eleMediumCBIdMap"));
+  
     filterTriggerNames_     = iConfig.getUntrackedParameter<std::vector<std::string> >("filterTriggerNames");
 
     metSigToken_            = consumes<double>(iConfig.getParameter<edm::InputTag>("metSigInput"));
@@ -992,6 +1000,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     edm::Handle<edm::ValueMap<int> > mvaCategories;
     iEvent.getByToken(mvaValuesMapToken_,mvaValues);
     iEvent.getByToken(mvaCategoriesMapToken_,mvaCategories);   
+
+    edm::Handle<edm::ValueMap<vid::CutFlowResult> > veto_id_cutflow_;
+    edm::Handle<edm::ValueMap<vid::CutFlowResult> > medium_id_cutflow_;
+    iEvent.getByToken(vetoIdFullInfoMapToken_, veto_id_cutflow_);
+    iEvent.getByToken(mediumIdFullInfoMapToken_, medium_id_cutflow_);
 
     // Taus
     edm::Handle<pat::TauCollection> taus;
@@ -1644,6 +1657,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_mediumCBId.push_back((*medium_cbid_decisions)[el]);
         ftree->el_tightCBId.push_back((*tight_cbid_decisions)[el]);
         ftree->el_heepCBId.push_back((*heep_cbid_decisions)[el]);
+        //for stop analysis
+        vid::CutFlowResult vetoIdIsoMasked = (*veto_id_cutflow_)[el].getCutFlowResultMasking("GsfEleEffAreaPFIsoCut_0");
+        ftree->el_vetoStopID.push_back(vetoIdIsoMasked.cutFlowPassed());
+        vid::CutFlowResult mediumIdIsoMasked = (*medium_id_cutflow_)[el].getCutFlowResultMasking("GsfEleEffAreaPFIsoCut_0");
+        ftree->el_mediumStopID.push_back(mediumIdIsoMasked.cutFlowPassed());
+        //end
+
 
         ftree->el_ecalEnergy.push_back(elec.ecalEnergy());
         ftree->el_correctedEcalEnergy.push_back(elec.correctedEcalEnergy());
@@ -1712,7 +1732,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
             float correction = ftree->ev_rho*EffArea*(miniIsoR/0.3)*(miniIsoR/0.3);
 
-            miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),0.05,0.2,10.,false,false);
+            //miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),0.05,0.2,10.,false,false);
+            double EA_miniIso = getEA(elec.eta(), EL_EA_ETA, EL_EA_VALUE);
+            miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),*rhoPtr, EA_miniIso, 0.05,0.2,10.,false, false);
 
             float pfIsoCharged = ElecPfIsoCharged(elec,pfcands,miniIsoR);
             float pfIsoNeutral = ElecPfIsoNeutral(elec,pfcands,miniIsoR);
@@ -2148,7 +2170,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
             float correction = ftree->ev_rho*EffArea*(miniIsoR/0.3)*(miniIsoR/0.3);
 
-            miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&muon),0.05,0.2,10.,false,false);
+            //miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&muon),0.05,0.2,10.,false,false);
+	    double EA_miniIso = getEA(muon.eta(), MU_EA_ETA, MU_EA_VALUE);
+	    miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&muon),*rhoPtr, EA_miniIso, 0.05,0.2,10.,false, false);
 
             float pfIsoCharged      = MuonPfIsoCharged(muon,pfcands,miniIsoR);
             float pfIsoNeutral      = MuonPfIsoNeutral(muon,pfcands,miniIsoR);
@@ -2381,7 +2405,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->tau_leadingTrackDxy.push_back(tau_leadingTrackDxy);
 
         ftree->tau_decayMode.push_back(tau.decayMode());
-        ftree->tau_decayModeFindingOldDMs.push_back(tau.tauID("decayModeFinding"));
+        ftree->tau_decayModeFinding.push_back(tau.tauID("decayModeFinding"));
+	ftree->tau_decayModeFindingOldDMs.push_back(tau.tauID("decayModeFinding"));
         ftree->tau_decayModeFindingNewDMs.push_back(tau.tauID("decayModeFindingNewDMs"));
 
         ftree->tau_puCorrPtSum.push_back(tau.tauID("puCorrPtSum"));
@@ -3073,19 +3098,19 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         for( const pat::PackedCandidate &pfc2 : *pfcands )
         {
             if(&pfc==&pfc2) continue ; // do not count particle itself
-            if(pfc.charge()==0) continue;
-            if(pfc.dz()>0.1) continue;
-            if(pfc.pt()<0) continue;
+	    if(pfc2.charge()==0) continue;
+	    if(fabs(pfc2.dz())>0.1) continue;
+	    if(pfc2.pt()<0) continue;
             if(deltaR(pfc,pfc2)<0.3) trackIso+=pfc2.pt();	
         }
 
         if(do_sel_pfc){
             if(pfc.charge()==0) continue;
-            if(pfc.dz()>0.1) continue;
-            if(pfc.pt()<10) continue;
-            if(fabs(pfc.eta())>2.4) continue;
-            if( (trackIso<6 && pfc.pt()>=60 ) || (trackIso/pfc.pt()<0.1) ){
-                ftree->pfcand_pt.push_back(pfc.pt());
+	    if(abs(pfc.dz())>=0.1) continue;
+	    if(pfc.pt()<=10) continue;
+	    if(fabs(pfc.eta())>=2.4) continue;
+	    if( (trackIso<6 && pfc.pt()>=60 ) || (trackIso/pfc.pt()<0.1 && pfc.pt()<60) ){
+		ftree->pfcand_pt.push_back(pfc.pt());
                 ftree->pfcand_eta.push_back(pfc.eta());
                 ftree->pfcand_phi.push_back(pfc.phi());
                 ftree->pfcand_E.push_back(pfc.energy());

@@ -379,6 +379,9 @@ void FlatTree::Init()
    el_mediumCBId.clear();
    el_tightCBId.clear();
    el_heepCBId.clear();
+  
+   el_vetoStopID.clear();
+   el_mediumStopID.clear();
    
    el_mediumMVAId.clear();
    el_tightMVAId.clear();
@@ -746,6 +749,7 @@ void FlatTree::Init()
    tau_leadingTrackDxy.clear();
    
    tau_decayMode.clear();
+   tau_decayModeFinding.clear();
    tau_decayModeFindingOldDMs.clear();
    tau_decayModeFindingNewDMs.clear();
    
@@ -1097,6 +1101,7 @@ void FlatTree::Init()
    pfcand_charge.clear();
    pfcand_id.clear();
    pfcand_dz.clear();
+   pfcand_trackIso.clear();
 }
 
 void FlatTree::CreateBranches(int buffersize = 32000)
@@ -1467,7 +1472,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_mediumCBId") ) tree->Branch("el_mediumCBId", "std::vector<bool>", &el_mediumCBId, buffersize);
    if( doWrite("el_tightCBId") ) tree->Branch("el_tightCBId", "std::vector<bool>", &el_tightCBId, buffersize);
    if( doWrite("el_heepCBId") ) tree->Branch("el_heepCBId", "std::vector<bool>", &el_heepCBId, buffersize);
-
+   if( doWrite("el_vetoStopID") ) tree->Branch("el_vetoStopID", "std::vector<bool>", &el_vetoStopID, buffersize);
+   if( doWrite("el_mediumStopID") ) tree->Branch("el_mediumStopID", "std::vector<bool>", &el_mediumStopID, buffersize);
    if( doWrite("el_mediumMVAId") ) tree->Branch("el_mediumMVAId", "std::vector<bool>", &el_mediumMVAId, buffersize);
    if( doWrite("el_tightMVAId") ) tree->Branch("el_tightMVAId", "std::vector<bool>", &el_tightMVAId, buffersize);
    
@@ -1834,6 +1840,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("tau_leadingTrackDxy") ) tree->Branch("tau_leadingTrackDxy", "std::vector<float>", &tau_leadingTrackDxy, buffersize);
    
    if( doWrite("tau_decayMode") ) tree->Branch("tau_decayMode", "std::vector<int>", &tau_decayMode, buffersize);
+   if( doWrite("tau_decayModeFinding") ) tree->Branch("tau_decayModeFinding", "std::vector<float>", &tau_decayModeFinding, buffersize);
    if( doWrite("tau_decayModeFindingOldDMs") ) tree->Branch("tau_decayModeFindingOldDMs", "std::vector<float>", &tau_decayModeFindingOldDMs, buffersize);
    if( doWrite("tau_decayModeFindingNewDMs") ) tree->Branch("tau_decayModeFindingNewDMs", "std::vector<float>", &tau_decayModeFindingNewDMs, buffersize);
    
@@ -1845,9 +1852,9 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("tau_byLooseCombinedIsolationDeltaBetaCorr3Hits") ) tree->Branch("tau_byLooseCombinedIsolationDeltaBetaCorr3Hits", "std::vector<float>", &tau_byLooseCombinedIsolationDeltaBetaCorr3Hits, buffersize);
    if( doWrite("tau_byMediumCombinedIsolationDeltaBetaCorr3Hits") ) tree->Branch("tau_byMediumCombinedIsolationDeltaBetaCorr3Hits", "std::vector<float>", &tau_byMediumCombinedIsolationDeltaBetaCorr3Hits, buffersize);
    if( doWrite("tau_byTightCombinedIsolationDeltaBetaCorr3Hits") ) tree->Branch("tau_byTightCombinedIsolationDeltaBetaCorr3Hits", "std::vector<float>", &tau_byTightCombinedIsolationDeltaBetaCorr3Hits, buffersize);
-   if( doWrite("tau_byLooseIsolationMVA3newDMwLT") ) tree->Branch("byLooseIsolationMVA3newDMwLT", "std::vector<float>", &tau_byLooseIsolationMVA3newDMwLT, buffersize);
-   if( doWrite("tau_byMediumIsolationMVA3newDMwLT") ) tree->Branch("byMediumIsolationMVA3newDMwLT", "std::vector<float>", &tau_byMediumIsolationMVA3newDMwLT, buffersize);
-   if( doWrite("tau_byTightIsolationMVA3newDMwLT") ) tree->Branch("byTightIsolationMVA3newDMwLT", "std::vector<float>", &tau_byTightIsolationMVA3newDMwLT, buffersize);
+   if( doWrite("tau_byLooseIsolationMVA3newDMwLT") ) tree->Branch("tau_byLooseIsolationMVA3newDMwLT", "std::vector<float>", &tau_byLooseIsolationMVA3newDMwLT, buffersize);
+   if( doWrite("tau_byMediumIsolationMVA3newDMwLT") ) tree->Branch("tau_byMediumIsolationMVA3newDMwLT", "std::vector<float>", &tau_byMediumIsolationMVA3newDMwLT, buffersize);
+   if( doWrite("tau_byTightIsolationMVA3newDMwLT") ) tree->Branch("tau_byTightIsolationMVA3newDMwLT", "std::vector<float>", &tau_byTightIsolationMVA3newDMwLT, buffersize);
    
    if( doWrite("tau_againstMuonLoose3") ) tree->Branch("tau_againstMuonLoose3", "std::vector<float>", &tau_againstMuonLoose3, buffersize);
    if( doWrite("tau_againstMuonTight3") ) tree->Branch("tau_againstMuonTight3", "std::vector<float>", &tau_againstMuonTight3, buffersize);
@@ -2188,7 +2195,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("pfcand_charge") ) tree->Branch("pfcand_charge", "std::vector<float>", &pfcand_charge, buffersize);
    if( doWrite("pfcand_id") ) tree->Branch("pfcand_id", "std::vector<int>", &pfcand_id, buffersize);
    if( doWrite("pfcand_dz") ) tree->Branch("pfcand_dz", "std::vector<float>", &pfcand_dz, buffersize);
-   
+   if( doWrite("pfcand_trackIso") ) tree->Branch("pfcand_trackIso", "std::vector<float>", &pfcand_trackIso, buffersize);
+
    if( doWrite("mc_truth_tth") )
      {
 	tree->Branch("mc_truth_tth_channel", &mc_truth_tth_channel, "mc_truth_tth_channel/I", buffersize);
