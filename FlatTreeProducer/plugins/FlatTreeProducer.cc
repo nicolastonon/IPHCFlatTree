@@ -1717,7 +1717,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         if( dataFormat_ != "AOD" )
         {
-            float miniIsoR = 10.0/std::min(std::max(float(elec.pt()),float(50.)),float(200.));
+            
+	    // Variables used for stop analysis
+            double EA_miniIso = getEA(elec.eta(), EL_EA_ETA, EL_EA_VALUE);
+	    miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),*rhoPtr, EA_miniIso, 0.05,0.2,10.,false, false);
+            // ---------------------------------
+
+	    // Below: Variables used for tt-H analysis
+	    
+	    float miniIsoR = 10.0/std::min(std::max(float(elec.pt()),float(50.)),float(200.));
 
             float EffArea = 0.;
             float eta = elec.eta();
@@ -1732,9 +1740,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
             float correction = ftree->ev_rho*EffArea*(miniIsoR/0.3)*(miniIsoR/0.3);
 
-            //miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),0.05,0.2,10.,false,false);
-            double EA_miniIso = getEA(elec.eta(), EL_EA_ETA, EL_EA_VALUE);
-            miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&elec),*rhoPtr, EA_miniIso, 0.05,0.2,10.,false, false);
 
             float pfIsoCharged = ElecPfIsoCharged(elec,pfcands,miniIsoR);
             float pfIsoNeutral = ElecPfIsoNeutral(elec,pfcands,miniIsoR);
@@ -1746,6 +1751,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             miniIsoTTHCharged = pfIsoCharged;
             //miniIsoTTHNeutral = pfIsoPUSubtracted;
             miniIsoTTHNeutral = pfIsoNeutral;
+            // ---------------------------------
         }
 
         //std::cout << elec.pt() << "   " << miniIsoTTH << "   " << miniIsoTTHCharged << "  " << miniIsoTTHNeutral << std::endl;
@@ -2158,7 +2164,14 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         float miniIsoTTHNeutral = -666;
         if( dataFormat_ != "AOD" )
         {
-            float miniIsoR = 10.0/std::min(std::max(float(muon.pt()),float(50.)),float(200.));
+	    
+	    // Variables used for stop analysis
+	    double EA_miniIso = getEA(muon.eta(), MU_EA_ETA, MU_EA_VALUE);
+	    miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&muon),*rhoPtr, EA_miniIso, 0.05,0.2,10.,false, false);
+            // ------------------------------------------- 
+	    
+	    // Below: Variables used for ttH analysis
+	    float miniIsoR = 10.0/std::min(std::max(float(muon.pt()),float(50.)),float(200.));
             float EffArea = 0.;
             float eta = muon.eta();
 
@@ -2171,8 +2184,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             float correction = ftree->ev_rho*EffArea*(miniIsoR/0.3)*(miniIsoR/0.3);
 
             //miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&muon),0.05,0.2,10.,false,false);
-	    double EA_miniIso = getEA(muon.eta(), MU_EA_ETA, MU_EA_VALUE);
-	    miniIso = getPFIsolation(pfcands,dynamic_cast<const reco::Candidate*>(&muon),*rhoPtr, EA_miniIso, 0.05,0.2,10.,false, false);
 
             float pfIsoCharged      = MuonPfIsoCharged(muon,pfcands,miniIsoR);
             float pfIsoNeutral      = MuonPfIsoNeutral(muon,pfcands,miniIsoR);
@@ -2182,6 +2193,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             miniIsoTTHCharged = pfIsoCharged;
             //miniIsoTTHNeutral = pfIsoPUSubtracted;
             miniIsoTTHNeutral = pfIsoNeutral;
+            // ------------------------------------------- 
         }
 
         ftree->mu_miniIso.push_back(miniIso);
