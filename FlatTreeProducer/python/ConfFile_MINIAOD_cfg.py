@@ -9,6 +9,7 @@ import os, sys
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run on real data')
+options.register('applyMETFilters',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply MET filters')
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 # runBTag option is not fully functional - please don't use it
 options.register('runBTag',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run b-tagging')
@@ -40,9 +41,9 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag import GlobalTag
 
 if options.isData:
-    process.GlobalTag.globaltag = '74X_dataRun2_Prompt_v4'
+    process.GlobalTag.globaltag = '74X_dataRun2_v5'
 else:
-    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v2'
+    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
 
 ### to activate the new JP calibration: using the data base
 if options.isData:
@@ -364,7 +365,8 @@ if options.runQG:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-            '/store/mc/RunIISpring15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/02FE2DB6-D06D-E511-8BC7-0025905C431C.root'
+    '/store/data/Run2015D/SingleMuon/MINIAOD/05Oct2015-v1/40000/9A470821-676F-E511-8AF3-0025905A606A.root'
+#    '/store/mc/RunIISpring15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/02FE2DB6-D06D-E511-8BC7-0025905C431C.root'
             )
 )
 
@@ -391,6 +393,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   confFile          = cms.string(options.confFile),
 
                   isData            = cms.bool(options.isData),
+                  applyMETFilters   = cms.bool(options.applyMETFilters),
                   fillMCScaleWeight = cms.bool(options.fillMCScaleWeight),
                   fillPUInfo	    = cms.bool(options.fillPUInfo),
                   nPDF              = cms.int32(options.nPDF),
@@ -534,7 +537,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   metSigInput              = cms.InputTag("METSignificance"),
                   rhoInput                 = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
                   genParticlesInput        = cms.InputTag("prunedGenParticles"),
-		          puInfoInput		       = cms.InputTag("slimmedAddPileupInfo"),
+                  puInfoInput		   = cms.InputTag("slimmedAddPileupInfo"),
 #                  puInfoInput		   = cms.InputTag("addPileupInfo"),
                   objects                  = cms.InputTag("selectedPatTrigger")
 )
@@ -543,82 +546,25 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 #  Path  #
 ##########
 
-# talk to output module
-#process.out = cms.OutputModule("PoolOutputModule",
-#                fileName = cms.untracked.string("test2.root")
-#		        )
+process.metFilters = cms.Sequence()
+if options.applyMETFilters:
+    process.metFilters = cms.Sequence(process.ApplyBaselineHBHENoiseFilter+
+                                      process.ApplyBaselineHBHEIsoNoiseFilter)
 
+process.runQG = cms.Sequence()
+if options.runQG:
+    process.runQG = cms.Sequence(process.QGTagger)
 
-if not options.isData:
-    if options.runBTag:
-        process.p = cms.Path(
-#        process.HBHENoiseFilterResultProducer+
-#        process.ApplyBaselineHBHENoiseFilter+
-#        process.ApplyBaselineHBHEIsoNoiseFilter+
-        process.electronMVAValueMapProducer+
-        process.egmGsfElectronIDSequence+
-        process.METSignificance+
-        process.selectedPatJetsAK8PFCHS+process.selectedPatJetsAK8PFCHSPrunedPacked+
-#        process.QGTagger+
-        process.FlatTree)
-    else:
-        if options.runQG:
-            process.p = cms.Path(
-#            process.HBHENoiseFilterResultProducer+
-#            process.ApplyBaselineHBHENoiseFilter+
-#            process.ApplyBaselineHBHEIsoNoiseFilter+
-            process.electronMVAValueMapProducer+
-            process.egmGsfElectronIDSequence+
-            #        process.genJetFlavourAlg+
-            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
-            process.METSignificance+
-            process.QGTagger+
-            process.FlatTree)
-        else:
-            process.p = cms.Path(
-#            process.HBHENoiseFilterResultProducer+
-#            process.ApplyBaselineHBHENoiseFilter+
-#            process.ApplyBaselineHBHEIsoNoiseFilter+
-            process.electronMVAValueMapProducer+
-            process.egmGsfElectronIDSequence+
-            #        process.genJetFlavourAlg+
-            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
-            process.METSignificance+
-            process.FlatTree)            
-else:
-    if options.runBTag:
-        process.p = cms.Path(
-#        process.HBHENoiseFilterResultProducer+
-#        process.ApplyBaselineHBHENoiseFilter+
-#        process.ApplyBaselineHBHEIsoNoiseFilter+
-        process.electronMVAValueMapProducer+
-        process.egmGsfElectronIDSequence+
-        process.METSignificance+
-        process.selectedPatJetsAK8PFCHS+process.selectedPatJetsAK8PFCHSPrunedPacked+
-        process.QGTagger+
-        process.FlatTree)
-    else:
-        if options.runQG:
-            process.p = cms.Path(
-#            process.HBHENoiseFilterResultProducer+
-#            process.ApplyBaselineHBHENoiseFilter+
-#            process.ApplyBaselineHBHEIsoNoiseFilter+
-            process.electronMVAValueMapProducer+
-            process.egmGsfElectronIDSequence+
-            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
-            process.METSignificance+
-            process.QGTagger+
-            process.FlatTree)
-        else:
-            process.p = cms.Path(
-#            process.HBHENoiseFilterResultProducer+
-#            process.ApplyBaselineHBHENoiseFilter+
-#            process.ApplyBaselineHBHEIsoNoiseFilter+
-            process.electronMVAValueMapProducer+
-            process.egmGsfElectronIDSequence+
-            process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
-            process.METSignificance+
-            process.FlatTree)        
-    
-# A list of analyzers or output modules to be run after all paths have been run.
-#process.outpath = cms.EndPath(process.out)
+process.runBTag = cms.Sequence()
+if options.runBTag:
+    process.runBTag = cms.Sequence(process.selectedPatJetsAK8PFCHS+
+                                   process.selectedPatJetsAK8PFCHSPrunedPacked)
+                                   
+process.p = cms.Path(process.metFilters+
+                     process.electronMVAValueMapProducer+
+                     process.egmGsfElectronIDSequence+
+                     process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
+                     process.METSignificance+
+                     process.runBTag+
+                     process.runQG+
+                     process.FlatTree)
