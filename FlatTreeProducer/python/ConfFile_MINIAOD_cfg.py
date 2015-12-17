@@ -13,8 +13,8 @@ options.register('applyMETFilters',True,VarParsing.multiplicity.singleton,VarPar
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 # runBTag option is not fully functional - please don't use it
 options.register('runBTag',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run b-tagging')
-options.register('runAK10',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK10 jets')
-options.register('runQG',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger')
+options.register('runAK10',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK10 jets')
+options.register('runQG',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger')
 options.register('fillMCScaleWeight',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PDF weights')
 options.register('fillPUInfo',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PU info')
 options.register('nPDF', 0, VarParsing.multiplicity.singleton, VarParsing.varType.int, "nPDF")
