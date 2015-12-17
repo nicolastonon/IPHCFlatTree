@@ -133,6 +133,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
 
         std::string dataFormat_;
         bool isData_;
+        bool applyMETFilters_;
         bool fillMCScaleWeight_;
         bool fillPUInfo_;
         int nPdf_;
@@ -140,6 +141,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
         HLTConfigProvider hltConfig_;
 
         edm::EDGetTokenT<edm::TriggerResults> triggerBits_;
+        edm::EDGetTokenT<edm::TriggerResults> triggerBitsPAT_;
         edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> triggerObjects_;
         edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_;
 
@@ -782,7 +784,9 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
     fillMCScaleWeight_ = iConfig.getParameter<bool>("fillMCScaleWeight");
     fillPUInfo_        = iConfig.getParameter<bool>("fillPUInfo");
     isData_            = iConfig.getParameter<bool>("isData");
+    applyMETFilters_   = iConfig.getParameter<bool>("applyMETFilters");
     triggerBits_       = consumes<edm::TriggerResults>(edm::InputTag(std::string("TriggerResults"),std::string(""),std::string("HLT")));
+    triggerBitsPAT_    = consumes<edm::TriggerResults>(edm::InputTag(std::string("TriggerResults"),std::string(""),std::string("PAT")));
     triggerObjects_    = consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"));
     triggerPrescales_  = consumes<pat::PackedTriggerPrescales>(edm::InputTag(std::string("patTrigger")));
     vertexToken_       = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertexInput"));
@@ -899,6 +903,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     iEvent.getByToken(triggerBits_,triggerBits);
     const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
 
+    edm::Handle<edm::TriggerResults> triggerBitsPAT;
+    iEvent.getByToken(triggerBitsPAT_,triggerBitsPAT);
+    const edm::TriggerNames &namesPAT = iEvent.triggerNames(*triggerBitsPAT);
+   
     edm::Handle<pat::TriggerObjectStandAloneCollection> triggerObjects;
     iEvent.getByToken(triggerObjects_, triggerObjects);
 
@@ -1191,6 +1199,32 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     // #                                       #
     // #########################################
 
+    bool passMETFilters = 1;
+    bool pass_CSCTightHaloFilter = 1;
+    bool pass_goodVertices = 1;
+    bool pass_eeBadScFilter = 1;
+   
+    for (unsigned int i = 0, n = triggerBitsPAT->size(); i < n; ++i)
+     {
+	std::string triggerName = namesPAT.triggerName(i);
+	
+	bool isFired = (triggerBitsPAT->accept(i) ? true : false);
+	
+	if( strcmp(triggerName.c_str(),"Flag_CSCTightHaloFilter") == 0 )
+	  {
+	     if( !isFired ) pass_CSCTightHaloFilter = 0;
+	  }
+       else if( strcmp(triggerName.c_str(),"Flag_goodVertices") == 0 )
+	  {
+	     if( !isFired ) pass_goodVertices = 0;
+	  }	
+	else if( strcmp(triggerName.c_str(),"Flag_eeBadScFilter") == 0 )
+	  {
+	     if( !isFired ) pass_eeBadScFilter = 0;
+	  }	
+     }   
+   passMETFilters = (pass_CSCTightHaloFilter && pass_goodVertices && pass_eeBadScFilter);
+   
     //std::cout << "\n === TRIGGER PATHS === " << std::endl;
     for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i)
     {
@@ -3145,7 +3179,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }   
 
     this->KeepEvent();
-    ftree->tree->Fill();
+    if( applyMETFilters_ && passMETFilters )
+     ftree->tree->Fill();
 
     delete mc_truth;
 }
