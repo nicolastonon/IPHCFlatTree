@@ -1,5 +1,5 @@
 #ifndef HELPER_H
-#define HELPER_H 
+#define HELPER_H
 
 #include "DataFormats/PatCandidates/interface/Electron.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
