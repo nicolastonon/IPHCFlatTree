@@ -27,7 +27,7 @@ git cms-merge-topic ikrav:egm_id_7.4.12_v1
 
 # Switch to particular release, otherwise ignore these lines to use the HEAD
 cd IPHCFlatTree
-git checkout MantaRay-patch8
+git checkout Akoula-patch1
 cd ../
 
 # Compile the monster
