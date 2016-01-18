@@ -909,7 +909,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    edm::Handle<edm::TriggerResults> triggerBitsPAT;
    iEvent.getByToken(triggerBitsPAT_,triggerBitsPAT);
-   const edm::TriggerNames &namesPAT = iEvent.triggerNames(*triggerBitsPAT);
+   edm::TriggerNames namesPAT;   
+   if( triggerBitsPAT.isValid() )
+     {	
+	namesPAT = iEvent.triggerNames(*triggerBitsPAT);
+     }   
 
    edm::Handle<pat::TriggerObjectStandAloneCollection> triggerObjects;
    iEvent.getByToken(triggerObjects_, triggerObjects);
@@ -1209,25 +1213,29 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    bool pass_goodVertices = 1;
    bool pass_eeBadScFilter = 1;
 
-   for (unsigned int i = 0, n = triggerBitsPAT->size(); i < n; ++i)
-     {
-	std::string triggerName = namesPAT.triggerName(i);
-
-	bool isFired = (triggerBitsPAT->accept(i) ? true : false);
-
-	if( strcmp(triggerName.c_str(),"Flag_CSCTightHaloFilter") == 0 )
+   if( triggerBitsPAT.isValid() )
+     {	
+	for (unsigned int i = 0, n = triggerBitsPAT->size(); i < n; ++i)
 	  {
-	     if( !isFired ) pass_CSCTightHaloFilter = 0;
-	  }
-	else if( strcmp(triggerName.c_str(),"Flag_goodVertices") == 0 )
-	  {
-	     if( !isFired ) pass_goodVertices = 0;
-	  }
-	else if( strcmp(triggerName.c_str(),"Flag_eeBadScFilter") == 0 )
-	  {
-	     if( !isFired ) pass_eeBadScFilter = 0;
+	     std::string triggerName = namesPAT.triggerName(i);
+	     
+	     bool isFired = (triggerBitsPAT->accept(i) ? true : false);
+	     
+	     if( strcmp(triggerName.c_str(),"Flag_CSCTightHaloFilter") == 0 )
+	       {
+		  if( !isFired ) pass_CSCTightHaloFilter = 0;
+	       }
+	     else if( strcmp(triggerName.c_str(),"Flag_goodVertices") == 0 )
+	       {
+		  if( !isFired ) pass_goodVertices = 0;
+	       }
+	     else if( strcmp(triggerName.c_str(),"Flag_eeBadScFilter") == 0 )
+	       {
+		  if( !isFired ) pass_eeBadScFilter = 0;
+	       }
 	  }
      }
+   
    passMETFilters = (pass_CSCTightHaloFilter && pass_goodVertices && pass_eeBadScFilter);
 
    //std::cout << "\n === TRIGGER PATHS === " << std::endl;
