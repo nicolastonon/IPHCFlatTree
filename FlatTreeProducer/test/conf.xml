@@ -324,7 +324,9 @@
     <var name="el_mediumMVAId" save="1"></var>
     <var name="el_tightMVAId" save="1"></var>
     <var name="el_lepMVA" save="1"></var>
-    <var name="el_lepMVA_pt" save="1"></var>
+    <var name="el_lepMVA_Moriond16" save="1"></var>
+    <var name="el_lepMVA_pt" save="1"></var>   
+    <var name="el_lepMVA_eta" save="1"></var>
     <var name="el_lepMVA_miniRelIsoCharged" save="1"></var>
     <var name="el_lepMVA_miniRelIsoNeutral" save="1"></var>
     <var name="el_lepMVA_jetPtRatio" save="1"></var>
@@ -612,8 +614,10 @@
     <var name="mu_innerTrack_numberOfOuterHits" save="0"></var>
     <var name="mu_innerTrack_validFraction" save="1"></var>
     <var name="mu_type" save="1"></var>
-    <var name="mu_lepMVA" save="1"></var>    
+    <var name="mu_lepMVA" save="1"></var>      
+    <var name="mu_lepMVA_Moriond16" save="1"></var>    
     <var name="mu_lepMVA_pt" save="1"></var>
+    <var name="mu_lepMVA_eta" save="1"></var>
     <var name="mu_lepMVA_miniRelIsoCharged" save="1"></var>
     <var name="mu_lepMVA_miniRelIsoNeutral" save="1"></var>
     <var name="mu_lepMVA_jetPtRatio" save="1"></var>
