@@ -422,8 +422,10 @@ class FlatTree
    std::vector<bool> el_tightMVAId;
    
    std::vector<float> el_lepMVA;
+   std::vector<float> el_lepMVA_Moriond16;
 
-   std::vector<float> el_lepMVA_pt;
+   std::vector<float> el_lepMVA_pt; 
+   std::vector<float> el_lepMVA_eta;
    std::vector<float> el_lepMVA_miniRelIsoCharged;
    std::vector<float> el_lepMVA_miniRelIsoNeutral;
    std::vector<float> el_lepMVA_jetPtRatio;
@@ -433,6 +435,7 @@ class FlatTree
    std::vector<float> el_lepMVA_dxy;
    std::vector<float> el_lepMVA_dz;
    std::vector<float> el_lepMVA_mvaId;
+   std::vector<float> el_lepMVA_jetNDauChargedMVASel;
 
    std::vector<int> el_hasMCMatch;
    std::vector<float> el_gen_pt;
@@ -741,8 +744,10 @@ class FlatTree
    std::vector<int> mu_type;
    
    std::vector<float> mu_lepMVA;
+   std::vector<float> mu_lepMVA_Moriond16;
 
-   std::vector<float> mu_lepMVA_pt;
+   std::vector<float> mu_lepMVA_pt; 
+   std::vector<float> mu_lepMVA_eta;
    std::vector<float> mu_lepMVA_miniRelIsoCharged;
    std::vector<float> mu_lepMVA_miniRelIsoNeutral;
    std::vector<float> mu_lepMVA_jetPtRatio;
@@ -752,6 +757,7 @@ class FlatTree
    std::vector<float> mu_lepMVA_dxy;
    std::vector<float> mu_lepMVA_dz;
    std::vector<float> mu_lepMVA_mvaId;
+   std::vector<float> mu_lepMVA_jetNDauChargedMVASel;
 
    std::vector<int> mu_hasMCMatch;
    std::vector<float> mu_gen_pt;
