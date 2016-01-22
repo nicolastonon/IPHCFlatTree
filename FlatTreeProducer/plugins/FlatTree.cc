@@ -387,8 +387,10 @@ void FlatTree::Init()
    el_tightMVAId.clear();
 
    el_lepMVA.clear();
+   el_lepMVA_Moriond16.clear();
    
-   el_lepMVA_pt.clear();
+   el_lepMVA_pt.clear(); 
+   el_lepMVA_eta.clear();
    el_lepMVA_miniRelIsoCharged.clear();
    el_lepMVA_miniRelIsoNeutral.clear();
    el_lepMVA_jetPtRatio.clear();
@@ -398,6 +400,7 @@ void FlatTree::Init()
    el_lepMVA_dxy.clear();
    el_lepMVA_dz.clear();
    el_lepMVA_mvaId.clear();
+   el_lepMVA_jetNDauChargedMVASel.clear();
 
    el_hasMCMatch.clear();
    el_gen_pt.clear();
@@ -702,8 +705,10 @@ void FlatTree::Init()
    mu_type.clear();
 
    mu_lepMVA.clear();
+   mu_lepMVA_Moriond16.clear();
 
-   mu_lepMVA_pt.clear();
+   mu_lepMVA_pt.clear(); 
+   mu_lepMVA_eta.clear();
    mu_lepMVA_miniRelIsoCharged.clear();
    mu_lepMVA_miniRelIsoNeutral.clear();
    mu_lepMVA_jetPtRatio.clear();
@@ -713,7 +718,8 @@ void FlatTree::Init()
    mu_lepMVA_dxy.clear();
    mu_lepMVA_dz.clear();
    mu_lepMVA_mvaId.clear();
-
+   mu_lepMVA_jetNDauChargedMVASel.clear();
+ 
    mu_hasMCMatch.clear();
    mu_gen_pt.clear();
    mu_gen_eta.clear();
@@ -1477,8 +1483,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_tightMVAId") ) tree->Branch("el_tightMVAId", "std::vector<bool>", &el_tightMVAId, buffersize);
    
    if( doWrite("el_lepMVA") ) tree->Branch("el_lepMVA", "std::vector<float>", &el_lepMVA, buffersize);
+   if( doWrite("el_lepMVA_Moriond16") ) tree->Branch("el_lepMVA_Moriond16", "std::vector<float>", &el_lepMVA_Moriond16, buffersize);
 
    if( doWrite("el_lepMVA_pt") ) tree->Branch("el_lepMVA_pt", "std::vector<float>", &el_lepMVA_pt, buffersize);
+   if( doWrite("el_lepMVA_eta") ) tree->Branch("el_lepMVA_eta", "std::vector<float>", &el_lepMVA_eta, buffersize);
    if( doWrite("el_lepMVA_miniRelIsoCharged") ) tree->Branch("el_lepMVA_miniRelIsoCharged", "std::vector<float>", &el_lepMVA_miniRelIsoCharged, buffersize);
    if( doWrite("el_lepMVA_miniRelIsoNeutral") ) tree->Branch("el_lepMVA_miniRelIsoNeutral", "std::vector<float>", &el_lepMVA_miniRelIsoNeutral, buffersize);
    if( doWrite("el_lepMVA_jetPtRatio") ) tree->Branch("el_lepMVA_jetPtRatio", "std::vector<float>", &el_lepMVA_jetPtRatio, buffersize);
@@ -1488,6 +1496,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_lepMVA_dxy") ) tree->Branch("el_lepMVA_dxy", "std::vector<float>", &el_lepMVA_dxy, buffersize);
    if( doWrite("el_lepMVA_dz") ) tree->Branch("el_lepMVA_dz", "std::vector<float>", &el_lepMVA_dz, buffersize);
    if( doWrite("el_lepMVA_mvaId") ) tree->Branch("el_lepMVA_mvaId", "std::vector<float>", &el_lepMVA_mvaId, buffersize);
+   if( doWrite("el_lepMVA_jetNDauChargedMVASel") ) tree->Branch("el_lepMVA_jetNDauChargedMVASel", "std::vector<float>", &el_lepMVA_jetNDauChargedMVASel, buffersize);
 
    if( doWrite("el_hasMCMatch") ) tree->Branch("el_hasMCMatch", "std::vector<int>", &el_hasMCMatch, buffersize);
    if( doWrite("el_gen_pt") ) tree->Branch("el_gen_pt", "std::vector<float>", &el_gen_pt, buffersize);
@@ -1792,8 +1801,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_type") ) tree->Branch("mu_type", "std::vector<int>", &mu_type, buffersize);
    
    if( doWrite("mu_lepMVA") ) tree->Branch("mu_lepMVA", "std::vector<float>", &mu_lepMVA, buffersize);
+   if( doWrite("mu_lepMVA_Moriond16") ) tree->Branch("mu_lepMVA_Moriond16", "std::vector<float>", &mu_lepMVA_Moriond16, buffersize);
 
    if( doWrite("mu_lepMVA_pt") ) tree->Branch("mu_lepMVA_pt", "std::vector<float>", &mu_lepMVA_pt, buffersize);
+   if( doWrite("mu_lepMVA_eta") ) tree->Branch("mu_lepMVA_eta", "std::vector<float>", &mu_lepMVA_eta, buffersize);
    if( doWrite("mu_lepMVA_miniRelIsoCharged") ) tree->Branch("mu_lepMVA_miniRelIsoCharged", "std::vector<float>", &mu_lepMVA_miniRelIsoCharged, buffersize);
    if( doWrite("mu_lepMVA_miniRelIsoNeutral") ) tree->Branch("mu_lepMVA_miniRelIsoNeutral", "std::vector<float>", &mu_lepMVA_miniRelIsoNeutral, buffersize);
    if( doWrite("mu_lepMVA_jetPtRatio") ) tree->Branch("mu_lepMVA_jetPtRatio", "std::vector<float>", &mu_lepMVA_jetPtRatio, buffersize);
@@ -1803,6 +1814,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_lepMVA_dxy") ) tree->Branch("mu_lepMVA_dxy", "std::vector<float>", &mu_lepMVA_dxy, buffersize);
    if( doWrite("mu_lepMVA_dz") ) tree->Branch("mu_lepMVA_dz", "std::vector<float>", &mu_lepMVA_dz, buffersize);
    if( doWrite("mu_lepMVA_mvaId") ) tree->Branch("mu_lepMVA_mvaId", "std::vector<float>", &mu_lepMVA_mvaId, buffersize);
+   if( doWrite("mu_lepMVA_jetNDauChargedMVASel") ) tree->Branch("mu_lepMVA_jetNDauChargedMVASel", "std::vector<float>", &mu_lepMVA_jetNDauChargedMVASel, buffersize);
 
    if( doWrite("mu_hasMCMatch") ) tree->Branch("mu_hasMCMatch", "std::vector<int>", &mu_hasMCMatch, buffersize);
    if( doWrite("mu_gen_pt") ) tree->Branch("mu_gen_pt", "std::vector<float>", &mu_gen_pt, buffersize);
