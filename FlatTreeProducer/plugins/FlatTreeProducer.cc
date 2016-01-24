@@ -3246,7 +3246,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
 
    this->KeepEvent();
-   if( applyMETFilters_ && passMETFilters )
+   if( (applyMETFilters_ && passMETFilters) || !applyMETFilters_ )
      ftree->tree->Fill();
 
    delete mc_truth;
