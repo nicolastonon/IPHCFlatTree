@@ -2,7 +2,7 @@
 
 slist="list.txt"
 pset="crabConfigTemplate.py"
-ver="MantaRay-patch7-v20150822"
+ver="Akoula-patch1-v20151217"
 prodv="/store/user/kskovpen/FlatTree/${ver}/"
 
 rm -f crabConfig.py*
@@ -20,7 +20,7 @@ do
   spl=($(echo $i | tr "/" "\n"))
   pubdn=$(echo "${spl[2]}_${spl[3]}" | sed 's%-%_%g')
   nam=$(echo "${spl[1]}" | sed 's%-%_%g')
-  reqn="${nam}_${pubdn}"
+  reqn=$(echo "${nam}_${pubdn}" | sed 's%RunIISpring15MiniAODv2_74X_mcRun2_asymptotic_v2_%%g' | sed 's%AODFASTSIM.*%AODFASTSIM%g')
   cat ${pset} | sed "s%INPUTDATASET%${i}%g" \
   | sed "s%OUTLFN%${prodv}%g" \
   | sed "s%REQUESTNAME%${reqn}%g" \
