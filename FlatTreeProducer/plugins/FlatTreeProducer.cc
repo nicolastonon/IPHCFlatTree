@@ -758,7 +758,7 @@ TMVA::Reader* FlatTreeProducer::BookLeptonMVAReaderMoriond16(std::string basePat
    reader->AddVariable("LepGood_miniRelIsoCharged",                   &lepMVA_miniRelIsoCharged);
    reader->AddVariable("LepGood_miniRelIsoNeutral",                   &lepMVA_miniRelIsoNeutral);
    reader->AddVariable("LepGood_jetPtRelv2",                          &lepMVA_jetPtRelv2);
-   reader->AddVariable("min(LepGood_jetPtRatio_LepAwareJECv2,1.5)",   &lepMVA_jetPtRatio);
+   reader->AddVariable("min(LepGood_jetPtRatiov2,1.5)",               &lepMVA_jetPtRatio);
    reader->AddVariable("max(LepGood_jetBTagCSV,0)",                   &lepMVA_jetBTagCSV);
    reader->AddVariable("LepGood_sip3d",                               &lepMVA_sip3d);
    reader->AddVariable("log(abs(LepGood_dxy))",                       &lepMVA_dxy);
@@ -777,8 +777,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    // Temporarily redirecting stdout to avoid huge TMVA loading dump
    // ###
    std::cout << "Temporarily redirecting stdout to avoid huge TMVA dump when loading MVA readers..." << std::endl;
-   std::stringstream tmpBuffer;
-   std::streambuf* oldStdout = std::cout.rdbuf(tmpBuffer.rdbuf());
+//   std::stringstream tmpBuffer;
+//   std::streambuf* oldStdout = std::cout.rdbuf(tmpBuffer.rdbuf());
 
    // ###############
    // #  Load MVAs  #
@@ -797,8 +797,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    // ###
    // Restore stdout
    // ###
-   std::cout.rdbuf(oldStdout);
-   std::cout << "Stdout now restored." << std::endl;
+//   std::cout.rdbuf(oldStdout);
+//   std::cout << "Stdout now restored." << std::endl;
 
    // ########################
    // #  Create output tree  #
