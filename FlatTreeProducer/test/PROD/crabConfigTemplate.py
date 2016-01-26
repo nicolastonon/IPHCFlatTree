@@ -10,7 +10,7 @@ config.JobType.inputFiles = ['../conf.xml']
 #config.JobType.outputFiles = ['output.root']
 config.JobType.pyCfgParams = ['isData=0','runAK10=0','runQG=0']
 config.section_('Data')
-config.Data.totalUnits = -1
+config.Data.totalUnits = -1 #@MJ@ TODO
 #config.Data.totalUnits = 10
 config.Data.unitsPerJob = 1
 #config.Data.unitsPerJob = 20

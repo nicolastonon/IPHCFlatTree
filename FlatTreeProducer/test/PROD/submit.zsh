@@ -2,8 +2,8 @@
 
 slist="list.txt"
 pset="crabConfigTemplate.py"
-ver="MantaRay-patch7-v20150822"
-prodv="/store/user/kskovpen/FlatTree/${ver}/"
+ver="MantaRay-patch7-v25012016"
+prodv="/store/user/mjansova/${ver}/"
 
 rm -f crabConfig.py*
 
@@ -20,7 +20,8 @@ do
   spl=($(echo $i | tr "/" "\n"))
   pubdn=$(echo "${spl[2]}_${spl[3]}" | sed 's%-%_%g')
   nam=$(echo "${spl[1]}" | sed 's%-%_%g')
-  reqn="${nam}_${pubdn}"
+  #reqn="${nam}_${pubdn}"
+  reqn="${nam}"
   cat ${pset} | sed "s%INPUTDATASET%${i}%g" \
   | sed "s%OUTLFN%${prodv}%g" \
   | sed "s%REQUESTNAME%${reqn}%g" \

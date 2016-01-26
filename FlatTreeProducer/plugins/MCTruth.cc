@@ -23,6 +23,9 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
    std::vector<int> gen_daughter_n;
    std::vector<std::vector<int> > gen_daughter_index;
    
+   std::vector<float> gen_stop_m;
+   std::vector<float> gen_neutralino_m;
+   
    for(genParticleSrc = genParticlesCollection.begin();
        genParticleSrc != genParticlesCollection.end(); 
        genParticleSrc++)
@@ -38,6 +41,8 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 	int statusGen = mcp->status();
 	int chargeGen = mcp->charge();
 	int indexGen = gen_n;
+        float mStopGen = idGen == 1000006 ? mGen : -1;
+        float mNeutralinoGen = idGen == 1000022 ? mGen : -1;
 
 	const reco::GenParticle* mom = getMother(*mcp);
 

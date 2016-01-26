@@ -316,6 +316,8 @@
     <var name="el_PreShowerOverRaw" save="0"></var>
     <var name="el_mvaNonTrigV0" save="1"></var>
     <var name="el_mvaNonTrigCat" save="1"></var>
+    <var name="el_vetoStopID" save="1"></var>
+    <var name="el_mediumStopID" save="1"></var>
     <var name="el_vetoCBId" save="1"></var>
     <var name="el_looseCBId" save="1"></var>
     <var name="el_mediumCBId" save="1"></var>
@@ -660,6 +662,7 @@
     <var name="tau_leadingTrackDz" save="1"></var>
     <var name="tau_leadingTrackDxy" save="1"></var>
     <var name="tau_decayMode" save="1"></var>
+    <var name="tau_decayModeFinding" save="1"></var>
     <var name="tau_decayModeFindingOldDMs" save="1"></var>
     <var name="tau_decayModeFindingNewDMs" save="1"></var>    
     <var name="tau_puCorrPtSum" save="1"></var>
@@ -923,5 +926,5 @@
     <var name="pfcand_dz" save="1"></var>
     <var name="pfcand_trackIso" save="1"></var>
     <var name="gen_PVz" save="1" mc="1"></var>
-    <var name="gen_all" save="0" mc="1"></var>
+    <var name="gen_all" save="1" mc="1"></var>
 </variables>

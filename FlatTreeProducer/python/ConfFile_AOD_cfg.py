@@ -29,7 +29,7 @@ options.parseArguments()
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/AOD/ttH_ev.root'
+    'root://xrootd.unl.edu//store/mc/RunIISpring15FSPremix/SMS-T2tt_mStop-275_mLSP-75to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/MCRUN2_74_V9-v2/40000/0037ADF8-D79A-E511-B5A2-782BCB67826E.root'
     )
 )
 
