@@ -777,8 +777,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    // Temporarily redirecting stdout to avoid huge TMVA loading dump
    // ###
    std::cout << "Temporarily redirecting stdout to avoid huge TMVA dump when loading MVA readers..." << std::endl;
-//   std::stringstream tmpBuffer;
-//   std::streambuf* oldStdout = std::cout.rdbuf(tmpBuffer.rdbuf());
+   std::stringstream tmpBuffer;
+   std::streambuf* oldStdout = std::cout.rdbuf(tmpBuffer.rdbuf());
 
    // ###############
    // #  Load MVAs  #
@@ -797,8 +797,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    // ###
    // Restore stdout
    // ###
-//   std::cout.rdbuf(oldStdout);
-//   std::cout << "Stdout now restored." << std::endl;
+   std::cout.rdbuf(oldStdout);
+   std::cout << "Stdout now restored." << std::endl;
 
    // ########################
    // #  Create output tree  #
