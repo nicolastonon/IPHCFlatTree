@@ -48,7 +48,6 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection>,
 		      
 bool qualityTrk(const reco::Track trk, const reco::Vertex &vtx);
 
-int jetNDauChargedMVASel(const pat::Muon& muon, const pat::Jet& jet);
-int jetNDauChargedMVASel(const pat::Electron& elec, const pat::Jet& jet);
+int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx);
 
 #endif
