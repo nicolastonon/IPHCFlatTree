@@ -413,7 +413,7 @@ float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
-int jetNDauChargedMVASel(const pat::Muon& muon, const pat::Jet& jet)
+int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx)
 {
   int n = 0;
   
@@ -425,36 +425,18 @@ int jetNDauChargedMVASel(const pat::Muon& muon, const pat::Jet& jet)
 	const reco::Candidate* icand = pfJetConstituent->get();	
 	const pat::PackedCandidate* x = dynamic_cast<const pat::PackedCandidate* >( icand );
 	if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
-	     qualityTrk(x->pseudoTrack(),muon.associatedVertex()) )
+	     qualityTrk(x->pseudoTrack(),vtx) )
 	  n++;
      }*/
-  /*  
-  for(unsigned int i = 0 ; i < jet.numberOfDaughters(); i++) 
-  { 
-     const reco::Candidate * x = jet.daughter(i);
-     if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
-          qualityTrk(x->pseudoTrack(),muon.associatedVertex()) ) 
-       n++;	 
-    }
- 
-  for(unsigned int  i=0;i<daughters.size();i++)
+   
+   for( unsigned int id=0,nd=jet.numberOfDaughters();id<nd;++id )
      {
-      }
-     
-  for( ; jet.daughterPtrVector(); )
-     {
-      
-      if ( deltaR(x.eta(),x.phi(),jet.eta(),jet.phi())<=0.4 && x.charge()!=0 and x.fromPV()>1 && qualityTrk(x.pseudoTrack(),muon.associatedVertex) ) ;
-        n++;
-       
-       }*/
-       
-  return n;
-}
-
-int jetNDauChargedMVASel(const pat::Electron& elec, const pat::Jet& jet)
-{
-  int n = 0;
+	const pat::PackedCandidate *x = dynamic_cast<const pat::PackedCandidate* >( jet.daughter(id) );
+	if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
+	     qualityTrk(x->pseudoTrack(),vtx) )
+	  n++;
+     }   
+   
   return n;
 }
 
