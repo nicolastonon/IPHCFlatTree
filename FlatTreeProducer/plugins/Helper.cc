@@ -428,13 +428,16 @@ int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx)
 	     qualityTrk(x->pseudoTrack(),vtx) )
 	  n++;
      }*/
-   
-   for( unsigned int id=0,nd=jet.numberOfDaughters();id<nd;++id )
-     {
-	const pat::PackedCandidate *x = dynamic_cast<const pat::PackedCandidate* >( jet.daughter(id) );
-	if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
-	     qualityTrk(x->pseudoTrack(),vtx) )
-	  n++;
+
+   if( vtx.isValid() )
+     {	
+	for( unsigned int id=0,nd=jet.numberOfDaughters();id<nd;++id )
+	  {
+	     const pat::PackedCandidate *x = dynamic_cast<const pat::PackedCandidate* >( jet.daughter(id) );
+	     if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
+		  qualityTrk(x->pseudoTrack(),vtx) )
+	       n++;
+	  }   
      }   
    
   return n;
