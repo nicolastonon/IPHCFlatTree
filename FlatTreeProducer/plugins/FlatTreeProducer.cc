@@ -1885,7 +1885,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_dxy = log(fabs(ftree->el_gsfTrack_PV_dxy.back()));
         lepMVA_dz = log(fabs(ftree->el_gsfTrack_PV_dz.back()));
         lepMVA_mvaId = ftree->el_mvaNonTrigV0.back();
-        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(elec, jets->at(jcl)) : 0.0;
+        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0;
 
         float el_scleta = ftree->el_superCluster_eta.back();
         if( fabs(el_scleta) < 0.8 ) el_lepMVA = ele_reader_cb->EvaluateMVA("BDTG method");
@@ -2388,7 +2388,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_dxy = log(fabs(ftree->mu_innerTrack_PV_dxy.back()));
         lepMVA_dz = log(fabs(ftree->mu_innerTrack_PV_dz.back()));
         lepMVA_mvaId = ftree->mu_segmentCompatibility.back();
-        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(muon, jets->at(jcl)) : 0.0; //?? correct default value
+        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0; //?? correct default value
                                                                                                              //?? correct DR matching
         if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_b->EvaluateMVA("BDTG method");
         else mu_lepMVA = mu_reader_e->EvaluateMVA("BDTG method");
