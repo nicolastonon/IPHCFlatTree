@@ -416,16 +416,19 @@ float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
 int jetNDauChargedMVASel(const pat::Muon& muon, const pat::Jet& jet)
 {
   int n = 0;
-  /*
-  std::vector<reco::PFCandidatePtr> pfConsts = jet.getPFConstituents();
-  for ( std::vector<reco::PFCandidatePtr>::const_iterator pfJetConstituent = pfConsts.begin(); pfJetConstituent != pfConsts.end(); ++pfJetConstituent ) 
-  {
-    const pat::PackedCandidate* x = dynamic_cast<const pat::PackedCandidate* >( &(*pfJetConstituent) );
-    if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
-          qualityTrk(x->pseudoTrack(),muon.associatedVertex()) ) 
-       n++;
-    }
-    
+  
+/*   std::vector<reco::PFCandidatePtr> pfConsts = jet.getPFConstituents();
+   for( std::vector<reco::PFCandidatePtr>::const_iterator pfJetConstituent=pfConsts.begin();
+	pfJetConstituent!=pfConsts.end();
+	++pfJetConstituent )
+     {
+	const reco::Candidate* icand = pfJetConstituent->get();	
+	const pat::PackedCandidate* x = dynamic_cast<const pat::PackedCandidate* >( icand );
+	if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
+	     qualityTrk(x->pseudoTrack(),muon.associatedVertex()) )
+	  n++;
+     }*/
+  /*  
   for(unsigned int i = 0 ; i < jet.numberOfDaughters(); i++) 
   { 
      const reco::Candidate * x = jet.daughter(i);
