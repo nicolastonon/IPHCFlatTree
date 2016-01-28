@@ -2,7 +2,7 @@
 
 slist="list.txt"
 pset="crabConfigTemplate.py"
-ver="Akoula-patch1-v20151217"
+ver="Akoula-patch2-v20160128"
 prodv="/store/user/kskovpen/FlatTree/${ver}/"
 
 rm -f crabConfig.py*
