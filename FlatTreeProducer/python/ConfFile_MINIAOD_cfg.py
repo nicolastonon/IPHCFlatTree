@@ -41,15 +41,15 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag import GlobalTag
 
 if options.isData:
-    process.GlobalTag.globaltag = '74X_dataRun2_v5'
+    process.GlobalTag.globaltag = '76X_dataRun2_v15'
 else:
-    process.GlobalTag.globaltag = '74X_mcRun2_asymptotic_v4'
+    process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v12'
 
 ### to activate the new JP calibration: using the data base
 if options.isData:
-    trkProbaCalibTag = "JPcalib_Data74X_2015D_v1"
+    trkProbaCalibTag = "JPcalib_Data76X_2015D_v1"
 else:
-    trkProbaCalibTag = "JPcalib_MC74X_25ns_v1"
+    trkProbaCalibTag = "JPcalib_MC76X_25ns_v1"
     
 process.GlobalTag.toGet = cms.VPSet(
 cms.PSet(record = cms.string("BTagTrackProbability3DRcd"),
