@@ -189,8 +189,9 @@ class FlatTreeProducer : public edm::EDAnalyzer
 
    edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult> > vetoIdFullInfoMapToken_;
    edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult> > mediumIdFullInfoMapToken_;
-
+   
    edm::EDGetTokenT<double> metSigToken_;
+   edm::EDGetTokenT<math::Error<2>::type> metCovToken_;
    edm::EDGetTokenT<edm::ValueMap<float> > qgToken_;
 
    std::vector<std::string> filterTriggerNames_;
@@ -873,6 +874,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
    filterTriggerNames_     = iConfig.getUntrackedParameter<std::vector<std::string> >("filterTriggerNames");
 
    metSigToken_            = consumes<double>(iConfig.getParameter<edm::InputTag>("metSigInput"));
+   metCovToken_            = consumes<math::Error<2>::type>(iConfig.getParameter<edm::InputTag>("metCovInput"));
    qgToken_                = consumes<edm::ValueMap<float>>(edm::InputTag("QGTagger", "qgLikelihood"));
 
    // #########################
@@ -985,6 +987,14 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    if( !metSigPtr.isValid() or metSigPtr.failedToGet() )
      std::cerr << " Fail to access METSignificance branch " << std::endl;
 
+   // MET covariance
+   edm::Handle<math::Error<2>::type> metCovPtr;
+   iEvent.getByToken(metCovToken_,metCovPtr);
+   ftree->met_cov00 = (*metCovPtr)(0,0);
+   ftree->met_cov10 = (*metCovPtr)(1,0);
+   ftree->met_cov01 = (*metCovPtr)(0,1);
+   ftree->met_cov11 = (*metCovPtr)(1,1);
+   
    // Packed candidate collection
    edm::Handle<pat::PackedCandidateCollection> pfcands;
    if( dataFormat_ != "AOD" ) iEvent.getByToken(pfcandsToken_,pfcands);
