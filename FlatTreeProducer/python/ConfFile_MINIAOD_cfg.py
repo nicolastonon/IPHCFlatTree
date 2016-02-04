@@ -542,6 +542,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   LHEEventProductInput     = cms.InputTag("externalLHEProducer"),
                   bsInput                  = cms.InputTag("offlineBeamSpot"),
                   pfcandsInput             = cms.InputTag("packedPFCandidates"),
+                  hConversionsInput        = cms.InputTag("reducedEgamma","reducedConversions"),
                   puInfoInput		   = cms.InputTag("slimmedAddPileupInfo"),
 #                  puInfoInput		   = cms.InputTag("addPileupInfo"),
                   objects                  = cms.InputTag("selectedPatTrigger")
