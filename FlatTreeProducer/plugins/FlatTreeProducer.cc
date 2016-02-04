@@ -172,6 +172,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puInfoToken_;
    edm::EDGetTokenT<reco::BeamSpot> bsToken_;
    edm::EDGetTokenT<pat::PackedCandidateCollection> pfcandsToken_;
+   edm::EDGetTokenT<reco::ConversionCollection> hConversionsToken_;
 
    edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
    edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseCBIdMapToken_;
@@ -849,6 +850,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    puInfoToken_          = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoInput"));
    bsToken_              = consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("bsInput"));
    pfcandsToken_         = consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("pfcandsInput"));
+   hConversionsToken_    = consumes<reco::ConversionCollection>(iConfig.getParameter<edm::InputTag>("hConversionsInput"));
    
    eleVetoCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
    eleLooseCBIdMapToken_   = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
@@ -1065,7 +1067,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    // Conversions info
    edm::Handle<reco::ConversionCollection> hConversions;
-   if( dataFormat_ != "AOD" ) iEvent.getByLabel("reducedEgamma","reducedConversions",hConversions);
+   if( dataFormat_ != "AOD" ) iEvent.getByToken(hConversionsToken_,hConversions);
 
    // ###############################################################
    // #    ____                           _     _        __         #
