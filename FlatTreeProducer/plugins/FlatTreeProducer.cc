@@ -171,6 +171,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<LHEEventProduct> LHEEventProductToken_;
    edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puInfoToken_;
    edm::EDGetTokenT<reco::BeamSpot> bsToken_;
+   edm::EDGetTokenT<pat::PackedCandidateCollection> pfcandsToken_;
 
    edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
    edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseCBIdMapToken_;
@@ -847,6 +848,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    LHEEventProductToken_ = consumes<LHEEventProduct>(iConfig.getParameter<edm::InputTag>("LHEEventProductInput"));
    puInfoToken_          = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoInput"));
    bsToken_              = consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("bsInput"));
+   pfcandsToken_         = consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("pfcandsInput"));
    
    eleVetoCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
    eleLooseCBIdMapToken_   = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
@@ -959,8 +961,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    // Pile-up
    edm::Handle<std::vector< PileupSummaryInfo> > pileupInfo;
-   //if( !isData && fillPUInfo ) iEvent.getByLabel("slimmedAddPileupInfo",pileupInfo);
-   //if( !isData && fillPUInfo ) iEvent.getByLabel("addPileupInfo",pileupInfo);
    if( !isData_ && fillPUInfo_ ) iEvent.getByToken(puInfoToken_,pileupInfo);
 
    // Rho info
@@ -969,7 +969,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    // MET significance
    edm::Handle<double> metSigPtr;
-   iEvent.getByLabel("METSignificance",metSigPtr);
+   iEvent.getByToken(metSigToken_,metSigPtr);
    std::vector<edm::Handle<double> > doubleVec;
    iEvent.getManyByType(doubleVec);
    for(unsigned int i=0;i<doubleVec.size();i++)
@@ -982,7 +982,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    // Packed candidate collection
    edm::Handle<pat::PackedCandidateCollection> pfcands;
-   if( dataFormat_ != "AOD" ) iEvent.getByLabel("packedPFCandidates",pfcands);
+   if( dataFormat_ != "AOD" ) iEvent.getByToken(pfcandsToken_,pfcands);
 
    // Jets
    edm::Handle<pat::JetCollection> jets;
