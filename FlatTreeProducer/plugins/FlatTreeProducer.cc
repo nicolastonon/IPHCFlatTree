@@ -2646,8 +2646,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         jecUnc->setJetEta(fabs(jet.eta()));
         jecUnc->setJetPt(jet.pt());
 
-	std::cout << jecUnc->getUncertainty(true) << std::endl;
-        //ftree->jet_Unc.push_back(jecUnc->getUncertainty(true));
+        ftree->jet_Unc.push_back(jecUnc->getUncertainty(true));
 
         ftree->jet_ntrk.push_back(jet.associatedTracks().size());
         //	std::cout << jet.hasTagInfo("pfInclusiveSecondaryVertexFinderTagInfos") << std::endl;
@@ -2666,7 +2665,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->jet_muonEnergy.push_back(jet.muonEnergy());
         ftree->jet_photonEnergy.push_back(jet.photonEnergy());
 
-        ftree->jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	if( jet.hasUserFloat("pileupJetId:fullDiscriminant") )
+	  ftree->jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	else
+	  ftree->jet_pileupJetId.push_back(-666.);
 
         // Jet ID
         float NHF = jet.neutralHadronEnergyFraction();
@@ -2809,8 +2811,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->jetPuppi_muonEnergy.push_back(jet.muonEnergy());
 	     ftree->jetPuppi_photonEnergy.push_back(jet.photonEnergy());
 
-	     ftree->jetPuppi_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
-
+	     if( jet.hasUserFloat("pileupJetId:fullDiscriminant") )
+	       ftree->jetPuppi_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	     else
+	       ftree->jetPuppi_pileupJetId.push_back(-666.);
+	     
 	     const reco::GenJet* genJet = jet.genJet();
 	     bool hasGenInfo = (genJet);
 	     ftree->jetPuppi_hasGenJet.push_back(hasGenInfo);
@@ -2925,7 +2930,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->ak8jet_muonEnergy.push_back(jet.muonEnergy());
 	     ftree->ak8jet_photonEnergy.push_back(jet.photonEnergy());
 
-	     ftree->ak8jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	     if( jet.hasUserFloat("pileupJetId:fullDiscriminant") )
+	       ftree->ak8jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	     else
+	       ftree->ak8jet_pileupJetId.push_back(-666.);
 
 	     ftree->ak8jet_jetArea.push_back(jet.jetArea());
 
@@ -3083,7 +3091,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->ak10jet_muonEnergy.push_back(jet.muonEnergy());
 	     ftree->ak10jet_photonEnergy.push_back(jet.photonEnergy());
 
-	     ftree->ak10jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	     if( jet.hasUserFloat("pileupJetId:fullDiscriminant") )
+	       ftree->ak10jet_pileupJetId.push_back(jet.userFloat("pileupJetId:fullDiscriminant"));
+	     else
+	       ftree->ak10jet_pileupJetId.push_back(-666.);
 
 	     ftree->ak10jet_jetArea.push_back(jet.jetArea());
 
