@@ -538,6 +538,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   metSigInput              = cms.InputTag("METSignificance"),
                   rhoInput                 = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
                   genParticlesInput        = cms.InputTag("prunedGenParticles"),
+                  genEventInfoInput        = cms.InputTag("generator"),
                   puInfoInput		   = cms.InputTag("slimmedAddPileupInfo"),
 #                  puInfoInput		   = cms.InputTag("addPileupInfo"),
                   objects                  = cms.InputTag("selectedPatTrigger")
