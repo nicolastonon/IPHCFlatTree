@@ -54,7 +54,7 @@ else:
 process.GlobalTag.toGet = cms.VPSet(
 cms.PSet(record = cms.string("BTagTrackProbability3DRcd"),
          tag = cms.string(trkProbaCalibTag),
-         connect = cms.untracked.string("frontier://FrontierPrep/CMS_CONDITIONS")
+         connect = cms.string("frontier://FrontierPrep/CMS_CONDITIONS")
          )
 )
 
@@ -365,7 +365,8 @@ if options.runQG:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-    '/store/data/Run2015D/SingleMuon/MINIAOD/05Oct2015-v1/40000/9A470821-676F-E511-8AF3-0025905A606A.root'
+    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_76X.root'
+#    '/store/data/Run2015D/SingleMuon/MINIAOD/05Oct2015-v1/40000/9A470821-676F-E511-8AF3-0025905A606A.root'
 #    '/store/mc/RunIISpring15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/02FE2DB6-D06D-E511-8BC7-0025905C431C.root'
             )
 )
