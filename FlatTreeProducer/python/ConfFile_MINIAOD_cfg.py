@@ -547,10 +547,10 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 #  Path  #
 ##########
 
-process.metFilters = cms.Sequence()
-if options.applyMETFilters:
-    process.metFilters = cms.Sequence(process.ApplyBaselineHBHENoiseFilter+
-                                      process.ApplyBaselineHBHEIsoNoiseFilter)
+#process.metFilters = cms.Sequence()
+#if options.applyMETFilters:
+#    process.metFilters = cms.Sequence(process.ApplyBaselineHBHENoiseFilter+
+#                                      process.ApplyBaselineHBHEIsoNoiseFilter)
 
 process.runQG = cms.Sequence()
 if options.runQG:
@@ -561,11 +561,13 @@ if options.runBTag:
     process.runBTag = cms.Sequence(process.selectedPatJetsAK8PFCHS+
                                    process.selectedPatJetsAK8PFCHSPrunedPacked)
                                    
-process.p = cms.Path(process.metFilters+
+process.p = cms.Path(
+#                     process.metFilters+
                      process.electronMVAValueMapProducer+
                      process.egmGsfElectronIDSequence+
                      process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
                      process.METSignificance+
                      process.runBTag+
                      process.runQG+
-                     process.FlatTree)
+                     process.FlatTree
+                    )
