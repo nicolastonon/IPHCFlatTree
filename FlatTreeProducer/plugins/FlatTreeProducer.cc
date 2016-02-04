@@ -841,7 +841,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    rhoToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticlesInput"));
    puInfoToken_       = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoInput"));
-
+   
    eleVetoCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
    eleLooseCBIdMapToken_   = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
    eleMediumCBIdMapToken_  = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumCBIdMap"));
@@ -1239,7 +1239,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #########################################
    //
    bool passMETFilters = 1;
-   bool pass_CSCTightHaloFilter = 1;
+   bool pass_CSCTightHalo2015Filter = 1;
+   bool pass_HBHENoiseFilter = 1;
+   bool pass_HBHENoiseIsoFilter = 1;
+   bool pass_EcalDeadCellTriggerPrimitiveFilter = 1;
    bool pass_goodVertices = 1;
    bool pass_eeBadScFilter = 1;
 
@@ -1251,9 +1254,21 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     
 	     bool isFired = (triggerBitsPAT->accept(i) ? true : false);
 	     
-	     if( strcmp(triggerName.c_str(),"Flag_CSCTightHaloFilter") == 0 )
+	     if( strcmp(triggerName.c_str(),"Flag_CSCTightHalo2015Filter") == 0 )
 	       {
-		  if( !isFired ) pass_CSCTightHaloFilter = 0;
+		  if( !isFired ) pass_CSCTightHalo2015Filter = 0;
+	       }
+	     else if( strcmp(triggerName.c_str(),"Flag_HBHENoiseFilter") == 0 )
+	       {
+		  if( !isFired ) pass_HBHENoiseFilter = 0;
+	       }
+	     else if( strcmp(triggerName.c_str(),"Flag_HBHENoiseIsoFilter") == 0 )
+	       {
+		  if( !isFired ) pass_HBHENoiseIsoFilter = 0;
+	       }
+	     else if( strcmp(triggerName.c_str(),"Flag_EcalDeadCellTriggerPrimitiveFilter") == 0 )
+	       {
+		  if( !isFired ) pass_EcalDeadCellTriggerPrimitiveFilter = 0;
 	       }
 	     else if( strcmp(triggerName.c_str(),"Flag_goodVertices") == 0 )
 	       {
@@ -1266,7 +1281,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	  }
      }
    
-   passMETFilters = (pass_CSCTightHaloFilter && pass_goodVertices && pass_eeBadScFilter);
+   passMETFilters = (pass_CSCTightHalo2015Filter &&
+		     pass_HBHENoiseFilter &&
+		     pass_HBHENoiseIsoFilter &&
+		     pass_EcalDeadCellTriggerPrimitiveFilter &&
+		     pass_goodVertices && 
+		     pass_eeBadScFilter);
 
    //std::cout << "\n === TRIGGER PATHS === " << std::endl;
    for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i)
@@ -1285,7 +1305,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         float HLTprescale = 1.;
         float L1prescale = 1.;
 
-        if( isData_ )
+/*        if( isData_ )
 	  {
 	     std::pair<std::vector<std::pair<std::string,int> >,int> detailedPrescaleInfo =
 	       hltConfig_.prescaleValuesInDetail(iEvent,iSetup,triggerName);
@@ -1307,7 +1327,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     L1prescale = minind < l1prescalevals.size() ? l1prescalevals.at(minind) : -1;
 
 	     //	     std::cout << HLTprescale << " " << L1prescale << std::endl;
-        }
+        }FIXME*/
 
         ftree->trigger_HLTprescale.push_back(HLTprescale);
         ftree->trigger_L1prescale.push_back(L1prescale);
@@ -2618,7 +2638,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         jecUnc->setJetEta(fabs(jet.eta()));
         jecUnc->setJetPt(jet.pt());
 
-        ftree->jet_Unc.push_back(jecUnc->getUncertainty(true));
+	std::cout << jecUnc->getUncertainty(true) << std::endl;
+        //ftree->jet_Unc.push_back(jecUnc->getUncertainty(true));
 
         ftree->jet_ntrk.push_back(jet.associatedTracks().size());
         //	std::cout << jet.hasTagInfo("pfInclusiveSecondaryVertexFinderTagInfos") << std::endl;
@@ -3260,12 +3281,17 @@ void FlatTreeProducer::beginRun(const edm::Run& iRun, const edm::EventSetup& iSe
      std::cout << "Warning, didn't find HLTConfigProvider with label "
      << "HLT" << " in run " << iRun.run() << std::endl;
 
-   edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
+/*   edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
+   
    iSetup.get<JetCorrectionsRecord>().get("AK4PFchs",JetCorParColl);
    //   iSetup.get<JetCorrectionsRecord>().get("AK5PF",JetCorParColl);
    JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
 
-   jecUnc = new JetCorrectionUncertainty(JetCorPar);
+   jecUnc = new JetCorrectionUncertainty(JetCorPar);*/
+   
+   const char* cmssw_base = std::getenv("CMSSW_BASE");
+   std::string JECUncertaintyPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/jecFiles/Summer15_25nsV6_MC/Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt";
+   jecUnc = new JetCorrectionUncertainty(JECUncertaintyPath.c_str());
 }
 
 // ------------ method called when ending the processing of a run  ------------
