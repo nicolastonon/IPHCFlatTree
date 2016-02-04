@@ -155,6 +155,11 @@ class FlatTree
    int   pv_isFake;
    
    double met_sig;
+   
+   double met_cov00;
+   double met_cov10;
+   double met_cov01;
+   double met_cov11;
 
    float mc_weight;
    int   mc_id;
