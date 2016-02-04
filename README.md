@@ -8,7 +8,7 @@ Install
 
 ```
 # CMSSW Release
-RELEASE=7_4_12_patch4
+RELEASE=7_6_3_patch1
 
 # Setup release
 cmsrel CMSSW_$RELEASE
@@ -22,12 +22,9 @@ git clone https://github.com/IPHC/IPHCFlatTree.git
 # Tools needed for AK10 jet collection
 git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
 
-# Egamma ID
-git cms-merge-topic ikrav:egm_id_7.4.12_v1
-
-# Switch to particular release, otherwise ignore these lines to use the HEAD
+# Switch to particular release (if you don't want to use the HEAD version)
 cd IPHCFlatTree
-git checkout Akoula-patch1
+git checkout Akoula-patch3
 cd ../
 
 # Compile the monster
