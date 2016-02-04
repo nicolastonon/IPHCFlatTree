@@ -168,6 +168,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<double> rhoToken_;
    edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
    edm::EDGetTokenT<GenEventInfoProduct> genEventInfoToken_;
+   edm::EDGetTokenT<LHEEventProduct> LHEEventProductToken_;
    edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puInfoToken_;
 
    edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
@@ -918,9 +919,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    if( !isData_ ) iEvent.getByToken(genEventInfoToken_,genEventInfo);
 
    // LHE
-   edm::Handle<LHEEventProduct> EventHandle;
-   if( !isData_ && fillMCScaleWeight_ ) iEvent.getByLabel("externalLHEProducer",EventHandle);
-
+   edm::Handle<LHEEventProduct> lheEventProduct;
+   if( !isData_ && fillMCScaleWeight_ ) iEvent.getByToken(LHEEventProductToken_,lheEventProduct);
+   
    // Gen particles
    edm::Handle<reco::GenParticleCollection> genParticlesHandle;
    if( !isData_ ) iEvent.getByToken(genParticlesToken_,genParticlesHandle);
@@ -1103,21 +1104,21 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         if( genEventInfo->binningValues().size() > 0 ) ftree->mc_ptHat = genEventInfo->binningValues()[0];
     }
 
-   if(! EventHandle.failedToGet())
+   if(! lheEventProduct.failedToGet())
      {
         if( !isData_ && fillMCScaleWeight_ )
 	  {
-	     if( EventHandle->weights().size() > 0 )
+	     if( lheEventProduct->weights().size() > 0 )
 	       {
-		  ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(EventHandle->weights()[2].wgt)/(EventHandle->originalXWGTUP()); // muF = 0.5 | muR = 1
-		  ftree->weight_scale_muF2   = (genEventInfo->weight())*(EventHandle->weights()[1].wgt)/(EventHandle->originalXWGTUP()); // muF = 2   | muR = 1
-		  ftree->weight_scale_muR0p5 = (genEventInfo->weight())*(EventHandle->weights()[6].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 0.5
-		  ftree->weight_scale_muR2   = (genEventInfo->weight())*(EventHandle->weights()[3].wgt)/(EventHandle->originalXWGTUP()); // muF = 1   | muR = 2
+		  ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(lheEventProduct->weights()[2].wgt)/(lheEventProduct->originalXWGTUP()); // muF = 0.5 | muR = 1
+		  ftree->weight_scale_muF2   = (genEventInfo->weight())*(lheEventProduct->weights()[1].wgt)/(lheEventProduct->originalXWGTUP()); // muF = 2   | muR = 1
+		  ftree->weight_scale_muR0p5 = (genEventInfo->weight())*(lheEventProduct->weights()[6].wgt)/(lheEventProduct->originalXWGTUP()); // muF = 1   | muR = 0.5
+		  ftree->weight_scale_muR2   = (genEventInfo->weight())*(lheEventProduct->weights()[3].wgt)/(lheEventProduct->originalXWGTUP()); // muF = 1   | muR = 2
             }
 
 	     for( int w=9;w<9+nPdf_;w++ )
 	       {
-		  const LHEEventProduct::WGT& wgt = EventHandle->weights().at(w);
+		  const LHEEventProduct::WGT& wgt = lheEventProduct->weights().at(w);
 		  ftree->mc_pdfweights.push_back(wgt.wgt);
             }
         }
