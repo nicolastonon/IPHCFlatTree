@@ -170,6 +170,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<GenEventInfoProduct> genEventInfoToken_;
    edm::EDGetTokenT<LHEEventProduct> LHEEventProductToken_;
    edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puInfoToken_;
+   edm::EDGetTokenT<reco::BeamSpot> bsToken_;
 
    edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
    edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseCBIdMapToken_;
@@ -845,6 +846,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    genEventInfoToken_    = consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("genEventInfoInput"));
    LHEEventProductToken_ = consumes<LHEEventProduct>(iConfig.getParameter<edm::InputTag>("LHEEventProductInput"));
    puInfoToken_          = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoInput"));
+   bsToken_              = consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("bsInput"));
    
    eleVetoCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
    eleLooseCBIdMapToken_   = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
@@ -929,7 +931,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    // Beamspot
    edm::Handle<reco::BeamSpot> bsHandle;
-   iEvent.getByLabel("offlineBeamSpot", bsHandle);
+   iEvent.getByToken(bsToken_, bsHandle);
    const reco::BeamSpot &beamspot = *bsHandle.product();
 
    // Primary vertex
