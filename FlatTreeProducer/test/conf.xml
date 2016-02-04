@@ -203,7 +203,8 @@
     <var name="el_charge" save="1"></var>
     <var name="el_passConversionVeto" save="1"></var>
     <var name="el_isGsfCtfScPixChargeConsistent" save="1"></var>
-    <var name="el_correctedEcalEnergy" save="0"></var>
+    <var name="el_ecalEnergy" save="1"></var>
+    <var name="el_correctedEcalEnergy" save="1"></var>
     <var name="el_correctedEcalEnergyError" save="0"></var>
     <var name="el_trackMomentumError" save="0"></var>    
     <var name="el_ip3d" save="1"></var>
