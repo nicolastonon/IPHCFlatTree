@@ -1313,7 +1313,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         float HLTprescale = 1.;
         float L1prescale = 1.;
 
-/*        if( isData_ )
+/* TO BE FIXED        if( isData_ )
 	  {
 	     std::pair<std::vector<std::pair<std::string,int> >,int> detailedPrescaleInfo =
 	       hltConfig_.prescaleValuesInDetail(iEvent,iSetup,triggerName);
@@ -1335,7 +1335,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     L1prescale = minind < l1prescalevals.size() ? l1prescalevals.at(minind) : -1;
 
 	     //	     std::cout << HLTprescale << " " << L1prescale << std::endl;
-        }FIXME*/
+        }*/
 
         ftree->trigger_HLTprescale.push_back(HLTprescale);
         ftree->trigger_L1prescale.push_back(L1prescale);
