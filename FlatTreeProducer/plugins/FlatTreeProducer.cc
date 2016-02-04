@@ -167,6 +167,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<pat::METCollection> metTokenMINIAOD_;
    edm::EDGetTokenT<double> rhoToken_;
    edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
+   edm::EDGetTokenT<GenEventInfoProduct> genEventInfoToken_;
    edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puInfoToken_;
 
    edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
@@ -840,6 +841,7 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
    metTokenPuppi_     = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metPuppiInput"));
    rhoToken_          = consumes<double>(iConfig.getParameter<edm::InputTag>("rhoInput"));
    genParticlesToken_ = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticlesInput"));
+   genEventInfoToken_ = consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("genEventInfoInput"));
    puInfoToken_       = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoInput"));
    
    eleVetoCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
@@ -913,7 +915,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
    // Initial-state info
    edm::Handle<GenEventInfoProduct> genEventInfo;
-   if( !isData_ ) iEvent.getByLabel("generator",genEventInfo);
+   if( !isData_ ) iEvent.getByToken(genEventInfoToken_,genEventInfo);
 
    // LHE
    edm::Handle<LHEEventProduct> EventHandle;
