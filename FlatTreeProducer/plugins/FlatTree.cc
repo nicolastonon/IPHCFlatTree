@@ -19,6 +19,11 @@ void FlatTree::Init()
    met_phi = DEFVAL;
    met_sumet = DEFVAL;
    met_sig = DEFVAL;
+   
+   met_cov00 = DEFVAL;
+   met_cov10 = DEFVAL;
+   met_cov01 = DEFVAL;
+   met_cov11 = DEFVAL;
 
    metGen_px = DEFVAL;
    metGen_py = DEFVAL;
@@ -1122,6 +1127,11 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("met_phi") ) tree->Branch("met_phi", &met_phi, "met_phi/F", buffersize);
    if( doWrite("met_sumet") ) tree->Branch("met_sumet", &met_sumet, "met_sumet/F", buffersize);
    if( doWrite("met_sig") ) tree->Branch("met_sig", &met_sig, "met_sig/D", buffersize);
+   
+   if( doWrite("met_cov00") ) tree->Branch("met_cov00", &met_cov00, "met_cov00/D", buffersize);
+   if( doWrite("met_cov10") ) tree->Branch("met_cov10", &met_cov10, "met_cov10/D", buffersize);
+   if( doWrite("met_cov01") ) tree->Branch("met_cov01", &met_cov01, "met_cov01/D", buffersize);
+   if( doWrite("met_cov11") ) tree->Branch("met_cov11", &met_cov11, "met_cov11/D", buffersize);
 
    if( doWrite("metGen_px") ) tree->Branch("metGen_px", &metGen_px, "metGen_px/F", buffersize);
    if( doWrite("metGen_py") ) tree->Branch("metGen_py", &metGen_py, "metGen_py/F", buffersize);
