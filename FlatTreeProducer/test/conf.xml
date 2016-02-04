@@ -20,6 +20,10 @@
     <var name="metGen_MuonEt" save="1" mc="0"></var>
     <var name="metGen_InvisibleEt" save="0" mc="1"></var>
     <var name="met_sig" save="1"></var>
+    <var name="met_cov00" save="1"></var>
+    <var name="met_cov10" save="1"></var>
+    <var name="met_cov01" save="1"></var>
+    <var name="met_cov11" save="1"></var>
     <var name="met_uncorrectedPt" save="0"></var>
     <var name="met_uncorrectedPhi" save="0"></var>
     <var name="met_uncorrectedSumEt" save="0"></var>
