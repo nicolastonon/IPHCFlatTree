@@ -38,6 +38,7 @@
 #include "DataFormats/Math/interface/deltaR.h"
 
 #include "HLTrigger/HLTcore/interface/HLTConfigProvider.h"
+#include "HLTrigger/HLTcore/interface/HLTPrescaleProvider.h"
 
 #include "IPHCFlatTree/FlatTreeProducer/interface/tinyxml2.h"
 
@@ -144,6 +145,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
    int nPdf_;
 
    HLTConfigProvider hltConfig_;
+   HLTPrescaleProvider hltPrescale_;
 
    edm::EDGetTokenT<edm::TriggerResults> triggerBits_;
    edm::EDGetTokenT<edm::TriggerResults> triggerBitsPAT_;
@@ -776,7 +778,8 @@ TMVA::Reader* FlatTreeProducer::BookLeptonMVAReaderMoriond16(std::string basePat
    return reader;
 }
 
-FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig)
+FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
+                                   hltPrescale_(iConfig,consumesCollector(),*this)
 {
    // ###
    // Temporarily redirecting stdout to avoid huge TMVA loading dump
@@ -1313,10 +1316,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         float HLTprescale = 1.;
         float L1prescale = 1.;
 
-/* TO BE FIXED        if( isData_ )
+        if( isData_ )
 	  {
 	     std::pair<std::vector<std::pair<std::string,int> >,int> detailedPrescaleInfo =
-	       hltConfig_.prescaleValuesInDetail(iEvent,iSetup,triggerName);
+	       hltPrescale_.prescaleValuesInDetail(iEvent,iSetup,triggerName);
 
 	     HLTprescale = triggerPrescales.isValid() ? detailedPrescaleInfo.second : -1;
 
@@ -1333,10 +1336,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     // sometimes there are no L1s associated with a HLT.
 	     // In that case, this branch stores -1 for the l1prescale
 	     L1prescale = minind < l1prescalevals.size() ? l1prescalevals.at(minind) : -1;
-
+	     
 	     //	     std::cout << HLTprescale << " " << L1prescale << std::endl;
-        }*/
-
+	  }
+	
         ftree->trigger_HLTprescale.push_back(HLTprescale);
         ftree->trigger_L1prescale.push_back(L1prescale);
     }
