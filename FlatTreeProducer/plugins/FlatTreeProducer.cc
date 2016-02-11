@@ -1301,7 +1301,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	       }
 	  }
      }
-   
+
    passMETFilters = (pass_CSCTightHalo2015Filter &&
 		     pass_HBHENoiseFilter &&
 		     pass_HBHENoiseIsoFilter &&
@@ -1337,7 +1337,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     for( size_t varind=0;varind<detailedPrescaleInfo.first.size();varind++ )
 	       {
 		  l1prescalevals.push_back(detailedPrescaleInfo.first.at(varind).second);
-            }
+	       }
 
 	     // find and save minimum l1 prescale of any ORed L1 that seeds the HLT
 	     std::vector<int>::iterator result = std::min_element(std::begin(l1prescalevals),
@@ -3313,6 +3313,10 @@ void FlatTreeProducer::beginRun(const edm::Run& iRun, const edm::EventSetup& iSe
      std::cout << "Warning, didn't find HLTConfigProvider with label "
      << "HLT" << " in run " << iRun.run() << std::endl;
 
+   if(!hltPrescale_.init(iRun, iSetup, "HLT", changed))
+     std::cout << "Warning, didn't find HLTPrescaleProvider with label "
+     << "HLT" << " in run " << iRun.run() << std::endl;
+   
 /*   edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
    
    iSetup.get<JetCorrectionsRecord>().get("AK4PFchs",JetCorParColl);
