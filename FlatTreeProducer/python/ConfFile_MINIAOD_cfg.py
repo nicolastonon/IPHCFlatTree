@@ -71,6 +71,16 @@ process.jec = cms.ESSource("PoolDBESSource",
                                     tag    = cms.string(corTag+"_AK4PFchs"),
                                     label  = cms.untracked.string('AK4PFchs')
                                     ),
+                           cms.PSet(
+                                    record = cms.string('JetCorrectionsRecord'),
+                                    tag    = cms.string(corTag+"_AK8PF"),
+                                    label  = cms.untracked.string('AK8PF')
+                                    ),
+                           cms.PSet(
+                                    record = cms.string('JetCorrectionsRecord'),
+                                    tag    = cms.string(corTag+"_AK8PFchs"),
+                                    label  = cms.untracked.string('AK8PFchs')
+                                    ),
                            ),
                            connect = cms.string("sqlite_file://"+dBFile)
 )
