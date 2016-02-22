@@ -45,13 +45,12 @@ if options.isData:
 else:
     process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v12'
 
-import os
 corName="Fall15_25nsV2_MC"
 corTag="JetCorrectorParametersCollection_"+corName
 if options.isData:
     corName="Fall15_25nsV2_DATA"
     corTag="JetCorrectorParametersCollection_"+corName
-dBFile=os.path.expandvars("$CMSSW_BASE/src/IPHCFlatTree/FlatTreeProducer/test/"+corName+".db")
+dBFile=corName+".db"
     
 process.load("CondCore.DBCommon.CondDBCommon_cfi")
 from CondCore.DBCommon.CondDBSetup_cfi import *
@@ -82,7 +81,7 @@ process.jec = cms.ESSource("PoolDBESSource",
                                     label  = cms.untracked.string('AK8PFchs')
                                     ),
                            ),
-                           connect = cms.string("sqlite_file://"+dBFile)
+                           connect = cms.string("sqlite_file:"+dBFile)
 )
 process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
 
