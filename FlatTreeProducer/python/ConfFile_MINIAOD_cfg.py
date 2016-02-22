@@ -45,6 +45,37 @@ if options.isData:
 else:
     process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v12'
 
+import os
+corName="Fall15_25nsV2_MC"
+corTag="JetCorrectorParametersCollection_"+corName
+if options.isData:
+    corName="Fall15_25nsV2_DATA"
+    corTag="JetCorrectorParametersCollection_"+corName
+dBFile=os.path.expandvars("$CMSSW_BASE/src/IPHCFlatTree/FlatTreeProducer/test/"+corName+".db")
+    
+process.load("CondCore.DBCommon.CondDBCommon_cfi")
+from CondCore.DBCommon.CondDBSetup_cfi import *
+process.jec = cms.ESSource("PoolDBESSource",
+                           DBParameters = cms.PSet(
+                           messageLevel = cms.untracked.int32(0)
+                           ),
+                           timetype = cms.string('runnumber'),
+                           toGet = cms.VPSet(
+                           cms.PSet(
+                                    record = cms.string('JetCorrectionsRecord'),
+                                    tag    = cms.string(corTag+"_AK4PF"),
+                                    label  = cms.untracked.string('AK4PF')
+                                    ),
+                           cms.PSet(
+                                    record = cms.string('JetCorrectionsRecord'),
+                                    tag    = cms.string(corTag+"_AK4PFchs"),
+                                    label  = cms.untracked.string('AK4PFchs')
+                                    ),
+                           ),
+                           connect = cms.string("sqlite_file://"+dBFile)
+)
+process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
+
 ### to activate the new JP calibration: using the data base
 if options.isData:
     trkProbaCalibTag = "JPcalib_Data76X_2015D_v1"
