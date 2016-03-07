@@ -6,23 +6,23 @@ config.General.requestName = 'REQUESTNAME'
 config.section_('JobType')
 config.JobType.psetName = '../runFlatTreeMINIAOD_cfg.py'
 config.JobType.pluginName = 'Analysis'
-config.JobType.inputFiles = ['../conf.xml','../Fall15_25nsV2_MC.db','../Fall15_25nsV2_DATA.db']
+config.JobType.inputFiles = ['../conf.xml']
 #config.JobType.outputFiles = ['output.root']
-config.JobType.pyCfgParams = ['isData=1','runAK10=0','runQG=0']
+config.JobType.pyCfgParams = ['isData=0','runAK10=0','runQG=0']
 config.section_('Data')
 config.Data.totalUnits = -1
 #config.Data.totalUnits = 10
-#config.Data.unitsPerJob = 2
-config.Data.unitsPerJob = 30
-#config.Data.splitting = 'FileBased'
-config.Data.splitting = 'LumiBased'
+config.Data.unitsPerJob = 2
+#config.Data.unitsPerJob = 30
+config.Data.splitting = 'FileBased'
+#config.Data.splitting = 'LumiBased'
 config.Data.publication = False
 config.Data.inputDataset = 'INPUTDATASET'
 #config.Data.inputDBS = 'phys03'
 config.Data.outputDatasetTag = 'PUBLISHDATANAME'
 config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter'
 config.Data.outLFNDirBase = 'OUTLFN'
-config.Data.lumiMask = 'GRL/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_v2.txt'
+#config.Data.lumiMask = 'GRL/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_v2.txt'
 config.section_('User')
 config.section_('Site')
 config.Site.storageSite = 'T2_FR_IPHC'
