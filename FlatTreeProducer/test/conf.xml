@@ -112,7 +112,7 @@
     <var name="weight_scale_muF2" save="1" mc="1"></var>
     <var name="weight_scale_muR0p5" save="1" mc="1"></var>
     <var name="weight_scale_muR2" save="1" mc="1"></var>
-    <var name="mc_pdfweights" save="0" mc="1"></var>
+    <var name="mc_pdfweights" save="1" mc="1"></var>
     <var name="mc_id" save="1" mc="1"></var>
     <var name="mc_f1" save="1" mc="1"></var>
     <var name="mc_f2" save="1" mc="1"></var>
@@ -133,9 +133,9 @@
     <var name="mc_pu_ntrks_lowpT" save="1" mc="1"></var>
     <var name="mc_pu_ntrks_highpT" save="1" mc="1"></var>
     <var name="mc_truth_p4" save="0" mc="1"></var>
-    <var name="mc_truth_tth" save="0" mc="1"></var>
-    <var name="mc_truth_ttz" save="0" mc="1"></var>
-    <var name="mc_truth_ttw" save="0" mc="1"></var>
+    <var name="mc_truth_tth" save="1" mc="1"></var>
+    <var name="mc_truth_ttz" save="1" mc="1"></var>
+    <var name="mc_truth_ttw" save="1" mc="1"></var>
     <var name="mc_truth_tzq" save="0" mc="1"></var>
     <var name="mc_truth_thq" save="0" mc="1"></var>
     <var name="trigger_n" save="1"></var>
@@ -206,7 +206,7 @@
     <var name="el_ecalEnergy" save="1"></var>
     <var name="el_correctedEcalEnergy" save="1"></var>
     <var name="el_correctedEcalEnergyError" save="0"></var>
-    <var name="el_trackMomentumError" save="0"></var>    
+    <var name="el_trackMomentumError" save="1"></var>
     <var name="el_ip3d" save="1"></var>
     <var name="el_ip3dErr" save="1"></var>
     <var name="el_ip2d" save="1"></var>
