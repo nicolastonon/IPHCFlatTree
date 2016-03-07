@@ -133,9 +133,9 @@
     <var name="mc_pu_ntrks_lowpT" save="1" mc="1"></var>
     <var name="mc_pu_ntrks_highpT" save="1" mc="1"></var>
     <var name="mc_truth_p4" save="0" mc="1"></var>
-    <var name="mc_truth_tth" save="1" mc="1"></var>
-    <var name="mc_truth_ttz" save="1" mc="1"></var>
-    <var name="mc_truth_ttw" save="1" mc="1"></var>
+    <var name="mc_truth_tth" save="0" mc="1"></var>
+    <var name="mc_truth_ttz" save="0" mc="1"></var>
+    <var name="mc_truth_ttw" save="0" mc="1"></var>
     <var name="mc_truth_tzq" save="0" mc="1"></var>
     <var name="mc_truth_thq" save="0" mc="1"></var>
     <var name="trigger_n" save="1"></var>
