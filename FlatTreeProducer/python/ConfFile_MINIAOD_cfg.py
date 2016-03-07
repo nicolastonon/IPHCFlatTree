@@ -41,49 +41,49 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag import GlobalTag
 
 if options.isData:
-    process.GlobalTag.globaltag = '76X_dataRun2_v15'
+    process.GlobalTag.globaltag = '76X_dataRun2_16Dec2015_v0'
 else:
-    process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_v12'
+    process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'
 
-corName="Fall15_25nsV2_MC"
-corTag="JetCorrectorParametersCollection_"+corName
-if options.isData:
-    corName="Fall15_25nsV2_DATA"
-    corTag="JetCorrectorParametersCollection_"+corName
-dBFile=corName+".db"
+#corName="Fall15_25nsV2_MC"
+#corTag="JetCorrectorParametersCollection_"+corName
+#if options.isData:
+#    corName="Fall15_25nsV2_DATA"
+#    corTag="JetCorrectorParametersCollection_"+corName
+#dBFile=corName+".db"
     
-process.load("CondCore.DBCommon.CondDBCommon_cfi")
-from CondCore.DBCommon.CondDBSetup_cfi import *
-process.jec = cms.ESSource("PoolDBESSource",
-                           DBParameters = cms.PSet(
-                           messageLevel = cms.untracked.int32(0)
-                           ),
-                           timetype = cms.string('runnumber'),
-                           toGet = cms.VPSet(
-                           cms.PSet(
-                                    record = cms.string('JetCorrectionsRecord'),
-                                    tag    = cms.string(corTag+"_AK4PF"),
-                                    label  = cms.untracked.string('AK4PF')
-                                    ),
-                           cms.PSet(
-                                    record = cms.string('JetCorrectionsRecord'),
-                                    tag    = cms.string(corTag+"_AK4PFchs"),
-                                    label  = cms.untracked.string('AK4PFchs')
-                                    ),
-                           cms.PSet(
-                                    record = cms.string('JetCorrectionsRecord'),
-                                    tag    = cms.string(corTag+"_AK8PF"),
-                                    label  = cms.untracked.string('AK8PF')
-                                    ),
-                           cms.PSet(
-                                    record = cms.string('JetCorrectionsRecord'),
-                                    tag    = cms.string(corTag+"_AK8PFchs"),
-                                    label  = cms.untracked.string('AK8PFchs')
-                                    ),
-                           ),
-                           connect = cms.string("sqlite_file:"+dBFile)
-)
-process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
+#process.load("CondCore.DBCommon.CondDBCommon_cfi")
+#from CondCore.DBCommon.CondDBSetup_cfi import *
+#process.jec = cms.ESSource("PoolDBESSource",
+#                           DBParameters = cms.PSet(
+#                           messageLevel = cms.untracked.int32(0)
+#                           ),
+#                           timetype = cms.string('runnumber'),
+#                           toGet = cms.VPSet(
+#                           cms.PSet(
+#                                    record = cms.string('JetCorrectionsRecord'),
+#                                    tag    = cms.string(corTag+"_AK4PF"),
+#                                    label  = cms.untracked.string('AK4PF')
+#                                    ),
+#                           cms.PSet(
+#                                    record = cms.string('JetCorrectionsRecord'),
+#                                    tag    = cms.string(corTag+"_AK4PFchs"),
+#                                    label  = cms.untracked.string('AK4PFchs')
+#                                    ),
+#                           cms.PSet(
+#                                    record = cms.string('JetCorrectionsRecord'),
+#                                    tag    = cms.string(corTag+"_AK8PF"),
+#                                    label  = cms.untracked.string('AK8PF')
+#                                    ),
+#                           cms.PSet(
+#                                    record = cms.string('JetCorrectionsRecord'),
+#                                    tag    = cms.string(corTag+"_AK8PFchs"),
+#                                    label  = cms.untracked.string('AK8PFchs')
+#                                    ),
+#                           ),
+#                           connect = cms.string("sqlite_file:"+dBFile)
+#)
+#process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
 
 ### to activate the new JP calibration: using the data base
 if options.isData:
@@ -405,9 +405,10 @@ if options.runQG:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_76X.root'
+#    'root://ndcms.crc.nd.edu://store/user/lannon/mcprod_miniaodv2/ttW_mAODv2/miniaod_10000.root'
+#    'root://sbgse1.in2p3.fr//dpm/in2p3.fr/home/cms/phedex/store/user/kskovpen/ttH/testFiles/MiniAOD/ttH_76X.root'
 #    '/store/data/Run2015D/SingleMuon/MINIAOD/05Oct2015-v1/40000/9A470821-676F-E511-8AF3-0025905A606A.root'
-#    '/store/mc/RunIISpring15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/02FE2DB6-D06D-E511-8BC7-0025905C431C.root'
+    '/store/mc/RunIISpring15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/02FE2DB6-D06D-E511-8BC7-0025905C431C.root'
             )
 )
 
