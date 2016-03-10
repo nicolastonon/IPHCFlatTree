@@ -43,6 +43,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 	int indexGen = gen_n;
         float mStopGen = idGen == 1000006 ? mGen : -1;
         float mNeutralinoGen = idGen == 1000022 ? mGen : -1;
+        //std::cout << "mStopGen = " << mStopGen << ", mNeutralinoGen = " << mNeutralinoGen << std::endl;
 
 	const reco::GenParticle* mom = getMother(*mcp);
 
@@ -106,8 +107,14 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 	gen_mother_index.push_back(mother_index);
 	gen_daughter_n.push_back(daughter_n);
 	gen_daughter_index.push_back(daughter_index);
-	
-	gen_n++;
+
+
+        if(mStopGen != -1)
+            gen_stop_m.push_back(mStopGen);
+        if(mNeutralinoGen != -1)
+            gen_neutralino_m.push_back(mNeutralinoGen);
+        
+        gen_n++;
      }
    
    tree.gen_n = gen_n;
@@ -123,7 +130,223 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
    tree.gen_mother_index = gen_mother_index;
    tree.gen_daughter_n = gen_daughter_n;
    tree.gen_daughter_index = gen_daughter_index;
+
+   tree.gen_stop_m = gen_stop_m;
+   tree.gen_neutralino_m = gen_neutralino_m;
 }
+
+void MCTruth::fillTopStopDecayChain(const edm::Event& iEvent,
+			       const edm::EventSetup& iSetup,
+			       FlatTree& tree,
+			       const edm::Handle<std::vector<reco::GenParticle> >& GenParticles)
+{
+   //@MJ@ TODO new method to fill only useful gen information for stop analysis
+   // mening stop/top decay chain, radiation
+   // not fully tested yet!!!! 
+   reco::GenParticleCollection genParticlesCollection = *GenParticles;
+   reco::GenParticleCollection::const_iterator genParticleSrc;
+
+   int gen_n = 0;
+   
+   std::vector<float> gen_pt;
+   std::vector<float> gen_eta;
+   std::vector<float> gen_phi;
+   std::vector<float> gen_m;
+   std::vector<float> gen_E;
+   std::vector<int> gen_id;
+   std::vector<int> gen_status;
+   std::vector<int> gen_charge;
+   std::vector<int> gen_index;
+   std::vector<int> gen_mother_index;
+   std::vector<int> gen_daughter_n;
+   std::vector<std::vector<int> > gen_daughter_index;
+   
+   std::vector<float> gen_stop_m;
+   std::vector<float> gen_neutralino_m;
+   
+   for(genParticleSrc = genParticlesCollection.begin();
+       genParticleSrc != genParticlesCollection.end(); 
+       genParticleSrc++)
+     {
+	reco::GenParticle *mcp = &(const_cast<reco::GenParticle&>(*genParticleSrc));
+
+	float ptGen = mcp->pt();
+	float etaGen = mcp->eta();
+	float phiGen = mcp->phi();
+	float mGen = mcp->mass();
+	float EGen = mcp->energy();
+	int idGen = mcp->pdgId();
+	int statusGen = mcp->status();
+	int chargeGen = mcp->charge();
+	int indexGen = gen_n;
+        float mStopGen = idGen == 1000006 ? mGen : -1;
+        float mNeutralinoGen = idGen == 1000022 ? mGen : -1;
+        //std::cout << "mStopGen = " << mStopGen << ", mNeutralinoGen = " << mNeutralinoGen << std::endl;
+
+	const reco::GenParticle* mom = getMother(*mcp);
+
+	reco::GenParticleCollection genParticlesCollection_m = *GenParticles;
+	reco::GenParticleCollection::const_iterator genParticleSrc_m;
+	
+	int mother_index = 0;
+	for(genParticleSrc_m = genParticlesCollection_m.begin();
+	    genParticleSrc_m != genParticlesCollection_m.end();
+	    genParticleSrc_m++)
+	  {
+	     reco::GenParticle *mcp_m = &(const_cast<reco::GenParticle&>(*genParticleSrc_m));
+	     if( fabs(mcp_m->pt()-mom->pt()) < 10E-6 && fabs(mcp_m->eta()-mom->eta()) < 10E-6 )
+	       {
+		  break;
+	       }		       
+	     mother_index++;
+	  }		  
+	
+	int daughter_n = 0;
+	std::vector<int> daughter_index;
+	
+	const reco::GenParticleRefVector& daughterRefs = mcp->daughterRefVector();
+	for(reco::GenParticleRefVector::const_iterator idr = daughterRefs.begin(); idr!= daughterRefs.end(); ++idr) 
+	  {
+	     if( idr->isAvailable() ) 
+	       {		       
+		  const reco::GenParticleRef& genParticle = (*idr);
+		  const reco::GenParticle *d = genParticle.get();
+
+		  reco::GenParticleCollection genParticlesCollection_s = *GenParticles;
+		  reco::GenParticleCollection::const_iterator genParticleSrc_s;
+		  
+		  int index = 0;
+		  for(genParticleSrc_s = genParticlesCollection_s.begin();
+		      genParticleSrc_s != genParticlesCollection_s.end();
+		      genParticleSrc_s++)
+		    {
+		       reco::GenParticle *mcp_s = &(const_cast<reco::GenParticle&>(*genParticleSrc_s));
+		       if( fabs(mcp_s->pt()-(*d).pt()) < 10E-6 && fabs(mcp_s->eta()-(*d).eta()) < 10E-6 )
+			 {
+			    break;
+			 }		       
+		       index++;
+		    }		  
+		  
+		  daughter_index.push_back(index);
+		  daughter_n++;
+	       }
+	  }
+ 
+
+	gen_pt.push_back(ptGen);
+	gen_eta.push_back(etaGen);
+	gen_phi.push_back(phiGen);
+	gen_m.push_back(mGen);
+	gen_E.push_back(EGen);
+	gen_id.push_back(idGen);
+	gen_status.push_back(statusGen);
+	gen_charge.push_back(chargeGen);
+	gen_index.push_back(indexGen);
+	gen_mother_index.push_back(mother_index);
+	gen_daughter_n.push_back(daughter_n);
+	gen_daughter_index.push_back(daughter_index);
+
+
+        if(mStopGen != -1)
+            gen_stop_m.push_back(mStopGen);
+        if(mNeutralinoGen != -1)
+            gen_neutralino_m.push_back(mNeutralinoGen);
+        
+        gen_n++;
+     }
+   
+      
+   int gen_n_slimmed = 0;
+   std::vector<float> gen_pt_slimmed;
+   std::vector<float> gen_eta_slimmed;
+   std::vector<float> gen_phi_slimmed;
+   std::vector<float> gen_m_slimmed;
+   std::vector<float> gen_E_slimmed;
+   std::vector<int> gen_id_slimmed;
+   std::vector<int> gen_status_slimmed;
+   std::vector<int> gen_charge_slimmed;
+   std::vector<int> gen_index_slimmed;
+   std::vector<int> gen_mother_index_slimmed;
+   std::vector<int> gen_daughter_n_slimmed;
+   std::vector<std::vector<int> > gen_daughter_index_slimmed;
+      
+   bool slimGenInfo = true;
+   if(slimGenInfo == true)
+   {
+       for(uint32_t p = 0; p < gen_id.size(); p++)
+       {
+
+           //std::cout << "gen id size " << gen_id.size() << std::endl;
+           bool stopTopDecay = (abs(gen_id.at(p)) == 6 || abs(gen_id.at(p)) == 1000006 || abs(gen_id.at(p)) == 5) ? true: false;
+           bool charginoAndNeutralino = (abs(gen_id.at(p)) == 1000024 || abs(gen_id.at(p))==1000022) ? true: false;
+
+           uint32_t mi = gen_mother_index.at(p);
+           //std::cout << "mother index: " << mi << std::endl;
+           uint32_t mmi = gen_mother_index.at(mi);
+           //std::cout << "mother mother index: " << mmi << std::endl;
+           bool WFromStopTop = (abs(gen_id.at(p)) == 24  && (abs(gen_id.at(mi)) == 6 || abs(gen_id.at(mi)) == 1000006)) ? true : false; 
+           bool productsOfW = (abs(gen_id.at(mi)) == 24  && (abs(gen_id.at(mmi)) == 6 || abs(gen_id.at(mmi)) == 1000006)) ? true : false;
+           bool leptonFromWNotFromStopTop = ( (abs(gen_id.at(p)) > 10 && abs(gen_id.at(p)) < 19)  && abs(gen_id.at(mi)) == 24  && (abs(gen_id.at(mmi)) != 6 || abs(gen_id.at(mmi)) != 1000006)) ? true : false;
+           bool gluonRadiation = ((abs(gen_id.at(p)) == 9 || abs(gen_id.at(p)) == 21) && (abs(gen_id.at(mmi)) == 2212 || abs(gen_id.at(mmi)) == 6 || abs(gen_id.at(mmi)) == 1000006 )) ? true : false;
+           bool gammaRadiation = (abs(gen_id.at(mi)) == 24  && gen_id.at(p) == 22) ? true : false;
+       
+          if(stopTopDecay || charginoAndNeutralino || WFromStopTop || productsOfW || leptonFromWNotFromStopTop || gluonRadiation || gammaRadiation)
+          {
+
+              gen_pt_slimmed.push_back(gen_pt.at(p));
+              gen_eta_slimmed.push_back(gen_eta.at(p));
+              gen_phi_slimmed.push_back(gen_phi.at(p));
+              gen_m_slimmed.push_back(gen_m.at(p));
+              gen_E_slimmed.push_back(gen_E.at(p));
+              gen_id_slimmed.push_back(gen_id.at(p));
+              gen_status_slimmed.push_back(gen_status.at(p));
+              gen_charge_slimmed.push_back(gen_charge.at(p));
+              gen_index_slimmed.push_back(gen_index.at(p));
+              gen_mother_index_slimmed.push_back(gen_mother_index.at(p));
+              gen_daughter_n_slimmed.push_back(gen_daughter_n.at(p));
+              gen_daughter_index_slimmed.push_back(gen_daughter_index.at(p));
+
+              gen_n_slimmed++;
+       
+         }
+ 
+       }
+   }
+   else
+   {
+       gen_pt_slimmed = gen_pt;
+       gen_eta_slimmed = gen_eta;
+       gen_phi_slimmed = gen_phi;
+       gen_m_slimmed = gen_m;
+       gen_E_slimmed = gen_E;
+       gen_id_slimmed = gen_id;
+       gen_status_slimmed = gen_status;
+       gen_charge_slimmed = gen_charge;
+       gen_index_slimmed = gen_index;
+       gen_mother_index_slimmed = gen_mother_index;
+       gen_daughter_n_slimmed = gen_daughter_n;
+       gen_daughter_index_slimmed = gen_daughter_index;
+   }
+   tree.gen_n = gen_n_slimmed;
+   tree.gen_pt = gen_pt_slimmed;
+   tree.gen_eta = gen_eta_slimmed;
+   tree.gen_phi = gen_phi_slimmed;
+   tree.gen_m = gen_m_slimmed;
+   tree.gen_E = gen_E_slimmed;
+   tree.gen_status = gen_status_slimmed;
+   tree.gen_id = gen_id_slimmed;
+   tree.gen_charge = gen_charge_slimmed;
+   tree.gen_index = gen_index_slimmed;
+   tree.gen_mother_index = gen_mother_index_slimmed;
+   tree.gen_daughter_n = gen_daughter_n_slimmed;
+   tree.gen_daughter_index = gen_daughter_index_slimmed;
+
+   tree.gen_stop_m = gen_stop_m;
+   tree.gen_neutralino_m = gen_neutralino_m;
+
+}
+
 
 void MCTruth::fillGenPV(const edm::Event& iEvent,
 			const edm::EventSetup& iSetup,

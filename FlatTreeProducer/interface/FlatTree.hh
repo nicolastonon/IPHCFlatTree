@@ -422,8 +422,10 @@ class FlatTree
    std::vector<bool> el_tightMVAId;
    
    std::vector<float> el_lepMVA;
+   std::vector<float> el_lepMVA_Moriond16;
 
-   std::vector<float> el_lepMVA_pt;
+   std::vector<float> el_lepMVA_pt; 
+   std::vector<float> el_lepMVA_eta;
    std::vector<float> el_lepMVA_miniRelIsoCharged;
    std::vector<float> el_lepMVA_miniRelIsoNeutral;
    std::vector<float> el_lepMVA_jetPtRatio;
@@ -433,6 +435,7 @@ class FlatTree
    std::vector<float> el_lepMVA_dxy;
    std::vector<float> el_lepMVA_dz;
    std::vector<float> el_lepMVA_mvaId;
+   std::vector<float> el_lepMVA_jetNDauChargedMVASel;
 
    std::vector<int> el_hasMCMatch;
    std::vector<float> el_gen_pt;
@@ -741,8 +744,10 @@ class FlatTree
    std::vector<int> mu_type;
    
    std::vector<float> mu_lepMVA;
+   std::vector<float> mu_lepMVA_Moriond16;
 
-   std::vector<float> mu_lepMVA_pt;
+   std::vector<float> mu_lepMVA_pt; 
+   std::vector<float> mu_lepMVA_eta;
    std::vector<float> mu_lepMVA_miniRelIsoCharged;
    std::vector<float> mu_lepMVA_miniRelIsoNeutral;
    std::vector<float> mu_lepMVA_jetPtRatio;
@@ -752,6 +757,7 @@ class FlatTree
    std::vector<float> mu_lepMVA_dxy;
    std::vector<float> mu_lepMVA_dz;
    std::vector<float> mu_lepMVA_mvaId;
+   std::vector<float> mu_lepMVA_jetNDauChargedMVASel;
 
    std::vector<int> mu_hasMCMatch;
    std::vector<float> mu_gen_pt;
@@ -886,6 +892,9 @@ class FlatTree
    std::vector<bool> jet_looseJetID;
    std::vector<bool> jet_tightJetID;
    std::vector<float> jet_qgtag;
+   std::vector<float> jet_qgtag_axis2;
+   std::vector<float> jet_qgtag_ptD;
+   std::vector<int> jet_qgtag_mult;
 
    std::vector<bool> jet_hasGenJet;   
    std::vector<float> jet_genJet_pt;
@@ -1034,11 +1043,11 @@ class FlatTree
    std::vector<float> ak8jet_softdrop_mass;
    std::vector<float> ak8jet_trimmed_mass;
    std::vector<float> ak8jet_pruned_mass;
+   std::vector<float> ak8jet_corrpruned_mass;
    std::vector<float> ak8jet_filtered_mass;
    std::vector<float> ak8jet_minMass;
    std::vector<float> ak8jet_topMass;
    std::vector<int> ak8jet_nSubJets;
-   
    
    // ak10 Jets (w-tagging/top-tagging)
    
@@ -1114,6 +1123,157 @@ class FlatTree
    std::vector<float> ak10jet_minMass;
    std::vector<float> ak10jet_topMass;
    std::vector<int> ak10jet_nSubJets;
+   
+   // ak8 Jets (w-tagging/top-tagging) with jetToolbox
+   
+   int ak8v2jet_n;
+   std::vector<float> ak8v2jet_pt;
+   std::vector<float> ak8v2jet_eta;
+   std::vector<float> ak8v2jet_phi;
+   std::vector<float> ak8v2jet_m;
+   std::vector<float> ak8v2jet_E;
+   
+   std::vector<int> ak8v2jet_ntrk;
+   
+   std::vector<float> ak8v2jet_JBP;
+   std::vector<float> ak8v2jet_JP;
+   std::vector<float> ak8v2jet_TCHP;
+   std::vector<float> ak8v2jet_TCHE;
+   std::vector<float> ak8v2jet_SSVHE;
+   std::vector<float> ak8v2jet_SSVHP;
+   std::vector<float> ak8v2jet_CMVA;
+   
+   std::vector<float> ak8v2jet_CSVv2;
+   std::vector<int> ak8v2jet_partonFlavour;
+   std::vector<int> ak8v2jet_hadronFlavour;
+   
+   std::vector<float> ak8v2jet_neutralHadronEnergy;
+   std::vector<float> ak8v2jet_neutralEmEnergy;
+   std::vector<float> ak8v2jet_chargedHadronEnergy;
+   std::vector<float> ak8v2jet_chargedEmEnergy;
+   std::vector<float> ak8v2jet_electronEnergy;
+   std::vector<float> ak8v2jet_muonEnergy;
+   std::vector<float> ak8v2jet_photonEnergy;
+   
+   std::vector<int> ak8v2jet_chargedMultiplicity;
+   std::vector<int> ak8v2jet_neutralMultiplicity;
+   std::vector<int> ak8v2jet_chargedHadronMultiplicity;
+   
+   std::vector<float> ak8v2jet_jecFactorUncorrected;
+   std::vector<float> ak8v2jet_jecFactorL1FastJet;
+   std::vector<float> ak8v2jet_jecFactorL2Relative;
+   std::vector<float> ak8v2jet_jecFactorL3Absolute;
+   
+   std::vector<float> ak8v2jet_jetArea;
+   
+   std::vector<float> ak8v2jet_pileupJetId;
+   std::vector<bool> ak8v2jet_looseJetID;
+   std::vector<bool> ak8v2jet_tightJetID;
+      
+   std::vector<bool> ak8v2jet_hasGenJet;
+   std::vector<float> ak8v2jet_genJet_pt;
+   std::vector<float> ak8v2jet_genJet_eta;
+   std::vector<float> ak8v2jet_genJet_phi;
+   std::vector<float> ak8v2jet_genJet_m;
+   std::vector<float> ak8v2jet_genJet_E;
+   std::vector<int> ak8v2jet_genJet_status;
+   std::vector<int> ak8v2jet_genJet_id;
+   
+   std::vector<bool> ak8v2jet_hasGenParton;
+   std::vector<float> ak8v2jet_genParton_pt;
+   std::vector<float> ak8v2jet_genParton_eta;
+   std::vector<float> ak8v2jet_genParton_phi;
+   std::vector<float> ak8v2jet_genParton_m;
+   std::vector<float> ak8v2jet_genParton_E;
+   std::vector<int> ak8v2jet_genParton_status;
+   std::vector<int> ak8v2jet_genParton_id;
+      
+   std::vector<float> ak8v2jet_tau1;
+   std::vector<float> ak8v2jet_tau2;
+   std::vector<float> ak8v2jet_tau3;
+   std::vector<float> ak8v2jet_softdrop_mass;
+   std::vector<float> ak8v2jet_trimmed_mass;
+   std::vector<float> ak8v2jet_pruned_mass;
+   std::vector<float> ak8v2jet_corrpruned_mass;
+   std::vector<float> ak8v2jet_filtered_mass;
+   std::vector<float> ak8v2jet_minMass;
+   std::vector<float> ak8v2jet_topMass;
+   std::vector<int> ak8v2jet_nSubJets;
+   
+   // ak8 Puppi Jets (w-tagging/top-tagging)
+   
+   int ak8Puppijet_n;
+   std::vector<float> ak8Puppijet_pt;
+   std::vector<float> ak8Puppijet_eta;
+   std::vector<float> ak8Puppijet_phi;
+   std::vector<float> ak8Puppijet_m;
+   std::vector<float> ak8Puppijet_E;
+   
+   std::vector<int> ak8Puppijet_ntrk;
+   
+   std::vector<float> ak8Puppijet_JBP;
+   std::vector<float> ak8Puppijet_JP;
+   std::vector<float> ak8Puppijet_TCHP;
+   std::vector<float> ak8Puppijet_TCHE;
+   std::vector<float> ak8Puppijet_SSVHE;
+   std::vector<float> ak8Puppijet_SSVHP;
+   std::vector<float> ak8Puppijet_CMVA;
+   
+   std::vector<float> ak8Puppijet_CSVv2;
+   std::vector<int> ak8Puppijet_partonFlavour;
+   std::vector<int> ak8Puppijet_hadronFlavour;
+   
+   std::vector<float> ak8Puppijet_neutralHadronEnergy;
+   std::vector<float> ak8Puppijet_neutralEmEnergy;
+   std::vector<float> ak8Puppijet_chargedHadronEnergy;
+   std::vector<float> ak8Puppijet_chargedEmEnergy;
+   std::vector<float> ak8Puppijet_electronEnergy;
+   std::vector<float> ak8Puppijet_muonEnergy;
+   std::vector<float> ak8Puppijet_photonEnergy;
+   
+   std::vector<int> ak8Puppijet_chargedMultiplicity;
+   std::vector<int> ak8Puppijet_neutralMultiplicity;
+   std::vector<int> ak8Puppijet_chargedHadronMultiplicity;
+   
+   std::vector<float> ak8Puppijet_jecFactorUncorrected;
+   std::vector<float> ak8Puppijet_jecFactorL1FastJet;
+   std::vector<float> ak8Puppijet_jecFactorL2Relative;
+   std::vector<float> ak8Puppijet_jecFactorL3Absolute;
+   
+   std::vector<float> ak8Puppijet_jetArea;
+   
+   std::vector<float> ak8Puppijet_pileupJetId;
+   std::vector<bool> ak8Puppijet_looseJetID;
+   std::vector<bool> ak8Puppijet_tightJetID;
+      
+   std::vector<bool> ak8Puppijet_hasGenJet;
+   std::vector<float> ak8Puppijet_genJet_pt;
+   std::vector<float> ak8Puppijet_genJet_eta;
+   std::vector<float> ak8Puppijet_genJet_phi;
+   std::vector<float> ak8Puppijet_genJet_m;
+   std::vector<float> ak8Puppijet_genJet_E;
+   std::vector<int> ak8Puppijet_genJet_status;
+   std::vector<int> ak8Puppijet_genJet_id;
+   
+   std::vector<bool> ak8Puppijet_hasGenParton;
+   std::vector<float> ak8Puppijet_genParton_pt;
+   std::vector<float> ak8Puppijet_genParton_eta;
+   std::vector<float> ak8Puppijet_genParton_phi;
+   std::vector<float> ak8Puppijet_genParton_m;
+   std::vector<float> ak8Puppijet_genParton_E;
+   std::vector<int> ak8Puppijet_genParton_status;
+   std::vector<int> ak8Puppijet_genParton_id;
+      
+   std::vector<float> ak8Puppijet_tau1;
+   std::vector<float> ak8Puppijet_tau2;
+   std::vector<float> ak8Puppijet_tau3;
+   std::vector<float> ak8Puppijet_softdrop_mass;
+   std::vector<float> ak8Puppijet_trimmed_mass;
+   std::vector<float> ak8Puppijet_pruned_mass;
+   std::vector<float> ak8Puppijet_filtered_mass;
+   std::vector<float> ak8Puppijet_minMass;
+   std::vector<float> ak8Puppijet_topMass;
+   std::vector<int> ak8Puppijet_nSubJets;
    
    // GenJets
 
@@ -2247,6 +2407,9 @@ class FlatTree
    std::vector<int> gen_mother_index;
    std::vector<int> gen_daughter_n;
    std::vector<std::vector<int> > gen_daughter_index;
+   std::vector<float> gen_stop_m;
+   std::vector<float> gen_neutralino_m;
 };
 
 #endif
+

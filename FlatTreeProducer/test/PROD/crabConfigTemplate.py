@@ -6,16 +6,16 @@ config.General.requestName = 'REQUESTNAME'
 config.section_('JobType')
 config.JobType.psetName = '../runFlatTreeMINIAOD_cfg.py'
 config.JobType.pluginName = 'Analysis'
-config.JobType.inputFiles = ['../conf.xml']
+config.JobType.inputFiles = ['../conf.xml', '../Summer15_25nsV7_MC_L2Relative_AK8PFchs.txt', '../Summer15_25nsV7_MC_L3Absolute_AK8PFchs.txt', '../Summer15_25nsV7_DATA_L2L3Residual_AK8PFchs.txt']
 #config.JobType.outputFiles = ['output.root']
-config.JobType.pyCfgParams = ['isData=0','runAK10=0','runQG=0']
+config.JobType.pyCfgParams = ['isData=0','runAK10=1','runQG=1']
 config.section_('Data')
 config.Data.totalUnits = -1 #@MJ@ TODO
 #config.Data.totalUnits = 10
-config.Data.unitsPerJob = 1
+config.Data.unitsPerJob = 9000
 #config.Data.unitsPerJob = 20
-config.Data.splitting = 'FileBased'
-#config.Data.splitting = 'LumiBased'
+#config.Data.splitting = 'FileBased'
+config.Data.splitting = 'EventAwareLumiBased'
 config.Data.publication = False
 config.Data.inputDataset = 'INPUTDATASET'
 #config.Data.inputDBS = 'phys03'

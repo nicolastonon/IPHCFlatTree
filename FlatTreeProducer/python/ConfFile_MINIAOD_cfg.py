@@ -9,12 +9,14 @@ import os, sys
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run on real data')
-options.register('applyMETFilters',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply MET filters') #@MJ@ TODO this was true!!!
+options.register('applyMETFilters',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply MET filters') #@MJ@ TODO this should be true!!!
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 # runBTag option is not fully functional - please don't use it
 options.register('runBTag',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run b-tagging')
-options.register('runAK10',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK10 jets')
-options.register('runQG',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger')
+options.register('runAK10',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK10 jets')
+options.register('runAK8Puppi',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK8 Puppi jets')
+options.register('runAK8v2',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK8 jets using jetToolbox')
+options.register('runQG',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger')
 options.register('fillMCScaleWeight',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PDF weights')
 options.register('fillPUInfo',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PU info')
 options.register('nPDF', 0, VarParsing.multiplicity.singleton, VarParsing.varType.int, "nPDF")
@@ -96,6 +98,8 @@ jetsNameAK4="patJetsReapplyJEC"
 jetsNameAK8="patJetsReapplyJECAK8"
 #jetsNameAK10="patJetsReapplyJECAK10"
 jetsNameAK10="selectedPatJetsAK10PFCHS"
+jetsNameAK8v2="selectedPatJetsAK8PFCHS"
+jetsNameAK8Puppi="selectedPatJetsAK8PFPuppi"
 
 if options.runBTag:
     bTagDiscriminators = [
@@ -271,6 +275,8 @@ if options.runBTag:
     jetsNameAK4="selectedPatJetsAK4"
     jetsNameAK8="selectedPatJetsAK8"
     jetsNameAK10="selectedPatJetsAK10"
+    jetsNameAK8v2="selectedPatJetsAK8PFCHS"
+    jetsNameAK8Puppi="selectedPatJetsAK8PFPuppi"
 
 ########################
 #  Additional modules  #
@@ -330,10 +336,30 @@ if options.runAK10:
     from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
     jetToolbox( process, 'ak10', 'ak10JetSubs', 'out', runOnMC=(not options.isData),
                 addPruning=True, addSoftDrop=True , addPrunedSubjets=True, addSoftDropSubjets=True,
-                JETCorrPayload='AK3Pachs', subJETCorrPayload='AK10PFchs', JETCorrLevels=['L1FastJet', 'L2Relative', 'L3Absolute'],
+                JETCorrPayload='AK3Pachs', subJETCorrPayload='AK10PFchs',JETCorrLevels = ['L1FastJet', 'L2Relative','L3Absolute'],
                 addNsub=True, maxTau=6, addTrimming=True, addFiltering=True,
-                addEnergyCorrFunc=True, maxECF=5 )    
-                
+                addEnergyCorrFunc=True, maxECF=5)   
+
+#######################
+# AK8 collection with jetToolbox     #
+#######################
+if options.runAK8v2:
+    from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
+    jetToolbox( process, 'ak8', 'ak8JetSubs', 'out', runOnMC=(not options.isData),addPruning=True, addSoftDrop=True , addPrunedSubjets=True, addNsub=True, maxTau=6, addTrimming=True, addFiltering=True, JETCorrPayload='AK3Pachs', subJETCorrPayload='AK8PFchs', JETCorrLevels=['L1FastJet', 'L2Relative', 'L3Absolute'], addEnergyCorrFunc=True, maxECF=5 )
+
+#######################
+# AK8 Puppi collection     #
+#######################
+if options.runAK8Puppi:
+    process.load('CommonTools/PileupAlgos/Puppi_cff')
+    from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
+    ## e.g. to run on miniAOD
+    process.puppi.candName = cms.InputTag('packedPFCandidates')
+    process.puppi.vertexName = cms.InputTag('offlineSlimmedPrimaryVertices')
+    process.puppi.useExistingWeights = True
+    #jetToolbox( process, 'ak8', 'ak8JetSubs', 'out',runOnMC=(not options.isData) , newPFCollection=True, nameNewPFCollection='puppi') #@MJ@ the latest greates recipe not working in 74X
+    jetToolbox( process, 'ak8', 'ak8JetSubs', 'out', runOnMC=(not options.isData), PUMethod='Puppi', addPruning=True, addSoftDrop=True , addNsub=True, maxTau=6, addTrimming=True, addFiltering=True , JETCorrPayload='AK8PFchs', subJETCorrPayload='AK4PFchs', subJETCorrLevels=[''] ) # @MJ@ TODO new particle collection should be used instead!
+#'L1FastJet'
 #######################
 # Quark gluon tagging #
 #######################
@@ -365,9 +391,13 @@ if options.runQG:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-'file:///opt/sbg/cms/ui6_data1/mjansova/CMSSW_7_4_12_patch4/src/IPHCFlatTree/FlatTreeProducer/test/006B65C7-80B4-E511-AEA9-02163E0142D0.root'
+#'root://xrootd.unl.edu//store/mc/RunIISpring15MiniAODv2/SMS-T2tb_mStop-875to1125_0to475_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/FastAsympt25ns_74X_mcRun2_asymptotic_v2-v1/00000/00082A0C-5CC4-E511-A543-842B2B18118F.root' #T2tb
+#'root://xrootd.unl.edu//store/data/Run2015C_25ns/SingleMuon/MINIAOD/05Oct2015-v1/50000/06D8AEE6-1274-E511-82D0-0025905A60CA.root' #data
+#'root://xrootd.unl.edu//store/mc/RunIISpring15MiniAODv2/WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/00ED01CE-D46D-E511-8C50-001E67247BCF.root' #Wjets
+#'root://xrootd.unl.edu//store/mc/RunIISpring15MiniAODv2/TT_TuneCUETP8M1_13TeV-powheg-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/40000/00087FEB-236E-E511-9ACB-003048FF86CA.root' #tt
+'file:///opt/sbg/cms/ui6_data1/mjansova/CMSSW_7_4_12_patch4/src/IPHCFlatTree/FlatTreeProducer/test/006B65C7-80B4-E511-AEA9-02163E0142D0.root' #signal T2tt
      #'/store/data/Run2015D/SingleMuon/MINIAOD/05Oct2015-v1/40000/9A470821-676F-E511-8AF3-0025905A606A.root'
-#    '/store/mc/RunIISpring15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/02FE2DB6-D06D-E511-8BC7-0025905C431C.root'
+    #'/store/mc/RunIISpring15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/10000/02FE2DB6-D06D-E511-8BC7-0025905C431C.root'
             )
 )
 
@@ -440,6 +470,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   "HLT_IsoMu20_eta2p1_CentralPFJet30_BTagCSV07_v*",
                   "HLT_IsoMu20_v*",
                   "HLT_IsoMu20_eta2p1_v*",
+                  "HLT_IsoTkMu20_v*",
                   "HLT_IsoMu24_eta2p1_CentralPFJet30_BTagCSV07_v*",
                   "HLT_IsoMu24_eta2p1_v*",
                   "HLT_IsoMu27_v*",
@@ -521,7 +552,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   "HLT_PFHT450_SixJet40_PFBTagCSV0p72_v*",
                   "HLT_PFHT400_SixJet30_BTagCSV0p55_2PFBTagCSV0p72_v*",
                   "HLT_PFHT450_SixJet40_PFBTagCSV_v*",
-                  "HLT_PFHT400_SixJet30_BTagCSV0p5_2PFBTagCSV_v*"
+                  "HLT_PFHT400_SixJet30_BTagCSV0p5_2PFBTagCSV_v*",
+                  "HLT_PFMET170_v*"
                   ),
                   
                   muonInput                = cms.InputTag("slimmedMuons"),
@@ -530,6 +562,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   jetPuppiInput            = cms.InputTag("slimmedJetsPuppi"),
                   ak8jetInput              = cms.InputTag(jetsNameAK8),
                   ak10jetInput             = cms.InputTag(jetsNameAK10),
+                  ak8v2jetInput             = cms.InputTag(jetsNameAK8v2),
+                  ak8PuppijetInput         = cms.InputTag(jetsNameAK8Puppi),
                   genJetInput              = cms.InputTag("slimmedGenJets"),
                   jetFlavorMatchTokenInput = cms.InputTag("jetFlavourMatch"),
                   metInput                 = cms.InputTag("slimmedMETs"),
@@ -560,7 +594,6 @@ process.runBTag = cms.Sequence()
 if options.runBTag:
     process.runBTag = cms.Sequence(process.selectedPatJetsAK8PFCHS+
                                    process.selectedPatJetsAK8PFCHSPrunedPacked)
-                                   
 process.p = cms.Path(process.metFilters+
                      process.electronMVAValueMapProducer+
                      process.egmGsfElectronIDSequence+

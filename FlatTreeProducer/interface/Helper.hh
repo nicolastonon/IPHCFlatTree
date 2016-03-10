@@ -4,6 +4,7 @@
 #include "DataFormats/PatCandidates/interface/Electron.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
+//#include "DataFormats/PatCandidates/interface/Track.h"
 #include <algorithm>
 
 // EA values for electrons
@@ -44,5 +45,11 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection>,
                       double rho, double EA,
                       double r_iso_min, double r_iso_max, double kt_scale,
                       bool use_pfweight, bool charged_only);
+		      
+bool qualityTrk(const reco::Track trk, const reco::Vertex &vtx);
+
+int jetNDauChargedMVASel(const pat::Muon& muon, const pat::Jet& jet);
+int jetNDauChargedMVASel(const pat::Electron& elec, const pat::Jet& jet);
 
 #endif
+
