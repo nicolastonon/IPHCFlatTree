@@ -770,7 +770,7 @@ TMVA::Reader* FlatTreeProducer::BookLeptonMVAReaderMoriond16(std::string basePat
    reader->AddVariable("LepGood_miniRelIsoCharged",                   &lepMVA_miniRelIsoCharged);
    reader->AddVariable("LepGood_miniRelIsoNeutral",                   &lepMVA_miniRelIsoNeutral);
    reader->AddVariable("LepGood_jetPtRelv2",                          &lepMVA_jetPtRelv2);
-   reader->AddVariable("min(LepGood_jetPtRatiov2,1.5)",   &lepMVA_jetPtRatio);
+   reader->AddVariable("min(LepGood_jetPtRatiov2,1.5)",               &lepMVA_jetPtRatio);
    reader->AddVariable("max(LepGood_jetBTagCSV,0)",                   &lepMVA_jetBTagCSV);
    reader->AddVariable("LepGood_sip3d",                               &lepMVA_sip3d);
    reader->AddVariable("log(abs(LepGood_dxy))",                       &lepMVA_dxy);
@@ -1947,7 +1947,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_dxy = log(fabs(ftree->el_gsfTrack_PV_dxy.back()));
         lepMVA_dz = log(fabs(ftree->el_gsfTrack_PV_dz.back()));
         lepMVA_mvaId = ftree->el_mvaNonTrigV0.back();
-        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(elec, jets->at(jcl)) : 0.0;
+        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0;
 
         float el_scleta = ftree->el_superCluster_eta.back();
         if( fabs(el_scleta) < 0.8 ) el_lepMVA = ele_reader_cb->EvaluateMVA("BDTG method");
@@ -2450,7 +2450,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_dxy = log(fabs(ftree->mu_innerTrack_PV_dxy.back()));
         lepMVA_dz = log(fabs(ftree->mu_innerTrack_PV_dz.back()));
         lepMVA_mvaId = ftree->mu_segmentCompatibility.back();
-        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(muon, jets->at(jcl)) : 0.0; //?? correct default value
+        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0; //?? correct default value
                                                                                                              //?? correct DR matching
         if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_b->EvaluateMVA("BDTG method");
         else mu_lepMVA = mu_reader_e->EvaluateMVA("BDTG method");

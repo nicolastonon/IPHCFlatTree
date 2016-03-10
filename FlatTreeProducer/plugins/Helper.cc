@@ -413,45 +413,33 @@ float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
-int jetNDauChargedMVASel(const pat::Muon& muon, const pat::Jet& jet)
+int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx)
 {
   int n = 0;
-  /*
-  std::vector<reco::PFCandidatePtr> pfConsts = jet.getPFConstituents();
-  for ( std::vector<reco::PFCandidatePtr>::const_iterator pfJetConstituent = pfConsts.begin(); pfJetConstituent != pfConsts.end(); ++pfJetConstituent ) 
-  {
-    const pat::PackedCandidate* x = dynamic_cast<const pat::PackedCandidate* >( &(*pfJetConstituent) );
-    if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
-          qualityTrk(x->pseudoTrack(),muon.associatedVertex()) ) 
-       n++;
-    }
-    
-  for(unsigned int i = 0 ; i < jet.numberOfDaughters(); i++) 
-  { 
-     const reco::Candidate * x = jet.daughter(i);
-     if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
-          qualityTrk(x->pseudoTrack(),muon.associatedVertex()) ) 
-       n++;	 
-    }
- 
-  for(unsigned int  i=0;i<daughters.size();i++)
+  
+/*   std::vector<reco::PFCandidatePtr> pfConsts = jet.getPFConstituents();
+   for( std::vector<reco::PFCandidatePtr>::const_iterator pfJetConstituent=pfConsts.begin();
+	pfJetConstituent!=pfConsts.end();
+	++pfJetConstituent )
      {
-      }
-     
-  for( ; jet.daughterPtrVector(); )
-     {
-      
-      if ( deltaR(x.eta(),x.phi(),jet.eta(),jet.phi())<=0.4 && x.charge()!=0 and x.fromPV()>1 && qualityTrk(x.pseudoTrack(),muon.associatedVertex) ) ;
-        n++;
-       
-       }*/
-       
-  return n;
-}
+	const reco::Candidate* icand = pfJetConstituent->get();	
+	const pat::PackedCandidate* x = dynamic_cast<const pat::PackedCandidate* >( icand );
+	if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
+	     qualityTrk(x->pseudoTrack(),vtx) )
+	  n++;
+     }*/
 
-int jetNDauChargedMVASel(const pat::Electron& elec, const pat::Jet& jet)
-{
-  int n = 0;
+   if( vtx.isValid() )
+     {	
+	for( unsigned int id=0,nd=jet.numberOfDaughters();id<nd;++id )
+	  {
+	     const pat::PackedCandidate *x = dynamic_cast<const pat::PackedCandidate* >( jet.daughter(id) );
+	     if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
+		  qualityTrk(x->pseudoTrack(),vtx) )
+	       n++;
+	  }   
+     }   
+   
   return n;
 }
 
@@ -467,4 +455,3 @@ bool qualityTrk(const reco::Track trk, const reco::Vertex &vtx)
    ) isgoodtrk = true;
  return isgoodtrk;
 }
-
