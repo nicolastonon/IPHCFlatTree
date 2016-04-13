@@ -646,6 +646,7 @@ class FlatTree
    std::vector<float> mu_globalTrack_dzError;
    std::vector<float> mu_globalTrack_normalizedChi2;
    std::vector<int> mu_globalTrack_numberOfValidHits;
+   std::vector<int> mu_globalTrack_numberOfValidMuonHits;
    std::vector<int> mu_globalTrack_numberOfLostHits;
    std::vector<float> mu_globalTrack_pt;
    std::vector<float> mu_globalTrack_eta;
