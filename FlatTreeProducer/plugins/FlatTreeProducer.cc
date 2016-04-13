@@ -2085,6 +2085,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_globalTrack_dzError.push_back((hasGlobalTrack) ? globalTrack->dzError() : -666);
         ftree->mu_globalTrack_normalizedChi2.push_back((hasGlobalTrack) ? globalTrack->normalizedChi2() : -666);
         ftree->mu_globalTrack_numberOfValidHits.push_back((hasGlobalTrack) ? globalTrack->numberOfValidHits() : -666);
+	ftree->mu_globalTrack_numberOfValidMuonHits.push_back((hasGlobalTrack) ? globalTrack->hitPattern().numberOfValidMuonHits() : -666);
         ftree->mu_globalTrack_numberOfLostHits.push_back((hasGlobalTrack) ? globalTrack->numberOfLostHits() : -666);
         ftree->mu_globalTrack_pt.push_back((hasGlobalTrack) ? globalTrack->pt() : -666);
         ftree->mu_globalTrack_eta.push_back((hasGlobalTrack) ? globalTrack->eta() : -666);
