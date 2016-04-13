@@ -607,6 +607,7 @@ void FlatTree::Init()
    mu_globalTrack_dzError.clear();
    mu_globalTrack_normalizedChi2.clear();
    mu_globalTrack_numberOfValidHits.clear();
+   mu_globalTrack_numberOfValidMuonHits.clear();
    mu_globalTrack_numberOfLostHits.clear();
    mu_globalTrack_pt.clear();
    mu_globalTrack_eta.clear();
@@ -1708,6 +1709,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_globalTrack_dzError") ) tree->Branch("mu_globalTrack_dzError", "std::vector<float>", &mu_globalTrack_dzError, buffersize);
    if( doWrite("mu_globalTrack_normalizedChi2") ) tree->Branch("mu_globalTrack_normalizedChi2", "std::vector<float>", &mu_globalTrack_normalizedChi2, buffersize);
    if( doWrite("mu_globalTrack_numberOfValidHits") ) tree->Branch("mu_globalTrack_numberOfValidHits", "std::vector<int>", &mu_globalTrack_numberOfValidHits, buffersize);
+   if( doWrite("mu_globalTrack_numberOfValidMuonHits") ) tree->Branch("mu_globalTrack_numberOfValidMuonHits", "std::vector<int>", &mu_globalTrack_numberOfValidMuonHits, buffersize);
    if( doWrite("mu_globalTrack_numberOfLostHits") ) tree->Branch("mu_globalTrack_numberOfLostHits", "std::vector<int>", &mu_globalTrack_numberOfLostHits, buffersize);
    if( doWrite("mu_globalTrack_pt") ) tree->Branch("mu_globalTrack_pt", "std::vector<float>", &mu_globalTrack_pt, buffersize);
    if( doWrite("mu_globalTrack_eta") ) tree->Branch("mu_globalTrack_eta", "std::vector<float>", &mu_globalTrack_eta, buffersize);
