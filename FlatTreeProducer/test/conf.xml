@@ -522,6 +522,7 @@
     <var name="mu_globalTrack_dzError" save="1"></var>
     <var name="mu_globalTrack_normalizedChi2" save="1"></var>
     <var name="mu_globalTrack_numberOfValidHits" save="1"></var>
+    <var name="mu_globalTrack_numberOfValidMuonHits" save="1"></var>
     <var name="mu_globalTrack_numberOfLostHits" save="1"></var>
     <var name="mu_globalTrack_pt" save="1"></var>
     <var name="mu_globalTrack_eta" save="1"></var>
