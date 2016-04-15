@@ -3031,15 +3031,25 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     ftree->ak8jet_genParton_id.push_back(gen_parton_id);
 
 	     // access to the W-tagging variables
-	     ftree->ak8jet_tau1.push_back(jet.userFloat("NjettinessAK8:tau1")); //
-	     ftree->ak8jet_tau2.push_back(jet.userFloat("NjettinessAK8:tau2")); // Access the n-subjettiness variables
-	     ftree->ak8jet_tau3.push_back(jet.userFloat("NjettinessAK8:tau3")); //
+//	     ftree->ak8jet_tau1.push_back(jet.userFloat("NjettinessAK8:tau1")); //
+//	     ftree->ak8jet_tau2.push_back(jet.userFloat("NjettinessAK8:tau2")); // Access the n-subjettiness variables
+//	     ftree->ak8jet_tau3.push_back(jet.userFloat("NjettinessAK8:tau3")); //
+	     // not available since 7_6_4
+	     ftree->ak8jet_tau1.push_back(-666.); //
+	     ftree->ak8jet_tau2.push_back(-666.); // Access the n-subjettiness variables
+	     ftree->ak8jet_tau3.push_back(-666.); //
 
-	     ftree->ak8jet_softdrop_mass.push_back(jet.userFloat("ak8PFJetsCHSSoftDropMass")); // access to filtered mass
-	     ftree->ak8jet_trimmed_mass.push_back(jet.userFloat("ak8PFJetsCHSTrimmedMass"));   // access to trimmed mass
-	     ftree->ak8jet_pruned_mass.push_back(jet.userFloat("ak8PFJetsCHSPrunedMass"));     // access to pruned mass
-	     ftree->ak8jet_filtered_mass.push_back(jet.userFloat("ak8PFJetsCHSFilteredMass")); // access to filtered mass
+	     // not available since 7_6_4
+//	     ftree->ak8jet_softdrop_mass.push_back(jet.userFloat("ak8PFJetsCHSSoftDropMass")); // access to filtered mass
+//	     ftree->ak8jet_trimmed_mass.push_back(jet.userFloat("ak8PFJetsCHSTrimmedMass"));   // access to trimmed mass
+//	     ftree->ak8jet_pruned_mass.push_back(jet.userFloat("ak8PFJetsCHSPrunedMass"));     // access to pruned mass
+//	     ftree->ak8jet_filtered_mass.push_back(jet.userFloat("ak8PFJetsCHSFilteredMass")); // access to filtered mass
 
+	     ftree->ak8jet_softdrop_mass.push_back(-666.); // access to filtered mass
+	     ftree->ak8jet_trimmed_mass.push_back(-666.);   // access to trimmed mass
+	     ftree->ak8jet_pruned_mass.push_back(-666.);     // access to pruned mass
+	     ftree->ak8jet_filtered_mass.push_back(-666.); // access to filtered mass
+	     
 	     // access to the top-tagging variables
 	     reco::CATopJetTagInfo const * tagInfo =  dynamic_cast<reco::CATopJetTagInfo const *>( jet.tagInfo("caTop"));
 	     if ( tagInfo != 0 )
