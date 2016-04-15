@@ -102,38 +102,29 @@ process.load('Configuration.StandardSequences.Services_cff')
 process.load("Configuration.Geometry.GeometryRecoDB_cff")
 process.load("Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff")
 
-# Re-apply JEC to AK4
-from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetCorrFactorsUpdated
-process.load("PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff")
-process.patJetCorrFactorsReapplyJEC = process.patJetCorrFactorsUpdated.clone(
-    src = cms.InputTag("slimmedJets"),
-    levels = ['L1FastJet','L2Relative','L3Absolute'],
-    payload = 'AK4PFchs' 
-)
+corList = cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute'])
+if options.isData:
+    corList = cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual'])
 
-from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetsUpdated
-process.patJetsReapplyJEC = process.patJetsUpdated.clone(
-    jetSource = cms.InputTag("slimmedJets"),
-    jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJEC"))
+# Re-apply JEC to AK4
+from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
+updateJetCollection(
+    process,
+    jetSource = cms.InputTag('slimmedJets'),
+    labelName = 'UpdatedJEC',
+    jetCorrections = ('AK4PFchs', corList, 'None')
 )
 
 # Re-apply JEC to AK8
-from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetCorrFactorsUpdated
-process.load("PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff")
-process.patJetCorrFactorsReapplyJECAK8 = process.patJetCorrFactorsUpdated.clone(
-    src = cms.InputTag("slimmedJetsAK8"),
-    levels = ['L1FastJet','L2Relative','L3Absolute'],
-    payload = 'AK8PFchs' 
+updateJetCollection(
+    process,
+    jetSource = cms.InputTag('slimmedJets'),
+    labelName = 'UpdatedJECAK8',
+    jetCorrections = ('AK8PFchs', corList, 'None')
 )
 
-from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetsUpdated
-process.patJetsReapplyJECAK8 = process.patJetsUpdated.clone(
-    jetSource = cms.InputTag("slimmedJetsAK8"),
-    jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECAK8"))
-)
-
-jetsNameAK4="patJetsReapplyJEC"
-jetsNameAK8="patJetsReapplyJECAK8"
+jetsNameAK4="selectedUpdatedPatJetsUpdatedJEC"
+jetsNameAK8="selectedUpdatedPatJetsUpdatedJECAK8"
 #jetsNameAK10="patJetsReapplyJECAK10"
 jetsNameAK10="selectedPatJetsAK10PFCHS"
 
@@ -614,7 +605,6 @@ process.p = cms.Path(
 #                     process.metFilters+
                      process.electronMVAValueMapProducer+
                      process.egmGsfElectronIDSequence+
-                     process.patJetCorrFactorsReapplyJEC+process.patJetsReapplyJEC+
                      process.METSignificance+
                      process.runBTag+
                      process.runQG+
