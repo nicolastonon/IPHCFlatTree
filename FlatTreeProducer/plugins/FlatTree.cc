@@ -2247,6 +2247,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_h0Wq21_p4", "TLorentzVector", &mc_truth_h0Wq21_p4, buffersize);
 	     tree->Branch("mc_truth_h0Wq12_p4", "TLorentzVector", &mc_truth_h0Wq12_p4, buffersize);
 	     tree->Branch("mc_truth_h0Wq22_p4", "TLorentzVector", &mc_truth_h0Wq22_p4, buffersize);
+	     tree->Branch("mc_truth_h0Wq11_IS_p4", "TLorentzVector", &mc_truth_h0Wq11_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Wq21_IS_p4", "TLorentzVector", &mc_truth_h0Wq21_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Wq12_IS_p4", "TLorentzVector", &mc_truth_h0Wq12_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Wq22_IS_p4", "TLorentzVector", &mc_truth_h0Wq22_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_h0Z1_p4", "TLorentzVector", &mc_truth_h0Z1_p4, buffersize);
 	     tree->Branch("mc_truth_h0Z2_p4", "TLorentzVector", &mc_truth_h0Z2_p4, buffersize);
@@ -2266,6 +2270,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_h0Zq21_p4", "TLorentzVector", &mc_truth_h0Zq21_p4, buffersize);
 	     tree->Branch("mc_truth_h0Zq12_p4", "TLorentzVector", &mc_truth_h0Zq12_p4, buffersize);
 	     tree->Branch("mc_truth_h0Zq22_p4", "TLorentzVector", &mc_truth_h0Zq22_p4, buffersize);
+	     tree->Branch("mc_truth_h0Zq11_IS_p4", "TLorentzVector", &mc_truth_h0Zq11_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Zq21_IS_p4", "TLorentzVector", &mc_truth_h0Zq21_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Zq12_IS_p4", "TLorentzVector", &mc_truth_h0Zq12_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Zq22_IS_p4", "TLorentzVector", &mc_truth_h0Zq22_IS_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztau12_p4", "TLorentzVector", &mc_truth_h0Ztau12_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztau22_p4", "TLorentzVector", &mc_truth_h0Ztau22_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztaul12_p4", "TLorentzVector", &mc_truth_h0Ztaul12_p4, buffersize);
@@ -2274,8 +2282,6 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_h0Ztaunu22_p4", "TLorentzVector", &mc_truth_h0Ztaunu22_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztaunutau12_p4", "TLorentzVector", &mc_truth_h0Ztaunutau12_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztaunutau22_p4", "TLorentzVector", &mc_truth_h0Ztaunutau22_p4, buffersize);
-	     tree->Branch("mc_truth_h0Zq12_p4", "TLorentzVector", &mc_truth_h0Zq12_p4, buffersize);
-	     tree->Branch("mc_truth_h0Zq22_p4", "TLorentzVector", &mc_truth_h0Zq22_p4, buffersize);
 	     tree->Branch("mc_truth_h0Znu11_p4", "TLorentzVector", &mc_truth_h0Znu11_p4, buffersize);
 	     tree->Branch("mc_truth_h0Znu21_p4", "TLorentzVector", &mc_truth_h0Znu21_p4, buffersize);
 	     tree->Branch("mc_truth_h0Znu12_p4", "TLorentzVector", &mc_truth_h0Znu12_p4, buffersize);
@@ -2294,6 +2300,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_t2_p4", "TLorentzVector", &mc_truth_t2_p4, buffersize);
 	     tree->Branch("mc_truth_tb1_p4", "TLorentzVector", &mc_truth_tb1_p4, buffersize);
 	     tree->Branch("mc_truth_tb2_p4", "TLorentzVector", &mc_truth_tb2_p4, buffersize);
+	     tree->Branch("mc_truth_tb1_IS_p4", "TLorentzVector", &mc_truth_tb1_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tb2_IS_p4", "TLorentzVector", &mc_truth_tb2_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_tW1_p4", "TLorentzVector", &mc_truth_tW1_p4, buffersize);
 	     tree->Branch("mc_truth_tWnu1_p4", "TLorentzVector", &mc_truth_tWnu1_p4, buffersize);
@@ -2305,6 +2313,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_tWtaul1_p4", "TLorentzVector", &mc_truth_tWtaul1_p4, buffersize);
 	     tree->Branch("mc_truth_tWq11_p4", "TLorentzVector", &mc_truth_tWq11_p4, buffersize);
 	     tree->Branch("mc_truth_tWq21_p4", "TLorentzVector", &mc_truth_tWq21_p4, buffersize);
+	     tree->Branch("mc_truth_tWq11_IS_p4", "TLorentzVector", &mc_truth_tWq11_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tWq21_IS_p4", "TLorentzVector", &mc_truth_tWq21_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_tW2_p4", "TLorentzVector", &mc_truth_tW2_p4, buffersize);
 	     tree->Branch("mc_truth_tWnu2_p4", "TLorentzVector", &mc_truth_tWnu2_p4, buffersize);
@@ -2316,6 +2326,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_tWtaul2_p4", "TLorentzVector", &mc_truth_tWtaul2_p4, buffersize);
 	     tree->Branch("mc_truth_tWq12_p4", "TLorentzVector", &mc_truth_tWq12_p4, buffersize);
 	     tree->Branch("mc_truth_tWq22_p4", "TLorentzVector", &mc_truth_tWq22_p4, buffersize);
+	     tree->Branch("mc_truth_tWq12_IS_p4", "TLorentzVector", &mc_truth_tWq12_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tWq22_IS_p4", "TLorentzVector", &mc_truth_tWq22_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_j1_p4", "TLorentzVector", &mc_truth_j1_p4, buffersize);
 	     tree->Branch("mc_truth_j2_p4", "TLorentzVector", &mc_truth_j2_p4, buffersize);
@@ -2344,6 +2356,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_pt", &mc_truth_h0Wq21_pt, "mc_truth_h0Wq21_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Wq12_pt", &mc_truth_h0Wq12_pt, "mc_truth_h0Wq12_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Wq22_pt", &mc_truth_h0Wq22_pt, "mc_truth_h0Wq22_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_pt", &mc_truth_h0Wq11_IS_pt, "mc_truth_h0Wq11_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_pt", &mc_truth_h0Wq21_IS_pt, "mc_truth_h0Wq21_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_pt", &mc_truth_h0Wq12_IS_pt, "mc_truth_h0Wq12_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_pt", &mc_truth_h0Wq22_IS_pt, "mc_truth_h0Wq22_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_pt", &mc_truth_h0Z1_pt, "mc_truth_h0Z1_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Z2_pt", &mc_truth_h0Z2_pt, "mc_truth_h0Z2_pt/F", buffersize);
@@ -2359,6 +2375,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_pt", &mc_truth_h0Ztaunutau21_pt, "mc_truth_h0Ztaunutau21_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zq11_pt", &mc_truth_h0Zq11_pt, "mc_truth_h0Zq11_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zq21_pt", &mc_truth_h0Zq21_pt, "mc_truth_h0Zq21_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_pt", &mc_truth_h0Zq11_IS_pt, "mc_truth_h0Zq11_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_pt", &mc_truth_h0Zq21_IS_pt, "mc_truth_h0Zq21_IS_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zl12_pt", &mc_truth_h0Zl12_pt, "mc_truth_h0Zl12_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zl22_pt", &mc_truth_h0Zl22_pt, "mc_truth_h0Zl22_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_pt", &mc_truth_h0Ztau12_pt, "mc_truth_h0Ztau12_pt/F", buffersize);
@@ -2371,6 +2389,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_pt", &mc_truth_h0Ztaunutau22_pt, "mc_truth_h0Ztaunutau22_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zq12_pt", &mc_truth_h0Zq12_pt, "mc_truth_h0Zq12_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zq22_pt", &mc_truth_h0Zq22_pt, "mc_truth_h0Zq22_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_pt", &mc_truth_h0Zq12_IS_pt, "mc_truth_h0Zq12_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_pt", &mc_truth_h0Zq22_IS_pt, "mc_truth_h0Zq22_IS_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Znu11_pt", &mc_truth_h0Znu11_pt, "mc_truth_h0Znu11_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Znu21_pt", &mc_truth_h0Znu21_pt, "mc_truth_h0Znu21_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Znu12_pt", &mc_truth_h0Znu12_pt, "mc_truth_h0Znu12_pt/F", buffersize);
@@ -2389,6 +2409,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_pt", &mc_truth_t2_pt, "mc_truth_t2_pt/F", buffersize);
 	tree->Branch("mc_truth_tb1_pt", &mc_truth_tb1_pt, "mc_truth_tb1_pt/F", buffersize);
 	tree->Branch("mc_truth_tb2_pt", &mc_truth_tb2_pt, "mc_truth_tb2_pt/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_pt", &mc_truth_tb1_IS_pt, "mc_truth_tb1_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_pt", &mc_truth_tb2_IS_pt, "mc_truth_tb2_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_pt", &mc_truth_tW1_pt, "mc_truth_tW1_pt/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_pt", &mc_truth_tWnu1_pt, "mc_truth_tWnu1_pt/F", buffersize);
@@ -2400,6 +2422,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_pt", &mc_truth_tWtaul1_pt, "mc_truth_tWtaul1_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq11_pt", &mc_truth_tWq11_pt, "mc_truth_tWq11_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq21_pt", &mc_truth_tWq21_pt, "mc_truth_tWq21_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_pt", &mc_truth_tWq11_IS_pt, "mc_truth_tWq11_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_pt", &mc_truth_tWq21_IS_pt, "mc_truth_tWq21_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_pt", &mc_truth_tW2_pt, "mc_truth_tW2_pt/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_pt", &mc_truth_tWnu2_pt, "mc_truth_tWnu2_pt/F", buffersize);
@@ -2411,6 +2435,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_pt", &mc_truth_tWtaul2_pt, "mc_truth_tWtaul2_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq12_pt", &mc_truth_tWq12_pt, "mc_truth_tWq12_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq22_pt", &mc_truth_tWq22_pt, "mc_truth_tWq22_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_pt", &mc_truth_tWq12_IS_pt, "mc_truth_tWq12_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_pt", &mc_truth_tWq22_IS_pt, "mc_truth_tWq22_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_j1_pt", &mc_truth_j1_pt, "mc_truth_j1_pt/F", buffersize);
 	tree->Branch("mc_truth_j2_pt", &mc_truth_j2_pt, "mc_truth_j2_pt/F", buffersize);
@@ -2438,6 +2464,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_eta", &mc_truth_h0Wq21_eta, "mc_truth_h0Wq21_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Wq12_eta", &mc_truth_h0Wq12_eta, "mc_truth_h0Wq12_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Wq22_eta", &mc_truth_h0Wq22_eta, "mc_truth_h0Wq22_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_eta", &mc_truth_h0Wq11_IS_eta, "mc_truth_h0Wq11_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_eta", &mc_truth_h0Wq21_IS_eta, "mc_truth_h0Wq21_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_eta", &mc_truth_h0Wq12_IS_eta, "mc_truth_h0Wq12_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_eta", &mc_truth_h0Wq22_IS_eta, "mc_truth_h0Wq22_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_eta", &mc_truth_h0Z1_eta, "mc_truth_h0Z1_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Z2_eta", &mc_truth_h0Z2_eta, "mc_truth_h0Z2_eta/F", buffersize);
@@ -2453,6 +2483,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_eta", &mc_truth_h0Ztaunutau21_eta, "mc_truth_h0Ztaunutau21_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zq11_eta", &mc_truth_h0Zq11_eta, "mc_truth_h0Zq11_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zq21_eta", &mc_truth_h0Zq21_eta, "mc_truth_h0Zq21_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_eta", &mc_truth_h0Zq11_IS_eta, "mc_truth_h0Zq11_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_eta", &mc_truth_h0Zq21_IS_eta, "mc_truth_h0Zq21_IS_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zl12_eta", &mc_truth_h0Zl12_eta, "mc_truth_h0Zl12_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zl22_eta", &mc_truth_h0Zl22_eta, "mc_truth_h0Zl22_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_eta", &mc_truth_h0Ztau12_eta, "mc_truth_h0Ztau12_eta/F", buffersize);
@@ -2465,6 +2497,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_eta", &mc_truth_h0Ztaunutau22_eta, "mc_truth_h0Ztaunutau22_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zq12_eta", &mc_truth_h0Zq12_eta, "mc_truth_h0Zq12_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zq22_eta", &mc_truth_h0Zq22_eta, "mc_truth_h0Zq22_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_eta", &mc_truth_h0Zq12_IS_eta, "mc_truth_h0Zq12_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_eta", &mc_truth_h0Zq22_IS_eta, "mc_truth_h0Zq22_IS_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Znu11_eta", &mc_truth_h0Znu11_eta, "mc_truth_h0Znu11_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Znu21_eta", &mc_truth_h0Znu21_eta, "mc_truth_h0Znu21_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Znu12_eta", &mc_truth_h0Znu12_eta, "mc_truth_h0Znu12_eta/F", buffersize);
@@ -2483,6 +2517,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_eta", &mc_truth_t2_eta, "mc_truth_t2_eta/F", buffersize);
 	tree->Branch("mc_truth_tb1_eta", &mc_truth_tb1_eta, "mc_truth_tb1_eta/F", buffersize);
 	tree->Branch("mc_truth_tb2_eta", &mc_truth_tb2_eta, "mc_truth_tb2_eta/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_eta", &mc_truth_tb1_IS_eta, "mc_truth_tb1_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_eta", &mc_truth_tb2_IS_eta, "mc_truth_tb2_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_eta", &mc_truth_tW1_eta, "mc_truth_tW1_eta/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_eta", &mc_truth_tWnu1_eta, "mc_truth_tWnu1_eta/F", buffersize);
@@ -2494,6 +2530,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_eta", &mc_truth_tWtaul1_eta, "mc_truth_tWtaul1_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq11_eta", &mc_truth_tWq11_eta, "mc_truth_tWq11_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq21_eta", &mc_truth_tWq21_eta, "mc_truth_tWq21_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_eta", &mc_truth_tWq11_IS_eta, "mc_truth_tWq11_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_eta", &mc_truth_tWq21_IS_eta, "mc_truth_tWq21_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_eta", &mc_truth_tW2_eta, "mc_truth_tW2_eta/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_eta", &mc_truth_tWnu2_eta, "mc_truth_tWnu2_eta/F", buffersize);
@@ -2505,6 +2543,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_eta", &mc_truth_tWtaul2_eta, "mc_truth_tWtaul2_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq12_eta", &mc_truth_tWq12_eta, "mc_truth_tWq12_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq22_eta", &mc_truth_tWq22_eta, "mc_truth_tWq22_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_eta", &mc_truth_tWq12_IS_eta, "mc_truth_tWq12_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_eta", &mc_truth_tWq22_IS_eta, "mc_truth_tWq22_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_j1_eta", &mc_truth_j1_eta, "mc_truth_j1_eta/F", buffersize);
 	tree->Branch("mc_truth_j2_eta", &mc_truth_j2_eta, "mc_truth_j2_eta/F", buffersize);
@@ -2532,6 +2572,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_phi", &mc_truth_h0Wq21_phi, "mc_truth_h0Wq21_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Wq12_phi", &mc_truth_h0Wq12_phi, "mc_truth_h0Wq12_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Wq22_phi", &mc_truth_h0Wq22_phi, "mc_truth_h0Wq22_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_phi", &mc_truth_h0Wq11_IS_phi, "mc_truth_h0Wq11_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_phi", &mc_truth_h0Wq21_IS_phi, "mc_truth_h0Wq21_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_phi", &mc_truth_h0Wq12_IS_phi, "mc_truth_h0Wq12_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_phi", &mc_truth_h0Wq22_IS_phi, "mc_truth_h0Wq22_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_phi", &mc_truth_h0Z1_phi, "mc_truth_h0Z1_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Z2_phi", &mc_truth_h0Z2_phi, "mc_truth_h0Z2_phi/F", buffersize);
@@ -2547,6 +2591,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_phi", &mc_truth_h0Ztaunutau21_phi, "mc_truth_h0Ztaunutau21_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zq11_phi", &mc_truth_h0Zq11_phi, "mc_truth_h0Zq11_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zq21_phi", &mc_truth_h0Zq21_phi, "mc_truth_h0Zq21_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_phi", &mc_truth_h0Zq11_IS_phi, "mc_truth_h0Zq11_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_phi", &mc_truth_h0Zq21_IS_phi, "mc_truth_h0Zq21_IS_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zl12_phi", &mc_truth_h0Zl12_phi, "mc_truth_h0Zl12_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zl22_phi", &mc_truth_h0Zl22_phi, "mc_truth_h0Zl22_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_phi", &mc_truth_h0Ztau12_phi, "mc_truth_h0Ztau12_phi/F", buffersize);
@@ -2559,6 +2605,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_phi", &mc_truth_h0Ztaunutau22_phi, "mc_truth_h0Ztaunutau22_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zq12_phi", &mc_truth_h0Zq12_phi, "mc_truth_h0Zq12_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zq22_phi", &mc_truth_h0Zq22_phi, "mc_truth_h0Zq22_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_phi", &mc_truth_h0Zq12_IS_phi, "mc_truth_h0Zq12_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_phi", &mc_truth_h0Zq22_IS_phi, "mc_truth_h0Zq22_IS_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Znu11_phi", &mc_truth_h0Znu11_phi, "mc_truth_h0Znu11_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Znu21_phi", &mc_truth_h0Znu21_phi, "mc_truth_h0Znu21_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Znu12_phi", &mc_truth_h0Znu12_phi, "mc_truth_h0Znu12_phi/F", buffersize);
@@ -2577,6 +2625,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_phi", &mc_truth_t2_phi, "mc_truth_t2_phi/F", buffersize);
 	tree->Branch("mc_truth_tb1_phi", &mc_truth_tb1_phi, "mc_truth_tb1_phi/F", buffersize);
 	tree->Branch("mc_truth_tb2_phi", &mc_truth_tb2_phi, "mc_truth_tb2_phi/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_phi", &mc_truth_tb1_IS_phi, "mc_truth_tb1_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_phi", &mc_truth_tb2_IS_phi, "mc_truth_tb2_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_phi", &mc_truth_tW1_phi, "mc_truth_tW1_phi/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_phi", &mc_truth_tWnu1_phi, "mc_truth_tWnu1_phi/F", buffersize);
@@ -2588,6 +2638,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_phi", &mc_truth_tWtaul1_phi, "mc_truth_tWtaul1_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq11_phi", &mc_truth_tWq11_phi, "mc_truth_tWq11_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq21_phi", &mc_truth_tWq21_phi, "mc_truth_tWq21_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_phi", &mc_truth_tWq11_IS_phi, "mc_truth_tWq11_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_phi", &mc_truth_tWq21_IS_phi, "mc_truth_tWq21_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_phi", &mc_truth_tW2_phi, "mc_truth_tW2_phi/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_phi", &mc_truth_tWnu2_phi, "mc_truth_tWnu2_phi/F", buffersize);
@@ -2599,6 +2651,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_phi", &mc_truth_tWtaul2_phi, "mc_truth_tWtaul2_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq12_phi", &mc_truth_tWq12_phi, "mc_truth_tWq12_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq22_phi", &mc_truth_tWq22_phi, "mc_truth_tWq22_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_phi", &mc_truth_tWq12_IS_phi, "mc_truth_tWq12_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_phi", &mc_truth_tWq22_IS_phi, "mc_truth_tWq22_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_j1_phi", &mc_truth_j1_phi, "mc_truth_j1_phi/F", buffersize);
 	tree->Branch("mc_truth_j2_phi", &mc_truth_j2_phi, "mc_truth_j2_phi/F", buffersize);
@@ -2626,6 +2680,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_E", &mc_truth_h0Wq21_E, "mc_truth_h0Wq21_E/F", buffersize);
 	tree->Branch("mc_truth_h0Wq12_E", &mc_truth_h0Wq12_E, "mc_truth_h0Wq12_E/F", buffersize);
 	tree->Branch("mc_truth_h0Wq22_E", &mc_truth_h0Wq22_E, "mc_truth_h0Wq22_E/F", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_E", &mc_truth_h0Wq11_IS_E, "mc_truth_h0Wq11_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_E", &mc_truth_h0Wq21_IS_E, "mc_truth_h0Wq21_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_E", &mc_truth_h0Wq12_IS_E, "mc_truth_h0Wq12_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_E", &mc_truth_h0Wq22_IS_E, "mc_truth_h0Wq22_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_E", &mc_truth_h0Z1_E, "mc_truth_h0Z1_E/F", buffersize);
 	tree->Branch("mc_truth_h0Z2_E", &mc_truth_h0Z2_E, "mc_truth_h0Z2_E/F", buffersize);
@@ -2641,6 +2699,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_E", &mc_truth_h0Ztaunutau21_E, "mc_truth_h0Ztaunutau21_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zq11_E", &mc_truth_h0Zq11_E, "mc_truth_h0Zq11_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zq21_E", &mc_truth_h0Zq21_E, "mc_truth_h0Zq21_E/F", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_E", &mc_truth_h0Zq11_IS_E, "mc_truth_h0Zq11_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_E", &mc_truth_h0Zq21_IS_E, "mc_truth_h0Zq21_IS_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zl12_E", &mc_truth_h0Zl12_E, "mc_truth_h0Zl12_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zl22_E", &mc_truth_h0Zl22_E, "mc_truth_h0Zl22_E/F", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_E", &mc_truth_h0Ztau12_E, "mc_truth_h0Ztau12_E/F", buffersize);
@@ -2653,6 +2713,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_E", &mc_truth_h0Ztaunutau22_E, "mc_truth_h0Ztaunutau22_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zq12_E", &mc_truth_h0Zq12_E, "mc_truth_h0Zq12_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zq22_E", &mc_truth_h0Zq22_E, "mc_truth_h0Zq22_E/F", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_E", &mc_truth_h0Zq12_IS_E, "mc_truth_h0Zq12_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_E", &mc_truth_h0Zq22_IS_E, "mc_truth_h0Zq22_IS_E/F", buffersize);
 	tree->Branch("mc_truth_h0Znu11_E", &mc_truth_h0Znu11_E, "mc_truth_h0Znu11_E/F", buffersize);
 	tree->Branch("mc_truth_h0Znu21_E", &mc_truth_h0Znu21_E, "mc_truth_h0Znu21_E/F", buffersize);
 	tree->Branch("mc_truth_h0Znu12_E", &mc_truth_h0Znu12_E, "mc_truth_h0Znu12_E/F", buffersize);
@@ -2671,6 +2733,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_E", &mc_truth_t2_E, "mc_truth_t2_E/F", buffersize);
 	tree->Branch("mc_truth_tb1_E", &mc_truth_tb1_E, "mc_truth_tb1_E/F", buffersize);
 	tree->Branch("mc_truth_tb2_E", &mc_truth_tb2_E, "mc_truth_tb2_E/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_E", &mc_truth_tb1_IS_E, "mc_truth_tb1_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_E", &mc_truth_tb2_IS_E, "mc_truth_tb2_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_E", &mc_truth_tW1_E, "mc_truth_tW1_E/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_E", &mc_truth_tWnu1_E, "mc_truth_tWnu1_E/F", buffersize);
@@ -2682,6 +2746,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_E", &mc_truth_tWtaul1_E, "mc_truth_tWtaul1_E/F", buffersize);
 	tree->Branch("mc_truth_tWq11_E", &mc_truth_tWq11_E, "mc_truth_tWq11_E/F", buffersize);
 	tree->Branch("mc_truth_tWq21_E", &mc_truth_tWq21_E, "mc_truth_tWq21_E/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_E", &mc_truth_tWq11_IS_E, "mc_truth_tWq11_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_E", &mc_truth_tWq21_IS_E, "mc_truth_tWq21_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_E", &mc_truth_tW2_E, "mc_truth_tW2_E/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_E", &mc_truth_tWnu2_E, "mc_truth_tWnu2_E/F", buffersize);
@@ -2693,6 +2759,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_E", &mc_truth_tWtaul2_E, "mc_truth_tWtaul2_E/F", buffersize);
 	tree->Branch("mc_truth_tWq12_E", &mc_truth_tWq12_E, "mc_truth_tWq12_E/F", buffersize);
 	tree->Branch("mc_truth_tWq22_E", &mc_truth_tWq22_E, "mc_truth_tWq22_E/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_E", &mc_truth_tWq12_IS_E, "mc_truth_tWq12_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_E", &mc_truth_tWq22_IS_E, "mc_truth_tWq22_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_j1_E", &mc_truth_j1_E, "mc_truth_j1_E/F", buffersize);
 	tree->Branch("mc_truth_j2_E", &mc_truth_j2_E, "mc_truth_j2_E/F", buffersize);
@@ -2720,6 +2788,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_id", &mc_truth_h0Wq21_id, "mc_truth_h0Wq21_id/I", buffersize);
 	tree->Branch("mc_truth_h0Wq12_id", &mc_truth_h0Wq12_id, "mc_truth_h0Wq12_id/I", buffersize);
 	tree->Branch("mc_truth_h0Wq22_id", &mc_truth_h0Wq22_id, "mc_truth_h0Wq22_id/I", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_id", &mc_truth_h0Wq11_IS_id, "mc_truth_h0Wq11_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_id", &mc_truth_h0Wq21_IS_id, "mc_truth_h0Wq21_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_id", &mc_truth_h0Wq12_IS_id, "mc_truth_h0Wq12_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_id", &mc_truth_h0Wq22_IS_id, "mc_truth_h0Wq22_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_id", &mc_truth_h0Z1_id, "mc_truth_h0Z1_id/I", buffersize);
 	tree->Branch("mc_truth_h0Z2_id", &mc_truth_h0Z2_id, "mc_truth_h0Z2_id/I", buffersize);
@@ -2735,6 +2807,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_id", &mc_truth_h0Ztaunutau21_id, "mc_truth_h0Ztaunutau21_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zq11_id", &mc_truth_h0Zq11_id, "mc_truth_h0Zq11_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zq21_id", &mc_truth_h0Zq21_id, "mc_truth_h0Zq21_id/I", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_id", &mc_truth_h0Zq11_IS_id, "mc_truth_h0Zq11_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_id", &mc_truth_h0Zq21_IS_id, "mc_truth_h0Zq21_IS_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zl12_id", &mc_truth_h0Zl12_id, "mc_truth_h0Zl12_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zl22_id", &mc_truth_h0Zl22_id, "mc_truth_h0Zl22_id/I", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_id", &mc_truth_h0Ztau12_id, "mc_truth_h0Ztau12_id/I", buffersize);
@@ -2747,6 +2821,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_id", &mc_truth_h0Ztaunutau22_id, "mc_truth_h0Ztaunutau22_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zq12_id", &mc_truth_h0Zq12_id, "mc_truth_h0Zq12_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zq22_id", &mc_truth_h0Zq22_id, "mc_truth_h0Zq22_id/I", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_id", &mc_truth_h0Zq12_IS_id, "mc_truth_h0Zq12_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_id", &mc_truth_h0Zq22_IS_id, "mc_truth_h0Zq22_IS_id/I", buffersize);
 	tree->Branch("mc_truth_h0Znu11_id", &mc_truth_h0Znu11_id, "mc_truth_h0Znu11_id/I", buffersize);
 	tree->Branch("mc_truth_h0Znu21_id", &mc_truth_h0Znu21_id, "mc_truth_h0Znu21_id/I", buffersize);
 	tree->Branch("mc_truth_h0Znu12_id", &mc_truth_h0Znu12_id, "mc_truth_h0Znu12_id/I", buffersize);
@@ -2765,6 +2841,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_id", &mc_truth_t2_id, "mc_truth_t2_id/I", buffersize);
 	tree->Branch("mc_truth_tb1_id", &mc_truth_tb1_id, "mc_truth_tb1_id/I", buffersize);
 	tree->Branch("mc_truth_tb2_id", &mc_truth_tb2_id, "mc_truth_tb2_id/I", buffersize);
+	tree->Branch("mc_truth_tb1_IS_id", &mc_truth_tb1_IS_id, "mc_truth_tb1_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tb2_IS_id", &mc_truth_tb2_IS_id, "mc_truth_tb2_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_tW1_id", &mc_truth_tW1_id, "mc_truth_tW1_id/I", buffersize);
 	tree->Branch("mc_truth_tWnu1_id", &mc_truth_tWnu1_id, "mc_truth_tWnu1_id/I", buffersize);
@@ -2776,6 +2854,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_id", &mc_truth_tWtaul1_id, "mc_truth_tWtaul1_id/I", buffersize);
 	tree->Branch("mc_truth_tWq11_id", &mc_truth_tWq11_id, "mc_truth_tWq11_id/I", buffersize);
 	tree->Branch("mc_truth_tWq21_id", &mc_truth_tWq21_id, "mc_truth_tWq21_id/I", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_id", &mc_truth_tWq11_IS_id, "mc_truth_tWq11_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_id", &mc_truth_tWq21_IS_id, "mc_truth_tWq21_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_tW2_id", &mc_truth_tW2_id, "mc_truth_tW2_id/I", buffersize);
 	tree->Branch("mc_truth_tWnu2_id", &mc_truth_tWnu2_id, "mc_truth_tWnu2_id/I", buffersize);
@@ -2787,6 +2867,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_id", &mc_truth_tWtaul2_id, "mc_truth_tWtaul2_id/I", buffersize);
 	tree->Branch("mc_truth_tWq12_id", &mc_truth_tWq12_id, "mc_truth_tWq12_id/I", buffersize);
 	tree->Branch("mc_truth_tWq22_id", &mc_truth_tWq22_id, "mc_truth_tWq22_id/I", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_id", &mc_truth_tWq12_IS_id, "mc_truth_tWq12_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_id", &mc_truth_tWq22_IS_id, "mc_truth_tWq22_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_j1_id", &mc_truth_j1_id, "mc_truth_j1_id/I", buffersize);
 	tree->Branch("mc_truth_j2_id", &mc_truth_j2_id, "mc_truth_j2_id/I", buffersize);
@@ -2814,6 +2896,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_status", &mc_truth_h0Wq21_status, "mc_truth_h0Wq21_status/I", buffersize);
 	tree->Branch("mc_truth_h0Wq12_status", &mc_truth_h0Wq12_status, "mc_truth_h0Wq12_status/I", buffersize);
 	tree->Branch("mc_truth_h0Wq22_status", &mc_truth_h0Wq22_status, "mc_truth_h0Wq22_status/I", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_status", &mc_truth_h0Wq11_IS_status, "mc_truth_h0Wq11_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_status", &mc_truth_h0Wq21_IS_status, "mc_truth_h0Wq21_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_status", &mc_truth_h0Wq12_IS_status, "mc_truth_h0Wq12_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_status", &mc_truth_h0Wq22_IS_status, "mc_truth_h0Wq22_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_status", &mc_truth_h0Z1_status, "mc_truth_h0Z1_status/I", buffersize);
 	tree->Branch("mc_truth_h0Z2_status", &mc_truth_h0Z2_status, "mc_truth_h0Z2_status/I", buffersize);
@@ -2829,6 +2915,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_status", &mc_truth_h0Ztaunutau21_status, "mc_truth_h0Ztaunutau21_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zq11_status", &mc_truth_h0Zq11_status, "mc_truth_h0Zq11_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zq21_status", &mc_truth_h0Zq21_status, "mc_truth_h0Zq21_status/I", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_status", &mc_truth_h0Zq11_IS_status, "mc_truth_h0Zq11_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_status", &mc_truth_h0Zq21_IS_status, "mc_truth_h0Zq21_IS_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zl12_status", &mc_truth_h0Zl12_status, "mc_truth_h0Zl12_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zl22_status", &mc_truth_h0Zl22_status, "mc_truth_h0Zl22_status/I", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_status", &mc_truth_h0Ztau12_status, "mc_truth_h0Ztau12_status/I", buffersize);
@@ -2841,6 +2929,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_status", &mc_truth_h0Ztaunutau22_status, "mc_truth_h0Ztaunutau22_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zq12_status", &mc_truth_h0Zq12_status, "mc_truth_h0Zq12_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zq22_status", &mc_truth_h0Zq22_status, "mc_truth_h0Zq22_status/I", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_status", &mc_truth_h0Zq12_IS_status, "mc_truth_h0Zq12_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_status", &mc_truth_h0Zq22_IS_status, "mc_truth_h0Zq22_IS_status/I", buffersize);
 	tree->Branch("mc_truth_h0Znu11_status", &mc_truth_h0Znu11_status, "mc_truth_h0Znu11_status/I", buffersize);
 	tree->Branch("mc_truth_h0Znu21_status", &mc_truth_h0Znu21_status, "mc_truth_h0Znu21_status/I", buffersize);
 	tree->Branch("mc_truth_h0Znu12_status", &mc_truth_h0Znu12_status, "mc_truth_h0Znu12_status/I", buffersize);
@@ -2859,6 +2949,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_status", &mc_truth_t2_status, "mc_truth_t2_status/I", buffersize);
 	tree->Branch("mc_truth_tb1_status", &mc_truth_tb1_status, "mc_truth_tb1_status/I", buffersize);
 	tree->Branch("mc_truth_tb2_status", &mc_truth_tb2_status, "mc_truth_tb2_status/I", buffersize);
+	tree->Branch("mc_truth_tb1_IS_status", &mc_truth_tb1_IS_status, "mc_truth_tb1_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tb2_IS_status", &mc_truth_tb2_IS_status, "mc_truth_tb2_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_tW1_status", &mc_truth_tW1_status, "mc_truth_tW1_status/I", buffersize);
 	tree->Branch("mc_truth_tWnu1_status", &mc_truth_tWnu1_status, "mc_truth_tWnu1_status/I", buffersize);
@@ -2870,6 +2962,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_status", &mc_truth_tWtaul1_status, "mc_truth_tWtaul1_status/I", buffersize);
 	tree->Branch("mc_truth_tWq11_status", &mc_truth_tWq11_status, "mc_truth_tWq11_status/I", buffersize);
 	tree->Branch("mc_truth_tWq21_status", &mc_truth_tWq21_status, "mc_truth_tWq21_status/I", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_status", &mc_truth_tWq11_IS_status, "mc_truth_tWq11_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_status", &mc_truth_tWq21_IS_status, "mc_truth_tWq21_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_tW2_status", &mc_truth_tW2_status, "mc_truth_tW2_status/I", buffersize);
 	tree->Branch("mc_truth_tWnu2_status", &mc_truth_tWnu2_status, "mc_truth_tWnu2_status/I", buffersize);
@@ -2881,6 +2975,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_status", &mc_truth_tWtaul2_status, "mc_truth_tWtaul2_status/I", buffersize);
 	tree->Branch("mc_truth_tWq12_status", &mc_truth_tWq12_status, "mc_truth_tWq12_status/I", buffersize);
 	tree->Branch("mc_truth_tWq22_status", &mc_truth_tWq22_status, "mc_truth_tWq22_status/I", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_status", &mc_truth_tWq12_IS_status, "mc_truth_tWq12_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_status", &mc_truth_tWq22_IS_status, "mc_truth_tWq22_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_j1_status", &mc_truth_j1_status, "mc_truth_j1_status/I", buffersize);
 	tree->Branch("mc_truth_j2_status", &mc_truth_j2_status, "mc_truth_j2_status/I", buffersize);
@@ -2904,6 +3000,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_Ztaunutau2_p4", "TLorentzVector", &mc_truth_Ztaunutau2_p4, buffersize);	
 	     tree->Branch("mc_truth_Zq1_p4", "TLorentzVector", &mc_truth_Zq1_p4, buffersize);
 	     tree->Branch("mc_truth_Zq2_p4", "TLorentzVector", &mc_truth_Zq2_p4, buffersize);
+	     tree->Branch("mc_truth_Zq1_IS_p4", "TLorentzVector", &mc_truth_Zq1_IS_p4, buffersize);
+	     tree->Branch("mc_truth_Zq2_IS_p4", "TLorentzVector", &mc_truth_Zq2_IS_p4, buffersize);
 	     tree->Branch("mc_truth_Znu1_p4", "TLorentzVector", &mc_truth_Znu1_p4, buffersize);
 	     tree->Branch("mc_truth_Znu2_p4", "TLorentzVector", &mc_truth_Znu2_p4, buffersize);
 
@@ -2922,6 +3020,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_t2_p4", "TLorentzVector", &mc_truth_t2_p4, buffersize);
 	     tree->Branch("mc_truth_tb1_p4", "TLorentzVector", &mc_truth_tb1_p4, buffersize);
 	     tree->Branch("mc_truth_tb2_p4", "TLorentzVector", &mc_truth_tb2_p4, buffersize);
+	     tree->Branch("mc_truth_tb1_IS_p4", "TLorentzVector", &mc_truth_tb1_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tb2_IS_p4", "TLorentzVector", &mc_truth_tb2_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_tW1_p4", "TLorentzVector", &mc_truth_tW1_p4, buffersize);
 	     tree->Branch("mc_truth_tWnu1_p4", "TLorentzVector", &mc_truth_tWnu1_p4, buffersize);
@@ -2933,6 +3033,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_tWtaul1_p4", "TLorentzVector", &mc_truth_tWtaul1_p4, buffersize);
 	     tree->Branch("mc_truth_tWq11_p4", "TLorentzVector", &mc_truth_tWq11_p4, buffersize);
 	     tree->Branch("mc_truth_tWq21_p4", "TLorentzVector", &mc_truth_tWq21_p4, buffersize);
+	     tree->Branch("mc_truth_tWq11_IS_p4", "TLorentzVector", &mc_truth_tWq11_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tWq21_IS_p4", "TLorentzVector", &mc_truth_tWq21_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_tW2_p4", "TLorentzVector", &mc_truth_tW2_p4, buffersize);
 	     tree->Branch("mc_truth_tWnu2_p4", "TLorentzVector", &mc_truth_tWnu2_p4, buffersize);
@@ -2944,6 +3046,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_tWtaul2_p4", "TLorentzVector", &mc_truth_tWtaul2_p4, buffersize);
 	     tree->Branch("mc_truth_tWq12_p4", "TLorentzVector", &mc_truth_tWq12_p4, buffersize);
 	     tree->Branch("mc_truth_tWq22_p4", "TLorentzVector", &mc_truth_tWq22_p4, buffersize);
+	     tree->Branch("mc_truth_tWq12_IS_p4", "TLorentzVector", &mc_truth_tWq12_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tWq22_IS_p4", "TLorentzVector", &mc_truth_tWq22_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_j1_p4", "TLorentzVector", &mc_truth_j1_p4, buffersize);
 	     tree->Branch("mc_truth_j2_p4", "TLorentzVector", &mc_truth_j2_p4, buffersize);
@@ -2963,6 +3067,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Ztaunutau2_pt", &mc_truth_Ztaunutau2_pt, "mc_truth_Ztaunutau2_pt/F", buffersize);
 	tree->Branch("mc_truth_Zq1_pt", &mc_truth_Zq1_pt, "mc_truth_Zq1_pt/F", buffersize);
 	tree->Branch("mc_truth_Zq2_pt", &mc_truth_Zq2_pt, "mc_truth_Zq2_pt/F", buffersize);
+	tree->Branch("mc_truth_Zq1_IS_pt", &mc_truth_Zq1_IS_pt, "mc_truth_Zq1_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_Zq2_IS_pt", &mc_truth_Zq2_IS_pt, "mc_truth_Zq2_IS_pt/F", buffersize);
 	tree->Branch("mc_truth_Znu1_pt", &mc_truth_Znu1_pt, "mc_truth_Znu1_pt/F", buffersize);
 	tree->Branch("mc_truth_Znu2_pt", &mc_truth_Znu2_pt, "mc_truth_Znu2_pt/F", buffersize);
 
@@ -2981,6 +3087,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_pt", &mc_truth_t2_pt, "mc_truth_t2_pt/F", buffersize);
 	tree->Branch("mc_truth_tb1_pt", &mc_truth_tb1_pt, "mc_truth_tb1_pt/F", buffersize);
 	tree->Branch("mc_truth_tb2_pt", &mc_truth_tb2_pt, "mc_truth_tb2_pt/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_pt", &mc_truth_tb1_IS_pt, "mc_truth_tb1_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_pt", &mc_truth_tb2_IS_pt, "mc_truth_tb2_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_pt", &mc_truth_tW1_pt, "mc_truth_tW1_pt/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_pt", &mc_truth_tWnu1_pt, "mc_truth_tWnu1_pt/F", buffersize);
@@ -2992,6 +3100,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_pt", &mc_truth_tWtaul1_pt, "mc_truth_tWtaul1_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq11_pt", &mc_truth_tWq11_pt, "mc_truth_tWq11_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq21_pt", &mc_truth_tWq21_pt, "mc_truth_tWq21_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_pt", &mc_truth_tWq11_IS_pt, "mc_truth_tWq11_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_pt", &mc_truth_tWq21_IS_pt, "mc_truth_tWq21_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_pt", &mc_truth_tW2_pt, "mc_truth_tW2_pt/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_pt", &mc_truth_tWnu2_pt, "mc_truth_tWnu2_pt/F", buffersize);
@@ -3003,6 +3113,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_pt", &mc_truth_tWtaul2_pt, "mc_truth_tWtaul2_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq12_pt", &mc_truth_tWq12_pt, "mc_truth_tWq12_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq22_pt", &mc_truth_tWq22_pt, "mc_truth_tWq22_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_pt", &mc_truth_tWq12_IS_pt, "mc_truth_tWq12_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_pt", &mc_truth_tWq22_IS_pt, "mc_truth_tWq22_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_j1_pt", &mc_truth_j1_pt, "mc_truth_j1_pt/F", buffersize);
 	tree->Branch("mc_truth_j2_pt", &mc_truth_j2_pt, "mc_truth_j2_pt/F", buffersize);
@@ -3021,6 +3133,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Ztaunutau2_eta", &mc_truth_Ztaunutau2_eta, "mc_truth_Ztaunutau2_eta/F", buffersize);
 	tree->Branch("mc_truth_Zq1_eta", &mc_truth_Zq1_eta, "mc_truth_Zq1_eta/F", buffersize);
 	tree->Branch("mc_truth_Zq2_eta", &mc_truth_Zq2_eta, "mc_truth_Zq2_eta/F", buffersize);
+	tree->Branch("mc_truth_Zq1_IS_eta", &mc_truth_Zq1_IS_eta, "mc_truth_Zq1_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_Zq2_IS_eta", &mc_truth_Zq2_IS_eta, "mc_truth_Zq2_IS_eta/F", buffersize);
 	tree->Branch("mc_truth_Znu1_eta", &mc_truth_Znu1_eta, "mc_truth_Znu1_eta/F", buffersize);
 	tree->Branch("mc_truth_Znu2_eta", &mc_truth_Znu2_eta, "mc_truth_Znu2_eta/F", buffersize);
 
@@ -3039,6 +3153,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_eta", &mc_truth_t2_eta, "mc_truth_t2_eta/F", buffersize);
 	tree->Branch("mc_truth_tb1_eta", &mc_truth_tb1_eta, "mc_truth_tb1_eta/F", buffersize);
 	tree->Branch("mc_truth_tb2_eta", &mc_truth_tb2_eta, "mc_truth_tb2_eta/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_eta", &mc_truth_tb1_IS_eta, "mc_truth_tb1_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_eta", &mc_truth_tb2_IS_eta, "mc_truth_tb2_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_eta", &mc_truth_tW1_eta, "mc_truth_tW1_eta/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_eta", &mc_truth_tWnu1_eta, "mc_truth_tWnu1_eta/F", buffersize);
@@ -3050,6 +3166,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_eta", &mc_truth_tWtaul1_eta, "mc_truth_tWtaul1_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq11_eta", &mc_truth_tWq11_eta, "mc_truth_tWq11_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq21_eta", &mc_truth_tWq21_eta, "mc_truth_tWq21_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_eta", &mc_truth_tWq11_IS_eta, "mc_truth_tWq11_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_eta", &mc_truth_tWq21_IS_eta, "mc_truth_tWq21_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_eta", &mc_truth_tW2_eta, "mc_truth_tW2_eta/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_eta", &mc_truth_tWnu2_eta, "mc_truth_tWnu2_eta/F", buffersize);
@@ -3061,6 +3179,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_eta", &mc_truth_tWtaul2_eta, "mc_truth_tWtaul2_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq12_eta", &mc_truth_tWq12_eta, "mc_truth_tWq12_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq22_eta", &mc_truth_tWq22_eta, "mc_truth_tWq22_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_eta", &mc_truth_tWq12_IS_eta, "mc_truth_tWq12_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_eta", &mc_truth_tWq22_IS_eta, "mc_truth_tWq22_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_j1_eta", &mc_truth_j1_eta, "mc_truth_j1_eta/F", buffersize);
 	tree->Branch("mc_truth_j2_eta", &mc_truth_j2_eta, "mc_truth_j2_eta/F", buffersize);
@@ -3079,6 +3199,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Ztaunutau2_phi", &mc_truth_Ztaunutau2_phi, "mc_truth_Ztaunutau2_phi/F", buffersize);
 	tree->Branch("mc_truth_Zq1_phi", &mc_truth_Zq1_phi, "mc_truth_Zq1_phi/F", buffersize);
 	tree->Branch("mc_truth_Zq2_phi", &mc_truth_Zq2_phi, "mc_truth_Zq2_phi/F", buffersize);
+	tree->Branch("mc_truth_Zq1_IS_phi", &mc_truth_Zq1_IS_phi, "mc_truth_Zq1_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_Zq2_IS_phi", &mc_truth_Zq2_IS_phi, "mc_truth_Zq2_IS_phi/F", buffersize);
 	tree->Branch("mc_truth_Znu1_phi", &mc_truth_Znu1_phi, "mc_truth_Znu1_phi/F", buffersize);
 	tree->Branch("mc_truth_Znu2_phi", &mc_truth_Znu2_phi, "mc_truth_Znu2_phi/F", buffersize);
 
@@ -3097,6 +3219,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_phi", &mc_truth_t2_phi, "mc_truth_t2_phi/F", buffersize);
 	tree->Branch("mc_truth_tb1_phi", &mc_truth_tb1_phi, "mc_truth_tb1_phi/F", buffersize);
 	tree->Branch("mc_truth_tb2_phi", &mc_truth_tb2_phi, "mc_truth_tb2_phi/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_phi", &mc_truth_tb1_IS_phi, "mc_truth_tb1_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_phi", &mc_truth_tb2_IS_phi, "mc_truth_tb2_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_phi", &mc_truth_tW1_phi, "mc_truth_tW1_phi/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_phi", &mc_truth_tWnu1_phi, "mc_truth_tWnu1_phi/F", buffersize);
@@ -3108,6 +3232,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_phi", &mc_truth_tWtaul1_phi, "mc_truth_tWtaul1_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq11_phi", &mc_truth_tWq11_phi, "mc_truth_tWq11_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq21_phi", &mc_truth_tWq21_phi, "mc_truth_tWq21_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_phi", &mc_truth_tWq11_IS_phi, "mc_truth_tWq11_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_phi", &mc_truth_tWq21_IS_phi, "mc_truth_tWq21_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_phi", &mc_truth_tW2_phi, "mc_truth_tW2_phi/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_phi", &mc_truth_tWnu2_phi, "mc_truth_tWnu2_phi/F", buffersize);
@@ -3119,6 +3245,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_phi", &mc_truth_tWtaul2_phi, "mc_truth_tWtaul2_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq12_phi", &mc_truth_tWq12_phi, "mc_truth_tWq12_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq22_phi", &mc_truth_tWq22_phi, "mc_truth_tWq22_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_phi", &mc_truth_tWq12_IS_phi, "mc_truth_tWq12_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_phi", &mc_truth_tWq22_IS_phi, "mc_truth_tWq22_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_j1_phi", &mc_truth_j1_phi, "mc_truth_j1_phi/F", buffersize);
 	tree->Branch("mc_truth_j2_phi", &mc_truth_j2_phi, "mc_truth_j2_phi/F", buffersize);
@@ -3137,6 +3265,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Ztaunutau2_E", &mc_truth_Ztaunutau2_E, "mc_truth_Ztaunutau2_E/F", buffersize);
 	tree->Branch("mc_truth_Zq1_E", &mc_truth_Zq1_E, "mc_truth_Zq1_E/F", buffersize);
 	tree->Branch("mc_truth_Zq2_E", &mc_truth_Zq2_E, "mc_truth_Zq2_E/F", buffersize);
+	tree->Branch("mc_truth_Zq1_IS_E", &mc_truth_Zq1_IS_E, "mc_truth_Zq1_IS_E/F", buffersize);
+	tree->Branch("mc_truth_Zq2_IS_E", &mc_truth_Zq2_IS_E, "mc_truth_Zq2_IS_E/F", buffersize);
 	tree->Branch("mc_truth_Znu1_E", &mc_truth_Znu1_E, "mc_truth_Znu1_E/F", buffersize);
 	tree->Branch("mc_truth_Znu2_E", &mc_truth_Znu2_E, "mc_truth_Znu2_E/F", buffersize);
 
@@ -3155,6 +3285,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_E", &mc_truth_t2_E, "mc_truth_t2_E/F", buffersize);
 	tree->Branch("mc_truth_tb1_E", &mc_truth_tb1_E, "mc_truth_tb1_E/F", buffersize);
 	tree->Branch("mc_truth_tb2_E", &mc_truth_tb2_E, "mc_truth_tb2_E/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_E", &mc_truth_tb1_IS_E, "mc_truth_tb1_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_E", &mc_truth_tb2_IS_E, "mc_truth_tb2_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_E", &mc_truth_tW1_E, "mc_truth_tW1_E/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_E", &mc_truth_tWnu1_E, "mc_truth_tWnu1_E/F", buffersize);
@@ -3166,6 +3298,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_E", &mc_truth_tWtaul1_E, "mc_truth_tWtaul1_E/F", buffersize);
 	tree->Branch("mc_truth_tWq11_E", &mc_truth_tWq11_E, "mc_truth_tWq11_E/F", buffersize);
 	tree->Branch("mc_truth_tWq21_E", &mc_truth_tWq21_E, "mc_truth_tWq21_E/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_E", &mc_truth_tWq11_IS_E, "mc_truth_tWq11_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_E", &mc_truth_tWq21_IS_E, "mc_truth_tWq21_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_E", &mc_truth_tW2_E, "mc_truth_tW2_E/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_E", &mc_truth_tWnu2_E, "mc_truth_tWnu2_E/F", buffersize);
@@ -3177,6 +3311,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_E", &mc_truth_tWtaul2_E, "mc_truth_tWtaul2_E/F", buffersize);
 	tree->Branch("mc_truth_tWq12_E", &mc_truth_tWq12_E, "mc_truth_tWq12_E/F", buffersize);
 	tree->Branch("mc_truth_tWq22_E", &mc_truth_tWq22_E, "mc_truth_tWq22_E/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_E", &mc_truth_tWq12_IS_E, "mc_truth_tWq12_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_E", &mc_truth_tWq22_IS_E, "mc_truth_tWq22_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_j1_E", &mc_truth_j1_E, "mc_truth_j1_E/F", buffersize);
 	tree->Branch("mc_truth_j2_E", &mc_truth_j2_E, "mc_truth_j2_E/F", buffersize);
@@ -3195,6 +3331,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Ztaunutau2_id", &mc_truth_Ztaunutau2_id, "mc_truth_Ztaunutau2_id/I", buffersize);
 	tree->Branch("mc_truth_Zq1_id", &mc_truth_Zq1_id, "mc_truth_Zq1_id/I", buffersize);
 	tree->Branch("mc_truth_Zq2_id", &mc_truth_Zq2_id, "mc_truth_Zq2_id/I", buffersize);
+	tree->Branch("mc_truth_Zq1_IS_id", &mc_truth_Zq1_IS_id, "mc_truth_Zq1_IS_id/I", buffersize);
+	tree->Branch("mc_truth_Zq2_IS_id", &mc_truth_Zq2_IS_id, "mc_truth_Zq2_IS_id/I", buffersize);
 	tree->Branch("mc_truth_Znu1_id", &mc_truth_Znu1_id, "mc_truth_Znu1_id/I", buffersize);
 	tree->Branch("mc_truth_Znu2_id", &mc_truth_Znu2_id, "mc_truth_Znu2_id/I", buffersize);
 
@@ -3213,6 +3351,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_id", &mc_truth_t2_id, "mc_truth_t2_id/I", buffersize);
 	tree->Branch("mc_truth_tb1_id", &mc_truth_tb1_id, "mc_truth_tb1_id/I", buffersize);
 	tree->Branch("mc_truth_tb2_id", &mc_truth_tb2_id, "mc_truth_tb2_id/I", buffersize);
+	tree->Branch("mc_truth_tb1_IS_id", &mc_truth_tb1_IS_id, "mc_truth_tb1_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tb2_IS_id", &mc_truth_tb2_IS_id, "mc_truth_tb2_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_tW1_id", &mc_truth_tW1_id, "mc_truth_tW1_id/I", buffersize);
 	tree->Branch("mc_truth_tWnu1_id", &mc_truth_tWnu1_id, "mc_truth_tWnu1_id/I", buffersize);
@@ -3224,6 +3364,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_id", &mc_truth_tWtaul1_id, "mc_truth_tWtaul1_id/I", buffersize);
 	tree->Branch("mc_truth_tWq11_id", &mc_truth_tWq11_id, "mc_truth_tWq11_id/I", buffersize);
 	tree->Branch("mc_truth_tWq21_id", &mc_truth_tWq21_id, "mc_truth_tWq21_id/I", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_id", &mc_truth_tWq11_IS_id, "mc_truth_tWq11_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_id", &mc_truth_tWq21_IS_id, "mc_truth_tWq21_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_tW2_id", &mc_truth_tW2_id, "mc_truth_tW2_id/I", buffersize);
 	tree->Branch("mc_truth_tWnu2_id", &mc_truth_tWnu2_id, "mc_truth_tWnu2_id/I", buffersize);
@@ -3235,6 +3377,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_id", &mc_truth_tWtaul2_id, "mc_truth_tWtaul2_id/I", buffersize);
 	tree->Branch("mc_truth_tWq12_id", &mc_truth_tWq12_id, "mc_truth_tWq12_id/I", buffersize);
 	tree->Branch("mc_truth_tWq22_id", &mc_truth_tWq22_id, "mc_truth_tWq22_id/I", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_id", &mc_truth_tWq12_IS_id, "mc_truth_tWq12_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_id", &mc_truth_tWq22_IS_id, "mc_truth_tWq22_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_j1_id", &mc_truth_j1_id, "mc_truth_j1_id/I", buffersize);
 	tree->Branch("mc_truth_j2_id", &mc_truth_j2_id, "mc_truth_j2_id/I", buffersize);
@@ -3253,6 +3397,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Ztaunutau2_status", &mc_truth_Ztaunutau2_status, "mc_truth_Ztaunutau2_status/I", buffersize);
 	tree->Branch("mc_truth_Zq1_status", &mc_truth_Zq1_status, "mc_truth_Zq1_status/I", buffersize);
 	tree->Branch("mc_truth_Zq2_status", &mc_truth_Zq2_status, "mc_truth_Zq2_status/I", buffersize);
+	tree->Branch("mc_truth_Zq1_IS_status", &mc_truth_Zq1_IS_status, "mc_truth_Zq1_IS_status/I", buffersize);
+	tree->Branch("mc_truth_Zq2_IS_status", &mc_truth_Zq2_IS_status, "mc_truth_Zq2_IS_status/I", buffersize);
 	tree->Branch("mc_truth_Znu1_status", &mc_truth_Znu1_status, "mc_truth_Znu1_status/I", buffersize);
 	tree->Branch("mc_truth_Znu2_status", &mc_truth_Znu2_status, "mc_truth_Znu2_status/I", buffersize);
 
@@ -3271,6 +3417,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_status", &mc_truth_t2_status, "mc_truth_t2_status/I", buffersize);
 	tree->Branch("mc_truth_tb1_status", &mc_truth_tb1_status, "mc_truth_tb1_status/I", buffersize);
 	tree->Branch("mc_truth_tb2_status", &mc_truth_tb2_status, "mc_truth_tb2_status/I", buffersize);
+	tree->Branch("mc_truth_tb1_IS_status", &mc_truth_tb1_IS_status, "mc_truth_tb1_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tb2_IS_status", &mc_truth_tb2_IS_status, "mc_truth_tb2_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_tW1_status", &mc_truth_tW1_status, "mc_truth_tW1_status/I", buffersize);
 	tree->Branch("mc_truth_tWnu1_status", &mc_truth_tWnu1_status, "mc_truth_tWnu1_status/I", buffersize);
@@ -3282,6 +3430,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_status", &mc_truth_tWtaul1_status, "mc_truth_tWtaul1_status/I", buffersize);
 	tree->Branch("mc_truth_tWq11_status", &mc_truth_tWq11_status, "mc_truth_tWq11_status/I", buffersize);
 	tree->Branch("mc_truth_tWq21_status", &mc_truth_tWq21_status, "mc_truth_tWq21_status/I", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_status", &mc_truth_tWq11_IS_status, "mc_truth_tWq11_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_status", &mc_truth_tWq21_IS_status, "mc_truth_tWq21_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_tW2_status", &mc_truth_tW2_status, "mc_truth_tW2_status/I", buffersize);
 	tree->Branch("mc_truth_tWnu2_status", &mc_truth_tWnu2_status, "mc_truth_tWnu2_status/I", buffersize);
@@ -3293,6 +3443,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_status", &mc_truth_tWtaul2_status, "mc_truth_tWtaul2_status/I", buffersize);
 	tree->Branch("mc_truth_tWq12_status", &mc_truth_tWq12_status, "mc_truth_tWq12_status/I", buffersize);
 	tree->Branch("mc_truth_tWq22_status", &mc_truth_tWq22_status, "mc_truth_tWq22_status/I", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_status", &mc_truth_tWq12_IS_status, "mc_truth_tWq12_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_status", &mc_truth_tWq22_IS_status, "mc_truth_tWq22_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_j1_status", &mc_truth_j1_status, "mc_truth_j1_status/I", buffersize);
 	tree->Branch("mc_truth_j2_status", &mc_truth_j2_status, "mc_truth_j2_status/I", buffersize);
@@ -3313,6 +3465,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_Wtaul_p4", "TLorentzVector", &mc_truth_Wtaul_p4, buffersize);
 	     tree->Branch("mc_truth_Wq1_p4", "TLorentzVector", &mc_truth_Wq1_p4, buffersize);
 	     tree->Branch("mc_truth_Wq2_p4", "TLorentzVector", &mc_truth_Wq2_p4, buffersize);
+	     tree->Branch("mc_truth_Wq1_IS_p4", "TLorentzVector", &mc_truth_Wq1_IS_p4, buffersize);
+	     tree->Branch("mc_truth_Wq2_IS_p4", "TLorentzVector", &mc_truth_Wq2_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_gammal1_p4", "TLorentzVector", &mc_truth_gammal1_p4, buffersize);
 	     tree->Branch("mc_truth_gammal2_p4", "TLorentzVector", &mc_truth_gammal2_p4, buffersize);
@@ -3329,6 +3483,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_t2_p4", "TLorentzVector", &mc_truth_t2_p4, buffersize);
 	     tree->Branch("mc_truth_tb1_p4", "TLorentzVector", &mc_truth_tb1_p4, buffersize);
 	     tree->Branch("mc_truth_tb2_p4", "TLorentzVector", &mc_truth_tb2_p4, buffersize);
+	     tree->Branch("mc_truth_tb1_IS_p4", "TLorentzVector", &mc_truth_tb1_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tb2_IS_p4", "TLorentzVector", &mc_truth_tb2_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_tW1_p4", "TLorentzVector", &mc_truth_tW1_p4, buffersize);
 	     tree->Branch("mc_truth_tWnu1_p4", "TLorentzVector", &mc_truth_tWnu1_p4, buffersize);
@@ -3340,6 +3496,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_tWtaul1_p4", "TLorentzVector", &mc_truth_tWtaul1_p4, buffersize);
 	     tree->Branch("mc_truth_tWq11_p4", "TLorentzVector", &mc_truth_tWq11_p4, buffersize);
 	     tree->Branch("mc_truth_tWq21_p4", "TLorentzVector", &mc_truth_tWq21_p4, buffersize);
+	     tree->Branch("mc_truth_tWq11_IS_p4", "TLorentzVector", &mc_truth_tWq11_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tWq21_IS_p4", "TLorentzVector", &mc_truth_tWq21_IS_p4, buffersize);
 
 	     tree->Branch("mc_truth_tW2_p4", "TLorentzVector", &mc_truth_tW2_p4, buffersize);
 	     tree->Branch("mc_truth_tWnu2_p4", "TLorentzVector", &mc_truth_tWnu2_p4, buffersize);
@@ -3351,6 +3509,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_tWtaul2_p4", "TLorentzVector", &mc_truth_tWtaul2_p4, buffersize);
 	     tree->Branch("mc_truth_tWq12_p4", "TLorentzVector", &mc_truth_tWq12_p4, buffersize);
 	     tree->Branch("mc_truth_tWq22_p4", "TLorentzVector", &mc_truth_tWq22_p4, buffersize);
+	     tree->Branch("mc_truth_tWq12_IS_p4", "TLorentzVector", &mc_truth_tWq12_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tWq22_IS_p4", "TLorentzVector", &mc_truth_tWq22_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_j1_p4", "TLorentzVector", &mc_truth_j1_p4, buffersize);
 	     tree->Branch("mc_truth_j2_p4", "TLorentzVector", &mc_truth_j2_p4, buffersize);
@@ -3367,6 +3527,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Wtaul_pt", &mc_truth_Wtaul_pt, "mc_truth_Wtaul_pt/F", buffersize);
 	tree->Branch("mc_truth_Wq1_pt", &mc_truth_Wq1_pt, "mc_truth_Wq1_pt/F", buffersize);
 	tree->Branch("mc_truth_Wq2_pt", &mc_truth_Wq2_pt, "mc_truth_Wq2_pt/F", buffersize);
+	tree->Branch("mc_truth_Wq1_IS_pt", &mc_truth_Wq1_IS_pt, "mc_truth_Wq1_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_Wq2_IS_pt", &mc_truth_Wq2_IS_pt, "mc_truth_Wq2_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_gammal1_pt", &mc_truth_gammal1_pt, "mc_truth_gammal1_pt/F", buffersize);
 	tree->Branch("mc_truth_gammal2_pt", &mc_truth_gammal2_pt, "mc_truth_gammal2_pt/F", buffersize);
@@ -3383,6 +3545,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_pt", &mc_truth_t2_pt, "mc_truth_t2_pt/F", buffersize);
 	tree->Branch("mc_truth_tb1_pt", &mc_truth_tb1_pt, "mc_truth_tb1_pt/F", buffersize);
 	tree->Branch("mc_truth_tb2_pt", &mc_truth_tb2_pt, "mc_truth_tb2_pt/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_pt", &mc_truth_tb1_IS_pt, "mc_truth_tb1_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_pt", &mc_truth_tb2_IS_pt, "mc_truth_tb2_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_pt", &mc_truth_tW1_pt, "mc_truth_tW1_pt/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_pt", &mc_truth_tWnu1_pt, "mc_truth_tWnu1_pt/F", buffersize);
@@ -3394,6 +3558,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_pt", &mc_truth_tWtaul1_pt, "mc_truth_tWtaul1_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq11_pt", &mc_truth_tWq11_pt, "mc_truth_tWq11_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq21_pt", &mc_truth_tWq21_pt, "mc_truth_tWq21_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_pt", &mc_truth_tWq11_IS_pt, "mc_truth_tWq11_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_pt", &mc_truth_tWq21_IS_pt, "mc_truth_tWq21_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_pt", &mc_truth_tW2_pt, "mc_truth_tW2_pt/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_pt", &mc_truth_tWnu2_pt, "mc_truth_tWnu2_pt/F", buffersize);
@@ -3405,6 +3571,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_pt", &mc_truth_tWtaul2_pt, "mc_truth_tWtaul2_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq12_pt", &mc_truth_tWq12_pt, "mc_truth_tWq12_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq22_pt", &mc_truth_tWq22_pt, "mc_truth_tWq22_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_pt", &mc_truth_tWq12_IS_pt, "mc_truth_tWq12_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_pt", &mc_truth_tWq22_IS_pt, "mc_truth_tWq22_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_j1_pt", &mc_truth_j1_pt, "mc_truth_j1_pt/F", buffersize);
 	tree->Branch("mc_truth_j2_pt", &mc_truth_j2_pt, "mc_truth_j2_pt/F", buffersize);
@@ -3420,6 +3588,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Wtaul_eta", &mc_truth_Wtaul_eta, "mc_truth_Wtaul_eta/F", buffersize);
 	tree->Branch("mc_truth_Wq1_eta", &mc_truth_Wq1_eta, "mc_truth_Wq1_eta/F", buffersize);
 	tree->Branch("mc_truth_Wq2_eta", &mc_truth_Wq2_eta, "mc_truth_Wq2_eta/F", buffersize);
+	tree->Branch("mc_truth_Wq1_IS_eta", &mc_truth_Wq1_IS_eta, "mc_truth_Wq1_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_Wq2_IS_eta", &mc_truth_Wq2_IS_eta, "mc_truth_Wq2_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_gammal1_eta", &mc_truth_gammal1_eta, "mc_truth_gammal1_eta/F", buffersize);
 	tree->Branch("mc_truth_gammal2_eta", &mc_truth_gammal2_eta, "mc_truth_gammal2_eta/F", buffersize);
@@ -3436,6 +3606,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_eta", &mc_truth_t2_eta, "mc_truth_t2_eta/F", buffersize);
 	tree->Branch("mc_truth_tb1_eta", &mc_truth_tb1_eta, "mc_truth_tb1_eta/F", buffersize);
 	tree->Branch("mc_truth_tb2_eta", &mc_truth_tb2_eta, "mc_truth_tb2_eta/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_eta", &mc_truth_tb1_IS_eta, "mc_truth_tb1_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_eta", &mc_truth_tb2_IS_eta, "mc_truth_tb2_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_eta", &mc_truth_tW1_eta, "mc_truth_tW1_eta/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_eta", &mc_truth_tWnu1_eta, "mc_truth_tWnu1_eta/F", buffersize);
@@ -3447,6 +3619,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_eta", &mc_truth_tWtaul1_eta, "mc_truth_tWtaul1_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq11_eta", &mc_truth_tWq11_eta, "mc_truth_tWq11_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq21_eta", &mc_truth_tWq21_eta, "mc_truth_tWq21_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_eta", &mc_truth_tWq11_IS_eta, "mc_truth_tWq11_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_eta", &mc_truth_tWq21_IS_eta, "mc_truth_tWq21_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_eta", &mc_truth_tW2_eta, "mc_truth_tW2_eta/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_eta", &mc_truth_tWnu2_eta, "mc_truth_tWnu2_eta/F", buffersize);
@@ -3458,6 +3632,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_eta", &mc_truth_tWtaul2_eta, "mc_truth_tWtaul2_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq12_eta", &mc_truth_tWq12_eta, "mc_truth_tWq12_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq22_eta", &mc_truth_tWq22_eta, "mc_truth_tWq22_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_eta", &mc_truth_tWq12_IS_eta, "mc_truth_tWq12_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_eta", &mc_truth_tWq22_IS_eta, "mc_truth_tWq22_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_j1_eta", &mc_truth_j1_eta, "mc_truth_j1_eta/F", buffersize);
 	tree->Branch("mc_truth_j2_eta", &mc_truth_j2_eta, "mc_truth_j2_eta/F", buffersize);
@@ -3473,6 +3649,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Wtaul_phi", &mc_truth_Wtaul_phi, "mc_truth_Wtaul_phi/F", buffersize);
 	tree->Branch("mc_truth_Wq1_phi", &mc_truth_Wq1_phi, "mc_truth_Wq1_phi/F", buffersize);
 	tree->Branch("mc_truth_Wq2_phi", &mc_truth_Wq2_phi, "mc_truth_Wq2_phi/F", buffersize);
+	tree->Branch("mc_truth_Wq1_IS_phi", &mc_truth_Wq1_IS_phi, "mc_truth_Wq1_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_Wq2_IS_phi", &mc_truth_Wq2_IS_phi, "mc_truth_Wq2_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_gammal1_phi", &mc_truth_gammal1_phi, "mc_truth_gammal1_phi/F", buffersize);
 	tree->Branch("mc_truth_gammal2_phi", &mc_truth_gammal2_phi, "mc_truth_gammal2_phi/F", buffersize);
@@ -3489,6 +3667,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_phi", &mc_truth_t2_phi, "mc_truth_t2_phi/F", buffersize);
 	tree->Branch("mc_truth_tb1_phi", &mc_truth_tb1_phi, "mc_truth_tb1_phi/F", buffersize);
 	tree->Branch("mc_truth_tb2_phi", &mc_truth_tb2_phi, "mc_truth_tb2_phi/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_phi", &mc_truth_tb1_IS_phi, "mc_truth_tb1_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_phi", &mc_truth_tb2_IS_phi, "mc_truth_tb2_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_phi", &mc_truth_tW1_phi, "mc_truth_tW1_phi/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_phi", &mc_truth_tWnu1_phi, "mc_truth_tWnu1_phi/F", buffersize);
@@ -3500,6 +3680,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_phi", &mc_truth_tWtaul1_phi, "mc_truth_tWtaul1_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq11_phi", &mc_truth_tWq11_phi, "mc_truth_tWq11_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq21_phi", &mc_truth_tWq21_phi, "mc_truth_tWq21_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_phi", &mc_truth_tWq11_IS_phi, "mc_truth_tWq11_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_phi", &mc_truth_tWq21_IS_phi, "mc_truth_tWq21_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_phi", &mc_truth_tW2_phi, "mc_truth_tW2_phi/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_phi", &mc_truth_tWnu2_phi, "mc_truth_tWnu2_phi/F", buffersize);
@@ -3511,6 +3693,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_phi", &mc_truth_tWtaul2_phi, "mc_truth_tWtaul2_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq12_phi", &mc_truth_tWq12_phi, "mc_truth_tWq12_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq22_phi", &mc_truth_tWq22_phi, "mc_truth_tWq22_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_phi", &mc_truth_tWq12_IS_phi, "mc_truth_tWq12_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_phi", &mc_truth_tWq22_IS_phi, "mc_truth_tWq22_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_j1_phi", &mc_truth_j1_phi, "mc_truth_j1_phi/F", buffersize);
 	tree->Branch("mc_truth_j2_phi", &mc_truth_j2_phi, "mc_truth_j2_phi/F", buffersize);
@@ -3526,6 +3710,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Wtaul_E", &mc_truth_Wtaul_E, "mc_truth_Wtaul_E/F", buffersize);
 	tree->Branch("mc_truth_Wq1_E", &mc_truth_Wq1_E, "mc_truth_Wq1_E/F", buffersize);
 	tree->Branch("mc_truth_Wq2_E", &mc_truth_Wq2_E, "mc_truth_Wq2_E/F", buffersize);
+	tree->Branch("mc_truth_Wq1_IS_E", &mc_truth_Wq1_IS_E, "mc_truth_Wq1_IS_E/F", buffersize);
+	tree->Branch("mc_truth_Wq2_IS_E", &mc_truth_Wq2_IS_E, "mc_truth_Wq2_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_gammal1_E", &mc_truth_gammal1_E, "mc_truth_gammal1_E/F", buffersize);
 	tree->Branch("mc_truth_gammal2_E", &mc_truth_gammal2_E, "mc_truth_gammal2_E/F", buffersize);
@@ -3542,6 +3728,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_E", &mc_truth_t2_E, "mc_truth_t2_E/F", buffersize);
 	tree->Branch("mc_truth_tb1_E", &mc_truth_tb1_E, "mc_truth_tb1_E/F", buffersize);
 	tree->Branch("mc_truth_tb2_E", &mc_truth_tb2_E, "mc_truth_tb2_E/F", buffersize);
+	tree->Branch("mc_truth_tb1_IS_E", &mc_truth_tb1_IS_E, "mc_truth_tb1_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tb2_IS_E", &mc_truth_tb2_IS_E, "mc_truth_tb2_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_tW1_E", &mc_truth_tW1_E, "mc_truth_tW1_E/F", buffersize);
 	tree->Branch("mc_truth_tWnu1_E", &mc_truth_tWnu1_E, "mc_truth_tWnu1_E/F", buffersize);
@@ -3553,6 +3741,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_E", &mc_truth_tWtaul1_E, "mc_truth_tWtaul1_E/F", buffersize);
 	tree->Branch("mc_truth_tWq11_E", &mc_truth_tWq11_E, "mc_truth_tWq11_E/F", buffersize);
 	tree->Branch("mc_truth_tWq21_E", &mc_truth_tWq21_E, "mc_truth_tWq21_E/F", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_E", &mc_truth_tWq11_IS_E, "mc_truth_tWq11_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_E", &mc_truth_tWq21_IS_E, "mc_truth_tWq21_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_tW2_E", &mc_truth_tW2_E, "mc_truth_tW2_E/F", buffersize);
 	tree->Branch("mc_truth_tWnu2_E", &mc_truth_tWnu2_E, "mc_truth_tWnu2_E/F", buffersize);
@@ -3564,6 +3754,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_E", &mc_truth_tWtaul2_E, "mc_truth_tWtaul2_E/F", buffersize);
 	tree->Branch("mc_truth_tWq12_E", &mc_truth_tWq12_E, "mc_truth_tWq12_E/F", buffersize);
 	tree->Branch("mc_truth_tWq22_E", &mc_truth_tWq22_E, "mc_truth_tWq22_E/F", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_E", &mc_truth_tWq12_IS_E, "mc_truth_tWq12_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_E", &mc_truth_tWq22_IS_E, "mc_truth_tWq22_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_j1_E", &mc_truth_j1_E, "mc_truth_j1_E/F", buffersize);
 	tree->Branch("mc_truth_j2_E", &mc_truth_j2_E, "mc_truth_j2_E/F", buffersize);
@@ -3579,6 +3771,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Wtaul_id", &mc_truth_Wtaul_id, "mc_truth_Wtaul_id/I", buffersize);
 	tree->Branch("mc_truth_Wq1_id", &mc_truth_Wq1_id, "mc_truth_Wq1_id/I", buffersize);
 	tree->Branch("mc_truth_Wq2_id", &mc_truth_Wq2_id, "mc_truth_Wq2_id/I", buffersize);
+	tree->Branch("mc_truth_Wq1_IS_id", &mc_truth_Wq1_IS_id, "mc_truth_Wq1_IS_id/I", buffersize);
+	tree->Branch("mc_truth_Wq2_IS_id", &mc_truth_Wq2_IS_id, "mc_truth_Wq2_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_gammal1_id", &mc_truth_gammal1_id, "mc_truth_gammal1_id/I", buffersize);
 	tree->Branch("mc_truth_gammal2_id", &mc_truth_gammal2_id, "mc_truth_gammal2_id/I", buffersize);
@@ -3595,6 +3789,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_id", &mc_truth_t2_id, "mc_truth_t2_id/I", buffersize);
 	tree->Branch("mc_truth_tb1_id", &mc_truth_tb1_id, "mc_truth_tb1_id/I", buffersize);
 	tree->Branch("mc_truth_tb2_id", &mc_truth_tb2_id, "mc_truth_tb2_id/I", buffersize);
+	tree->Branch("mc_truth_tb1_IS_id", &mc_truth_tb1_IS_id, "mc_truth_tb1_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tb2_IS_id", &mc_truth_tb2_IS_id, "mc_truth_tb2_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_tW1_id", &mc_truth_tW1_id, "mc_truth_tW1_id/I", buffersize);
 	tree->Branch("mc_truth_tWnu1_id", &mc_truth_tWnu1_id, "mc_truth_tWnu1_id/I", buffersize);
@@ -3606,6 +3802,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_id", &mc_truth_tWtaul1_id, "mc_truth_tWtaul1_id/I", buffersize);
 	tree->Branch("mc_truth_tWq11_id", &mc_truth_tWq11_id, "mc_truth_tWq11_id/I", buffersize);
 	tree->Branch("mc_truth_tWq21_id", &mc_truth_tWq21_id, "mc_truth_tWq21_id/I", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_id", &mc_truth_tWq11_IS_id, "mc_truth_tWq11_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_id", &mc_truth_tWq21_IS_id, "mc_truth_tWq21_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_tW2_id", &mc_truth_tW2_id, "mc_truth_tW2_id/I", buffersize);
 	tree->Branch("mc_truth_tWnu2_id", &mc_truth_tWnu2_id, "mc_truth_tWnu2_id/I", buffersize);
@@ -3617,6 +3815,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_id", &mc_truth_tWtaul2_id, "mc_truth_tWtaul2_id/I", buffersize);
 	tree->Branch("mc_truth_tWq12_id", &mc_truth_tWq12_id, "mc_truth_tWq12_id/I", buffersize);
 	tree->Branch("mc_truth_tWq22_id", &mc_truth_tWq22_id, "mc_truth_tWq22_id/I", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_id", &mc_truth_tWq12_IS_id, "mc_truth_tWq12_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_id", &mc_truth_tWq22_IS_id, "mc_truth_tWq22_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_j1_id", &mc_truth_j1_id, "mc_truth_j1_id/I", buffersize);
 	tree->Branch("mc_truth_j2_id", &mc_truth_j2_id, "mc_truth_j2_id/I", buffersize);
@@ -3632,6 +3832,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_Wtaul_status", &mc_truth_Wtaul_status, "mc_truth_Wtaul_status/I", buffersize);
 	tree->Branch("mc_truth_Wq1_status", &mc_truth_Wq1_status, "mc_truth_Wq1_status/I", buffersize);
 	tree->Branch("mc_truth_Wq2_status", &mc_truth_Wq2_status, "mc_truth_Wq2_status/I", buffersize);
+	tree->Branch("mc_truth_Wq1_IS_status", &mc_truth_Wq1_IS_status, "mc_truth_Wq1_IS_status/I", buffersize);
+	tree->Branch("mc_truth_Wq2_IS_status", &mc_truth_Wq2_IS_status, "mc_truth_Wq2_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_gammal1_status", &mc_truth_gammal1_status, "mc_truth_gammal1_status/I", buffersize);
 	tree->Branch("mc_truth_gammal2_status", &mc_truth_gammal2_status, "mc_truth_gammal2_status/I", buffersize);
@@ -3648,6 +3850,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_t2_status", &mc_truth_t2_status, "mc_truth_t2_status/I", buffersize);
 	tree->Branch("mc_truth_tb1_status", &mc_truth_tb1_status, "mc_truth_tb1_status/I", buffersize);
 	tree->Branch("mc_truth_tb2_status", &mc_truth_tb2_status, "mc_truth_tb2_status/I", buffersize);
+	tree->Branch("mc_truth_tb1_IS_status", &mc_truth_tb1_IS_status, "mc_truth_tb1_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tb2_IS_status", &mc_truth_tb2_IS_status, "mc_truth_tb2_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_tW1_status", &mc_truth_tW1_status, "mc_truth_tW1_status/I", buffersize);
 	tree->Branch("mc_truth_tWnu1_status", &mc_truth_tWnu1_status, "mc_truth_tWnu1_status/I", buffersize);
@@ -3659,6 +3863,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul1_status", &mc_truth_tWtaul1_status, "mc_truth_tWtaul1_status/I", buffersize);
 	tree->Branch("mc_truth_tWq11_status", &mc_truth_tWq11_status, "mc_truth_tWq11_status/I", buffersize);
 	tree->Branch("mc_truth_tWq21_status", &mc_truth_tWq21_status, "mc_truth_tWq21_status/I", buffersize);
+	tree->Branch("mc_truth_tWq11_IS_status", &mc_truth_tWq11_IS_status, "mc_truth_tWq11_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tWq21_IS_status", &mc_truth_tWq21_IS_status, "mc_truth_tWq21_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_tW2_status", &mc_truth_tW2_status, "mc_truth_tW2_status/I", buffersize);
 	tree->Branch("mc_truth_tWnu2_status", &mc_truth_tWnu2_status, "mc_truth_tWnu2_status/I", buffersize);
@@ -3670,6 +3876,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul2_status", &mc_truth_tWtaul2_status, "mc_truth_tWtaul2_status/I", buffersize);
 	tree->Branch("mc_truth_tWq12_status", &mc_truth_tWq12_status, "mc_truth_tWq12_status/I", buffersize);
 	tree->Branch("mc_truth_tWq22_status", &mc_truth_tWq22_status, "mc_truth_tWq22_status/I", buffersize);
+	tree->Branch("mc_truth_tWq12_IS_status", &mc_truth_tWq12_IS_status, "mc_truth_tWq12_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tWq22_IS_status", &mc_truth_tWq22_IS_status, "mc_truth_tWq22_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_j1_status", &mc_truth_j1_status, "mc_truth_j1_status/I", buffersize);
 	tree->Branch("mc_truth_j2_status", &mc_truth_j2_status, "mc_truth_j2_status/I", buffersize);
@@ -3696,6 +3904,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     
 	     tree->Branch("mc_truth_t_p4", "TLorentzVector", &mc_truth_t_p4, buffersize);
 	     tree->Branch("mc_truth_tb_p4", "TLorentzVector", &mc_truth_tb_p4, buffersize);
+	     tree->Branch("mc_truth_tb_IS_p4", "TLorentzVector", &mc_truth_tb_IS_p4, buffersize);
 	     tree->Branch("mc_truth_tW_p4", "TLorentzVector", &mc_truth_tW_p4, buffersize);
 	     tree->Branch("mc_truth_tWnu_p4", "TLorentzVector", &mc_truth_tWnu_p4, buffersize);
 	     tree->Branch("mc_truth_tWnutau_p4", "TLorentzVector", &mc_truth_tWnutau_p4, buffersize);
@@ -3706,6 +3915,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_tWtaul_p4", "TLorentzVector", &mc_truth_tWtaul_p4, buffersize);
 	     tree->Branch("mc_truth_tWq1_p4", "TLorentzVector", &mc_truth_tWq1_p4, buffersize);
 	     tree->Branch("mc_truth_tWq2_p4", "TLorentzVector", &mc_truth_tWq2_p4, buffersize);
+	     tree->Branch("mc_truth_tWq1_IS_p4", "TLorentzVector", &mc_truth_tWq1_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tWq2_IS_p4", "TLorentzVector", &mc_truth_tWq2_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_j1_p4", "TLorentzVector", &mc_truth_j1_p4, buffersize);
 	     tree->Branch("mc_truth_j2_p4", "TLorentzVector", &mc_truth_j2_p4, buffersize);
@@ -3726,6 +3937,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 
 	tree->Branch("mc_truth_t_pt", &mc_truth_t_pt, "mc_truth_t_pt/F", buffersize);
 	tree->Branch("mc_truth_tb_pt", &mc_truth_tb_pt, "mc_truth_tb_pt/F", buffersize);
+	tree->Branch("mc_truth_tb_IS_pt", &mc_truth_tb_IS_pt, "mc_truth_tb_IS_pt/F", buffersize);
 	tree->Branch("mc_truth_tW_pt", &mc_truth_tW_pt, "mc_truth_tW_pt/F", buffersize);
 	tree->Branch("mc_truth_tWnu_pt", &mc_truth_tWnu_pt, "mc_truth_tWnu_pt/F", buffersize);
 	tree->Branch("mc_truth_tWnutau_pt", &mc_truth_tWnutau_pt, "mc_truth_tWnutau_pt/F", buffersize);
@@ -3736,6 +3948,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_pt", &mc_truth_tWtaul_pt, "mc_truth_tWtaul_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq1_pt", &mc_truth_tWq1_pt, "mc_truth_tWq1_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq2_pt", &mc_truth_tWq2_pt, "mc_truth_tWq2_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_pt", &mc_truth_tWq1_IS_pt, "mc_truth_tWq1_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_pt", &mc_truth_tWq2_IS_pt, "mc_truth_tWq2_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_j1_pt", &mc_truth_j1_pt, "mc_truth_j1_pt/F", buffersize);
 	tree->Branch("mc_truth_j2_pt", &mc_truth_j2_pt, "mc_truth_j2_pt/F", buffersize);
@@ -3755,6 +3969,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 
 	tree->Branch("mc_truth_t_eta", &mc_truth_t_eta, "mc_truth_t_eta/F", buffersize);
 	tree->Branch("mc_truth_tb_eta", &mc_truth_tb_eta, "mc_truth_tb_eta/F", buffersize);
+	tree->Branch("mc_truth_tb_IS_eta", &mc_truth_tb_IS_eta, "mc_truth_tb_IS_eta/F", buffersize);
 	tree->Branch("mc_truth_tW_eta", &mc_truth_tW_eta, "mc_truth_tW_eta/F", buffersize);
 	tree->Branch("mc_truth_tWnu_eta", &mc_truth_tWnu_eta, "mc_truth_tWnu_eta/F", buffersize);
 	tree->Branch("mc_truth_tWnutau_eta", &mc_truth_tWnutau_eta, "mc_truth_tWnutau_eta/F", buffersize);
@@ -3765,6 +3980,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_eta", &mc_truth_tWtaul_eta, "mc_truth_tWtaul_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq1_eta", &mc_truth_tWq1_eta, "mc_truth_tWq1_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq2_eta", &mc_truth_tWq2_eta, "mc_truth_tWq2_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_eta", &mc_truth_tWq1_IS_eta, "mc_truth_tWq1_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_eta", &mc_truth_tWq2_IS_eta, "mc_truth_tWq2_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_j1_eta", &mc_truth_j1_eta, "mc_truth_j1_eta/F", buffersize);
 	tree->Branch("mc_truth_j2_eta", &mc_truth_j2_eta, "mc_truth_j2_eta/F", buffersize);
@@ -3784,6 +4001,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 
 	tree->Branch("mc_truth_t_phi", &mc_truth_t_phi, "mc_truth_t_phi/F", buffersize);
 	tree->Branch("mc_truth_tb_phi", &mc_truth_tb_phi, "mc_truth_tb_phi/F", buffersize);
+	tree->Branch("mc_truth_tb_IS_phi", &mc_truth_tb_IS_phi, "mc_truth_tb_IS_phi/F", buffersize);
 	tree->Branch("mc_truth_tW_phi", &mc_truth_tW_phi, "mc_truth_tW_phi/F", buffersize);
 	tree->Branch("mc_truth_tWnu_phi", &mc_truth_tWnu_phi, "mc_truth_tWnu_phi/F", buffersize);
 	tree->Branch("mc_truth_tWnutau_phi", &mc_truth_tWnutau_phi, "mc_truth_tWnutau_phi/F", buffersize);
@@ -3794,6 +4012,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_phi", &mc_truth_tWtaul_phi, "mc_truth_tWtaul_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq1_phi", &mc_truth_tWq1_phi, "mc_truth_tWq1_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq2_phi", &mc_truth_tWq2_phi, "mc_truth_tWq2_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_phi", &mc_truth_tWq1_IS_phi, "mc_truth_tWq1_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_phi", &mc_truth_tWq2_IS_phi, "mc_truth_tWq2_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_j1_phi", &mc_truth_j1_phi, "mc_truth_j1_phi/F", buffersize);
 	tree->Branch("mc_truth_j2_phi", &mc_truth_j2_phi, "mc_truth_j2_phi/F", buffersize);
@@ -3813,6 +4033,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 
 	tree->Branch("mc_truth_t_E", &mc_truth_t_E, "mc_truth_t_E/F", buffersize);
 	tree->Branch("mc_truth_tb_E", &mc_truth_tb_E, "mc_truth_tb_E/F", buffersize);
+	tree->Branch("mc_truth_tb_IS_E", &mc_truth_tb_IS_E, "mc_truth_tb_IS_E/F", buffersize);
 	tree->Branch("mc_truth_tW_E", &mc_truth_tW_E, "mc_truth_tW_E/F", buffersize);
 	tree->Branch("mc_truth_tWnu_E", &mc_truth_tWnu_E, "mc_truth_tWnu_E/F", buffersize);
 	tree->Branch("mc_truth_tWnutau_E", &mc_truth_tWnutau_E, "mc_truth_tWnutau_E/F", buffersize);
@@ -3823,6 +4044,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_E", &mc_truth_tWtaul_E, "mc_truth_tWtaul_E/F", buffersize);
 	tree->Branch("mc_truth_tWq1_E", &mc_truth_tWq1_E, "mc_truth_tWq1_E/F", buffersize);
 	tree->Branch("mc_truth_tWq2_E", &mc_truth_tWq2_E, "mc_truth_tWq2_E/F", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_E", &mc_truth_tWq1_IS_E, "mc_truth_tWq1_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_E", &mc_truth_tWq2_IS_E, "mc_truth_tWq2_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_j1_E", &mc_truth_j1_E, "mc_truth_j1_E/F", buffersize);
 	tree->Branch("mc_truth_j2_E", &mc_truth_j2_E, "mc_truth_j2_E/F", buffersize);
@@ -3842,6 +4065,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 
 	tree->Branch("mc_truth_t_id", &mc_truth_t_id, "mc_truth_t_id/I", buffersize);
 	tree->Branch("mc_truth_tb_id", &mc_truth_tb_id, "mc_truth_tb_id/I", buffersize);
+	tree->Branch("mc_truth_tb_IS_id", &mc_truth_tb_IS_id, "mc_truth_tb_IS_id/I", buffersize);
 	tree->Branch("mc_truth_tW_id", &mc_truth_tW_id, "mc_truth_tW_id/I", buffersize);
 	tree->Branch("mc_truth_tWnu_id", &mc_truth_tWnu_id, "mc_truth_tWnu_id/I", buffersize);
 	tree->Branch("mc_truth_tWnutau_id", &mc_truth_tWnutau_id, "mc_truth_tWnutau_id/I", buffersize);
@@ -3852,6 +4076,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_id", &mc_truth_tWtaul_id, "mc_truth_tWtaul_id/I", buffersize);
 	tree->Branch("mc_truth_tWq1_id", &mc_truth_tWq1_id, "mc_truth_tWq1_id/I", buffersize);
 	tree->Branch("mc_truth_tWq2_id", &mc_truth_tWq2_id, "mc_truth_tWq2_id/I", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_id", &mc_truth_tWq1_IS_id, "mc_truth_tWq1_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_id", &mc_truth_tWq2_IS_id, "mc_truth_tWq2_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_j1_id", &mc_truth_j1_id, "mc_truth_j1_id/I", buffersize);
 	tree->Branch("mc_truth_j2_id", &mc_truth_j2_id, "mc_truth_j2_id/I", buffersize);
@@ -3871,6 +4097,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 
 	tree->Branch("mc_truth_t_status", &mc_truth_t_status, "mc_truth_t_status/I", buffersize);
 	tree->Branch("mc_truth_tb_status", &mc_truth_tb_status, "mc_truth_tb_status/I", buffersize);
+	tree->Branch("mc_truth_tb_IS_status", &mc_truth_tb_IS_status, "mc_truth_tb_IS_status/I", buffersize);
 	tree->Branch("mc_truth_tW_status", &mc_truth_tW_status, "mc_truth_tW_status/I", buffersize);
 	tree->Branch("mc_truth_tWnu_status", &mc_truth_tWnu_status, "mc_truth_tWnu_status/I", buffersize);
 	tree->Branch("mc_truth_tWnutau_status", &mc_truth_tWnutau_status, "mc_truth_tWnutau_status/I", buffersize);
@@ -3881,6 +4108,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_status", &mc_truth_tWtaul_status, "mc_truth_tWtaul_status/I", buffersize);
 	tree->Branch("mc_truth_tWq1_status", &mc_truth_tWq1_status, "mc_truth_tWq1_status/I", buffersize);
 	tree->Branch("mc_truth_tWq2_status", &mc_truth_tWq2_status, "mc_truth_tWq2_status/I", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_status", &mc_truth_tWq1_IS_status, "mc_truth_tWq1_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_status", &mc_truth_tWq2_IS_status, "mc_truth_tWq2_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_j1_status", &mc_truth_j1_status, "mc_truth_j1_status/I", buffersize);
 	tree->Branch("mc_truth_j2_status", &mc_truth_j2_status, "mc_truth_j2_status/I", buffersize);
@@ -3915,6 +4144,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_h0Wq21_p4", "TLorentzVector", &mc_truth_h0Wq21_p4, buffersize);
 	     tree->Branch("mc_truth_h0Wq12_p4", "TLorentzVector", &mc_truth_h0Wq12_p4, buffersize);
 	     tree->Branch("mc_truth_h0Wq22_p4", "TLorentzVector", &mc_truth_h0Wq22_p4, buffersize);
+	     tree->Branch("mc_truth_h0Wq11_IS_p4", "TLorentzVector", &mc_truth_h0Wq11_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Wq21_IS_p4", "TLorentzVector", &mc_truth_h0Wq21_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Wq12_IS_p4", "TLorentzVector", &mc_truth_h0Wq12_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Wq22_IS_p4", "TLorentzVector", &mc_truth_h0Wq22_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_h0Z1_p4", "TLorentzVector", &mc_truth_h0Z1_p4, buffersize);
 	     tree->Branch("mc_truth_h0Z2_p4", "TLorentzVector", &mc_truth_h0Z2_p4, buffersize);
@@ -3934,6 +4167,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_h0Zq21_p4", "TLorentzVector", &mc_truth_h0Zq21_p4, buffersize);
 	     tree->Branch("mc_truth_h0Zq12_p4", "TLorentzVector", &mc_truth_h0Zq12_p4, buffersize);
 	     tree->Branch("mc_truth_h0Zq22_p4", "TLorentzVector", &mc_truth_h0Zq22_p4, buffersize);
+	     tree->Branch("mc_truth_h0Zq11_IS_p4", "TLorentzVector", &mc_truth_h0Zq11_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Zq21_IS_p4", "TLorentzVector", &mc_truth_h0Zq21_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Zq12_IS_p4", "TLorentzVector", &mc_truth_h0Zq12_IS_p4, buffersize);
+	     tree->Branch("mc_truth_h0Zq22_IS_p4", "TLorentzVector", &mc_truth_h0Zq22_IS_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztau12_p4", "TLorentzVector", &mc_truth_h0Ztau12_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztau22_p4", "TLorentzVector", &mc_truth_h0Ztau22_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztaul12_p4", "TLorentzVector", &mc_truth_h0Ztaul12_p4, buffersize);
@@ -3942,8 +4179,6 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_h0Ztaunu22_p4", "TLorentzVector", &mc_truth_h0Ztaunu22_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztaunutau12_p4", "TLorentzVector", &mc_truth_h0Ztaunutau12_p4, buffersize);
 	     tree->Branch("mc_truth_h0Ztaunutau22_p4", "TLorentzVector", &mc_truth_h0Ztaunutau22_p4, buffersize);
-	     tree->Branch("mc_truth_h0Zq12_p4", "TLorentzVector", &mc_truth_h0Zq12_p4, buffersize);
-	     tree->Branch("mc_truth_h0Zq22_p4", "TLorentzVector", &mc_truth_h0Zq22_p4, buffersize);
 	     tree->Branch("mc_truth_h0Znu11_p4", "TLorentzVector", &mc_truth_h0Znu11_p4, buffersize);
 	     tree->Branch("mc_truth_h0Znu21_p4", "TLorentzVector", &mc_truth_h0Znu21_p4, buffersize);
 	     tree->Branch("mc_truth_h0Znu12_p4", "TLorentzVector", &mc_truth_h0Znu12_p4, buffersize);
@@ -3977,6 +4212,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	     tree->Branch("mc_truth_tWtaul_p4", "TLorentzVector", &mc_truth_tWtaul_p4, buffersize);
 	     tree->Branch("mc_truth_tWq1_p4", "TLorentzVector", &mc_truth_tWq1_p4, buffersize);
 	     tree->Branch("mc_truth_tWq2_p4", "TLorentzVector", &mc_truth_tWq2_p4, buffersize);
+	     tree->Branch("mc_truth_tWq1_IS_p4", "TLorentzVector", &mc_truth_tWq1_IS_p4, buffersize);
+	     tree->Branch("mc_truth_tWq2_IS_p4", "TLorentzVector", &mc_truth_tWq2_IS_p4, buffersize);
 	     
 	     tree->Branch("mc_truth_j1_p4", "TLorentzVector", &mc_truth_j1_p4, buffersize);
 	     tree->Branch("mc_truth_j2_p4", "TLorentzVector", &mc_truth_j2_p4, buffersize);
@@ -4005,6 +4242,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_pt", &mc_truth_h0Wq21_pt, "mc_truth_h0Wq21_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Wq12_pt", &mc_truth_h0Wq12_pt, "mc_truth_h0Wq12_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Wq22_pt", &mc_truth_h0Wq22_pt, "mc_truth_h0Wq22_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_pt", &mc_truth_h0Wq11_IS_pt, "mc_truth_h0Wq11_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_pt", &mc_truth_h0Wq21_IS_pt, "mc_truth_h0Wq21_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_pt", &mc_truth_h0Wq12_IS_pt, "mc_truth_h0Wq12_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_pt", &mc_truth_h0Wq22_IS_pt, "mc_truth_h0Wq22_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_pt", &mc_truth_h0Z1_pt, "mc_truth_h0Z1_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Z2_pt", &mc_truth_h0Z2_pt, "mc_truth_h0Z2_pt/F", buffersize);
@@ -4020,6 +4261,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_pt", &mc_truth_h0Ztaunutau21_pt, "mc_truth_h0Ztaunutau21_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zq11_pt", &mc_truth_h0Zq11_pt, "mc_truth_h0Zq11_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zq21_pt", &mc_truth_h0Zq21_pt, "mc_truth_h0Zq21_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_pt", &mc_truth_h0Zq11_IS_pt, "mc_truth_h0Zq11_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_pt", &mc_truth_h0Zq21_IS_pt, "mc_truth_h0Zq21_IS_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zl12_pt", &mc_truth_h0Zl12_pt, "mc_truth_h0Zl12_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zl22_pt", &mc_truth_h0Zl22_pt, "mc_truth_h0Zl22_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_pt", &mc_truth_h0Ztau12_pt, "mc_truth_h0Ztau12_pt/F", buffersize);
@@ -4032,6 +4275,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_pt", &mc_truth_h0Ztaunutau22_pt, "mc_truth_h0Ztaunutau22_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zq12_pt", &mc_truth_h0Zq12_pt, "mc_truth_h0Zq12_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Zq22_pt", &mc_truth_h0Zq22_pt, "mc_truth_h0Zq22_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_pt", &mc_truth_h0Zq12_IS_pt, "mc_truth_h0Zq12_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_pt", &mc_truth_h0Zq22_IS_pt, "mc_truth_h0Zq22_IS_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Znu11_pt", &mc_truth_h0Znu11_pt, "mc_truth_h0Znu11_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Znu21_pt", &mc_truth_h0Znu21_pt, "mc_truth_h0Znu21_pt/F", buffersize);
 	tree->Branch("mc_truth_h0Znu12_pt", &mc_truth_h0Znu12_pt, "mc_truth_h0Znu12_pt/F", buffersize);
@@ -4065,6 +4310,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_pt", &mc_truth_tWtaul_pt, "mc_truth_tWtaul_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq1_pt", &mc_truth_tWq1_pt, "mc_truth_tWq1_pt/F", buffersize);
 	tree->Branch("mc_truth_tWq2_pt", &mc_truth_tWq2_pt, "mc_truth_tWq2_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_pt", &mc_truth_tWq1_IS_pt, "mc_truth_tWq1_IS_pt/F", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_pt", &mc_truth_tWq2_IS_pt, "mc_truth_tWq2_IS_pt/F", buffersize);
 
 	tree->Branch("mc_truth_j1_pt", &mc_truth_j1_pt, "mc_truth_j1_pt/F", buffersize);
 	tree->Branch("mc_truth_j2_pt", &mc_truth_j2_pt, "mc_truth_j2_pt/F", buffersize);
@@ -4092,6 +4339,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_eta", &mc_truth_h0Wq21_eta, "mc_truth_h0Wq21_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Wq12_eta", &mc_truth_h0Wq12_eta, "mc_truth_h0Wq12_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Wq22_eta", &mc_truth_h0Wq22_eta, "mc_truth_h0Wq22_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_eta", &mc_truth_h0Wq11_IS_eta, "mc_truth_h0Wq11_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_eta", &mc_truth_h0Wq21_IS_eta, "mc_truth_h0Wq21_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_eta", &mc_truth_h0Wq12_IS_eta, "mc_truth_h0Wq12_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_eta", &mc_truth_h0Wq22_IS_eta, "mc_truth_h0Wq22_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_eta", &mc_truth_h0Z1_eta, "mc_truth_h0Z1_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Z2_eta", &mc_truth_h0Z2_eta, "mc_truth_h0Z2_eta/F", buffersize);
@@ -4107,6 +4358,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_eta", &mc_truth_h0Ztaunutau21_eta, "mc_truth_h0Ztaunutau21_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zq11_eta", &mc_truth_h0Zq11_eta, "mc_truth_h0Zq11_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zq21_eta", &mc_truth_h0Zq21_eta, "mc_truth_h0Zq21_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_eta", &mc_truth_h0Zq11_IS_eta, "mc_truth_h0Zq11_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_eta", &mc_truth_h0Zq21_IS_eta, "mc_truth_h0Zq21_IS_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zl12_eta", &mc_truth_h0Zl12_eta, "mc_truth_h0Zl12_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zl22_eta", &mc_truth_h0Zl22_eta, "mc_truth_h0Zl22_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_eta", &mc_truth_h0Ztau12_eta, "mc_truth_h0Ztau12_eta/F", buffersize);
@@ -4119,6 +4372,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_eta", &mc_truth_h0Ztaunutau22_eta, "mc_truth_h0Ztaunutau22_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zq12_eta", &mc_truth_h0Zq12_eta, "mc_truth_h0Zq12_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Zq22_eta", &mc_truth_h0Zq22_eta, "mc_truth_h0Zq22_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_eta", &mc_truth_h0Zq12_IS_eta, "mc_truth_h0Zq12_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_eta", &mc_truth_h0Zq22_IS_eta, "mc_truth_h0Zq22_IS_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Znu11_eta", &mc_truth_h0Znu11_eta, "mc_truth_h0Znu11_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Znu21_eta", &mc_truth_h0Znu21_eta, "mc_truth_h0Znu21_eta/F", buffersize);
 	tree->Branch("mc_truth_h0Znu12_eta", &mc_truth_h0Znu12_eta, "mc_truth_h0Znu12_eta/F", buffersize);
@@ -4152,6 +4407,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_eta", &mc_truth_tWtaul_eta, "mc_truth_tWtaul_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq1_eta", &mc_truth_tWq1_eta, "mc_truth_tWq1_eta/F", buffersize);
 	tree->Branch("mc_truth_tWq2_eta", &mc_truth_tWq2_eta, "mc_truth_tWq2_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_eta", &mc_truth_tWq1_IS_eta, "mc_truth_tWq1_IS_eta/F", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_eta", &mc_truth_tWq2_IS_eta, "mc_truth_tWq2_IS_eta/F", buffersize);
 
 	tree->Branch("mc_truth_j1_eta", &mc_truth_j1_eta, "mc_truth_j1_eta/F", buffersize);
 	tree->Branch("mc_truth_j2_eta", &mc_truth_j2_eta, "mc_truth_j2_eta/F", buffersize);
@@ -4179,6 +4436,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_phi", &mc_truth_h0Wq21_phi, "mc_truth_h0Wq21_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Wq12_phi", &mc_truth_h0Wq12_phi, "mc_truth_h0Wq12_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Wq22_phi", &mc_truth_h0Wq22_phi, "mc_truth_h0Wq22_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_phi", &mc_truth_h0Wq11_IS_phi, "mc_truth_h0Wq11_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_phi", &mc_truth_h0Wq21_IS_phi, "mc_truth_h0Wq21_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_phi", &mc_truth_h0Wq12_IS_phi, "mc_truth_h0Wq12_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_phi", &mc_truth_h0Wq22_IS_phi, "mc_truth_h0Wq22_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_phi", &mc_truth_h0Z1_phi, "mc_truth_h0Z1_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Z2_phi", &mc_truth_h0Z2_phi, "mc_truth_h0Z2_phi/F", buffersize);
@@ -4194,6 +4455,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_phi", &mc_truth_h0Ztaunutau21_phi, "mc_truth_h0Ztaunutau21_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zq11_phi", &mc_truth_h0Zq11_phi, "mc_truth_h0Zq11_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zq21_phi", &mc_truth_h0Zq21_phi, "mc_truth_h0Zq21_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_phi", &mc_truth_h0Zq11_IS_phi, "mc_truth_h0Zq11_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_phi", &mc_truth_h0Zq21_IS_phi, "mc_truth_h0Zq21_IS_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zl12_phi", &mc_truth_h0Zl12_phi, "mc_truth_h0Zl12_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zl22_phi", &mc_truth_h0Zl22_phi, "mc_truth_h0Zl22_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_phi", &mc_truth_h0Ztau12_phi, "mc_truth_h0Ztau12_phi/F", buffersize);
@@ -4206,6 +4469,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_phi", &mc_truth_h0Ztaunutau22_phi, "mc_truth_h0Ztaunutau22_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zq12_phi", &mc_truth_h0Zq12_phi, "mc_truth_h0Zq12_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Zq22_phi", &mc_truth_h0Zq22_phi, "mc_truth_h0Zq22_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_phi", &mc_truth_h0Zq12_IS_phi, "mc_truth_h0Zq12_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_phi", &mc_truth_h0Zq22_IS_phi, "mc_truth_h0Zq22_IS_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Znu11_phi", &mc_truth_h0Znu11_phi, "mc_truth_h0Znu11_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Znu21_phi", &mc_truth_h0Znu21_phi, "mc_truth_h0Znu21_phi/F", buffersize);
 	tree->Branch("mc_truth_h0Znu12_phi", &mc_truth_h0Znu12_phi, "mc_truth_h0Znu12_phi/F", buffersize);
@@ -4239,6 +4504,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_phi", &mc_truth_tWtaul_phi, "mc_truth_tWtaul_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq1_phi", &mc_truth_tWq1_phi, "mc_truth_tWq1_phi/F", buffersize);
 	tree->Branch("mc_truth_tWq2_phi", &mc_truth_tWq2_phi, "mc_truth_tWq2_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_phi", &mc_truth_tWq1_IS_phi, "mc_truth_tWq1_IS_phi/F", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_phi", &mc_truth_tWq2_IS_phi, "mc_truth_tWq2_IS_phi/F", buffersize);
 
 	tree->Branch("mc_truth_j1_phi", &mc_truth_j1_phi, "mc_truth_j1_phi/F", buffersize);
 	tree->Branch("mc_truth_j2_phi", &mc_truth_j2_phi, "mc_truth_j2_phi/F", buffersize);
@@ -4266,6 +4533,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_E", &mc_truth_h0Wq21_E, "mc_truth_h0Wq21_E/F", buffersize);
 	tree->Branch("mc_truth_h0Wq12_E", &mc_truth_h0Wq12_E, "mc_truth_h0Wq12_E/F", buffersize);
 	tree->Branch("mc_truth_h0Wq22_E", &mc_truth_h0Wq22_E, "mc_truth_h0Wq22_E/F", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_E", &mc_truth_h0Wq11_IS_E, "mc_truth_h0Wq11_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_E", &mc_truth_h0Wq21_IS_E, "mc_truth_h0Wq21_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_E", &mc_truth_h0Wq12_IS_E, "mc_truth_h0Wq12_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_E", &mc_truth_h0Wq22_IS_E, "mc_truth_h0Wq22_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_E", &mc_truth_h0Z1_E, "mc_truth_h0Z1_E/F", buffersize);
 	tree->Branch("mc_truth_h0Z2_E", &mc_truth_h0Z2_E, "mc_truth_h0Z2_E/F", buffersize);
@@ -4281,6 +4552,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_E", &mc_truth_h0Ztaunutau21_E, "mc_truth_h0Ztaunutau21_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zq11_E", &mc_truth_h0Zq11_E, "mc_truth_h0Zq11_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zq21_E", &mc_truth_h0Zq21_E, "mc_truth_h0Zq21_E/F", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_E", &mc_truth_h0Zq11_IS_E, "mc_truth_h0Zq11_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_E", &mc_truth_h0Zq21_IS_E, "mc_truth_h0Zq21_IS_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zl12_E", &mc_truth_h0Zl12_E, "mc_truth_h0Zl12_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zl22_E", &mc_truth_h0Zl22_E, "mc_truth_h0Zl22_E/F", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_E", &mc_truth_h0Ztau12_E, "mc_truth_h0Ztau12_E/F", buffersize);
@@ -4293,6 +4566,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_E", &mc_truth_h0Ztaunutau22_E, "mc_truth_h0Ztaunutau22_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zq12_E", &mc_truth_h0Zq12_E, "mc_truth_h0Zq12_E/F", buffersize);
 	tree->Branch("mc_truth_h0Zq22_E", &mc_truth_h0Zq22_E, "mc_truth_h0Zq22_E/F", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_E", &mc_truth_h0Zq12_IS_E, "mc_truth_h0Zq12_IS_E/F", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_E", &mc_truth_h0Zq22_IS_E, "mc_truth_h0Zq22_IS_E/F", buffersize);
 	tree->Branch("mc_truth_h0Znu11_E", &mc_truth_h0Znu11_E, "mc_truth_h0Znu11_E/F", buffersize);
 	tree->Branch("mc_truth_h0Znu21_E", &mc_truth_h0Znu21_E, "mc_truth_h0Znu21_E/F", buffersize);
 	tree->Branch("mc_truth_h0Znu12_E", &mc_truth_h0Znu12_E, "mc_truth_h0Znu12_E/F", buffersize);
@@ -4326,6 +4601,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_E", &mc_truth_tWtaul_E, "mc_truth_tWtaul_E/F", buffersize);
 	tree->Branch("mc_truth_tWq1_E", &mc_truth_tWq1_E, "mc_truth_tWq1_E/F", buffersize);
 	tree->Branch("mc_truth_tWq2_E", &mc_truth_tWq2_E, "mc_truth_tWq2_E/F", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_E", &mc_truth_tWq1_IS_E, "mc_truth_tWq1_IS_E/F", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_E", &mc_truth_tWq2_IS_E, "mc_truth_tWq2_IS_E/F", buffersize);
 
 	tree->Branch("mc_truth_j1_E", &mc_truth_j1_E, "mc_truth_j1_E/F", buffersize);
 	tree->Branch("mc_truth_j2_E", &mc_truth_j2_E, "mc_truth_j2_E/F", buffersize);
@@ -4353,6 +4630,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_id", &mc_truth_h0Wq21_id, "mc_truth_h0Wq21_id/I", buffersize);
 	tree->Branch("mc_truth_h0Wq12_id", &mc_truth_h0Wq12_id, "mc_truth_h0Wq12_id/I", buffersize);
 	tree->Branch("mc_truth_h0Wq22_id", &mc_truth_h0Wq22_id, "mc_truth_h0Wq22_id/I", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_id", &mc_truth_h0Wq11_IS_id, "mc_truth_h0Wq11_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_id", &mc_truth_h0Wq21_IS_id, "mc_truth_h0Wq21_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_id", &mc_truth_h0Wq12_IS_id, "mc_truth_h0Wq12_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_id", &mc_truth_h0Wq22_IS_id, "mc_truth_h0Wq22_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_id", &mc_truth_h0Z1_id, "mc_truth_h0Z1_id/I", buffersize);
 	tree->Branch("mc_truth_h0Z2_id", &mc_truth_h0Z2_id, "mc_truth_h0Z2_id/I", buffersize);
@@ -4368,6 +4649,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_id", &mc_truth_h0Ztaunutau21_id, "mc_truth_h0Ztaunutau21_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zq11_id", &mc_truth_h0Zq11_id, "mc_truth_h0Zq11_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zq21_id", &mc_truth_h0Zq21_id, "mc_truth_h0Zq21_id/I", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_id", &mc_truth_h0Zq11_IS_id, "mc_truth_h0Zq11_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_id", &mc_truth_h0Zq21_IS_id, "mc_truth_h0Zq21_IS_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zl12_id", &mc_truth_h0Zl12_id, "mc_truth_h0Zl12_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zl22_id", &mc_truth_h0Zl22_id, "mc_truth_h0Zl22_id/I", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_id", &mc_truth_h0Ztau12_id, "mc_truth_h0Ztau12_id/I", buffersize);
@@ -4380,6 +4663,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_id", &mc_truth_h0Ztaunutau22_id, "mc_truth_h0Ztaunutau22_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zq12_id", &mc_truth_h0Zq12_id, "mc_truth_h0Zq12_id/I", buffersize);
 	tree->Branch("mc_truth_h0Zq22_id", &mc_truth_h0Zq22_id, "mc_truth_h0Zq22_id/I", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_id", &mc_truth_h0Zq12_IS_id, "mc_truth_h0Zq12_IS_id/I", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_id", &mc_truth_h0Zq22_IS_id, "mc_truth_h0Zq22_IS_id/I", buffersize);
 	tree->Branch("mc_truth_h0Znu11_id", &mc_truth_h0Znu11_id, "mc_truth_h0Znu11_id/I", buffersize);
 	tree->Branch("mc_truth_h0Znu21_id", &mc_truth_h0Znu21_id, "mc_truth_h0Znu21_id/I", buffersize);
 	tree->Branch("mc_truth_h0Znu12_id", &mc_truth_h0Znu12_id, "mc_truth_h0Znu12_id/I", buffersize);
@@ -4413,6 +4698,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_id", &mc_truth_tWtaul_id, "mc_truth_tWtaul_id/I", buffersize);
 	tree->Branch("mc_truth_tWq1_id", &mc_truth_tWq1_id, "mc_truth_tWq1_id/I", buffersize);
 	tree->Branch("mc_truth_tWq2_id", &mc_truth_tWq2_id, "mc_truth_tWq2_id/I", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_id", &mc_truth_tWq1_IS_id, "mc_truth_tWq1_IS_id/I", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_id", &mc_truth_tWq2_IS_id, "mc_truth_tWq2_IS_id/I", buffersize);
 
 	tree->Branch("mc_truth_j1_id", &mc_truth_j1_id, "mc_truth_j1_id/I", buffersize);
 	tree->Branch("mc_truth_j2_id", &mc_truth_j2_id, "mc_truth_j2_id/I", buffersize);
@@ -4440,6 +4727,10 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Wq21_status", &mc_truth_h0Wq21_status, "mc_truth_h0Wq21_status/I", buffersize);
 	tree->Branch("mc_truth_h0Wq12_status", &mc_truth_h0Wq12_status, "mc_truth_h0Wq12_status/I", buffersize);
 	tree->Branch("mc_truth_h0Wq22_status", &mc_truth_h0Wq22_status, "mc_truth_h0Wq22_status/I", buffersize);
+	tree->Branch("mc_truth_h0Wq11_IS_status", &mc_truth_h0Wq11_IS_status, "mc_truth_h0Wq11_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Wq21_IS_status", &mc_truth_h0Wq21_IS_status, "mc_truth_h0Wq21_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Wq12_IS_status", &mc_truth_h0Wq12_IS_status, "mc_truth_h0Wq12_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Wq22_IS_status", &mc_truth_h0Wq22_IS_status, "mc_truth_h0Wq22_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_h0Z1_status", &mc_truth_h0Z1_status, "mc_truth_h0Z1_status/I", buffersize);
 	tree->Branch("mc_truth_h0Z2_status", &mc_truth_h0Z2_status, "mc_truth_h0Z2_status/I", buffersize);
@@ -4455,6 +4746,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau21_status", &mc_truth_h0Ztaunutau21_status, "mc_truth_h0Ztaunutau21_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zq11_status", &mc_truth_h0Zq11_status, "mc_truth_h0Zq11_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zq21_status", &mc_truth_h0Zq21_status, "mc_truth_h0Zq21_status/I", buffersize);
+	tree->Branch("mc_truth_h0Zq11_IS_status", &mc_truth_h0Zq11_IS_status, "mc_truth_h0Zq11_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Zq21_IS_status", &mc_truth_h0Zq21_IS_status, "mc_truth_h0Zq21_IS_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zl12_status", &mc_truth_h0Zl12_status, "mc_truth_h0Zl12_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zl22_status", &mc_truth_h0Zl22_status, "mc_truth_h0Zl22_status/I", buffersize);
 	tree->Branch("mc_truth_h0Ztau12_status", &mc_truth_h0Ztau12_status, "mc_truth_h0Ztau12_status/I", buffersize);
@@ -4467,6 +4760,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_h0Ztaunutau22_status", &mc_truth_h0Ztaunutau22_status, "mc_truth_h0Ztaunutau22_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zq12_status", &mc_truth_h0Zq12_status, "mc_truth_h0Zq12_status/I", buffersize);
 	tree->Branch("mc_truth_h0Zq22_status", &mc_truth_h0Zq22_status, "mc_truth_h0Zq22_status/I", buffersize);
+	tree->Branch("mc_truth_h0Zq12_IS_status", &mc_truth_h0Zq12_IS_status, "mc_truth_h0Zq12_IS_status/I", buffersize);
+	tree->Branch("mc_truth_h0Zq22_IS_status", &mc_truth_h0Zq22_IS_status, "mc_truth_h0Zq22_IS_status/I", buffersize);
 	tree->Branch("mc_truth_h0Znu11_status", &mc_truth_h0Znu11_status, "mc_truth_h0Znu11_status/I", buffersize);
 	tree->Branch("mc_truth_h0Znu21_status", &mc_truth_h0Znu21_status, "mc_truth_h0Znu21_status/I", buffersize);
 	tree->Branch("mc_truth_h0Znu12_status", &mc_truth_h0Znu12_status, "mc_truth_h0Znu12_status/I", buffersize);
@@ -4500,6 +4795,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("mc_truth_tWtaul_status", &mc_truth_tWtaul_status, "mc_truth_tWtaul_status/I", buffersize);
 	tree->Branch("mc_truth_tWq1_status", &mc_truth_tWq1_status, "mc_truth_tWq1_status/I", buffersize);
 	tree->Branch("mc_truth_tWq2_status", &mc_truth_tWq2_status, "mc_truth_tWq2_status/I", buffersize);
+	tree->Branch("mc_truth_tWq1_IS_status", &mc_truth_tWq1_IS_status, "mc_truth_tWq1_IS_status/I", buffersize);
+	tree->Branch("mc_truth_tWq2_IS_status", &mc_truth_tWq2_IS_status, "mc_truth_tWq2_IS_status/I", buffersize);
 
 	tree->Branch("mc_truth_j1_status", &mc_truth_j1_status, "mc_truth_j1_status/I", buffersize);
 	tree->Branch("mc_truth_j2_status", &mc_truth_j2_status, "mc_truth_j2_status/I", buffersize);

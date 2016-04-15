@@ -1180,6 +1180,10 @@ class FlatTree
    TLorentzVector mc_truth_h0Wq21_p4;
    TLorentzVector mc_truth_h0Wq12_p4;
    TLorentzVector mc_truth_h0Wq22_p4;
+   TLorentzVector mc_truth_h0Wq11_IS_p4;
+   TLorentzVector mc_truth_h0Wq21_IS_p4;
+   TLorentzVector mc_truth_h0Wq12_IS_p4;
+   TLorentzVector mc_truth_h0Wq22_IS_p4;
 
    TLorentzVector mc_truth_h0Z1_p4;
    TLorentzVector mc_truth_h0Z2_p4;
@@ -1195,6 +1199,8 @@ class FlatTree
    TLorentzVector mc_truth_h0Ztaunutau21_p4;
    TLorentzVector mc_truth_h0Zq11_p4;
    TLorentzVector mc_truth_h0Zq21_p4;
+   TLorentzVector mc_truth_h0Zq11_IS_p4;
+   TLorentzVector mc_truth_h0Zq21_IS_p4;
    TLorentzVector mc_truth_h0Zl12_p4;
    TLorentzVector mc_truth_h0Zl22_p4;
    TLorentzVector mc_truth_h0Ztau12_p4;
@@ -1207,6 +1213,8 @@ class FlatTree
    TLorentzVector mc_truth_h0Ztaunutau22_p4;
    TLorentzVector mc_truth_h0Zq12_p4;
    TLorentzVector mc_truth_h0Zq22_p4;
+   TLorentzVector mc_truth_h0Zq12_IS_p4;
+   TLorentzVector mc_truth_h0Zq22_IS_p4;
    TLorentzVector mc_truth_h0Znu11_p4;
    TLorentzVector mc_truth_h0Znu21_p4;
    TLorentzVector mc_truth_h0Znu12_p4;
@@ -1230,6 +1238,8 @@ class FlatTree
    TLorentzVector mc_truth_t2_p4;
    TLorentzVector mc_truth_tb1_p4;
    TLorentzVector mc_truth_tb2_p4;
+   TLorentzVector mc_truth_tb1_IS_p4;
+   TLorentzVector mc_truth_tb2_IS_p4;
 
    TLorentzVector mc_truth_tW1_p4;
    TLorentzVector mc_truth_tWnu1_p4;
@@ -1241,6 +1251,8 @@ class FlatTree
    TLorentzVector mc_truth_tWtaul1_p4;
    TLorentzVector mc_truth_tWq11_p4;
    TLorentzVector mc_truth_tWq21_p4;
+   TLorentzVector mc_truth_tWq11_IS_p4;
+   TLorentzVector mc_truth_tWq21_IS_p4;
 
    TLorentzVector mc_truth_tW2_p4;
    TLorentzVector mc_truth_tWnu2_p4;
@@ -1252,6 +1264,8 @@ class FlatTree
    TLorentzVector mc_truth_tWtaul2_p4;
    TLorentzVector mc_truth_tWq12_p4;
    TLorentzVector mc_truth_tWq22_p4;
+   TLorentzVector mc_truth_tWq12_IS_p4;
+   TLorentzVector mc_truth_tWq22_IS_p4;
 
    TLorentzVector mc_truth_j1_p4;
    TLorentzVector mc_truth_j2_p4;
@@ -1281,6 +1295,10 @@ class FlatTree
    float mc_truth_h0Wq21_pt;
    float mc_truth_h0Wq12_pt;
    float mc_truth_h0Wq22_pt;
+   float mc_truth_h0Wq11_IS_pt;
+   float mc_truth_h0Wq21_IS_pt;
+   float mc_truth_h0Wq12_IS_pt;
+   float mc_truth_h0Wq22_IS_pt;
 
    float mc_truth_h0Z1_pt;
    float mc_truth_h0Z2_pt;
@@ -1296,6 +1314,8 @@ class FlatTree
    float mc_truth_h0Ztaunutau21_pt;
    float mc_truth_h0Zq11_pt;
    float mc_truth_h0Zq21_pt;
+   float mc_truth_h0Zq11_IS_pt;
+   float mc_truth_h0Zq21_IS_pt;
    float mc_truth_h0Zl12_pt;
    float mc_truth_h0Zl22_pt;
    float mc_truth_h0Ztau12_pt;
@@ -1308,6 +1328,8 @@ class FlatTree
    float mc_truth_h0Ztaunutau22_pt;
    float mc_truth_h0Zq12_pt;
    float mc_truth_h0Zq22_pt;
+   float mc_truth_h0Zq12_IS_pt;
+   float mc_truth_h0Zq22_IS_pt;
    float mc_truth_h0Znu11_pt;
    float mc_truth_h0Znu21_pt;
    float mc_truth_h0Znu12_pt;
@@ -1331,6 +1353,8 @@ class FlatTree
    float mc_truth_t2_pt;
    float mc_truth_tb1_pt;
    float mc_truth_tb2_pt;
+   float mc_truth_tb1_IS_pt;
+   float mc_truth_tb2_IS_pt;
 
    float mc_truth_tW1_pt;
    float mc_truth_tWnu1_pt;
@@ -1342,6 +1366,8 @@ class FlatTree
    float mc_truth_tWtaul1_pt;
    float mc_truth_tWq11_pt;
    float mc_truth_tWq21_pt;
+   float mc_truth_tWq11_IS_pt;
+   float mc_truth_tWq21_IS_pt;
 
    float mc_truth_tW2_pt;
    float mc_truth_tWnu2_pt;
@@ -1353,6 +1379,8 @@ class FlatTree
    float mc_truth_tWtaul2_pt;
    float mc_truth_tWq12_pt;
    float mc_truth_tWq22_pt;
+   float mc_truth_tWq12_IS_pt;
+   float mc_truth_tWq22_IS_pt;
 
    float mc_truth_j1_pt;
    float mc_truth_j2_pt;
@@ -1382,6 +1410,10 @@ class FlatTree
    float mc_truth_h0Wq21_eta;
    float mc_truth_h0Wq12_eta;
    float mc_truth_h0Wq22_eta;
+   float mc_truth_h0Wq11_IS_eta;
+   float mc_truth_h0Wq21_IS_eta;
+   float mc_truth_h0Wq12_IS_eta;
+   float mc_truth_h0Wq22_IS_eta;
 
    float mc_truth_h0Z1_eta;
    float mc_truth_h0Z2_eta;
@@ -1397,6 +1429,8 @@ class FlatTree
    float mc_truth_h0Ztaunutau21_eta;
    float mc_truth_h0Zq11_eta;
    float mc_truth_h0Zq21_eta;
+   float mc_truth_h0Zq11_IS_eta;
+   float mc_truth_h0Zq21_IS_eta;
    float mc_truth_h0Zl12_eta;
    float mc_truth_h0Zl22_eta;
    float mc_truth_h0Ztau12_eta;
@@ -1409,6 +1443,8 @@ class FlatTree
    float mc_truth_h0Ztaunutau22_eta;
    float mc_truth_h0Zq12_eta;
    float mc_truth_h0Zq22_eta;
+   float mc_truth_h0Zq12_IS_eta;
+   float mc_truth_h0Zq22_IS_eta;
    float mc_truth_h0Znu11_eta;
    float mc_truth_h0Znu21_eta;
    float mc_truth_h0Znu12_eta;
@@ -1432,6 +1468,8 @@ class FlatTree
    float mc_truth_t2_eta;
    float mc_truth_tb1_eta;
    float mc_truth_tb2_eta;
+   float mc_truth_tb1_IS_eta;
+   float mc_truth_tb2_IS_eta;
 
    float mc_truth_tW1_eta;
    float mc_truth_tWnu1_eta;
@@ -1443,6 +1481,8 @@ class FlatTree
    float mc_truth_tWtaul1_eta;
    float mc_truth_tWq11_eta;
    float mc_truth_tWq21_eta;
+   float mc_truth_tWq11_IS_eta;
+   float mc_truth_tWq21_IS_eta;
 
    float mc_truth_tW2_eta;
    float mc_truth_tWnu2_eta;
@@ -1454,6 +1494,8 @@ class FlatTree
    float mc_truth_tWtaul2_eta;
    float mc_truth_tWq12_eta;
    float mc_truth_tWq22_eta;
+   float mc_truth_tWq12_IS_eta;
+   float mc_truth_tWq22_IS_eta;
 
    float mc_truth_j1_eta;
    float mc_truth_j2_eta;
@@ -1483,6 +1525,10 @@ class FlatTree
    float mc_truth_h0Wq21_phi;
    float mc_truth_h0Wq12_phi;
    float mc_truth_h0Wq22_phi;
+   float mc_truth_h0Wq11_IS_phi;
+   float mc_truth_h0Wq21_IS_phi;
+   float mc_truth_h0Wq12_IS_phi;
+   float mc_truth_h0Wq22_IS_phi;
 
    float mc_truth_h0Z1_phi;
    float mc_truth_h0Z2_phi;
@@ -1498,6 +1544,8 @@ class FlatTree
    float mc_truth_h0Ztaunutau21_phi;
    float mc_truth_h0Zq11_phi;
    float mc_truth_h0Zq21_phi;
+   float mc_truth_h0Zq11_IS_phi;
+   float mc_truth_h0Zq21_IS_phi;
    float mc_truth_h0Zl12_phi;
    float mc_truth_h0Zl22_phi;
    float mc_truth_h0Ztau12_phi;
@@ -1510,6 +1558,8 @@ class FlatTree
    float mc_truth_h0Ztaunutau22_phi;
    float mc_truth_h0Zq12_phi;
    float mc_truth_h0Zq22_phi;
+   float mc_truth_h0Zq12_IS_phi;
+   float mc_truth_h0Zq22_IS_phi;
    float mc_truth_h0Znu11_phi;
    float mc_truth_h0Znu21_phi;
    float mc_truth_h0Znu12_phi;
@@ -1533,6 +1583,8 @@ class FlatTree
    float mc_truth_t2_phi;
    float mc_truth_tb1_phi;
    float mc_truth_tb2_phi;
+   float mc_truth_tb1_IS_phi;
+   float mc_truth_tb2_IS_phi;
 
    float mc_truth_tW1_phi;
    float mc_truth_tWnu1_phi;
@@ -1544,6 +1596,8 @@ class FlatTree
    float mc_truth_tWtaul1_phi;
    float mc_truth_tWq11_phi;
    float mc_truth_tWq21_phi;
+   float mc_truth_tWq11_IS_phi;
+   float mc_truth_tWq21_IS_phi;
 
    float mc_truth_tW2_phi;
    float mc_truth_tWnu2_phi;
@@ -1555,6 +1609,8 @@ class FlatTree
    float mc_truth_tWtaul2_phi;
    float mc_truth_tWq12_phi;
    float mc_truth_tWq22_phi;
+   float mc_truth_tWq12_IS_phi;
+   float mc_truth_tWq22_IS_phi;
 
    float mc_truth_j1_phi;
    float mc_truth_j2_phi;
@@ -1584,6 +1640,10 @@ class FlatTree
    float mc_truth_h0Wq21_E;
    float mc_truth_h0Wq12_E;
    float mc_truth_h0Wq22_E;
+   float mc_truth_h0Wq11_IS_E;
+   float mc_truth_h0Wq21_IS_E;
+   float mc_truth_h0Wq12_IS_E;
+   float mc_truth_h0Wq22_IS_E;
 
    float mc_truth_h0Z1_E;
    float mc_truth_h0Z2_E;
@@ -1599,6 +1659,8 @@ class FlatTree
    float mc_truth_h0Ztaunutau21_E;
    float mc_truth_h0Zq11_E;
    float mc_truth_h0Zq21_E;
+   float mc_truth_h0Zq11_IS_E;
+   float mc_truth_h0Zq21_IS_E;
    float mc_truth_h0Zl12_E;
    float mc_truth_h0Zl22_E;
    float mc_truth_h0Ztau12_E;
@@ -1611,6 +1673,8 @@ class FlatTree
    float mc_truth_h0Ztaunutau22_E;
    float mc_truth_h0Zq12_E;
    float mc_truth_h0Zq22_E;
+   float mc_truth_h0Zq12_IS_E;
+   float mc_truth_h0Zq22_IS_E;
    float mc_truth_h0Znu11_E;
    float mc_truth_h0Znu21_E;
    float mc_truth_h0Znu12_E;
@@ -1634,6 +1698,8 @@ class FlatTree
    float mc_truth_t2_E;
    float mc_truth_tb1_E;
    float mc_truth_tb2_E;
+   float mc_truth_tb1_IS_E;
+   float mc_truth_tb2_IS_E;
 
    float mc_truth_tW1_E;
    float mc_truth_tWnu1_E;
@@ -1645,6 +1711,8 @@ class FlatTree
    float mc_truth_tWtaul1_E;
    float mc_truth_tWq11_E;
    float mc_truth_tWq21_E;
+   float mc_truth_tWq11_IS_E;
+   float mc_truth_tWq21_IS_E;
 
    float mc_truth_tW2_E;
    float mc_truth_tWnu2_E;
@@ -1656,6 +1724,8 @@ class FlatTree
    float mc_truth_tWtaul2_E;
    float mc_truth_tWq12_E;
    float mc_truth_tWq22_E;
+   float mc_truth_tWq12_IS_E;
+   float mc_truth_tWq22_IS_E;
 
    float mc_truth_j1_E;
    float mc_truth_j2_E;
@@ -1685,6 +1755,10 @@ class FlatTree
    int mc_truth_h0Wq21_id;
    int mc_truth_h0Wq12_id;
    int mc_truth_h0Wq22_id;
+   int mc_truth_h0Wq11_IS_id;
+   int mc_truth_h0Wq21_IS_id;
+   int mc_truth_h0Wq12_IS_id;
+   int mc_truth_h0Wq22_IS_id;
 
    int mc_truth_h0Z1_id;
    int mc_truth_h0Z2_id;
@@ -1700,6 +1774,8 @@ class FlatTree
    int mc_truth_h0Ztaunutau21_id;
    int mc_truth_h0Zq11_id;
    int mc_truth_h0Zq21_id;
+   int mc_truth_h0Zq11_IS_id;
+   int mc_truth_h0Zq21_IS_id;
    int mc_truth_h0Zl12_id;
    int mc_truth_h0Zl22_id;
    int mc_truth_h0Ztau12_id;
@@ -1712,6 +1788,8 @@ class FlatTree
    int mc_truth_h0Ztaunutau22_id;
    int mc_truth_h0Zq12_id;
    int mc_truth_h0Zq22_id;
+   int mc_truth_h0Zq12_IS_id;
+   int mc_truth_h0Zq22_IS_id;
    int mc_truth_h0Znu11_id;
    int mc_truth_h0Znu21_id;
    int mc_truth_h0Znu12_id;
@@ -1735,6 +1813,8 @@ class FlatTree
    int mc_truth_t2_id;
    int mc_truth_tb1_id;
    int mc_truth_tb2_id;
+   int mc_truth_tb1_IS_id;
+   int mc_truth_tb2_IS_id;
 
    int mc_truth_tW1_id;
    int mc_truth_tWnu1_id;
@@ -1746,6 +1826,8 @@ class FlatTree
    int mc_truth_tWtaul1_id;
    int mc_truth_tWq11_id;
    int mc_truth_tWq21_id;
+   int mc_truth_tWq11_IS_id;
+   int mc_truth_tWq21_IS_id;
 
    int mc_truth_tW2_id;
    int mc_truth_tWnu2_id;
@@ -1757,6 +1839,8 @@ class FlatTree
    int mc_truth_tWtaul2_id;
    int mc_truth_tWq12_id;
    int mc_truth_tWq22_id;
+   int mc_truth_tWq12_IS_id;
+   int mc_truth_tWq22_IS_id;
 
    int mc_truth_j1_id;
    int mc_truth_j2_id;
@@ -1786,6 +1870,10 @@ class FlatTree
    int mc_truth_h0Wq21_status;
    int mc_truth_h0Wq12_status;
    int mc_truth_h0Wq22_status;
+   int mc_truth_h0Wq11_IS_status;
+   int mc_truth_h0Wq21_IS_status;
+   int mc_truth_h0Wq12_IS_status;
+   int mc_truth_h0Wq22_IS_status;
 
    int mc_truth_h0Z1_status;
    int mc_truth_h0Z2_status;
@@ -1801,6 +1889,8 @@ class FlatTree
    int mc_truth_h0Ztaunutau21_status;
    int mc_truth_h0Zq11_status;
    int mc_truth_h0Zq21_status;
+   int mc_truth_h0Zq11_IS_status;
+   int mc_truth_h0Zq21_IS_status;
    int mc_truth_h0Zl12_status;
    int mc_truth_h0Zl22_status;
    int mc_truth_h0Ztau12_status;
@@ -1813,6 +1903,8 @@ class FlatTree
    int mc_truth_h0Ztaunutau22_status;
    int mc_truth_h0Zq12_status;
    int mc_truth_h0Zq22_status;
+   int mc_truth_h0Zq12_IS_status;
+   int mc_truth_h0Zq22_IS_status;
    int mc_truth_h0Znu11_status;
    int mc_truth_h0Znu21_status;
    int mc_truth_h0Znu12_status;
@@ -1836,6 +1928,8 @@ class FlatTree
    int mc_truth_t2_status;
    int mc_truth_tb1_status;
    int mc_truth_tb2_status;
+   int mc_truth_tb1_IS_status;
+   int mc_truth_tb2_IS_status;
 
    int mc_truth_tW1_status;
    int mc_truth_tWnu1_status;
@@ -1847,6 +1941,8 @@ class FlatTree
    int mc_truth_tWtaul1_status;
    int mc_truth_tWq11_status;
    int mc_truth_tWq21_status;
+   int mc_truth_tWq11_IS_status;
+   int mc_truth_tWq21_IS_status;
 
    int mc_truth_tW2_status;
    int mc_truth_tWnu2_status;
@@ -1858,6 +1954,8 @@ class FlatTree
    int mc_truth_tWtaul2_status;
    int mc_truth_tWq12_status;
    int mc_truth_tWq22_status;
+   int mc_truth_tWq12_IS_status;
+   int mc_truth_tWq22_IS_status;
 
    int mc_truth_j1_status;
    int mc_truth_j2_status;
@@ -1892,6 +1990,8 @@ class FlatTree
    TLorentzVector mc_truth_Ztaunutau2_p4;
    TLorentzVector mc_truth_Zq1_p4;
    TLorentzVector mc_truth_Zq2_p4;
+   TLorentzVector mc_truth_Zq1_IS_p4;
+   TLorentzVector mc_truth_Zq2_IS_p4;
    TLorentzVector mc_truth_Znu1_p4;
    TLorentzVector mc_truth_Znu2_p4;
 
@@ -1905,6 +2005,8 @@ class FlatTree
    TLorentzVector mc_truth_Wnutau_p4;
    TLorentzVector mc_truth_Wq1_p4;
    TLorentzVector mc_truth_Wq2_p4;
+   TLorentzVector mc_truth_Wq1_IS_p4;
+   TLorentzVector mc_truth_Wq2_IS_p4;
    
    TLorentzVector mc_truth_t_p4;
    TLorentzVector mc_truth_tb_p4;
@@ -1919,6 +2021,8 @@ class FlatTree
    TLorentzVector mc_truth_tWtaul_p4;
    TLorentzVector mc_truth_tWq1_p4;
    TLorentzVector mc_truth_tWq2_p4;
+   TLorentzVector mc_truth_tWq1_IS_p4;
+   TLorentzVector mc_truth_tWq2_IS_p4;
 
    // pdgId
 
@@ -1946,6 +2050,8 @@ class FlatTree
    int mc_truth_Ztaunutau2_id;
    int mc_truth_Zq1_id;
    int mc_truth_Zq2_id;
+   int mc_truth_Zq1_IS_id;
+   int mc_truth_Zq2_IS_id;
    int mc_truth_Znu1_id;
    int mc_truth_Znu2_id;
 
@@ -1959,6 +2065,8 @@ class FlatTree
    int mc_truth_Wnutau_id;
    int mc_truth_Wq1_id;
    int mc_truth_Wq2_id;
+   int mc_truth_Wq1_IS_id;
+   int mc_truth_Wq2_IS_id;
    
    int mc_truth_t_id;
    int mc_truth_tb_id;
@@ -1973,6 +2081,8 @@ class FlatTree
    int mc_truth_tWtaul_id;
    int mc_truth_tWq1_id;
    int mc_truth_tWq2_id;
+   int mc_truth_tWq1_IS_id;
+   int mc_truth_tWq2_IS_id;
 
    // pt
 
@@ -2000,6 +2110,8 @@ class FlatTree
    float mc_truth_Ztaunutau2_pt;
    float mc_truth_Zq1_pt;
    float mc_truth_Zq2_pt;
+   float mc_truth_Zq1_IS_pt;
+   float mc_truth_Zq2_IS_pt;
    float mc_truth_Znu1_pt;
    float mc_truth_Znu2_pt;
 
@@ -2013,6 +2125,8 @@ class FlatTree
    float mc_truth_Wnutau_pt;
    float mc_truth_Wq1_pt;
    float mc_truth_Wq2_pt;
+   float mc_truth_Wq1_IS_pt;
+   float mc_truth_Wq2_IS_pt;
    
    float mc_truth_t_pt;
    float mc_truth_tb_pt;
@@ -2027,6 +2141,8 @@ class FlatTree
    float mc_truth_tWtaul_pt;
    float mc_truth_tWq1_pt;
    float mc_truth_tWq2_pt;
+   float mc_truth_tWq1_IS_pt;
+   float mc_truth_tWq2_IS_pt;
 
    // eta
 
@@ -2054,6 +2170,8 @@ class FlatTree
    float mc_truth_Ztaunutau2_eta;
    float mc_truth_Zq1_eta;
    float mc_truth_Zq2_eta;
+   float mc_truth_Zq1_IS_eta;
+   float mc_truth_Zq2_IS_eta;
    float mc_truth_Znu1_eta;
    float mc_truth_Znu2_eta;
 
@@ -2067,6 +2185,8 @@ class FlatTree
    float mc_truth_Wnutau_eta;
    float mc_truth_Wq1_eta;
    float mc_truth_Wq2_eta;
+   float mc_truth_Wq1_IS_eta;
+   float mc_truth_Wq2_IS_eta;
    
    float mc_truth_t_eta;
    float mc_truth_tb_eta;
@@ -2081,6 +2201,8 @@ class FlatTree
    float mc_truth_tWtaul_eta;
    float mc_truth_tWq1_eta;
    float mc_truth_tWq2_eta;
+   float mc_truth_tWq1_IS_eta;
+   float mc_truth_tWq2_IS_eta;
    
    // phi
 
@@ -2108,6 +2230,8 @@ class FlatTree
    float mc_truth_Ztaunutau2_phi;
    float mc_truth_Zq1_phi;
    float mc_truth_Zq2_phi;
+   float mc_truth_Zq1_IS_phi;
+   float mc_truth_Zq2_IS_phi;
    float mc_truth_Znu1_phi;
    float mc_truth_Znu2_phi;
 
@@ -2121,6 +2245,8 @@ class FlatTree
    float mc_truth_Wnutau_phi;
    float mc_truth_Wq1_phi;
    float mc_truth_Wq2_phi;
+   float mc_truth_Wq1_IS_phi;
+   float mc_truth_Wq2_IS_phi;
    
    float mc_truth_t_phi;
    float mc_truth_tb_phi;
@@ -2135,6 +2261,8 @@ class FlatTree
    float mc_truth_tWtaul_phi;
    float mc_truth_tWq1_phi;
    float mc_truth_tWq2_phi;
+   float mc_truth_tWq1_IS_phi;
+   float mc_truth_tWq2_IS_phi;
    
    // E
 
@@ -2162,6 +2290,8 @@ class FlatTree
    float mc_truth_Ztaunutau2_E;
    float mc_truth_Zq1_E;
    float mc_truth_Zq2_E;
+   float mc_truth_Zq1_IS_E;
+   float mc_truth_Zq2_IS_E;
    float mc_truth_Znu1_E;
    float mc_truth_Znu2_E;
 
@@ -2175,6 +2305,8 @@ class FlatTree
    float mc_truth_Wnutau_E;
    float mc_truth_Wq1_E;
    float mc_truth_Wq2_E;
+   float mc_truth_Wq1_IS_E;
+   float mc_truth_Wq2_IS_E;
    
    float mc_truth_t_E;
    float mc_truth_tb_E;
@@ -2189,6 +2321,8 @@ class FlatTree
    float mc_truth_tWtaul_E;
    float mc_truth_tWq1_E;
    float mc_truth_tWq2_E;
+   float mc_truth_tWq1_IS_E;
+   float mc_truth_tWq2_IS_E;
    
    // status
 
@@ -2216,6 +2350,8 @@ class FlatTree
    int mc_truth_Ztaunutau2_status;
    int mc_truth_Zq1_status;
    int mc_truth_Zq2_status;
+   int mc_truth_Zq1_IS_status;
+   int mc_truth_Zq2_IS_status;
    int mc_truth_Znu1_status;
    int mc_truth_Znu2_status;
    
@@ -2229,6 +2365,8 @@ class FlatTree
    int mc_truth_Wnutau_status;
    int mc_truth_Wq1_status;
    int mc_truth_Wq2_status;
+   int mc_truth_Wq1_IS_status;
+   int mc_truth_Wq2_IS_status;
    
    int mc_truth_t_status;
    int mc_truth_tb_status;
@@ -2243,6 +2381,8 @@ class FlatTree
    int mc_truth_tWtaul_status;
    int mc_truth_tWq1_status;
    int mc_truth_tWq2_status;
+   int mc_truth_tWq1_IS_status;
+   int mc_truth_tWq2_IS_status;
 
    // gen
    float gen_PVz;
