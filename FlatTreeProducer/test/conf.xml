@@ -686,6 +686,15 @@
     <var name="tau_byLooseIsolationMVA3newDMwLT" save="1"></var>
     <var name="tau_byMediumIsolationMVA3newDMwLT" save="1"></var>
     <var name="tau_byTightIsolationMVA3newDMwLT" save="1"></var>   
+
+    <var name="tau_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03" save="1"></var>
+    <var name="tau_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03" save="1"></var>
+    <var name="tau_byTightCombinedIsolationDeltaBetaCorr3HitsdR03" save="1"></var>
+    <var name="tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT" save="1"></var>
+    <var name="tau_byMediumIsolationMVArun2v1DBdR03oldDMwLT" save="1"></var>
+    <var name="tau_byTightIsolationMVArun2v1DBdR03oldDMwLT" save="1"></var>
+    <var name="tau_byVTightIsolationMVArun2v1DBdR03oldDMwLT" save="1"></var>
+
     <var name="tau_againstMuonLoose3" save="1"></var>
     <var name="tau_againstMuonTight3" save="1"></var>    
     <var name="tau_againstElectronVLooseMVA5" save="1"></var>

@@ -2513,8 +2513,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
    ftree->mu_n = ftree->mu_pt.size();
 
-   // Taus
-   //
+   // ########################
+   // #  _                   #
+   // # | |_ __ _ _   _ ___  #
+   // # | __/ _` | | | / __| #
+   // # | || (_| | |_| \__ \ #
+   // #  \__\__,_|\__,_|___/ #
+   // #                      #
+   // ########################
+
    int nTau = taus->size();
    for(int it=0;it<nTau;it++)
      {
@@ -2569,6 +2576,14 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->tau_byLooseIsolationMVA3newDMwLT.push_back(tau.tauID("byLooseIsolationMVA3newDMwLT"));
         ftree->tau_byMediumIsolationMVA3newDMwLT.push_back(tau.tauID("byMediumIsolationMVA3newDMwLT"));
         ftree->tau_byTightIsolationMVA3newDMwLT.push_back(tau.tauID("byTightIsolationMVA3newDMwLT"));
+
+        ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3HitsdR03"));
+        ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3HitsdR03"));
+        ftree->tau_byTightCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byTightCombinedIsolationDeltaBetaCorr3HitsdR03"));
+        ftree->tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byLooseIsolationMVArun2v1DBdR03oldDMwLT"));
+        ftree->tau_byMediumIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byMediumIsolationMVArun2v1DBdR03oldDMwLT"));
+        ftree->tau_byTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byTightIsolationMVArun2v1DBdR03oldDMwLT"));
+        ftree->tau_byVTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byVTightIsolationMVArun2v1DBdR03oldDMwLT"));
 
         ftree->tau_againstMuonLoose3.push_back(tau.tauID("againstMuonLoose3"));
         ftree->tau_againstMuonTight3.push_back(tau.tauID("againstMuonTight3"));
