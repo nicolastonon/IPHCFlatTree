@@ -22,11 +22,6 @@ git clone https://github.com/IPHC/IPHCFlatTree.git
 # Tools needed for AK10 jet collection
 git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
 
-# Switch to particular release (if you don't want to use the HEAD version)
-cd IPHCFlatTree
-git checkout Akoula-patch3
-cd ../
-
 # Compile the monster
 scram b
 ```
