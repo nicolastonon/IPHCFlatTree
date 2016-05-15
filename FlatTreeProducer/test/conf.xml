@@ -946,5 +946,5 @@
     <var name="pfcand_dz" save="1"></var>
     <var name="pfcand_trackIso" save="1"></var>
     <var name="gen_PVz" save="1" mc="1"></var>
-    <var name="gen_all" save="0" mc="1"></var>
+    <var name="gen_all" save="1" mc="1"></var>
 </variables>
