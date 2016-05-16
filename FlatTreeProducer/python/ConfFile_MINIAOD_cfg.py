@@ -41,7 +41,7 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 if options.isData:
     process.GlobalTag.globaltag = '76X_dataRun2_16Dec2015_v0'
 else:
-    process.GlobalTag.globaltag = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'
+    process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2'
 
 #corName="Fall15_25nsV2_MC"
 #corTag="JetCorrectorParametersCollection_"+corName
