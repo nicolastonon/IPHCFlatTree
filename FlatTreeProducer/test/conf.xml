@@ -113,6 +113,7 @@
     <var name="weight_scale_muR0p5" save="1" mc="1"></var>
     <var name="weight_scale_muR2" save="1" mc="1"></var>
     <var name="mc_pdfweights" save="1" mc="1"></var>
+    <var name="mc_pdfweightIds" save="1" mc="1"></var>
     <var name="mc_id" save="1" mc="1"></var>
     <var name="mc_f1" save="1" mc="1"></var>
     <var name="mc_f2" save="1" mc="1"></var>

@@ -1132,15 +1132,18 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		  ftree->weight_scale_muF2   = (genEventInfo->weight())*(lheEventProduct->weights()[1].wgt)/(lheEventProduct->originalXWGTUP()); // muF = 2   | muR = 1
 		  ftree->weight_scale_muR0p5 = (genEventInfo->weight())*(lheEventProduct->weights()[6].wgt)/(lheEventProduct->originalXWGTUP()); // muF = 1   | muR = 0.5
 		  ftree->weight_scale_muR2   = (genEventInfo->weight())*(lheEventProduct->weights()[3].wgt)/(lheEventProduct->originalXWGTUP()); // muF = 1   | muR = 2
-            }
+	       }
 
-	     for( int w=9;w<9+nPdf_;w++ )
+	     int nPdfAll = lheEventProduct->weights().size();
+	     if( nPdf_ < nPdfAll && nPdf_ >= 0 ) nPdfAll = nPdf_;
+	     for( int w=0;w<nPdfAll;w++ )
 	       {
 		  const LHEEventProduct::WGT& wgt = lheEventProduct->weights().at(w);
 		  ftree->mc_pdfweights.push_back(wgt.wgt);
-            }
-        }
-    }
+		  ftree->mc_pdfweightIds.push_back(wgt.id);
+	       }	     
+	  }
+     }
 
    ftree->mc_weight = mc_weight;
 
