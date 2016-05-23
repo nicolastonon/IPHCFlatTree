@@ -176,6 +176,7 @@ class FlatTree
    float weight_scale_muR2;
    
    std::vector<float> mc_pdfweights;
+   std::vector<std::string> mc_pdfweightIds;
    
    int mc_pu_intime_NumInt;
    int mc_pu_trueNumInt;

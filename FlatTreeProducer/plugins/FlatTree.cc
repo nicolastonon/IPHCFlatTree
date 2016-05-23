@@ -148,6 +148,7 @@ void FlatTree::Init()
    weight_scale_muR0p5 = DEFVAL;
    weight_scale_muR2   = DEFVAL;
    mc_pdfweights.clear();
+   mc_pdfweightIds.clear();
 
    mc_pu_intime_NumInt = DEFVAL;
    mc_pu_trueNumInt = DEFVAL;
@@ -1263,6 +1264,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("weight_scale_muR0p5") ) tree->Branch("weight_scale_muR0p5", &weight_scale_muR0p5, "weight_scale_muR0p5/F", buffersize);
    if( doWrite("weight_scale_muR2"  ) ) tree->Branch("weight_scale_muR2",   &weight_scale_muR2,   "weight_scale_muR2/F", buffersize);
    if( doWrite("mc_pdfweights") ) tree->Branch("mc_pdfweights", "std::vector<float>", &mc_pdfweights, buffersize);
+   if( doWrite("mc_pdfweightIds") ) tree->Branch("mc_pdfweightIds", "std::vector<std::string>", &mc_pdfweightIds, buffersize);
    
    if( doWrite("mc_pu_intime_NumInt") ) tree->Branch("mc_pu_intime_NumInt", &mc_pu_intime_NumInt, "mc_pu_intime_NumInt/I", buffersize);
    if( doWrite("mc_pu_trueNumInt") ) tree->Branch("mc_pu_trueNumInt", &mc_pu_trueNumInt, "mc_pu_trueNumInt/I", buffersize);
