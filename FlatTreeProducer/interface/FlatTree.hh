@@ -170,6 +170,7 @@ class FlatTree
    float mc_scale;
    float mc_ptHat;
 
+   float weight_originalXWGTUP;
    float weight_scale_muF0p5;
    float weight_scale_muF2;
    float weight_scale_muR0p5;

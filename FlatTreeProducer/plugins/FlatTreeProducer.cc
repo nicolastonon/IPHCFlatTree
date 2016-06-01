@@ -1126,6 +1126,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
      {
         if( !isData_ && fillMCScaleWeight_ )
 	  {
+	     ftree->weight_originalXWGTUP = lheEventProduct->originalXWGTUP();
+	     
 	     if( lheEventProduct->weights().size() > 0 )
 	       {
 		  ftree->weight_scale_muF0p5 = (genEventInfo->weight())*(lheEventProduct->weights()[2].wgt)/(lheEventProduct->originalXWGTUP()); // muF = 0.5 | muR = 1

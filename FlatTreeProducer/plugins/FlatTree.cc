@@ -143,6 +143,7 @@ void FlatTree::Init()
    mc_scale = DEFVAL;
    mc_ptHat = DEFVAL;
    
+   weight_originalXWGTUP = DEFVAL;
    weight_scale_muF0p5 = DEFVAL;
    weight_scale_muF2   = DEFVAL;
    weight_scale_muR0p5 = DEFVAL;
@@ -1259,6 +1260,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mc_scale") ) tree->Branch("mc_scale", &mc_scale, "mc_scale/F", buffersize);
    if( doWrite("mc_ptHat") ) tree->Branch("mc_ptHat", &mc_ptHat, "mc_ptHat/F", buffersize);
    
+   if( doWrite("weight_originalXWGTUP") ) tree->Branch("weight_originalXWGTUP", &weight_originalXWGTUP, "weight_originalXWGTUP/F", buffersize);
    if( doWrite("weight_scale_muF0p5") ) tree->Branch("weight_scale_muF0p5", &weight_scale_muF0p5, "weight_scale_muF0p5/F", buffersize);
    if( doWrite("weight_scale_muF2"  ) ) tree->Branch("weight_scale_muF2",   &weight_scale_muF2,   "weight_scale_muF2/F", buffersize);
    if( doWrite("weight_scale_muR0p5") ) tree->Branch("weight_scale_muR0p5", &weight_scale_muR0p5, "weight_scale_muR0p5/F", buffersize);
