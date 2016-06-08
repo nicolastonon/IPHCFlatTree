@@ -8,7 +8,7 @@ Install
 
 ```
 # CMSSW Release
-RELEASE=8_0_4
+RELEASE=8_0_8_patch1
 
 # Setup release
 cmsrel CMSSW_$RELEASE
