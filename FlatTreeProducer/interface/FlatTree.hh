@@ -873,6 +873,9 @@ class FlatTree
    std::vector<float> jet_SSVHP;
    std::vector<float> jet_CMVA;
    std::vector<float> jet_CSVv2;
+   std::vector<float> jet_cMVAv2;
+   std::vector<float> jet_CharmCvsL;
+   std::vector<float> jet_CharmCvsB;
    std::vector<int> jet_partonFlavour;
    std::vector<int> jet_hadronFlavour;
 

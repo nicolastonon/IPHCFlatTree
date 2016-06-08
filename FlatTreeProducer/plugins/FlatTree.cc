@@ -830,6 +830,9 @@ void FlatTree::Init()
    jet_SSVHP.clear();
    jet_CMVA.clear();
    jet_CSVv2.clear();
+   jet_cMVAv2.clear();
+   jet_CharmCvsL.clear();
+   jet_CharmCvsB.clear();
    jet_partonFlavour.clear();
    jet_hadronFlavour.clear();
 
@@ -1942,6 +1945,9 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("jet_SSVHP") ) tree->Branch("jet_SSVHP", "std::vector<float>", &jet_SSVHP, buffersize);
    if( doWrite("jet_CMVA") ) tree->Branch("jet_CMVA", "std::vector<float>", &jet_CMVA, buffersize);
    if( doWrite("jet_CSVv2") ) tree->Branch("jet_CSVv2", "std::vector<float>", &jet_CSVv2, buffersize);
+   if( doWrite("jet_cMVAv2") ) tree->Branch("jet_cMVAv2", "std::vector<float>", &jet_cMVAv2, buffersize);
+   if( doWrite("jet_CharmCvsL") ) tree->Branch("jet_CharmCvsL", "std::vector<float>", &jet_CharmCvsL, buffersize);
+   if( doWrite("jet_CharmCvsB") ) tree->Branch("jet_CharmCvsB", "std::vector<float>", &jet_CharmCvsB, buffersize);
    if( doWrite("jet_partonFlavour") ) tree->Branch("jet_partonFlavour", "std::vector<int>", &jet_partonFlavour, buffersize);
    if( doWrite("jet_hadronFlavour") ) tree->Branch("jet_hadronFlavour", "std::vector<int>", &jet_hadronFlavour, buffersize);
 

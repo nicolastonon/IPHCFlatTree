@@ -727,6 +727,9 @@
     <var name="jet_SSVHP" save="1"></var>
     <var name="jet_CMVA" save="1"></var>
     <var name="jet_CSVv2" save="1"></var>
+    <var name="jet_cMVAv2" save="1"></var>
+    <var name="jet_CharmCvsL" save="1"></var>
+    <var name="jet_CharmCvsB" save="1"></var>
     <var name="jet_partonFlavour" save="1"></var>
     <var name="jet_hadronFlavour" save="1"></var>
     <var name="jet_neutralHadronEnergy" save="1"></var>
