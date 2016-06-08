@@ -1,6 +1,6 @@
 #!/bin/env zsh
 
-tag=RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12
+tag=RunIISpring16MiniAODv2-PUSpring16
 
 wget --no-check-certificate \
 --output-document=samples_MCRUN2.txt \

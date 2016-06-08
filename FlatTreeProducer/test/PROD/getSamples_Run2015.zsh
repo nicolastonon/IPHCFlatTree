@@ -1,6 +1,6 @@
 #!/bin/env zsh
 
-tag=16Dec2015
+tag=Run2016B-PromptReco-v2
 
 wget --no-check-certificate \
 --output-document=samples_Run2015.txt \
