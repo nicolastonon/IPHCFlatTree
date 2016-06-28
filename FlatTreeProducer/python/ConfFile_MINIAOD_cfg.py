@@ -43,51 +43,53 @@ if options.isData:
 else:
     process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2'
 
-#corName="Fall15_25nsV2_MC"
-#corTag="JetCorrectorParametersCollection_"+corName
+corName="Spring16_25nsV3_DATA"
+corTag="JetCorrectorParametersCollection_"+corName
 #if options.isData:
 #    corName="Fall15_25nsV2_DATA"
 #    corTag="JetCorrectorParametersCollection_"+corName
-#dBFile=corName+".db"
-    
-#process.load("CondCore.DBCommon.CondDBCommon_cfi")
-#from CondCore.DBCommon.CondDBSetup_cfi import *
-#process.jec = cms.ESSource("PoolDBESSource",
-#                           DBParameters = cms.PSet(
-#                           messageLevel = cms.untracked.int32(0)
-#                           ),
-#                           timetype = cms.string('runnumber'),
-#                           toGet = cms.VPSet(
-#                           cms.PSet(
-#                                    record = cms.string('JetCorrectionsRecord'),
-#                                    tag    = cms.string(corTag+"_AK4PF"),
-#                                    label  = cms.untracked.string('AK4PF')
-#                                    ),
-#                           cms.PSet(
-#                                    record = cms.string('JetCorrectionsRecord'),
-#                                    tag    = cms.string(corTag+"_AK4PFchs"),
-#                                    label  = cms.untracked.string('AK4PFchs')
-#                                    ),
-#                           cms.PSet(
-#                                    record = cms.string('JetCorrectionsRecord'),
-#                                    tag    = cms.string(corTag+"_AK8PF"),
-#                                    label  = cms.untracked.string('AK8PF')
-#                                    ),
-#                           cms.PSet(
-#                                    record = cms.string('JetCorrectionsRecord'),
-#                                    tag    = cms.string(corTag+"_AK8PFchs"),
-#                                    label  = cms.untracked.string('AK8PFchs')
-#                                    ),
-#                           ),
-#                           connect = cms.string("sqlite_file:"+dBFile)
-#)
-#process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
+dBFile=corName+".db"
+
+if options.isData:
+    process.load("CondCore.CondDB.CondDB_cfi")
+    from CondCore.DBCommon.CondDBSetup_cfi import *
+    process.jec = cms.ESSource("PoolDBESSource",
+                               DBParameters = cms.PSet(
+                               messageLevel = cms.untracked.int32(0)
+                               ),
+                               timetype = cms.string('runnumber'),
+                               toGet = cms.VPSet(
+                               cms.PSet(
+                                        record = cms.string('JetCorrectionsRecord'),
+                                        tag    = cms.string(corTag+"_AK4PF"),
+                                        label  = cms.untracked.string('AK4PF')
+                                        ),
+                               cms.PSet(
+                                        record = cms.string('JetCorrectionsRecord'),
+                                        tag    = cms.string(corTag+"_AK4PFchs"),
+                                        label  = cms.untracked.string('AK4PFchs')
+                                        ),
+                               cms.PSet(
+                                        record = cms.string('JetCorrectionsRecord'),
+                                        tag    = cms.string(corTag+"_AK8PF"),
+                                        label  = cms.untracked.string('AK8PF')
+                                        ),
+                               cms.PSet(
+                                        record = cms.string('JetCorrectionsRecord'),
+                                        tag    = cms.string(corTag+"_AK8PFchs"),
+                                        label  = cms.untracked.string('AK8PFchs')
+                                        ),
+                               ),
+                               connect = cms.string("sqlite_file:"+dBFile)
+    )
+    process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
 
 ### to activate the new JP calibration: using the data base
 if options.isData:
+    #trkProbaCalibTag = "JPcalib_Data80X_2016B_v1"
     trkProbaCalibTag = "JPcalib_Data76X_2015D_v1"
 else:
-    trkProbaCalibTag = "JPcalib_MC76X_25ns_v1"
+    trkProbaCalibTag = "JPcalib_MC800_v1"
     
 process.GlobalTag.toGet = cms.VPSet(
 cms.PSet(record = cms.string("BTagTrackProbability3DRcd"),
@@ -150,20 +152,28 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 
 # MET
 # https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
-process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
-process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
-process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False)
-process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
+#process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
+#process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
+#process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False)
+#process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
 
-process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
-    inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
-    reverseDecision = cms.bool(False)
-)
+process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 
-process.ApplyBaselineHBHEIsoNoiseFilter = cms.EDFilter('BooleanFlagFilter',
-    inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHEIsoNoiseFilterResult'),
-    reverseDecision = cms.bool(False)
-)
+process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+
+#process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
+#    inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
+#    reverseDecision = cms.bool(False)
+#)
+
+#process.ApplyBaselineHBHEIsoNoiseFilter = cms.EDFilter('BooleanFlagFilter',
+#    inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHEIsoNoiseFilterResult'),
+#    reverseDecision = cms.bool(False)
+#)
 
 #####################
 # MET Significance  #
@@ -215,7 +225,9 @@ if options.runQG:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-'/store/mc/RunIIFall15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/021B993B-4DBB-E511-BBA6-008CFA1111B4.root'
+#'/store/mc/RunIIFall15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/021B993B-4DBB-E511-BBA6-008CFA1111B4.root'
+'/store/data/Run2016B/BTagMu/MINIAOD/PromptReco-v2/000/273/158/00000/3828119B-141A-E611-AC12-02163E0119CF.root'
+
             )
 )
 
@@ -262,6 +274,9 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   mvaValuesMap             = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
                   mvaCategoriesMap         = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),
 
+                  BadMuonFilter              = cms.InputTag("BadPFMuonFilter",""),
+                  BadChargedCandidateFilter  = cms.InputTag("BadChargedCandidateFilter",""),
+                  
                   filterTriggerNames       = cms.untracked.vstring(
                   "*"
 #                  "HLT_DoubleEle24_22_eta2p1_WPLoose_Gsf_v*",
@@ -411,5 +426,8 @@ process.p = cms.Path(
                      process.egmGsfElectronIDSequence+
                      process.METSignificance+
                      process.runQG+
+#                     process.HBHENoiseFilterResultProducer+
+                     process.BadChargedCandidateFilter+
+                     process.BadPFMuonFilter+
                      process.FlatTree
                     )

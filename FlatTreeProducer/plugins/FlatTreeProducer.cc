@@ -176,6 +176,9 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<pat::PackedCandidateCollection> pfcandsToken_;
    edm::EDGetTokenT<reco::ConversionCollection> hConversionsToken_;
 
+   edm::EDGetTokenT<bool> badMuonFilterToken_;
+   edm::EDGetTokenT<bool> badChargedCandidateFilterToken_;
+   
    edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
    edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseCBIdMapToken_;
    edm::EDGetTokenT<edm::ValueMap<bool> > eleMediumCBIdMapToken_;
@@ -855,6 +858,9 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
    bsToken_              = consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("bsInput"));
    pfcandsToken_         = consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("pfcandsInput"));
    hConversionsToken_    = consumes<reco::ConversionCollection>(iConfig.getParameter<edm::InputTag>("hConversionsInput"));
+
+   badMuonFilterToken_   = consumes<bool>(iConfig.getParameter<edm::InputTag>("BadMuonFilter"));
+   badChargedCandidateFilterToken_ = consumes<bool>(iConfig.getParameter<edm::InputTag>("BadChargedCandidateFilter"));
    
    eleVetoCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
    eleLooseCBIdMapToken_   = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
@@ -952,6 +958,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    iEvent.getByToken(triggerBits_,triggerBits);
    const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
 
+   edm::Handle<bool> badMuonFilter;
+   edm::Handle<bool> badChargedCandidateFilter;
+
+   iEvent.getByToken(badMuonFilterToken_,badMuonFilter);
+   iEvent.getByToken(badChargedCandidateFilterToken_,badChargedCandidateFilter);
+   
    edm::Handle<edm::TriggerResults> triggerBitsPAT;
    iEvent.getByToken(triggerBitsPAT_,triggerBitsPAT);
    edm::TriggerNames namesPAT;   
@@ -1265,13 +1277,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #########################################
    //
    bool passMETFilters = 1;
-   bool pass_CSCTightHalo2015Filter = 1;
    bool pass_HBHENoiseFilter = 1;
    bool pass_HBHENoiseIsoFilter = 1;
    bool pass_EcalDeadCellTriggerPrimitiveFilter = 1;
    bool pass_goodVertices = 1;
    bool pass_eeBadScFilter = 1;
+   bool pass_globalTightHalo2016Filter = 1;
 
+   bool pass_badMuonFilter = *badMuonFilter;
+   bool pass_badChargedCandidateFilter = *badChargedCandidateFilter;
+   
    if( triggerBitsPAT.isValid() )
      {	
 	for (unsigned int i = 0, n = triggerBitsPAT->size(); i < n; ++i)
@@ -1280,11 +1295,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     
 	     bool isFired = (triggerBitsPAT->accept(i) ? true : false);
 	     
-	     if( strcmp(triggerName.c_str(),"Flag_CSCTightHalo2015Filter") == 0 )
-	       {
-		  if( !isFired ) pass_CSCTightHalo2015Filter = 0;
-	       }
-	     else if( strcmp(triggerName.c_str(),"Flag_HBHENoiseFilter") == 0 )
+	     if( strcmp(triggerName.c_str(),"Flag_HBHENoiseFilter") == 0 )
 	       {
 		  if( !isFired ) pass_HBHENoiseFilter = 0;
 	       }
@@ -1304,15 +1315,21 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	       {
 		  if( !isFired ) pass_eeBadScFilter = 0;
 	       }
+	     else if( strcmp(triggerName.c_str(),"Flag_globalTightHalo2016Filter") == 0 )
+	       {
+		  if( !isFired ) pass_globalTightHalo2016Filter = 0;
+	       }
 	  }
      }
-
-   passMETFilters = (pass_CSCTightHalo2015Filter &&
-		     pass_HBHENoiseFilter &&
+   
+   passMETFilters = (pass_HBHENoiseFilter &&
 		     pass_HBHENoiseIsoFilter &&
 		     pass_EcalDeadCellTriggerPrimitiveFilter &&
 		     pass_goodVertices && 
-		     pass_eeBadScFilter);
+		     pass_eeBadScFilter &&
+		     pass_globalTightHalo2016Filter &&
+		     pass_badMuonFilter &&
+		     pass_badChargedCandidateFilter);
 
    //std::cout << "\n === TRIGGER PATHS === " << std::endl;
    for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i)
