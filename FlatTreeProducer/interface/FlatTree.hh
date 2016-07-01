@@ -19,15 +19,27 @@ class FlatTree
 {
  public:
 
-   FlatTree(TTree* _tree) {tree = _tree;};
+   FlatTree(TTree* _tree);
+   
    TTree* tree;
 
+   //-- Preselection --//
    int n_presel_jets;
    int n_presel_btag;
-   int n_presel_electron;
-   int n_presel_muon;
+   int n_presel_electrons;
+   int n_presel_muons;
    int n_presel_tau;
 
+   int n_presel_jets_min;
+   int n_presel_electrons_min;
+   int n_presel_muons_min;
+   int n_presel_leptons_min;
+   int presel_MET_min;
+   
+   //decide if we skip events according to preselection
+   bool apply_presel;
+   //--------------------- //
+   
    std::map<std::string, bool> conf;
    t_map keep_conf;
 

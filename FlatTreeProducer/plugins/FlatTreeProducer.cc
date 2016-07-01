@@ -250,9 +250,13 @@ void FlatTreeProducer::AddValue(const std::string& name)
      {
         ftree->n_presel_jets += 1;
     }
-   else if( !name.compare("n_presel_electron") )
+   else if( !name.compare("n_presel_electrons") )
      {
-        ftree->n_presel_electron += 1;
+        ftree->n_presel_electrons += 1;
+    }
+   else if( !name.compare("n_presel_muons") )
+     {
+        ftree->n_presel_muons += 1;
     }
 }
 
@@ -349,23 +353,39 @@ template <typename T>
   void FlatTreeProducer::CheckJet(const std::vector<T>& vJetPt, const std::string& jetpt, const std::vector<T>& vJetEta, const std::string& jeteta, const std::string& algo)
 {
    std::map<std::string, std::map<std::string, boost::any> > keep_conf = ftree->keep_conf;
+  
+   /*for(auto it = keep_conf.cbegin(); it != keep_conf.cend(); ++it)
+       std::cout << it->first << " " << std::endl;
+   */
+   
+   //-- check that vJetPt and vJetEta have the same size
+   if(vJetPt.size()!=vJetEta.size()){
+   	std::cerr<<" CheckJet: pt and eta vectors have different sizes !  - Function not applied" <<std::endl;
+   	return ;
+   }
+
    if( keep_conf.find(jetpt) != keep_conf.end() )
      {
         std::map<std::string, boost::any> conf_pt = keep_conf[jetpt];
         for( unsigned int i=0;i<vJetPt.size();++i )
 	  {
+	     //std::cout<<"pt = "<<vJetPt[i]<<std::endl;
 	     if( isInt(conf_pt["cut_min"]) )
 	       {
+	       	//std::cout<<"pass"<<std::endl;
 		  if( vJetPt[i] > boost::any_cast<int>(conf_pt["cut_min"]) )
 		    {
+		      //std::cout<<"here too .."<<std::endl;
 		       if( keep_conf.find(jeteta) != keep_conf.end() )
 			 {
 			    std::map<std::string, boost::any> conf_eta = keep_conf[jeteta];
-			    for( unsigned int i=0;i<vJetEta.size();++i )
-			      {
+			    //for( unsigned int i=0;i<vJetEta.size();++i )
+			     // {
 				 if( isInt(conf_eta["cut_max"]) )
+				 //@EC@
+				 //if( isFloat(conf_eta["cut_max"]) )
 				   {
-				      if( vJetEta[i] < boost::any_cast<int>(conf_eta["cut_max"]) )
+				      if( fabs(vJetEta[i]) < boost::any_cast<int>(conf_eta["cut_max"]) )
 					{
 					   if( !algo.empty() )
 					     {
@@ -384,7 +404,7 @@ template <typename T>
 						AddValue("n_presel_jets");
                                     }
                                 }
-                            }
+                            //}
 				 else
 				   {
 				      std::cout << "'jet_pt' : 'cut_min' is a type 'int', 'jet_eta' : 'cut_max' cannot be a 'float'." << std::endl;
@@ -406,11 +426,9 @@ template <typename T>
 		       if( keep_conf.find(jeteta) != keep_conf.end() )
 			 {
 			    std::map<std::string, boost::any> conf_eta = keep_conf[jeteta];
-			    for( unsigned int i=0;i<vJetEta.size();++i )
-			      {
 				 if( isFloat(conf_eta["cut_max"]) )
 				   {
-				      if( vJetEta[i] < boost::any_cast<float>(conf_eta["cut_max"]) )
+				      if( fabs(vJetEta[i]) < boost::any_cast<float>(conf_eta["cut_max"]) )
 					{
 					   if( !algo.empty() )
 					     {
@@ -435,7 +453,6 @@ template <typename T>
 				      std::cout << "'jet_pt' : 'cut_min' is a type 'float', 'jet_eta' : 'cut_max' cannot be an 'int'." << std::endl;
 				      break;
                             }
-                        }
                     }
 		       else
 			 {
@@ -453,6 +470,11 @@ template <typename T>
 template <typename T>
   void FlatTreeProducer::CheckElectron(const std::vector<T>& vElPt, const std::string& elpt, const std::vector<T>& vElEta, const std::string& eleta)
 {
+   //-- check that vElPt and vElEta have the same size
+   if(vElPt.size()!=vElEta.size()){
+   	std::cerr<<" CheckElectron: pt and eta vectors have different sizes !  - Function not applied" <<std::endl;
+   	return ;
+   }
    std::map<std::string, std::map<std::string, boost::any> > keep_conf = ftree->keep_conf;
    if( keep_conf.find(elpt) != keep_conf.end() )
      {
@@ -466,15 +488,15 @@ template <typename T>
 		       if( keep_conf.find(eleta) != keep_conf.end() )
 			 {
 			    std::map<std::string, boost::any> conf_eta = keep_conf[eleta];
-			    for( unsigned int i=0;i<vElEta.size();++i )
-			      {
+			    //for( unsigned int i=0;i<vElEta.size();++i )
+			     // {
 				 if( isInt(conf_eta["cut_max"]) )
 				   {
-				      if( vElEta[i] < boost::any_cast<int>(conf_eta["cut_max"]) )
+				      if( fabs(vElEta[i]) < boost::any_cast<int>(conf_eta["cut_max"]) )
 					{
-					   AddValue("n_presel_electron");
+					   AddValue("n_presel_electrons");
                                 }
-                            }
+                            //}
 				 else
 				   {
 				      std::cout << "'el_pt' : 'cut_min' is a type 'int', 'el_eta' : 'cut_max' cannot be a 'float'." << std::endl;
@@ -496,13 +518,13 @@ template <typename T>
 		       if( keep_conf.find(eleta) != keep_conf.end() )
 			 {
 			    std::map<std::string, boost::any> conf_eta = keep_conf[eleta];
-			    for( unsigned int i=0;i<vElEta.size();++i )
-			      {
+			    //for( unsigned int i=0;i<vElEta.size();++i )
+			      //{
 				 if( isFloat(conf_eta["cut_max"]) )
 				   {
-				      if( vElEta[i] < boost::any_cast<float>(conf_eta["cut_max"]) )
+				      if( fabs(vElEta[i]) < boost::any_cast<float>(conf_eta["cut_max"]) )
 					{
-					   AddValue("n_presel_electron");
+					   AddValue("n_presel_electrons");
                                 }
                             }
 				 else
@@ -510,7 +532,7 @@ template <typename T>
 				      std::cout << "'el_pt' : 'cut_min' is a type 'float', 'el_eta' : 'cut_max' cannot be an 'int'." << std::endl;
 				      break;
                             }
-                        }
+                        //}
                     }
 		       else
 			 {
@@ -528,11 +550,16 @@ template <typename T>
 template <typename T>
   void FlatTreeProducer::CheckMuon(const std::vector<T>& vMuonPt, const std::string& muonpt, const std::vector<T>& vMuonEta, const std::string& muoneta)
 {
+   //-- check that vMuonPt and vMuonEta have the same size
+   if(vMuonPt.size()!=vMuonEta.size()){
+   	std::cerr<<" CheckMuon: pt and eta vectors have different sizes !  - Function not applied" <<std::endl;
+   	return ;
+   }
    std::map<std::string, std::map<std::string, boost::any> > keep_conf = ftree->keep_conf;
    if( keep_conf.find(muonpt) != keep_conf.end() )
      {
         std::map<std::string, boost::any> conf_pt = keep_conf[muonpt];
-        for( unsigned int i=0;i<vMuonPt.size();++i )
+	for( unsigned int i=0;i<vMuonPt.size();++i )
 	  {
 	     if( isInt(conf_pt["cut_min"]) )
 	       {
@@ -541,13 +568,13 @@ template <typename T>
 		       if( keep_conf.find(muoneta) != keep_conf.end() )
 			 {
 			    std::map<std::string, boost::any> conf_eta = keep_conf[muoneta];
-			    for( unsigned int i=0;i<vMuonEta.size();++i )
-			      {
+			    //for( unsigned int i=0;i<vMuonEta.size();++i )
+			      //{
 				 if( isInt(conf_eta["cut_max"]) )
 				   {
-				      if( vMuonEta[i] < boost::any_cast<int>(conf_eta["cut_max"]) )
+				      if( fabs(vMuonEta[i]) < boost::any_cast<int>(conf_eta["cut_max"]) )
 					{
-					   AddValue("n_presel_electron");
+					   AddValue("n_presel_muons");
                                 }
                             }
 				 else
@@ -555,7 +582,7 @@ template <typename T>
 				      std::cout << "'mu_pt' : 'cut_min' is a type 'int', 'mu_eta' : 'cut_max' cannot be a 'float'." << std::endl;
 				      break;
                             }
-                        }
+                        //}
                     }
 		       else
 			 {
@@ -571,13 +598,13 @@ template <typename T>
 		       if( keep_conf.find(muoneta) != keep_conf.end() )
 			 {
 			    std::map<std::string, boost::any> conf_eta = keep_conf[muoneta];
-			    for( unsigned int i=0;i<vMuonEta.size();++i )
-			      {
+			    //for( unsigned int i=0;i<vMuonEta.size();++i )
+			     // {
 				 if( isFloat(conf_eta["cut_max"]) )
 				   {
-				      if( vMuonEta[i] < boost::any_cast<float>(conf_eta["cut_max"]) )
+				      if( fabs(vMuonEta[i]) < boost::any_cast<float>(conf_eta["cut_max"]) )
 					{
-					   AddValue("n_presel_electron");
+					   AddValue("n_presel_muons");
                                 }
                             }
 				 else
@@ -585,7 +612,7 @@ template <typename T>
 				      std::cout << "'mu_pt' : 'cut_min' is a type 'float', 'mu_eta' : 'cut_max' cannot be an 'int'." << std::endl;
 				      break;
                             }
-                        }
+                        //}
                     }
 		       else
 			 {
@@ -691,7 +718,35 @@ void FlatTreeProducer::fillCutVector(const char* cut_type, std::string& cut_valu
 void FlatTreeProducer::ReadConfFile(const std::string& confFile)
 {
    xmlconf.LoadFile(confFile.c_str());
-   XMLElement* tElement = xmlconf.FirstChildElement("variables")->FirstChildElement("var");
+
+   //-----------------------------
+   //-- Read preselection section
+   //-----------------------------
+   XMLElement* tElement = xmlconf.FirstChildElement("preselection")->FirstChildElement("obj");
+   
+   for( XMLElement* child=tElement;child!=0;child=child->NextSiblingElement() )
+     {
+        const std::string& obj = child->ToElement()->Attribute("name");
+        const std::string& min = child->ToElement()->Attribute("min");
+   	int imin = atoi(min.c_str());
+        if(!obj.compare("jet")) 	ftree->n_presel_jets_min=imin; 
+        if(!obj.compare("electron")) 	ftree->n_presel_electrons_min=imin; 
+        if(!obj.compare("lepton")) 	ftree->n_presel_leptons_min=imin; 
+        if(!obj.compare("muon")) 	ftree->n_presel_muons_min=imin; 
+        if(!obj.compare("MET")) 	ftree->presel_MET_min=imin; 
+
+     }
+   tElement = xmlconf.FirstChildElement("preselection")->FirstChildElement("info");
+   const std::string& activ = tElement->ToElement()->Attribute("activate");
+   ftree->apply_presel = (bool) (atoi(activ.c_str()));
+   //std::cout<<activ<<" "<<ftree->apply_presel<<std::endl;
+   //if(ftree->apply_presel) std::cout<<"TEST"<<std::endl;
+
+
+   //-----------------------------
+   //-- Read variables section
+   //-----------------------------
+   tElement = xmlconf.FirstChildElement("variables")->FirstChildElement("var");
 
    std::string vcutmin("");
    std::string vcutmax("");
@@ -882,7 +937,11 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
    // #########################
    //
    std::string confFile = iConfig.getParameter<std::string>("confFile");
-   //   ReadConfFile(confFile);
+   // ------
+   // Read the config file and extract value used to apply preselection
+   // Initially developed by Thibault - Modified by Eric
+   // -----
+   ReadConfFile(confFile);
    int buffersize = iConfig.getParameter<int>("bufferSize");
    if (buffersize <= 0) buffersize = 32000;
 
@@ -2578,14 +2637,17 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits"));
         ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"));
         ftree->tau_byTightCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits"));
-        ftree->tau_byLooseIsolationMVA3newDMwLT.push_back(tau.tauID("byLooseIsolationMVA3newDMwLT"));
-        ftree->tau_byMediumIsolationMVA3newDMwLT.push_back(tau.tauID("byMediumIsolationMVA3newDMwLT"));
-        ftree->tau_byTightIsolationMVA3newDMwLT.push_back(tau.tauID("byTightIsolationMVA3newDMwLT"));
+        //ftree->tau_byLooseIsolationMVA3newDMwLT.push_back(tau.tauID("byLooseIsolationMVA3newDMwLT"));
+        //ftree->tau_byMediumIsolationMVA3newDMwLT.push_back(tau.tauID("byMediumIsolationMVA3newDMwLT"));
+        //ftree->tau_byTightIsolationMVA3newDMwLT.push_back(tau.tauID("byTightIsolationMVA3newDMwLT"));
 
-        ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3HitsdR03"));
+        /*
+	ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3HitsdR03"));
         ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3HitsdR03"));
         ftree->tau_byTightCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byTightCombinedIsolationDeltaBetaCorr3HitsdR03"));
-        ftree->tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byLooseIsolationMVArun2v1DBdR03oldDMwLT"));
+        */
+	/*
+	ftree->tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byLooseIsolationMVArun2v1DBdR03oldDMwLT"));
         ftree->tau_byMediumIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byMediumIsolationMVArun2v1DBdR03oldDMwLT"));
         ftree->tau_byTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byTightIsolationMVArun2v1DBdR03oldDMwLT"));
         ftree->tau_byVTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byVTightIsolationMVArun2v1DBdR03oldDMwLT"));
@@ -2596,6 +2658,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->tau_againstElectronVLooseMVA5.push_back(tau.tauID("againstElectronVLooseMVA5"));
         ftree->tau_againstElectronLooseMVA5.push_back(tau.tauID("againstElectronLooseMVA5"));
         ftree->tau_againstElectronMediumMVA5.push_back(tau.tauID("againstElectronMediumMVA5"));
+	*/
 
         ftree->tau_pfEssential_jet_pt.push_back(tau.pfEssential().p4Jet_.pt());
         ftree->tau_pfEssential_jet_eta.push_back(tau.pfEssential().p4Jet_.eta());
@@ -2652,6 +2715,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    for(int ij=0;ij<nJet;ij++)
      {
         const pat::Jet& jet = jets->at(ij);
+
+        //std::cout<< "jet pt"  << jet.pt() << " jet eta: " << jet.eta() << " jet phi " << jet.phi() << "jet E " << jet.energy() << " jet mass " << jet.mass() << std::endl;
 
         ftree->jet_pt.push_back(jet.pt());
         ftree->jet_eta.push_back(jet.eta());
@@ -3330,8 +3395,30 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
 
    this->KeepEvent();
-   if( (applyMETFilters_ && passMETFilters) || !applyMETFilters_ )
-     ftree->tree->Fill();
+   if( (applyMETFilters_ && passMETFilters) || !applyMETFilters_ ){
+     //std::cout<<"here we are !"<<std::endl;
+     if(ftree->apply_presel){
+        //std::cout<<"apply preselection !"<<std::endl;
+     	//std::cout<<"MET "<<ftree->met_pt<<" "<<ftree->presel_MET_min<<std::endl;
+	if(ftree->n_presel_electrons >= ftree->n_presel_electrons_min &&
+     	   ftree->n_presel_muons >= ftree->n_presel_muons_min &&
+     	   (ftree->n_presel_electrons+ftree->n_presel_muons) >= ftree->n_presel_leptons_min &&
+     	   ftree->n_presel_jets >= ftree->n_presel_jets_min &&
+     	   ftree->met_pt >= ftree->presel_MET_min){
+	        //std::cout<<"pass "<<std::endl;
+		ftree->tree->Fill();
+	}
+     }
+     else{
+     	ftree->tree->Fill();
+     }
+   
+   }
+   /*
+   std::cout<<"nof jets passing the preselection: "<<ftree->n_presel_jets<<std::endl;
+   std::cout<<"nof muons passing the preselection: "<<ftree->n_presel_muons<<std::endl;
+   std::cout<<"nof electrons passing the preselection: "<<ftree->n_presel_electrons<<std::endl;
+   */
 
    delete mc_truth;
 }

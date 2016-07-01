@@ -1,3 +1,12 @@
+<preselection>
+    <info activate="1"></info>
+    <obj name="muon" min="0"></obj>
+    <obj name="electron" min="0"></obj>
+    <obj name="lepton" min="1"></obj>
+    <obj name="jet" min="2"></obj>
+    <obj name="MET" min="150"></obj>
+</preselection>
+
 <variables>
     <var name="ev_run" save="1" desc="Run id"></var>
     <var name="ev_id" save="1" desc="Event id"></var>
@@ -196,8 +205,8 @@
     <var name="triggerobject_pathNamesAll_isLF" save="1"></var>
     <var name="triggerobject_pathNamesAll_isNone" save="1"></var>
     <var name="el_n" save="1"></var>
-    <var name="el_pt" save="1"></var>
-    <var name="el_eta" save="1"></var>
+    <var name="el_pt" save="1" cut_min="20.0"></var>
+    <var name="el_eta" save="1" cut_max="2.5"></var>
     <var name="el_phi" save="1"></var>
     <var name="el_m" save="1"></var>
     <var name="el_E" save="1"></var>
@@ -366,8 +375,8 @@
     <var name="el_genPAT_id" save="1" mc="1"></var>
     <var name="el_genPAT_charge" save="1" mc="1"></var>
     <var name="mu_n" save="1"></var>
-    <var name="mu_pt" save="1"></var>
-    <var name="mu_eta" save="1"></var>
+    <var name="mu_pt" save="1" cut_min="20.0"></var>
+    <var name="mu_eta" save="1" cut_max="2.4"></var>
     <var name="mu_phi" save="1"></var>
     <var name="mu_m" save="1"></var>
     <var name="mu_E" save="1"></var>
@@ -657,8 +666,8 @@
     <var name="mu_genPAT_id" save="1" mc="1"></var>
     <var name="mu_genPAT_charge" save="1" mc="1"></var>
     <var name="jet_n" save="1"></var>
-    <var name="jet_pt" save="1" cut_min="0.0"></var>
-    <var name="jet_eta" save="1" cut_max="75.0"></var>
+    <var name="jet_pt" save="1" cut_min="30.0"></var>
+    <var name="jet_eta" save="1" cut_max="2.4"></var>
     <var name="jet_phi" save="1"></var>
     <var name="jet_m" save="1"></var>
     <var name="jet_E" save="1"></var>
@@ -719,7 +728,7 @@
     <var name="tau_pfEssential_dxy_error" save="1"></var>
     <var name="tau_pfEssential_dxy_Sig" save="1"></var>
     <var name="jet_ntrk" save="1"></var>    
-    <var name="jet_JBP" save="1" cut_algo="3.0"></var>
+    <var name="jet_JBP" save="1"></var>
     <var name="jet_JP" save="1"></var>
     <var name="jet_TCHP" save="1"></var>
     <var name="jet_TCHE" save="1"></var>
@@ -830,8 +839,8 @@
     <var name="jetPuppi_genParton_status" save="0" mc="1"></var>
     <var name="jetPuppi_genParton_id" save="0" mc="1"></var>
     <var name="ak8jet_n" save="0"></var>
-    <var name="ak8jet_pt" save="0" cut_min="0.0"></var>
-    <var name="ak8jet_eta" save="0" cut_max="75.0"></var>
+    <var name="ak8jet_pt" save="0" ></var>
+    <var name="ak8jet_eta" save="0"></var>
     <var name="ak8jet_phi" save="0"></var>
     <var name="ak8jet_m" save="0"></var>
     <var name="ak8jet_E" save="0"></var>
@@ -884,8 +893,8 @@
     <var name="ak8jet_genParton_status" save="0" mc="1"></var>
     <var name="ak8jet_genParton_id" save="0" mc="1"></var>
     <var name="ak10jet_n" save="0"></var>
-    <var name="ak10jet_pt" save="0" cut_min="0.0"></var>
-    <var name="ak10jet_eta" save="0" cut_max="75.0"></var>
+    <var name="ak10jet_pt" save="0" ></var>
+    <var name="ak10jet_eta" save="0"></var>
     <var name="ak10jet_phi" save="0"></var>
     <var name="ak10jet_m" save="0"></var>
     <var name="ak10jet_E" save="0"></var>
