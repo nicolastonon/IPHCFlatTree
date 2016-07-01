@@ -176,6 +176,9 @@ class FlatTreeProducer : public edm::EDAnalyzer
    edm::EDGetTokenT<pat::PackedCandidateCollection> pfcandsToken_;
    edm::EDGetTokenT<reco::ConversionCollection> hConversionsToken_;
 
+   edm::EDGetTokenT<bool> badMuonFilterToken_;
+   edm::EDGetTokenT<bool> badChargedCandidateFilterToken_;
+   
    edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
    edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseCBIdMapToken_;
    edm::EDGetTokenT<edm::ValueMap<bool> > eleMediumCBIdMapToken_;
@@ -910,6 +913,9 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
    bsToken_              = consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("bsInput"));
    pfcandsToken_         = consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("pfcandsInput"));
    hConversionsToken_    = consumes<reco::ConversionCollection>(iConfig.getParameter<edm::InputTag>("hConversionsInput"));
+
+   badMuonFilterToken_   = consumes<bool>(iConfig.getParameter<edm::InputTag>("BadMuonFilter"));
+   badChargedCandidateFilterToken_ = consumes<bool>(iConfig.getParameter<edm::InputTag>("BadChargedCandidateFilter"));
    
    eleVetoCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
    eleLooseCBIdMapToken_   = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
@@ -1011,6 +1017,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    iEvent.getByToken(triggerBits_,triggerBits);
    const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
 
+   edm::Handle<bool> badMuonFilter;
+   edm::Handle<bool> badChargedCandidateFilter;
+
+   iEvent.getByToken(badMuonFilterToken_,badMuonFilter);
+   iEvent.getByToken(badChargedCandidateFilterToken_,badChargedCandidateFilter);
+   
    edm::Handle<edm::TriggerResults> triggerBitsPAT;
    iEvent.getByToken(triggerBitsPAT_,triggerBitsPAT);
    edm::TriggerNames namesPAT;   
@@ -1324,13 +1336,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
    // #########################################
    //
    bool passMETFilters = 1;
-   bool pass_CSCTightHalo2015Filter = 1;
    bool pass_HBHENoiseFilter = 1;
    bool pass_HBHENoiseIsoFilter = 1;
    bool pass_EcalDeadCellTriggerPrimitiveFilter = 1;
    bool pass_goodVertices = 1;
    bool pass_eeBadScFilter = 1;
+   bool pass_globalTightHalo2016Filter = 1;
 
+   bool pass_badMuonFilter = *badMuonFilter;
+   bool pass_badChargedCandidateFilter = *badChargedCandidateFilter;
+   
    if( triggerBitsPAT.isValid() )
      {	
 	for (unsigned int i = 0, n = triggerBitsPAT->size(); i < n; ++i)
@@ -1339,11 +1354,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	     
 	     bool isFired = (triggerBitsPAT->accept(i) ? true : false);
 	     
-	     if( strcmp(triggerName.c_str(),"Flag_CSCTightHalo2015Filter") == 0 )
-	       {
-		  if( !isFired ) pass_CSCTightHalo2015Filter = 0;
-	       }
-	     else if( strcmp(triggerName.c_str(),"Flag_HBHENoiseFilter") == 0 )
+	     if( strcmp(triggerName.c_str(),"Flag_HBHENoiseFilter") == 0 )
 	       {
 		  if( !isFired ) pass_HBHENoiseFilter = 0;
 	       }
@@ -1363,15 +1374,21 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	       {
 		  if( !isFired ) pass_eeBadScFilter = 0;
 	       }
+	     else if( strcmp(triggerName.c_str(),"Flag_globalTightHalo2016Filter") == 0 )
+	       {
+		  if( !isFired ) pass_globalTightHalo2016Filter = 0;
+	       }
 	  }
      }
-
-   passMETFilters = (pass_CSCTightHalo2015Filter &&
-		     pass_HBHENoiseFilter &&
+   
+   passMETFilters = (pass_HBHENoiseFilter &&
 		     pass_HBHENoiseIsoFilter &&
 		     pass_EcalDeadCellTriggerPrimitiveFilter &&
 		     pass_goodVertices && 
-		     pass_eeBadScFilter);
+		     pass_eeBadScFilter &&
+		     pass_globalTightHalo2016Filter &&
+		     pass_badMuonFilter &&
+		     pass_badChargedCandidateFilter);
 
    //std::cout << "\n === TRIGGER PATHS === " << std::endl;
    for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i)
@@ -2637,6 +2654,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits"));
         ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"));
         ftree->tau_byTightCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits"));
+<<<<<<< HEAD
         //ftree->tau_byLooseIsolationMVA3newDMwLT.push_back(tau.tauID("byLooseIsolationMVA3newDMwLT"));
         //ftree->tau_byMediumIsolationMVA3newDMwLT.push_back(tau.tauID("byMediumIsolationMVA3newDMwLT"));
         //ftree->tau_byTightIsolationMVA3newDMwLT.push_back(tau.tauID("byTightIsolationMVA3newDMwLT"));
@@ -2648,6 +2666,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         */
 	/*
 	ftree->tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byLooseIsolationMVArun2v1DBdR03oldDMwLT"));
+=======
+//        ftree->tau_byLooseIsolationMVA3newDMwLT.push_back(tau.tauID("byLooseIsolationMVA3newDMwLT"));
+//        ftree->tau_byMediumIsolationMVA3newDMwLT.push_back(tau.tauID("byMediumIsolationMVA3newDMwLT"));
+//        ftree->tau_byTightIsolationMVA3newDMwLT.push_back(tau.tauID("byTightIsolationMVA3newDMwLT"));
+
+//        ftree->tau_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byLooseCombinedIsolationDeltaBetaCorr3HitsdR03"));
+//        ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3HitsdR03"));
+//        ftree->tau_byTightCombinedIsolationDeltaBetaCorr3HitsdR03.push_back(tau.tauID("byTightCombinedIsolationDeltaBetaCorr3HitsdR03"));
+        ftree->tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byLooseIsolationMVArun2v1DBdR03oldDMwLT"));
+>>>>>>> 95dd816ba0220c26794bfdee0508cb7280caff4b
         ftree->tau_byMediumIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byMediumIsolationMVArun2v1DBdR03oldDMwLT"));
         ftree->tau_byTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byTightIsolationMVArun2v1DBdR03oldDMwLT"));
         ftree->tau_byVTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byVTightIsolationMVArun2v1DBdR03oldDMwLT"));
@@ -2655,10 +2683,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->tau_againstMuonLoose3.push_back(tau.tauID("againstMuonLoose3"));
         ftree->tau_againstMuonTight3.push_back(tau.tauID("againstMuonTight3"));
 
+<<<<<<< HEAD
         ftree->tau_againstElectronVLooseMVA5.push_back(tau.tauID("againstElectronVLooseMVA5"));
         ftree->tau_againstElectronLooseMVA5.push_back(tau.tauID("againstElectronLooseMVA5"));
         ftree->tau_againstElectronMediumMVA5.push_back(tau.tauID("againstElectronMediumMVA5"));
 	*/
+=======
+//        ftree->tau_againstElectronVLooseMVA5.push_back(tau.tauID("againstElectronVLooseMVA5"));
+//        ftree->tau_againstElectronLooseMVA5.push_back(tau.tauID("againstElectronLooseMVA5"));
+//        ftree->tau_againstElectronMediumMVA5.push_back(tau.tauID("againstElectronMediumMVA5"));
+>>>>>>> 95dd816ba0220c26794bfdee0508cb7280caff4b
 
         ftree->tau_pfEssential_jet_pt.push_back(tau.pfEssential().p4Jet_.pt());
         ftree->tau_pfEssential_jet_eta.push_back(tau.pfEssential().p4Jet_.eta());
@@ -2753,6 +2787,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         float CSVIVF = jet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
         ftree->jet_CSVv2.push_back(CSVIVF);
 
+        ftree->jet_cMVAv2.push_back(jet.bDiscriminator("pfCombinedMVAV2BJetTags"));
+	ftree->jet_CharmCvsL.push_back(jet.bDiscriminator("pfCombinedCvsLJetTags"));
+	ftree->jet_CharmCvsB.push_back(jet.bDiscriminator("pfCombinedCvsBJetTags"));
+	
         ftree->jet_partonFlavour.push_back(jet.partonFlavour());
         ftree->jet_hadronFlavour.push_back(jet.hadronFlavour());
 

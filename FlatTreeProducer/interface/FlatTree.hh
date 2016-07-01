@@ -827,13 +827,13 @@ class FlatTree
    std::vector<float> tau_byLooseCombinedIsolationDeltaBetaCorr3Hits;
    std::vector<float> tau_byMediumCombinedIsolationDeltaBetaCorr3Hits;
    std::vector<float> tau_byTightCombinedIsolationDeltaBetaCorr3Hits;
-   std::vector<float> tau_byLooseIsolationMVA3newDMwLT;
-   std::vector<float> tau_byMediumIsolationMVA3newDMwLT;
-   std::vector<float> tau_byTightIsolationMVA3newDMwLT;
+//   std::vector<float> tau_byLooseIsolationMVA3newDMwLT;
+//   std::vector<float> tau_byMediumIsolationMVA3newDMwLT;
+//   std::vector<float> tau_byTightIsolationMVA3newDMwLT;
 
-   std::vector<float> tau_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03;
-   std::vector<float> tau_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03;
-   std::vector<float> tau_byTightCombinedIsolationDeltaBetaCorr3HitsdR03;
+//   std::vector<float> tau_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03;
+//   std::vector<float> tau_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03;
+//   std::vector<float> tau_byTightCombinedIsolationDeltaBetaCorr3HitsdR03;
    std::vector<float> tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT;
    std::vector<float> tau_byMediumIsolationMVArun2v1DBdR03oldDMwLT;
    std::vector<float> tau_byTightIsolationMVArun2v1DBdR03oldDMwLT;
@@ -842,9 +842,9 @@ class FlatTree
    std::vector<float> tau_againstMuonLoose3;
    std::vector<float> tau_againstMuonTight3;
 
-   std::vector<float> tau_againstElectronVLooseMVA5;
-   std::vector<float> tau_againstElectronLooseMVA5;
-   std::vector<float> tau_againstElectronMediumMVA5;
+//   std::vector<float> tau_againstElectronVLooseMVA5;
+//   std::vector<float> tau_againstElectronLooseMVA5;
+//   std::vector<float> tau_againstElectronMediumMVA5;
    
    std::vector<float> tau_pfEssential_jet_pt;
    std::vector<float> tau_pfEssential_jet_eta;
@@ -885,6 +885,9 @@ class FlatTree
    std::vector<float> jet_SSVHP;
    std::vector<float> jet_CMVA;
    std::vector<float> jet_CSVv2;
+   std::vector<float> jet_cMVAv2;
+   std::vector<float> jet_CharmCvsL;
+   std::vector<float> jet_CharmCvsB;
    std::vector<int> jet_partonFlavour;
    std::vector<int> jet_hadronFlavour;
 
