@@ -1,12 +1,23 @@
 #include "IPHCFlatTree/FlatTreeProducer/interface/FlatTree.hh"
 
+FlatTree::FlatTree(TTree* _tree){
+   tree = _tree;
+   n_presel_jets_min = 0;
+   n_presel_electrons_min = 0;
+   n_presel_muons_min = 0;
+   n_presel_leptons_min = 0;
+   presel_MET_min = 0;
+   apply_presel = false;
+}
+
 void FlatTree::Init()
 {
    n_presel_jets = 0;
    n_presel_btag = 0;
-   n_presel_electron = 0;
-   n_presel_muon = 0;
+   n_presel_electrons = 0;
+   n_presel_muons = 0;
    n_presel_tau = 0;
+   
 
    ev_run = DEFVAL;
    ev_id = DEFVAL;
@@ -4844,8 +4855,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 
   tree->Branch("n_presel_jets",     &n_presel_jets,     "n_presel_jets/I",      buffersize);
   tree->Branch("n_presel_btag",     &n_presel_btag,     "n_presel_btag/I",      buffersize);
-  tree->Branch("n_presel_electron", &n_presel_electron, "n_presel_electron/I",  buffersize);
-  tree->Branch("n_presel_muon",     &n_presel_muon,     "n_presel_muon/I",      buffersize);
+  tree->Branch("n_presel_electrons", &n_presel_electrons, "n_presel_electrons/I",  buffersize);
+  tree->Branch("n_presel_muons",     &n_presel_muons,     "n_presel_muons/I",      buffersize);
   tree->Branch("n_presel_tau",      &n_presel_tau,      "n_presel_tau/I",       buffersize);
 
 }
