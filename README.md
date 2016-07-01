@@ -33,7 +33,10 @@ scram b
 Last modif
 ----------
 - add a new section in conf.xml in order to apply a preselection (filtering events)
+- to activate it, one needs to run on the boolean 'activate' in the preselection section
 - preselection based on n_muons, n_electrons (or their sum), n_jets, MET passing pt, eta cuts
+- current limitations:
+  - can only use cut_min for pt and cut_max for abs(eta)
 
 To do
 ---------
