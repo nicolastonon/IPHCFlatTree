@@ -84,17 +84,17 @@ if options.isData:
     )
     process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
 
-### to activate the new JP calibration: using the data base
+condb="frontier://FrontierPrep/CMS_CONDITIONS"
 if options.isData:
-    #trkProbaCalibTag = "JPcalib_Data80X_2016B_v1"
-    trkProbaCalibTag = "JPcalib_Data76X_2015D_v1"
+    trkProbaCalibTag = "JPcalib_Data80X_2016B_v1"
+    condb="frontier://PromptProd/CMS_CONDITIONS"
 else:
     trkProbaCalibTag = "JPcalib_MC800_v1"
     
 process.GlobalTag.toGet = cms.VPSet(
 cms.PSet(record = cms.string("BTagTrackProbability3DRcd"),
          tag = cms.string(trkProbaCalibTag),
-         connect = cms.string("frontier://FrontierPrep/CMS_CONDITIONS")
+         connect = cms.string(condb)
          )
 )
 
