@@ -289,6 +289,7 @@ class FlatTree
 
    std::vector<int> el_passConversionVeto;
    std::vector<int> el_isGsfCtfScPixChargeConsistent;
+   std::vector<int> el_isGsfScPixChargeConsistent;
    
    std::vector<float> el_ecalEnergy;
    std::vector<float> el_correctedEcalEnergy;

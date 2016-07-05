@@ -1753,6 +1753,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_charge.push_back(elec.charge());
 
         ftree->el_isGsfCtfScPixChargeConsistent.push_back(elec.isGsfCtfScPixChargeConsistent());
+        ftree->el_isGsfScPixChargeConsistent.push_back(elec.isGsfScPixChargeConsistent());
         ftree->el_hadronicOverEm.push_back(elec.hadronicOverEm());
 
         // IP
