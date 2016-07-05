@@ -254,6 +254,7 @@ void FlatTree::Init()
    el_charge.clear();
 
    el_isGsfCtfScPixChargeConsistent.clear();
+   el_isGsfScPixChargeConsistent.clear();
    el_passConversionVeto.clear();
    
    el_ip3d.clear();
@@ -1372,7 +1373,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("el_passConversionVeto") ) tree->Branch("el_passConversionVeto", "std::vector<int>", &el_passConversionVeto, buffersize);   
    if( doWrite("el_isGsfCtfScPixChargeConsistent") ) tree->Branch("el_isGsfCtfScPixChargeConsistent", "std::vector<int>", &el_isGsfCtfScPixChargeConsistent, buffersize);
-   
+   if( doWrite("el_isGsfScPixChargeConsistent") ) tree->Branch("el_isGsfScPixChargeConsistent", "std::vector<int>", &el_isGsfScPixChargeConsistent, buffersize);
+
    if( doWrite("el_ecalEnergy") ) tree->Branch("el_ecalEnergy", "std::vector<float>", &el_ecalEnergy, buffersize);
    if( doWrite("el_correctedEcalEnergy") ) tree->Branch("el_correctedEcalEnergy", "std::vector<float>", &el_correctedEcalEnergy, buffersize);
    if( doWrite("el_correctedEcalEnergyError") ) tree->Branch("el_correctedEcalEnergyError", "std::vector<float>", &el_correctedEcalEnergyError, buffersize);
