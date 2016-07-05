@@ -1,5 +1,5 @@
 <preselection>
-    <info activate="1"></info>
+    <info activate="0"></info>
     <obj name="muon" min="0"></obj>
     <obj name="electron" min="0"></obj>
     <obj name="lepton" min="1"></obj>
