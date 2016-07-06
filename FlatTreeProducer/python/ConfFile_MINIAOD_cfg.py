@@ -84,19 +84,19 @@ if options.isData:
     )
     process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
 
-condb="frontier://FrontierPrep/CMS_CONDITIONS"
-if options.isData:
-    trkProbaCalibTag = "JPcalib_Data80X_2016B_v1"
-    condb="frontier://PromptProd/CMS_CONDITIONS"
-else:
-    trkProbaCalibTag = "JPcalib_MC800_v1"
+#condb="frontier://FrontierPrep/CMS_CONDITIONS"
+#if options.isData:
+#    trkProbaCalibTag = "JPcalib_Data80X_2016B_v1"
+#    condb="frontier://PromptProd/CMS_CONDITIONS"
+#else:
+#    trkProbaCalibTag = "JPcalib_MC800_v1"
     
-process.GlobalTag.toGet = cms.VPSet(
-cms.PSet(record = cms.string("BTagTrackProbability3DRcd"),
-         tag = cms.string(trkProbaCalibTag),
-         connect = cms.string(condb)
-         )
-)
+#process.GlobalTag.toGet = cms.VPSet(
+#cms.PSet(record = cms.string("BTagTrackProbability3DRcd"),
+#         tag = cms.string(trkProbaCalibTag),
+#         connect = cms.string(condb)
+#         )
+#)
 
 process.load('Configuration.StandardSequences.Services_cff')
 process.load("Configuration.Geometry.GeometryRecoDB_cff")
