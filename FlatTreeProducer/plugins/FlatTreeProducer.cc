@@ -1953,8 +1953,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
             miniIsoTTH        = (pfIsoCharged + pfIsoPUSubtracted)/elec.pt();
             miniIsoTTHCharged = pfIsoCharged;
-            //miniIsoTTHNeutral = pfIsoPUSubtracted;
-            miniIsoTTHNeutral = pfIsoNeutral;
+            miniIsoTTHNeutral = pfIsoPUSubtracted;
+            //miniIsoTTHNeutral = pfIsoNeutral;
             // ---------------------------------
         }
 
@@ -2054,7 +2054,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                       << lepMVA_sip3d                   << " "
                       << fabs(ftree->el_gsfTrack_PV_dxy.back())                     << " "
                       << fabs(ftree->el_gsfTrack_PV_dz.back())                      << " "
-                      << el_lepMVA                      << " "
+                      << ftree->el_mvaNonTrigV0.back()                              << " "
                       << el_lepMVA_Moriond16
                       << std::endl;
         }
@@ -2443,8 +2443,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
             miniIsoTTH        = (pfIsoCharged + pfIsoPUSubtracted) / muon.pt();
             miniIsoTTHCharged = pfIsoCharged;
-            //miniIsoTTHNeutral = pfIsoPUSubtracted;
-            miniIsoTTHNeutral = pfIsoNeutral;
+            miniIsoTTHNeutral = pfIsoPUSubtracted;
+            //miniIsoTTHNeutral = pfIsoNeutral;
             // -------------------------------------------
         }
 
@@ -2604,6 +2604,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                       << lepMVA_jetPtRelv2              << " "
                       << lepMVA_jetBTagCSV              << " "
                       << lepMVA_jetPtRatio              << " "
+                      << fabs(ftree->mu_ip3d.back()/ftree->mu_ip3dErr.back())         << " "
                       << fabs(ftree->mu_innerTrack_PV_dxy.back())                     << " "
                       << fabs(ftree->mu_innerTrack_PV_dz.back())                      << " "
                       << lepMVA_mvaId                   << " "
