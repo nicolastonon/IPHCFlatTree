@@ -425,7 +425,7 @@ process.p = cms.Path(
                      process.METSignificance+
                      process.runQG+
 #                     process.HBHENoiseFilterResultProducer+
-#                     process.BadChargedCandidateFilter+
-#                     process.BadPFMuonFilter+
+                     process.BadChargedCandidateFilter+
+                     process.BadPFMuonFilter+
                      process.FlatTree
                     )

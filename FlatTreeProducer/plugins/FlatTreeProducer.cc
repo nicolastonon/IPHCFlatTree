@@ -2,221 +2,221 @@
 #include <iostream>
 #include <sstream>
 
-#include "TRegexp.h"
-#include "TString.h"
+#include "tregexp.h"
+#include "tstring.h"
 
-#include "FWCore/Common/interface/TriggerNames.h"
-#include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/ESHandle.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
-#include "FWCore/Framework/interface/Event.h"
-#include "FWCore/Framework/interface/MakerMacros.h"
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "FWCore/ServiceRegistry/interface/Service.h"
-#include "CommonTools/UtilAlgos/interface/TFileService.h"
-#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
-#include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
-#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
-#include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
-#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
-#include "SimDataFormats/JetMatching/interface/JetFlavourMatching.h"
+#include "fwcore/common/interface/triggernames.h"
+#include "fwcore/framework/interface/frameworkfwd.h"
+#include "fwcore/framework/interface/eshandle.h"
+#include "fwcore/framework/interface/edanalyzer.h"
+#include "fwcore/framework/interface/event.h"
+#include "fwcore/framework/interface/makermacros.h"
+#include "fwcore/parameterset/interface/parameterset.h"
+#include "fwcore/serviceregistry/interface/service.h"
+#include "commontools/utilalgos/interface/tfileservice.h"
+#include "dataformats/hepmccandidate/interface/genparticle.h"
+#include "simdataformats/generatorproducts/interface/geneventinfoproduct.h"
+#include "simdataformats/pileupsummaryinfo/interface/pileupsummaryinfo.h"
+#include "simdataformats/generatorproducts/interface/lheeventproduct.h"
+#include "simdataformats/generatorproducts/interface/hepmcproduct.h"
+#include "simdataformats/jetmatching/interface/jetflavourmatching.h"
 
-#include "DataFormats/Common/interface/TriggerResults.h"
-#include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
+#include "dataformats/common/interface/triggerresults.h"
+#include "dataformats/patcandidates/interface/packedtriggerprescales.h"
 
-#include "DataFormats/VertexReco/interface/Vertex.h"
-#include "DataFormats/PatCandidates/interface/Electron.h"
-#include "DataFormats/PatCandidates/interface/Muon.h"
-#include "DataFormats/PatCandidates/interface/Tau.h"
-#include "DataFormats/PatCandidates/interface/Jet.h"
-#include "DataFormats/PatCandidates/interface/MET.h"
-#include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
-#include "DataFormats/PatCandidates/interface/VIDCutFlowResult.h"
-#include "DataFormats/MuonReco/interface/MuonSelectors.h"
-#include "DataFormats/BTauReco/interface/CATopJetTagInfo.h"
+#include "dataformats/vertexreco/interface/vertex.h"
+#include "dataformats/patcandidates/interface/electron.h"
+#include "dataformats/patcandidates/interface/muon.h"
+#include "dataformats/patcandidates/interface/tau.h"
+#include "dataformats/patcandidates/interface/jet.h"
+#include "dataformats/patcandidates/interface/met.h"
+#include "dataformats/patcandidates/interface/triggerobjectstandalone.h"
+#include "dataformats/patcandidates/interface/vidcutflowresult.h"
+#include "dataformats/muonreco/interface/muonselectors.h"
+#include "dataformats/btaureco/interface/catopjettaginfo.h"
 
-#include "DataFormats/Math/interface/deltaR.h"
+#include "dataformats/math/interface/deltar.h"
 
-#include "HLTrigger/HLTcore/interface/HLTConfigProvider.h"
-#include "HLTrigger/HLTcore/interface/HLTPrescaleProvider.h"
+#include "hltrigger/hltcore/interface/hltconfigprovider.h"
+#include "hltrigger/hltcore/interface/hltprescaleprovider.h"
 
-#include "IPHCFlatTree/FlatTreeProducer/interface/tinyxml2.h"
+#include "iphcflattree/flattreeproducer/interface/tinyxml2.h"
 
-#include "IPHCFlatTree/FlatTreeProducer/interface/FlatTree.hh"
-#include "IPHCFlatTree/FlatTreeProducer/interface/MCTruth.hh"
+#include "iphcflattree/flattreeproducer/interface/flattree.hh"
+#include "iphcflattree/flattreeproducer/interface/mctruth.hh"
 
-#include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
+#include "recoegamma/egammatools/interface/conversiontools.h"
 
-#include "JetMETCorrections/Objects/interface/JetCorrector.h"
-#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
-#include "JetMETCorrections/Objects/interface/JetCorrectionsRecord.h"
-#include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
-#include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
+#include "jetmetcorrections/objects/interface/jetcorrector.h"
+#include "condformats/jetmetobjects/interface/jetcorrectorparameters.h"
+#include "jetmetcorrections/objects/interface/jetcorrectionsrecord.h"
+#include "condformats/jetmetobjects/interface/jetcorrectionuncertainty.h"
+#include "condformats/jetmetobjects/interface/factorizedjetcorrector.h"
 
-#include "TMVA/Tools.h"
-#include "TMVA/Reader.h"
-#include "TMVA/MethodCuts.h"
-#include "TFile.h"
-#include "TThreadSlots.h"
-#include "TROOT.h"
-#include "Compression.h"
+#include "tmva/tools.h"
+#include "tmva/reader.h"
+#include "tmva/methodcuts.h"
+#include "tfile.h"
+#include "tthreadslots.h"
+#include "troot.h"
+#include "compression.h"
 
 using namespace tinyxml2;
 
-class FlatTreeProducer : public edm::EDAnalyzer
+class flattreeproducer : public edm::edanalyzer
 {
     public:
 
-        explicit FlatTreeProducer(const edm::ParameterSet&);
-        ~FlatTreeProducer();
+        explicit flattreeproducer(const edm::parameterset&);
+        ~flattreeproducer();
 
-        static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
-        bool foundTrigger(const std::string& name) const;
+        static void filldescriptions(edm::configurationdescriptions& descriptions);
+        bool foundtrigger(const std::string& name) const;
 
     private:
 
-        virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
+        virtual void analyze(const edm::event&, const edm::eventsetup&) override;
 
-        virtual void beginRun(const edm::Run&, const edm::EventSetup&);
-        virtual void endRun(const edm::Run&, const edm::EventSetup&);
+        virtual void beginrun(const edm::run&, const edm::eventsetup&);
+        virtual void endrun(const edm::run&, const edm::eventsetup&);
 
-        TMVA::Reader* BookLeptonMVAReader(std::string basePath, std::string weightFileName, std::string type);
-        TMVA::Reader* BookLeptonMVAReaderMoriond16(std::string basePath, std::string weightFileName, std::string type);
+        tmva::reader* bookleptonmvareader(std::string basepath, std::string weightfilename, std::string type);
+        tmva::reader* bookleptonmvareadermoriond16(std::string basepath, std::string weightfilename, std::string type);
 
-        void KeepEvent();
-        bool isFloat(const std::string& s);
-        bool isFloat(const boost::any & operand);
-        bool isBool(const boost::any & operand);
-        bool isInt(const boost::any & operand);
-        void fillCutVector(const char* cut_type, std::string& cut_value, std::map<std::string, boost::any>& vec);
-        void AddValue(const std::string& name);
-        void ReadConfFile(const std::string& confFile);
-        int CheckAlgo(const std::map<std::string, boost::any>& jet_algo, const char* name, std::string& algo);
-        std::string CheckAlgos();
+        void keepevent();
+        bool isfloat(const std::string& s);
+        bool isfloat(const boost::any & operand);
+        bool isbool(const boost::any & operand);
+        bool isint(const boost::any & operand);
+        void fillcutvector(const char* cut_type, std::string& cut_value, std::map<std::string, boost::any>& vec);
+        void addvalue(const std::string& name);
+        void readconffile(const std::string& conffile);
+        int checkalgo(const std::map<std::string, boost::any>& jet_algo, const char* name, std::string& algo);
+        std::string checkalgos();
 
-        template <typename T>
-            boost::any comp(const std::string& op, T v1, T v2);
-        template <typename T>
-            void CheckVectorCut(const std::vector<T>& v, const std::string& name);
+        template <typename t>
+            boost::any comp(const std::string& op, t v1, t v2);
+        template <typename t>
+            void checkvectorcut(const std::vector<t>& v, const std::string& name);
 
-        template <typename T>
-            void CompareAlgo(const std::string& algo, T conf_algo_value);
-        template <typename T>
-            void CheckJet(const std::vector<T>& vJetPt, const std::string& jetpt, const std::vector<T>& vJetEta, const std::string& jeteta, const std::string& algo);
-        template <typename T>
-            void CheckElectron(const std::vector<T>& vElPt, const std::string& elpt, const std::vector<T>& vElEta, const std::string& eleta);
-        template <typename T>
-            void CheckMuon(const std::vector<T>& vMuonPt, const std::string& muonpt, const std::vector<T>& vMuonEta, const std::string& muoneta);
+        template <typename t>
+            void comparealgo(const std::string& algo, t conf_algo_value);
+        template <typename t>
+            void checkjet(const std::vector<t>& vjetpt, const std::string& jetpt, const std::vector<t>& vjeteta, const std::string& jeteta, const std::string& algo);
+        template <typename t>
+            void checkelectron(const std::vector<t>& velpt, const std::string& elpt, const std::vector<t>& veleta, const std::string& eleta);
+        template <typename t>
+            void checkmuon(const std::vector<t>& vmuonpt, const std::string& muonpt, const std::vector<t>& vmuoneta, const std::string& muoneta);
 
-        FlatTree* ftree;
-        const edm::Service<TFileService> fs;
+        flattree* ftree;
+        const edm::service<tfileservice> fs;
 
-        TH1D* hcount;
-        TH1D* hweight;
+        th1d* hcount;
+        th1d* hweight;
 
-        TMVA::Reader* mu_reader_b;
-        TMVA::Reader* mu_reader_e;
-        TMVA::Reader* ele_reader_cb;
-        TMVA::Reader* ele_reader_fb;
-        TMVA::Reader* ele_reader_ec;
-        TMVA::Reader* ele_reader;
-        TMVA::Reader* mu_reader;
+        tmva::reader* mu_reader_b;
+        tmva::reader* mu_reader_e;
+        tmva::reader* ele_reader_cb;
+        tmva::reader* ele_reader_fb;
+        tmva::reader* ele_reader_ec;
+        tmva::reader* ele_reader;
+        tmva::reader* mu_reader;
 
-        float lepMVA_pt;
-        float lepMVA_eta;
-        float lepMVA_miniRelIsoCharged;
-        float lepMVA_miniRelIsoNeutral;
-        float lepMVA_jetPtRatio;
-        float lepMVA_jetPtRelv2;
-        float lepMVA_jetBTagCSV;
-        float lepMVA_sip3d;
-        float lepMVA_dxy;
-        float lepMVA_dz;
-        float lepMVA_mvaId;
-        float lepMVA_jetNDauChargedMVASel;
+        float lepmva_pt;
+        float lepmva_eta;
+        float lepmva_minirelisocharged;
+        float lepmva_minirelisoneutral;
+        float lepmva_jetptratio;
+        float lepmva_jetptrelv2;
+        float lepmva_jetbtagcsv;
+        float lepmva_sip3d;
+        float lepmva_dxy;
+        float lepmva_dz;
+        float lepmva_mvaid;
+        float lepmva_jetndauchargedmvasel;
 
-        XMLDocument xmlconf;
+        xmldocument xmlconf;
 
-        std::string dataFormat_;
-        bool isData_;
-        bool applyMETFilters_;
-        bool fillMCScaleWeight_;
-        bool fillPUInfo_;
-        int nPdf_;
+        std::string dataformat_;
+        bool isdata_;
+        bool applymetfilters_;
+        bool fillmcscaleweight_;
+        bool fillpuinfo_;
+        int npdf_;
 
-        HLTConfigProvider hltConfig_;
-        HLTPrescaleProvider hltPrescale_;
+        hltconfigprovider hltconfig_;
+        hltprescaleprovider hltprescale_;
 
-        edm::EDGetTokenT<edm::TriggerResults> triggerBits_;
-        edm::EDGetTokenT<edm::TriggerResults> triggerBitsPAT_;
-        edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> triggerObjects_;
-        edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_;
+        edm::edgettokent<edm::triggerresults> triggerbits_;
+        edm::edgettokent<edm::triggerresults> triggerbitspat_;
+        edm::edgettokent<pat::triggerobjectstandalonecollection> triggerobjects_;
+        edm::edgettokent<pat::packedtriggerprescales> triggerprescales_;
 
-        edm::EDGetTokenT<reco::VertexCollection> vertexToken_;
-        edm::EDGetTokenT<pat::ElectronCollection> electronPATToken_;
-        edm::EDGetTokenT<edm::View<reco::GsfElectron> > electronToken_;
-        edm::EDGetTokenT<pat::MuonCollection> muonToken_;
-        edm::EDGetTokenT<pat::TauCollection> tauToken_;
-        edm::EDGetTokenT<pat::JetCollection> jetToken_;
-        edm::EDGetTokenT<edm::View<pat::Jet> > viewJetToken_;
-        edm::EDGetTokenT<pat::JetCollection> jetPuppiToken_;
-        edm::EDGetTokenT<pat::JetCollection> ak8jetToken_;
-        edm::EDGetTokenT<pat::JetCollection> ak10jetToken_;
-        edm::EDGetTokenT<reco::GenJetCollection> genJetToken_;
-        edm::EDGetTokenT<std::vector<pat::MET> > metTokenAOD_;
-        edm::EDGetTokenT<pat::METCollection> metTokenPuppi_;
-        edm::EDGetTokenT<pat::METCollection> metTokenNoHF_;
-        edm::EDGetTokenT<pat::METCollection> metTokenMINIAOD_;
-        edm::EDGetTokenT<double> rhoToken_;
-        edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
-        edm::EDGetTokenT<GenEventInfoProduct> genEventInfoToken_;
-        edm::EDGetTokenT<LHEEventProduct> LHEEventProductToken_;
-        edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puInfoToken_;
-        edm::EDGetTokenT<reco::BeamSpot> bsToken_;
-        edm::EDGetTokenT<pat::PackedCandidateCollection> pfcandsToken_;
-        edm::EDGetTokenT<reco::ConversionCollection> hConversionsToken_;
+        edm::edgettokent<reco::vertexcollection> vertextoken_;
+        edm::edgettokent<pat::electroncollection> electronpattoken_;
+        edm::edgettokent<edm::view<reco::gsfelectron> > electrontoken_;
+        edm::edgettokent<pat::muoncollection> muontoken_;
+        edm::edgettokent<pat::taucollection> tautoken_;
+        edm::edgettokent<pat::jetcollection> jettoken_;
+        edm::edgettokent<edm::view<pat::jet> > viewjettoken_;
+        edm::edgettokent<pat::jetcollection> jetpuppitoken_;
+        edm::edgettokent<pat::jetcollection> ak8jettoken_;
+        edm::edgettokent<pat::jetcollection> ak10jettoken_;
+        edm::edgettokent<reco::genjetcollection> genjettoken_;
+        edm::edgettokent<std::vector<pat::met> > mettokenaod_;
+        edm::edgettokent<pat::metcollection> mettokenpuppi_;
+        edm::edgettokent<pat::metcollection> mettokennohf_;
+        edm::edgettokent<pat::metcollection> mettokenminiaod_;
+        edm::edgettokent<double> rhotoken_;
+        edm::edgettokent<reco::genparticlecollection> genparticlestoken_;
+        edm::edgettokent<geneventinfoproduct> geneventinfotoken_;
+        edm::edgettokent<lheeventproduct> lheeventproducttoken_;
+        edm::edgettokent<std::vector<pileupsummaryinfo> > puinfotoken_;
+        edm::edgettokent<reco::beamspot> bstoken_;
+        edm::edgettokent<pat::packedcandidatecollection> pfcandstoken_;
+        edm::edgettokent<reco::conversioncollection> hconversionstoken_;
 
-        edm::EDGetTokenT<bool> badMuonFilterToken_;
-        edm::EDGetTokenT<bool> badChargedCandidateFilterToken_;
+        edm::edgettokent<bool> badmuonfiltertoken_;
+        edm::edgettokent<bool> badchargedcandidatefiltertoken_;
 
-        edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
-        edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseCBIdMapToken_;
-        edm::EDGetTokenT<edm::ValueMap<bool> > eleMediumCBIdMapToken_;
-        edm::EDGetTokenT<edm::ValueMap<bool> > eleTightCBIdMapToken_;
-        edm::EDGetTokenT<edm::ValueMap<bool> > eleHEEPCBIdMapToken_;
+        edm::edgettokent<edm::valuemap<bool> > elevetocbidmaptoken_;
+        edm::edgettokent<edm::valuemap<bool> > eleloosecbidmaptoken_;
+        edm::edgettokent<edm::valuemap<bool> > elemediumcbidmaptoken_;
+        edm::edgettokent<edm::valuemap<bool> > eletightcbidmaptoken_;
+        edm::edgettokent<edm::valuemap<bool> > eleheepcbidmaptoken_;
 
-        edm::EDGetTokenT<edm::ValueMap<bool> > eleMediumMVAIdMapToken_;
-        edm::EDGetTokenT<edm::ValueMap<bool> > eleTightMVAIdMapToken_;
-        edm::EDGetTokenT<edm::ValueMap<float> > mvaValuesMapToken_;
-        edm::EDGetTokenT<edm::ValueMap<int> > mvaCategoriesMapToken_;
+        edm::edgettokent<edm::valuemap<bool> > elemediummvaidmaptoken_;
+        edm::edgettokent<edm::valuemap<bool> > eletightmvaidmaptoken_;
+        edm::edgettokent<edm::valuemap<float> > mvavaluesmaptoken_;
+        edm::edgettokent<edm::valuemap<int> > mvacategoriesmaptoken_;
 
-        edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult> > vetoIdFullInfoMapToken_;
-        edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult> > mediumIdFullInfoMapToken_;
+        edm::edgettokent<edm::valuemap<vid::cutflowresult> > vetoidfullinfomaptoken_;
+        edm::edgettokent<edm::valuemap<vid::cutflowresult> > mediumidfullinfomaptoken_;
 
-        edm::EDGetTokenT<double> metSigToken_;
-        edm::EDGetTokenT<math::Error<2>::type> metCovToken_;
-        edm::EDGetTokenT<edm::ValueMap<float> > qgToken_;
+        edm::edgettokent<double> metsigtoken_;
+        edm::edgettokent<math::error<2>::type> metcovtoken_;
+        edm::edgettokent<edm::valuemap<float> > qgtoken_;
 
-        std::vector<std::string> filterTriggerNames_;
+        std::vector<std::string> filtertriggernames_;
 
-        JetCorrectionUncertainty *jecUnc;
+        jetcorrectionuncertainty *jecunc;
 };
 
-bool FlatTreeProducer::isInt(const boost::any & operand)
+bool flattreeproducer::isint(const boost::any & operand)
 {
     return operand.type() == typeid(int);
 }
-bool FlatTreeProducer::isFloat(const boost::any & operand)
+bool flattreeproducer::isfloat(const boost::any & operand)
 {
     return operand.type() == typeid(float);
 }
-bool FlatTreeProducer::isBool(const boost::any& operand)
+bool flattreeproducer::isbool(const boost::any& operand)
 {
     return operand.type() == typeid(bool);
 }
 
-    template<typename T>
-boost::any FlatTreeProducer::comp(const std::string& op, T v1, T v2)
+    template<typename t>
+boost::any flattreeproducer::comp(const std::string& op, t v1, t v2)
 {
     if( !op.compare("||") )
     {
@@ -247,7 +247,7 @@ boost::any FlatTreeProducer::comp(const std::string& op, T v1, T v2)
     return "";
 }
 
-void FlatTreeProducer::AddValue(const std::string& name)
+void flattreeproducer::addvalue(const std::string& name)
 {
     if( !name.compare("n_presel_jets") )
     {
@@ -263,8 +263,8 @@ void FlatTreeProducer::AddValue(const std::string& name)
     }
 }
 
-    template <typename T>
-void FlatTreeProducer::CheckVectorCut(const std::vector<T>& v, const std::string& name)
+    template <typename t>
+void flattreeproducer::checkvectorcut(const std::vector<t>& v, const std::string& name)
 {
     if( ftree->keep_conf.find(name) != ftree->keep_conf.end() )
     {
@@ -272,21 +272,21 @@ void FlatTreeProducer::CheckVectorCut(const std::vector<T>& v, const std::string
         std::map<std::string, boost::any> map_conf = keep_conf[name];
         for( unsigned int i=0;i<v.size();++i )
         {
-            if( isInt(map_conf["cut_min"]) && isInt(map_conf["cut_max"]) )
+            if( isint(map_conf["cut_min"]) && isint(map_conf["cut_max"]) )
             {
                 if( v[i] < boost::any_cast<int>(map_conf["cut_min"]) || v[i] > boost::any_cast<int>(map_conf["cut_max"]) )
                 {
-                    AddValue(name);
+                    addvalue(name);
                 }
             }
-            else if( isFloat(map_conf["cut_min"]) && isFloat(map_conf["cut_max"]) )
+            else if( isfloat(map_conf["cut_min"]) && isfloat(map_conf["cut_max"]) )
             {
                 if( v[i] < boost::any_cast<float>(map_conf["cut_min"]) || v[i] > boost::any_cast<float>(map_conf["cut_max"]) )
                 {
-                    AddValue(name);
+                    addvalue(name);
                 }
             }
-            else{std::cout << "Wrong types" << std::endl;
+            else{std::cout << "wrong types" << std::endl;
             }
         }
     }
@@ -2020,6 +2020,35 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_lepMVA.push_back(el_lepMVA);
         ftree->el_lepMVA_Moriond16.push_back(el_lepMVA_Moriond16);
 
+        bool debug = true;
+
+        if(false)// && ( ftree->ev_id == 892573) )
+        {
+            std::cout << "el["              << ie                      << "]: "
+                << " pt= "            << lepMVA_pt
+                << " eta= "           << lepMVA_eta
+                << " miniIsoN= "      << lepMVA_miniRelIsoNeutral
+                << " miniIsoC= "      << lepMVA_miniRelIsoCharged
+                << " jetPtRatio= "    << lepMVA_jetPtRatio
+                << " jetPtRel= "      << lepMVA_jetPtRelv2 << std::endl;
+        }
+
+        if(debug)
+        {
+            std::cout << ftree->ev_lumi << " "
+                      << lepMVA_pt      << " "
+                      << lepMVA_eta     << " "
+                      << el_phi         << " "
+                      << el_E           << " "
+                      << " 1 "
+                      << el_charge      << " "
+                      << lepMVA_jetNDauChargedMVASel    << " "
+                      << miniIsoTTH                     << " "
+                      << lepMVA_miniRelIsoCharged       << " "
+                      << lepMVA_miniRelIsoNeutral       << " "
+                      << lepMVA_jetPtRelv
+        }
+
         if( !isData_ )
         {
             // Internal matching
@@ -2519,6 +2548,19 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         mu_lepMVA_Moriond16 = mu_reader->EvaluateMVA("BDTG method");
 
+        bool debug = false;
+
+        if(debug)
+        {
+            std::cout << "mu["              << im                      << "]: "
+                << " pt= "            << lepMVA_pt
+                << " eta= "           << lepMVA_eta
+                << " miniIsoN= "      << lepMVA_miniRelIsoNeutral
+                << " miniIsoC= "      << lepMVA_miniRelIsoCharged
+                << " jetPtRatio= "    << lepMVA_jetPtRatio
+                << " jetPtRel= "      << lepMVA_jetPtRelv2 << std::endl;
+        }
+
         ftree->mu_lepMVA.push_back(mu_lepMVA);
         ftree->mu_lepMVA_Moriond16.push_back(mu_lepMVA_Moriond16);
         ftree->mu_lepMVA_pt.push_back(lepMVA_pt); 
@@ -2756,6 +2798,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->jet_SSVHE.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
         ftree->jet_SSVHP.push_back(jet.bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
         ftree->jet_CMVA.push_back(jet.bDiscriminator("pfCombinedMVABJetTags"));
+
+        bool debug = true;
+
+        if(debug)
+        {
+            std::cout << "jet["       << ij                      << "]: "
+                << " pt= "            << jet.pt()
+                << " eta= "           << jet.eta()
+                << " miniIsoN= "      << jet.phi()               << std::endl;
+        }
 
         ftree->jet_chargedMultiplicity.push_back(jet.chargedMultiplicity());
         ftree->jet_neutralMultiplicity.push_back(jet.neutralMultiplicity());
