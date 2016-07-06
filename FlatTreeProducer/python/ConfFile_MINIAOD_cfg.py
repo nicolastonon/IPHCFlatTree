@@ -123,7 +123,8 @@ updateJetCollection(
     jetCorrections = ('AK8PFchs', corList, 'None')
 )
 
-jetsNameAK4="selectedUpdatedPatJetsUpdatedJEC"
+#jetsNameAK4="selectedUpdatedPatJetsUpdatedJEC"
+jetsNameAK4="slimmedJets"
 jetsNameAK8="selectedUpdatedPatJetsUpdatedJECAK8"
 #jetsNameAK10="patJetsReapplyJECAK10"
 jetsNameAK10="selectedPatJetsAK10PFCHS"
@@ -225,9 +226,7 @@ if options.runQG:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-#'/store/mc/RunIIFall15MiniAODv2/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/00000/021B993B-4DBB-E511-BBA6-008CFA1111B4.root'
-'/store/data/Run2016B/BTagMu/MINIAOD/PromptReco-v2/000/273/158/00000/3828119B-141A-E611-AC12-02163E0119CF.root'
-
+            '/store/mc/RunIISpring16MiniAODv1/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_v3-v1/50000/0ADF7BAE-0914-E611-B788-0025905A6068.root'
             )
 )
 
@@ -427,7 +426,7 @@ process.p = cms.Path(
                      process.METSignificance+
                      process.runQG+
 #                     process.HBHENoiseFilterResultProducer+
-#                     process.BadChargedCandidateFilter+
-#                     process.BadPFMuonFilter+
+                     process.BadChargedCandidateFilter+
+                     process.BadPFMuonFilter+
                      process.FlatTree
                     )

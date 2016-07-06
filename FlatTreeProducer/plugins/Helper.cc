@@ -331,13 +331,10 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
 
 double ptRatioElec(const pat::Electron& elec, const pat::Jet& jet)
 {
-   pat::Jet myUncJet;
    pat::Jet myCorJet;
-
-   myUncJet.setP4(jet.correctedJet("Uncorrected").p4());
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-   float          SF          = myUncJet.p4().E() / myCorJet.p4().E();
+   float           SF          = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
 
@@ -350,13 +347,10 @@ double ptRatioElec(const pat::Electron& elec, const pat::Jet& jet)
 
 float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
 {
-   pat::Jet myUncJet;
    pat::Jet myCorJet;
-
-   myUncJet.setP4(jet.correctedJet("Uncorrected").p4());
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-   float          SF          = myUncJet.p4().E() / myCorJet.p4().E();
+   float          SF          = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
 
@@ -372,15 +366,11 @@ float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
 
 double ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet)
 {
-   //std::cout << " =================================== " << std::endl;
 
-   pat::Jet myUncJet;
    pat::Jet myCorJet;
-
-   myUncJet.setP4(jet.correctedJet("Uncorrected").p4());
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-   float          SF          = myUncJet.p4().E() / myCorJet.p4().E();
+   float          SF          = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
 
@@ -393,13 +383,10 @@ double ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet)
 
 float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
 {
-   pat::Jet myUncJet;
    pat::Jet myCorJet;
-
-   myUncJet.setP4(jet.correctedJet("Uncorrected").p4());
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-   float          SF          = myUncJet.p4().E() / myCorJet.p4().E();
+   float          SF          = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
 

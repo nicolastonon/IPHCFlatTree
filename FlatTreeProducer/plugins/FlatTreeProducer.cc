@@ -2020,6 +2020,45 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_lepMVA.push_back(el_lepMVA);
         ftree->el_lepMVA_Moriond16.push_back(el_lepMVA_Moriond16);
 
+        bool debug = false;
+
+        if(debug)// && ( ftree->ev_id == 892573) )
+        {
+            std::cout << "el["              << ie                      << "]: "
+                << " pt= "            << lepMVA_pt
+                << " eta= "           << lepMVA_eta
+                << " miniIsoN= "      << lepMVA_miniRelIsoNeutral
+                << " miniIsoC= "      << lepMVA_miniRelIsoCharged
+                << " jetPtRatio= "    << lepMVA_jetPtRatio
+                << " jetPtRel= "      << lepMVA_jetPtRelv2 
+                << " lepMVATTH= "     << el_lepMVA_Moriond16
+                << " ellepMVA= "      << el_lepMVA                      << std::endl;
+        }
+
+        if(true)
+        {
+            std::cout << ftree->ev_id                   << " "
+                      << lepMVA_pt                      << " "
+                      << lepMVA_eta                     << " "
+                      << elec.phi()                     << " "
+                      << elec.energy()                  << " "
+                      << elec.pdgId()                   << " "
+                      << elec.charge()                  << " "
+                      << lepMVA_jetNDauChargedMVASel    << " "
+                      << miniIsoTTH                     << " "
+                      << lepMVA_miniRelIsoCharged       << " "
+                      << lepMVA_miniRelIsoNeutral       << " "
+                      << lepMVA_jetPtRelv2              << " "
+                      << lepMVA_jetBTagCSV              << " "
+                      << lepMVA_jetPtRatio              << " "
+                      << lepMVA_sip3d                   << " "
+                      << fabs(ftree->el_gsfTrack_PV_dxy.back())                     << " "
+                      << fabs(ftree->el_gsfTrack_PV_dz.back())                      << " "
+                      << el_lepMVA                      << " "
+                      << el_lepMVA_Moriond16
+                      << std::endl;
+        }
+
         if( !isData_ )
         {
             // Internal matching
@@ -2534,6 +2573,45 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_lepMVA_mvaId.push_back(lepMVA_mvaId);
         ftree->mu_lepMVA_jetNDauChargedMVASel.push_back(lepMVA_jetNDauChargedMVASel);
 
+        bool debug = false;
+
+        if(debug)
+        {
+            std::cout << "mu["              << im                      << "]: "
+                << " pt= "            << lepMVA_pt
+                << " eta= "           << lepMVA_eta
+                << " miniIsoN= "      << lepMVA_miniRelIsoNeutral
+                << " miniIsoC= "      << lepMVA_miniRelIsoCharged
+                << " jetPtRatio= "    << lepMVA_jetPtRatio
+                << " jetPtRel= "      << lepMVA_jetPtRelv2 
+                << " lepMVATTH= "     << mu_lepMVA_Moriond16
+                << " mulepMVA= "      << mu_lepMVA                      << std::endl;
+        }
+
+        if(true)
+        {
+            std::cout << ftree->ev_id                   << " "
+                      << lepMVA_pt                      << " "
+                      << lepMVA_eta                     << " "
+                      << muon.phi()                     << " "
+                      << muon.energy()                  << " "
+                      << muon.pdgId()                   << " "
+                      << muon.charge()                  << " "
+                      << lepMVA_jetNDauChargedMVASel    << " "
+                      << miniIsoTTH                     << " "
+                      << lepMVA_miniRelIsoCharged       << " "
+                      << lepMVA_miniRelIsoNeutral       << " "
+                      << lepMVA_jetPtRelv2              << " "
+                      << lepMVA_jetBTagCSV              << " "
+                      << lepMVA_jetPtRatio              << " "
+                      << fabs(ftree->mu_innerTrack_PV_dxy.back())                     << " "
+                      << fabs(ftree->mu_innerTrack_PV_dz.back())                      << " "
+                      << lepMVA_mvaId                   << " "
+                      << mu_lepMVA_Moriond16            << " "
+                      << std::endl;
+        }
+
+
         if( !isData_ )
         {
             // Internal matching
@@ -2744,6 +2822,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         //std::cout<< "jet pt"  << jet.pt() << " jet eta: " << jet.eta() << " jet phi " << jet.phi() << "jet E " << jet.energy() << " jet mass " << jet.mass() << std::endl;
 
+        bool debug = false;
+
+        if(debug)
+        {
+            std::cout << "jet["       << ij                      << "]: "
+                << " pt= "            << jet.pt()
+                << " eta= "           << jet.eta()
+                << " phi= "           << jet.phi()               << std::endl;
+        }
+
         ftree->jet_pt.push_back(jet.pt());
         ftree->jet_eta.push_back(jet.eta());
         ftree->jet_phi.push_back(jet.phi());
@@ -2765,6 +2853,16 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->jet_jecFactorL1FastJet.push_back(jet.jecFactor("L1FastJet"));
         ftree->jet_jecFactorL2Relative.push_back(jet.jecFactor("L2Relative"));
         ftree->jet_jecFactorL3Absolute.push_back(jet.jecFactor("L3Absolute"));
+
+        if(debug)
+        {
+            std::cout << "jet["       << ij                      << "]: "
+                << " Uncorrected= "         << jet.jecFactor("Uncorrected")
+                << " L1FastJet  = "         << jet.jecFactor("L1FastJet")
+                << " L2Relative = "         << jet.jecFactor("L2Relative")
+                << " L3Absolute = "         << jet.jecFactor("L3Absolute")
+                << std::endl;
+        }        
 
         ftree->jet_jetArea.push_back(jet.jetArea());
 
