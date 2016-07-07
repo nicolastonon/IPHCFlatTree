@@ -2738,8 +2738,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         //ftree->tau_byMediumIsolationMVA3newDMwLT.push_back(tau.tauID("byMediumIsolationMVA3newDMwLT"));
         //ftree->tau_byTightIsolationMVA3newDMwLT.push_back(tau.tauID("byTightIsolationMVA3newDMwLT"));
 
-        ftree->tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byLooseIsolationMVArun2v1DBdR03oldDMwLT"));
-
         //        ftree->tau_byLooseIsolationMVA3newDMwLT.push_back(tau.tauID("byLooseIsolationMVA3newDMwLT"));
         //        ftree->tau_byMediumIsolationMVA3newDMwLT.push_back(tau.tauID("byMediumIsolationMVA3newDMwLT"));
         //        ftree->tau_byTightIsolationMVA3newDMwLT.push_back(tau.tauID("byTightIsolationMVA3newDMwLT"));
