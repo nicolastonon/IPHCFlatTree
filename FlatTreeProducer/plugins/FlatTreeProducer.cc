@@ -1952,8 +1952,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             //std::cout << "pfIsoCharged = " << pfIsoCharged << "    pfIsoNeutral = " << pfIsoNeutral << "   pfIsoPUSubtracted = " << pfIsoPUSubtracted << std::endl;
 
             miniIsoTTH        = (pfIsoCharged + pfIsoPUSubtracted)/elec.pt();
-            miniIsoTTHCharged = pfIsoCharged;
-            miniIsoTTHNeutral = pfIsoPUSubtracted;
+            miniIsoTTHCharged = pfIsoCharged / elec.pt(); // for test XXX
+            miniIsoTTHNeutral = pfIsoPUSubtracted / elec.pt();
             //miniIsoTTHNeutral = pfIsoNeutral;
             // ---------------------------------
         }
@@ -2035,7 +2035,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                 << " ellepMVA= "      << el_lepMVA                      << std::endl;
         }
 
-        if(true)
+        if(false)
         {
             std::cout << ftree->ev_id                   << " "
                       << lepMVA_pt                      << " "
@@ -2442,8 +2442,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             float pfIsoPUSubtracted = std::max(float(0.0),float(pfIsoNeutral-correction));
 
             miniIsoTTH        = (pfIsoCharged + pfIsoPUSubtracted) / muon.pt();
-            miniIsoTTHCharged = pfIsoCharged;
-            miniIsoTTHNeutral = pfIsoPUSubtracted;
+            miniIsoTTHCharged = pfIsoCharged / muon.pt();
+            miniIsoTTHNeutral = pfIsoPUSubtracted / muon.pt();
             //miniIsoTTHNeutral = pfIsoNeutral;
             // -------------------------------------------
         }
@@ -2538,23 +2538,22 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             }
         }
 
-        lepMVA_pt = mu_pt;
-        lepMVA_eta = mu_eta;
-        lepMVA_miniRelIsoNeutral = miniIsoTTHNeutral; //CAREFUL! WAS CHANGED TO MATCH GEOFF DEFINITION...
-        lepMVA_miniRelIsoCharged = miniIsoTTHCharged;
-        //lepMVA_jetPtRatio = (jcl >= 0) ? std::min(mu_pt/jets->at(jcl).pt(),1.5) : 1.5;
-        lepMVA_jetPtRatio = (jcl >= 0) ? ptRatioMuon(muon,jets->at(jcl)) : 1.5;
-        lepMVA_jetPtRelv2 = (jcl >= 0) ? ptRelMuon(muon,jets->at(jcl)) : 0.0;
-        float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
-        lepMVA_jetBTagCSV = std::max(double(csv),0.);
-        lepMVA_sip3d = fabs(ftree->mu_ip3d.back()/ftree->mu_ip3dErr.back());
-        lepMVA_dxy = log(fabs(ftree->mu_innerTrack_PV_dxy.back()));
-        lepMVA_dz = log(fabs(ftree->mu_innerTrack_PV_dz.back()));
-        lepMVA_mvaId = ftree->mu_segmentCompatibility.back();
-        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0; //?? correct default value
+        lepMVA_pt                                   = mu_pt;
+        lepMVA_eta                                  = mu_eta;
+        lepMVA_miniRelIsoNeutral                    = miniIsoTTHNeutral; //CAREFUL! WAS CHANGED TO MATCH GEOFF DEFINITION...
+        lepMVA_miniRelIsoCharged                    = miniIsoTTHCharged;
+        lepMVA_jetPtRatio                           = (jcl >= 0) ? ptRatioMuon(muon,jets->at(jcl)) : 1.5;
+        lepMVA_jetPtRelv2                           = (jcl >= 0) ? ptRelMuon(muon,jets->at(jcl)) : 0.0;
+        float csv                                   = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
+        lepMVA_jetBTagCSV                           = std::max(double(csv),0.);
+        lepMVA_sip3d                                = fabs(ftree->mu_ip3d.back()/ftree->mu_ip3dErr.back());
+        lepMVA_dxy                                  = log(fabs(ftree->mu_innerTrack_PV_dxy.back()));
+        lepMVA_dz                                   = log(fabs(ftree->mu_innerTrack_PV_dz.back()));
+        lepMVA_mvaId                                = ftree->mu_segmentCompatibility.back();
+        lepMVA_jetNDauChargedMVASel                 = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0; //?? correct default value
         //?? correct DR matching
         if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_b->EvaluateMVA("BDTG method");
-        else mu_lepMVA = mu_reader_e->EvaluateMVA("BDTG method");
+        else                     mu_lepMVA = mu_reader_e->EvaluateMVA("BDTG method");
 
         mu_lepMVA_Moriond16 = mu_reader->EvaluateMVA("BDTG method");
 
@@ -2588,7 +2587,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                 << " mulepMVA= "      << mu_lepMVA                      << std::endl;
         }
 
-        if(true)
+        if(false)
         {
             std::cout << ftree->ev_id                   << " "
                       << lepMVA_pt                      << " "
