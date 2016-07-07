@@ -43,7 +43,7 @@ if options.isData:
 else:
     process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2'
 
-corName="Spring16_25nsV3_DATA"
+corName="Spring16_25nsV6_DATA"
 corTag="JetCorrectorParametersCollection_"+corName
 #if options.isData:
 #    corName="Fall15_25nsV2_DATA"
