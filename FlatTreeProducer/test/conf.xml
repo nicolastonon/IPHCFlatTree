@@ -1,10 +1,10 @@
 <preselection>
-    <info activate="0"></info>
+    <info activate="1"></info>
     <obj name="muon" min="0"></obj>
     <obj name="electron" min="0"></obj>
     <obj name="lepton" min="1"></obj>
-    <obj name="jet" min="2"></obj>
-    <obj name="MET" min="150"></obj>
+    <obj name="jet" min="0"></obj>
+    <obj name="MET" min="0"></obj>
 </preselection>
 
 <variables>
@@ -205,8 +205,8 @@
     <var name="triggerobject_pathNamesAll_isLF" save="1"></var>
     <var name="triggerobject_pathNamesAll_isNone" save="1"></var>
     <var name="el_n" save="1"></var>
-    <var name="el_pt" save="1" cut_min="20.0"></var>
-    <var name="el_eta" save="1" cut_max="2.5"></var>
+    <var name="el_pt" save="1" cut_min="8.0"></var>
+    <var name="el_eta" save="1" cut_max="10.0"></var>
     <var name="el_phi" save="1"></var>
     <var name="el_m" save="1"></var>
     <var name="el_E" save="1"></var>
@@ -376,8 +376,8 @@
     <var name="el_genPAT_id" save="1" mc="1"></var>
     <var name="el_genPAT_charge" save="1" mc="1"></var>
     <var name="mu_n" save="1"></var>
-    <var name="mu_pt" save="1" cut_min="20.0"></var>
-    <var name="mu_eta" save="1" cut_max="2.4"></var>
+    <var name="mu_pt" save="1" cut_min="8.0"></var>
+    <var name="mu_eta" save="1" cut_max="10.0"></var>
     <var name="mu_phi" save="1"></var>
     <var name="mu_m" save="1"></var>
     <var name="mu_E" save="1"></var>
