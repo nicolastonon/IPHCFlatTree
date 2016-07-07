@@ -22,7 +22,7 @@ config.Data.inputDataset = 'INPUTDATASET'
 config.Data.outputDatasetTag = 'PUBLISHDATANAME'
 config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter'
 config.Data.outLFNDirBase = 'OUTLFN'
-#config.Data.lumiMask = 'GRL/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt'
+#config.Data.lumiMask = 'GRL/Cert_271036-275783_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt'
 config.section_('User')
 config.section_('Site')
 config.Site.storageSite = 'T2_FR_IPHC'
