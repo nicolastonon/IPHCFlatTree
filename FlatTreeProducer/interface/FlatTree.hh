@@ -2425,6 +2425,8 @@ class FlatTree
    std::vector<int> gen_mother_index;
    std::vector<int> gen_daughter_n;
    std::vector<std::vector<int> > gen_daughter_index;
+   std::vector<float> gen_stop_m;
+   std::vector<float> gen_neutralino_m;
 };
 
 #endif

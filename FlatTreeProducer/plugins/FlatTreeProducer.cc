@@ -1309,15 +1309,24 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
 
     bool do_gen_all = ftree->doWrite("gen_all");
+    bool do_gen_stop_mass = ftree->doWrite("gen_stop_mass");
+    bool do_gen_stop = ftree->doWrite("gen_stop");
 
     if( do_gen_all &&
             !isData_ )
     {
         if( !reqMCTruth ) mc_truth->Init(*ftree);
         mc_truth->fillGenParticles(iEvent,iSetup,*ftree,genParticlesHandle);
-        reqMCTruth = 1;
+	reqMCTruth = 1;
+	if(do_gen_stop_mass)
+    		mc_truth->fillStopNeutralinoMass(iEvent,iSetup,*ftree,genParticlesHandle);
     }
-
+    if( !do_gen_all && do_gen_stop && !isData_){
+        if(!reqMCTruth ) mc_truth->Init(*ftree);
+        mc_truth->fillTopStopDecayChain(iEvent,iSetup,*ftree,genParticlesHandle);
+	reqMCTruth = 1;
+    
+    }
     if( !isData_ )
     {
         if( !reqMCTruth ) mc_truth->Init(*ftree);

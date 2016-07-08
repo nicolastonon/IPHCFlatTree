@@ -1138,6 +1138,15 @@ void FlatTree::Init()
    pfcand_id.clear();
    pfcand_dz.clear();
    pfcand_trackIso.clear();
+
+ 
+   
+   //------------------------
+   //  GenInfo stop
+   //------------------------
+   gen_stop_m.clear();
+   gen_neutralino_m.clear();
+
 }
 
 void FlatTree::CreateBranches(int buffersize = 32000)
@@ -4844,7 +4853,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("gen_PVz") ) tree->Branch("gen_PVz", &gen_PVz, "gen_PVz/F", buffersize);
    
-   if( doWrite("gen_all") )
+   if( doWrite("gen_all") || doWrite("gen_stop"))
      {
 	tree->Branch("gen_n", &gen_n, "gen_n/I", buffersize);
 	tree->Branch("gen_pt", "std::vector<float>", &gen_pt, buffersize);
@@ -4859,6 +4868,11 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("gen_mother_index", "std::vector<int>", &gen_mother_index, buffersize);
 	tree->Branch("gen_daughter_n", "std::vector<int>", &gen_daughter_n, buffersize);
 	tree->Branch("gen_daughter_index", "std::vector<std::vector<int> >", &gen_daughter_index, buffersize);
+     }
+     if( doWrite("gen_stop") || doWrite("gen_stop_mass"))
+     {
+	tree->Branch("gen_stop_m", "std::vector<float>", &gen_stop_m, buffersize);
+	tree->Branch("gen_neutralino_m", "std::vector<float>", &gen_neutralino_m, buffersize);
      }
 
   tree->Branch("n_presel_jets",     &n_presel_jets,     "n_presel_jets/I",      buffersize);
