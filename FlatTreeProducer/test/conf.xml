@@ -356,6 +356,7 @@
     <var name="el_lepMVA_dz" save="1"></var>
     <var name="el_lepMVA_mvaId" save="1"></var>
     <var name="el_lepMVA_jetNDauChargedMVASel" save="1"></var>
+    <var name="el_jetConePt_ttH" save="1"></var>
     <var name="el_hasMatchedConversion" save="1"></var>
     <var name="el_expectedMissingInnerHits" save="1"></var>
     <var name="el_hasMCMatch" save="1" mc="1"></var>
@@ -649,6 +650,7 @@
     <var name="mu_lepMVA_dz" save="1"></var>
     <var name="mu_lepMVA_mvaId" save="1"></var>
     <var name="mu_lepMVA_jetNDauChargedMVASel" save="1"></var>
+    <var name="mu_jetConePt_ttH" save="1"></var>
     <var name="mu_hasMCMatch" save="1" mc="1"></var>
     <var name="mu_gen_pt" save="1" mc="1"></var>
     <var name="mu_gen_eta" save="1" mc="1"></var>

@@ -2029,6 +2029,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_lepMVA.push_back(el_lepMVA);
         ftree->el_lepMVA_Moriond16.push_back(el_lepMVA_Moriond16);
 
+        float conept = (jcl >= 0) ? conePtElec(elec,jets->at(jcl)) : -100;
+        ftree->el_jetConePt_ttH.push_back( conept );
+
         bool debug = false;
 
         if(debug)// && ( ftree->ev_id == 892573) )
@@ -2580,6 +2583,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_lepMVA_dz.push_back(lepMVA_dz);
         ftree->mu_lepMVA_mvaId.push_back(lepMVA_mvaId);
         ftree->mu_lepMVA_jetNDauChargedMVASel.push_back(lepMVA_jetNDauChargedMVASel);
+
+        float conept = (jcl >= 0) ? conePtMuon(muon,jets->at(jcl)) : -100;
+        ftree->mu_jetConePt_ttH.push_back( conept );
 
         bool debug = false;
 

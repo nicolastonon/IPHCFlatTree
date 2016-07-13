@@ -457,6 +457,8 @@ class FlatTree
    std::vector<float> el_lepMVA_mvaId;
    std::vector<float> el_lepMVA_jetNDauChargedMVASel;
 
+   std::vector<float> el_jetConePt_ttH;
+
    std::vector<int> el_hasMCMatch;
    std::vector<float> el_gen_pt;
    std::vector<float> el_gen_eta;
@@ -779,6 +781,8 @@ class FlatTree
    std::vector<float> mu_lepMVA_dz;
    std::vector<float> mu_lepMVA_mvaId;
    std::vector<float> mu_lepMVA_jetNDauChargedMVASel;
+
+   std::vector<float> mu_jetConePt_ttH;
 
    std::vector<int> mu_hasMCMatch;
    std::vector<float> mu_gen_pt;

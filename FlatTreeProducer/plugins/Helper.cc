@@ -364,6 +364,19 @@ float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
+float conePtElec(const pat::Electron& elec,const pat::Jet& jet)
+{
+
+   pat::Jet myCorJet;
+   myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
+
+   float          SF          = jet.p4().E() / myCorJet.p4().E();
+
+   auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
+
+   return lepAwareJetp4.pt();
+}
+
 double ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet)
 {
 
@@ -398,6 +411,19 @@ float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
    //std::cout << "Muon PtRel (lep aware):   " << PtRel                      << std::endl;
 
    return (PtRel > 0) ? PtRel : 0.0;
+}
+
+float conePtMuon(const pat::Muon& muon,const pat::Jet& jet)
+{
+
+   pat::Jet myCorJet;
+   myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
+
+   float          SF          = jet.p4().E() / myCorJet.p4().E();
+
+   auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
+
+   return lepAwareJetp4.pt();
 }
 
 int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx)

@@ -421,6 +421,8 @@ void FlatTree::Init()
    el_lepMVA_mvaId.clear();
    el_lepMVA_jetNDauChargedMVASel.clear();
 
+   el_jetConePt_ttH.clear();
+
    el_hasMCMatch.clear();
    el_gen_pt.clear();
    el_gen_eta.clear();
@@ -739,7 +741,9 @@ void FlatTree::Init()
    mu_lepMVA_dz.clear();
    mu_lepMVA_mvaId.clear();
    mu_lepMVA_jetNDauChargedMVASel.clear();
- 
+
+   mu_jetConePt_ttH.clear();
+
    mu_hasMCMatch.clear();
    mu_gen_pt.clear();
    mu_gen_eta.clear();
@@ -1546,6 +1550,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_lepMVA_mvaId") ) tree->Branch("el_lepMVA_mvaId", "std::vector<float>", &el_lepMVA_mvaId, buffersize);
    if( doWrite("el_lepMVA_jetNDauChargedMVASel") ) tree->Branch("el_lepMVA_jetNDauChargedMVASel", "std::vector<float>", &el_lepMVA_jetNDauChargedMVASel, buffersize);
 
+   if( doWrite("el_jetConePt_ttH") ) tree->Branch("el_jetConePt_ttH", "std::vector<float>", &el_jetConePt_ttH, buffersize);
+
    if( doWrite("el_hasMCMatch") ) tree->Branch("el_hasMCMatch", "std::vector<int>", &el_hasMCMatch, buffersize);
    if( doWrite("el_gen_pt") ) tree->Branch("el_gen_pt", "std::vector<float>", &el_gen_pt, buffersize);
    if( doWrite("el_gen_eta") ) tree->Branch("el_gen_eta", "std::vector<float>", &el_gen_eta, buffersize);
@@ -1864,6 +1870,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_lepMVA_dz") ) tree->Branch("mu_lepMVA_dz", "std::vector<float>", &mu_lepMVA_dz, buffersize);
    if( doWrite("mu_lepMVA_mvaId") ) tree->Branch("mu_lepMVA_mvaId", "std::vector<float>", &mu_lepMVA_mvaId, buffersize);
    if( doWrite("mu_lepMVA_jetNDauChargedMVASel") ) tree->Branch("mu_lepMVA_jetNDauChargedMVASel", "std::vector<float>", &mu_lepMVA_jetNDauChargedMVASel, buffersize);
+
+   if( doWrite("mu_jetConePt_ttH") ) tree->Branch("mu_jetConePt_ttH", "std::vector<float>", &mu_jetConePt_ttH, buffersize);
 
    if( doWrite("mu_hasMCMatch") ) tree->Branch("mu_hasMCMatch", "std::vector<int>", &mu_hasMCMatch, buffersize);
    if( doWrite("mu_gen_pt") ) tree->Branch("mu_gen_pt", "std::vector<float>", &mu_gen_pt, buffersize);
