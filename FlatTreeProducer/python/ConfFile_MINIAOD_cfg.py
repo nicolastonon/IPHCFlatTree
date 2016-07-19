@@ -151,6 +151,10 @@ for idmod in my_id_modules:
 
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 
+# https://twiki.cern.ch/twiki/bin/viewauth/CMS/EGMSmearer - added unwillingly by Xavier
+process.load('EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi')
+#process.calibratedPatElectrons
+
 # MET
 # https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
 #process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
@@ -226,8 +230,8 @@ if options.runQG:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-            '/store/mc/RunIISpring16MiniAODv1/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_v3-v1/50000/0ADF7BAE-0914-E611-B788-0025905A6068.root'
-            )
+                '/store/mc/RunIISpring16MiniAODv1/ttHToNonbb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_v3-v1/50000/0ADF7BAE-0914-E611-B788-0025905A6068.root'
+        )
 )
 
 ############
@@ -260,7 +264,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   
                   vertexInput              = cms.InputTag("offlineSlimmedPrimaryVertices"),
                   electronInput            = cms.InputTag("slimmedElectrons"),
-                  electronPATInput         = cms.InputTag("slimmedElectrons"),
+                  #electronPATInput         = cms.InputTag("slimmedElectrons"),
+                  electronPATInput         = cms.InputTag("calibratedPatElectrons"),
 
                   eleVetoCBIdMap           = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"),
                   eleLooseCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
@@ -421,6 +426,7 @@ if options.runQG:
     process.runQG = cms.Sequence(process.QGTagger)
 
 process.p = cms.Path(
+                     process.calibratedPatElectrons+
                      process.electronMVAValueMapProducer+
                      process.egmGsfElectronIDSequence+
                      process.METSignificance+

@@ -19,6 +19,21 @@ git cms-init
 # Clone this repo
 git clone https://github.com/IPHC/IPHCFlatTree.git
 
+----------------------------------------------------------------
+
+# For EGMSmearer
+
+based on https://twiki.cern.ch/twiki/bin/viewauth/CMS/EGMSmearer
+
+git remote add -f -t ecal_smear_fix_80X emanueledimarco https://github.com/emanueledimarco/cmssw.git
+git cms-addpkg EgammaAnalysis/ElectronTools
+git checkout -b from-277de3c 277de3c
+
+cd EgammaAnalysis/ElectronTools/data
+git clone -b ICHEP2016_approval_7p65fb https://github.com/emanueledimarco/ScalesSmearings.git
+----------------------------------------------------------------
+
+
 # Add MET filters
 git cms-merge-topic -u cms-met:CMSSW_8_0_X-METFilterUpdate
 
