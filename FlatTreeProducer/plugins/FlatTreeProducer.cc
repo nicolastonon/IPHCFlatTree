@@ -3607,7 +3607,7 @@ void FlatTreeProducer::beginRun(const edm::Run& iRun, const edm::EventSetup& iSe
     jecUnc = new JetCorrectionUncertainty(JetCorPar);*/
 
     const char* cmssw_base = std::getenv("CMSSW_BASE");
-    std::string JECUncertaintyPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/jecFiles/Fall15_25nsV2_MC/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt";
+    std::string JECUncertaintyPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/jecFiles/Spring16_25nsV10_MC/Spring16_25nsV10_MC_Uncertainty_AK4PFchs.txt";
     jecUnc = new JetCorrectionUncertainty(JECUncertaintyPath.c_str());
 }
 
