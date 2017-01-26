@@ -202,7 +202,7 @@ if options.runAK10:
 # Quark gluon tagging #
 #######################
 if options.runQG:
-    qgDatabaseVersion = 'v1' # check https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
+    qgDatabaseVersion = 'v2b' # check https://twiki.cern.ch/twiki/bin/viewauth/CMS/QGDataBaseVersion
 
     from CondCore.DBCommon.CondDBSetup_cfi import *
     QGPoolDBESSource = cms.ESSource("PoolDBESSource",
