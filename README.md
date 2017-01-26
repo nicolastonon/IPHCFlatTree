@@ -8,7 +8,7 @@ Install
 
 ```
 # CMSSW Release
-RELEASE=8_0_20
+RELEASE=8_0_25
 
 # Setup release
 cmsrel CMSSW_$RELEASE
@@ -20,9 +20,8 @@ git cms-init
 git clone https://github.com/IPHC/IPHCFlatTree.git
 
 # Egamma
-git cms-merge-topic ikrav:egm_id_80X_v1
-git cms-merge-topic emanueledimarco:ecal_smear_fix_80X
-cd EgammaAnalysis/ElectronTools/data; git clone -b ICHEP2016_v2 https://github.com/ECALELFS/ScalesSmearings.git; cd -
+git cms-merge-topic shervin86:Moriond2017_JEC_energyScales
+cd EgammaAnalysis/ElectronTools/data; git clone git@github.com:ECALELFS/ScalesSmearings.git; cd -
 
 # Add MET filters
 git cms-merge-topic -u cms-met:CMSSW_8_0_X-METFilterUpdate
