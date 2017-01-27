@@ -23,9 +23,10 @@ git clone https://github.com/IPHC/IPHCFlatTree.git
 git cms-merge-topic shervin86:Moriond2017_JEC_energyScales
 cd EgammaAnalysis/ElectronTools/data; git clone git@github.com:ECALELFS/ScalesSmearings.git; cd -
 git cms-merge-topic ikrav:egm_id_80X_v2
+git cms-merge-topic rafaellopesdesa:Regression80XEgammaAnalysis_v2
 
 # Add MET filters
-git cms-merge-topic -u cms-met:CMSSW_8_0_X-METFilterUpdate
+git cms-merge-topic -u cms-met:fromCMSSW_8_0_20_postICHEPfilter
 
 # Tools needed for AK10 jet collection
 git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
