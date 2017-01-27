@@ -154,6 +154,11 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 process.load('EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi')
 #process.calibratedPatElectrons
 
+from EgammaAnalysis.ElectronTools.regressionWeights_cfi import regressionWeights
+process = regressionWeights(process)
+
+process.load('EgammaAnalysis.ElectronTools.regressionApplication_cff')
+
 # MET
 # https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
 #process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
@@ -428,6 +433,7 @@ process.p = cms.Path(
                      process.calibratedPatElectrons+
                      process.electronMVAValueMapProducer+
                      process.egmGsfElectronIDSequence+
+                     process.regressionApplication+
                      process.METSignificance+
                      process.runQG+
                      process.BadChargedCandidateFilter+
