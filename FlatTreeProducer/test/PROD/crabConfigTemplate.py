@@ -8,7 +8,7 @@ config.JobType.psetName = '../runFlatTreeMINIAOD_cfg.py'
 config.JobType.pluginName = 'Analysis'
 config.JobType.inputFiles = ['../conf.xml','../Spring16_25nsV6_DATA.db','../Summer16_23Sep2016AllV3_DATA.db']
 #config.JobType.outputFiles = ['output.root']
-config.JobType.pyCfgParams = ['isData=1','runAK10=0','runQG=0']
+config.JobType.pyCfgParams = ['isData=1','runAK10=0']
 config.section_('Data')
 config.Data.totalUnits = -1
 #config.Data.totalUnits = 10
