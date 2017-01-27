@@ -50,53 +50,38 @@ if options.isData:
     corTag="JetCorrectorParametersCollection_"+corName
 dBFile=corName+".db"
 
-if options.isData:
-    process.load("CondCore.CondDB.CondDB_cfi")
-    from CondCore.DBCommon.CondDBSetup_cfi import *
-    process.jec = cms.ESSource("PoolDBESSource",
-                               DBParameters = cms.PSet(
-                               messageLevel = cms.untracked.int32(0)
-                               ),
-                               timetype = cms.string('runnumber'),
-                               toGet = cms.VPSet(
-                               cms.PSet(
-                                        record = cms.string('JetCorrectionsRecord'),
-                                        tag    = cms.string(corTag+"_AK4PF"),
-                                        label  = cms.untracked.string('AK4PF')
-                                        ),
-                               cms.PSet(
-                                        record = cms.string('JetCorrectionsRecord'),
-                                        tag    = cms.string(corTag+"_AK4PFchs"),
-                                        label  = cms.untracked.string('AK4PFchs')
-                                        ),
-                               cms.PSet(
-                                        record = cms.string('JetCorrectionsRecord'),
-                                        tag    = cms.string(corTag+"_AK8PF"),
-                                        label  = cms.untracked.string('AK8PF')
-                                        ),
-                               cms.PSet(
-                                        record = cms.string('JetCorrectionsRecord'),
-                                        tag    = cms.string(corTag+"_AK8PFchs"),
-                                        label  = cms.untracked.string('AK8PFchs')
-                                        ),
-                               ),
-                               connect = cms.string("sqlite_file:"+dBFile)
-    )
-    process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
-
-#condb="frontier://FrontierPrep/CMS_CONDITIONS"
-#if options.isData:
-#    trkProbaCalibTag = "JPcalib_Data80X_2016B_v1"
-#    condb="frontier://PromptProd/CMS_CONDITIONS"
-#else:
-#    trkProbaCalibTag = "JPcalib_MC800_v1"
-    
-#process.GlobalTag.toGet = cms.VPSet(
-#cms.PSet(record = cms.string("BTagTrackProbability3DRcd"),
-#         tag = cms.string(trkProbaCalibTag),
-#         connect = cms.string(condb)
-#         )
-#)
+process.load("CondCore.CondDB.CondDB_cfi")
+from CondCore.DBCommon.CondDBSetup_cfi import *
+process.jec = cms.ESSource("PoolDBESSource",
+                           DBParameters = cms.PSet(
+                           messageLevel = cms.untracked.int32(0)
+                           ),
+                           timetype = cms.string('runnumber'),
+                           toGet = cms.VPSet(
+                           cms.PSet(
+                                    record = cms.string('JetCorrectionsRecord'),
+                                    tag    = cms.string(corTag+"_AK4PF"),
+                                    label  = cms.untracked.string('AK4PF')
+                                    ),
+                           cms.PSet(
+                                    record = cms.string('JetCorrectionsRecord'),
+                                    tag    = cms.string(corTag+"_AK4PFchs"),
+                                    label  = cms.untracked.string('AK4PFchs')
+                                    ),
+                           cms.PSet(
+                                    record = cms.string('JetCorrectionsRecord'),
+                                    tag    = cms.string(corTag+"_AK8PF"),
+                                    label  = cms.untracked.string('AK8PF')
+                                    ),
+                           cms.PSet(
+                                    record = cms.string('JetCorrectionsRecord'),
+                                    tag    = cms.string(corTag+"_AK8PFchs"),
+                                    label  = cms.untracked.string('AK8PFchs')
+                                    ),
+                           ),
+                           connect = cms.string("sqlite_file:"+dBFile)
+)
+process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
 
 process.load('Configuration.StandardSequences.Services_cff')
 process.load("Configuration.Geometry.GeometryRecoDB_cff")
@@ -234,6 +219,7 @@ if options.runQG:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
+         #'/store/data/Run2016B/DoubleEG/MINIAOD/23Sep2016-v3/00000/68C5F6A4-1999-E611-B338-02163E013B09.root'
          '/store/mc/RunIISummer16MiniAODv2/TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/110000/0015BB42-9BAA-E611-8C7F-0CC47A7E0196.root'
         )
 )
