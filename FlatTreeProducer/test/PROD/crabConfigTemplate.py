@@ -6,7 +6,7 @@ config.General.requestName = 'REQUESTNAME'
 config.section_('JobType')
 config.JobType.psetName = '../runFlatTreeMINIAOD_cfg.py'
 config.JobType.pluginName = 'Analysis'
-config.JobType.inputFiles = ['../conf.xml','../Spring16_25nsV6_DATA.db','../Summer16_23Sep2016AllV3_DATA.db']
+config.JobType.inputFiles = ['../conf.xml','../Summer16_23Sep2016V3_MC.db','../Summer16_23Sep2016AllV3_DATA.db']
 #config.JobType.outputFiles = ['output.root']
 config.JobType.pyCfgParams = ['isData=1','runAK10=0']
 config.section_('Data')
