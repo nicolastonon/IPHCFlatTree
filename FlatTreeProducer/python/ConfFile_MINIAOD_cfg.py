@@ -39,15 +39,15 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag import GlobalTag
 
 if options.isData:
-    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v4'
+    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v5'
 else:
     process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v6'
 
-corName="Spring16_25nsV6_DATA"
+corName="Summer16_23Sep2016V3_MC"
 corTag="JetCorrectorParametersCollection_"+corName
-#if options.isData:
-#    corName="Fall15_25nsV2_DATA"
-#    corTag="JetCorrectorParametersCollection_"+corName
+if options.isData:
+    corName="Summer16_23Sep2016AllV3_DATA"
+    corTag="JetCorrectorParametersCollection_"+corName
 dBFile=corName+".db"
 
 if options.isData:
