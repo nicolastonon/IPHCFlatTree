@@ -2891,6 +2891,19 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->jet_CSVv2.push_back(CSVIVF);
 
         ftree->jet_cMVAv2.push_back(jet.bDiscriminator("pfCombinedMVAV2BJetTags"));
+        std::cout << "cMVAv2 =  " << jet.bDiscriminator("pfCombinedMVAV2BJetTags"); 
+
+        ftree->jet_deepFlavour_udsg.push_back(jet.bDiscriminator("deepFlavourjettags:probudsg"));
+        std::cout << "  deepCSV_udsg =  " << jet.bDiscriminator("deepFlavourjettags:probudsg");
+        ftree->jet_deepFlavour_b.push_back(jet.bDiscriminator("deepFlavourJetTags:probb"));
+        std::cout << "  deepCSV_b =  " << jet.bDiscriminator("deepFlavourJetTags:probb");
+        ftree->jet_deepFlavour_bb.push_back(jet.bDiscriminator("deepFlavourJetTags:probbb"));
+        std::cout << "  deepCSV_bb =  " << jet.bDiscriminator("deepFlavourJetTags:probbb");
+        ftree->jet_deepFlavour_c.push_back(jet.bDiscriminator("deepFlavourJetTags:probc"));
+        std::cout << "  deepCSV_c =  " << jet.bDiscriminator("deepFlavourJetTags:probc");
+        ftree->jet_deepFlavour_cc.push_back(jet.bDiscriminator("deepFlavourJetTags:probcc"));
+        std::cout << "  deepCSV_cc =  " << jet.bDiscriminator("deepFlavourJetTags::probcc") << std::endl;
+
         ftree->jet_CharmCvsL.push_back(jet.bDiscriminator("pfCombinedCvsLJetTags"));
         ftree->jet_CharmCvsB.push_back(jet.bDiscriminator("pfCombinedCvsBJetTags"));
 
@@ -3609,6 +3622,7 @@ void FlatTreeProducer::beginRun(const edm::Run& iRun, const edm::EventSetup& iSe
     const char* cmssw_base = std::getenv("CMSSW_BASE");
     std::string JECUncertaintyPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/jecFiles/Summer16_23Sep2016V3_MC/Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt";
     jecUnc = new JetCorrectionUncertainty(JECUncertaintyPath.c_str());
+
 }
 
 // ------------ method called when ending the processing of a run  ------------

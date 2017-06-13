@@ -732,6 +732,11 @@
     <var name="jet_CMVA" save="1"></var>
     <var name="jet_CSVv2" save="1"></var>
     <var name="jet_cMVAv2" save="1"></var>
+    <var name="jet_deepFlavour_udsg" save="1"></var>
+    <var name="jet_deepFlavour_b" save="1"></var>
+    <var name="jet_deepFlavour_c" save="1"></var>
+    <var name="jet_deepFlavour_bb" save="1"></var>
+    <var name="jet_deepFlavour_cc" save="1"></var>
     <var name="jet_CharmCvsL" save="1"></var>
     <var name="jet_CharmCvsB" save="1"></var>
     <var name="jet_partonFlavour" save="1"></var>

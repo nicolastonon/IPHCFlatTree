@@ -93,12 +93,41 @@ if options.isData:
 
 # Re-apply JEC to AK4
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
+from PhysicsTools.PatAlgos.tools.jetTools import *
+
+## b-tag discriminators
+deep_bTagDiscriminators = [
+    "deepFlavourJetTags:probudsg",
+    "deepFlavourJetTags:probb",
+    "deepFlavourJetTags:probc",
+    "deepFlavourJetTags:probbb",
+    "deepFlavourJetTags:probcc"
+]
+
+# Create deepCSV discriminants
+updateJetCollection(
+        process,
+        jetSource = cms.InputTag('slimmedJets'),
+        #labelName = 'UpdatedDeepCSV',
+        jetCorrections = ('AK4PFchs', cms.vstring([]), 'None'),
+        btagDiscriminators = deep_bTagDiscriminators
+)
+
 updateJetCollection(
     process,
     jetSource = cms.InputTag('slimmedJets'),
     labelName = 'UpdatedJEC',
     jetCorrections = ('AK4PFchs', corList, 'None')
 )
+
+#Try create new jet collection
+#addJetCollection(
+#        process,
+#        jetSource = cms.InputTag('slimmedJets'),
+#        labelName = 'UpdatedDeepCSV'),
+#        jetCorrections = ('AK4PFchs', cms.vstring([]), 'None'),
+#        btagDiscriminators = deep_bTagDiscriminators
+#)
 
 # Re-apply JEC to AK8
 updateJetCollection(
@@ -109,10 +138,12 @@ updateJetCollection(
 )
 
 #jetsNameAK4="selectedUpdatedPatJetsUpdatedJEC"
+#jetsNameAK4="selectedUpdatedPatJetsUpdatedDeepCSV"
 jetsNameAK4="slimmedJets"
 jetsNameAK8="selectedUpdatedPatJetsUpdatedJECAK8"
 #jetsNameAK10="patJetsReapplyJECAK10"
 jetsNameAK10="selectedPatJetsAK10PFCHS"
+
 
 ########################
 #  Additional modules  #

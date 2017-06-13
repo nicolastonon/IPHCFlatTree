@@ -847,6 +847,11 @@ void FlatTree::Init()
    jet_CMVA.clear();
    jet_CSVv2.clear();
    jet_cMVAv2.clear();
+   jet_deepFlavour_udsg.clear();
+   jet_deepFlavour_b.clear();
+   jet_deepFlavour_bb.clear();
+   jet_deepFlavour_c.clear();
+   jet_deepFlavour_cc.clear();
    jet_CharmCvsL.clear();
    jet_CharmCvsB.clear();
    jet_partonFlavour.clear();
@@ -1980,6 +1985,12 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("jet_CMVA") ) tree->Branch("jet_CMVA", "std::vector<float>", &jet_CMVA, buffersize);
    if( doWrite("jet_CSVv2") ) tree->Branch("jet_CSVv2", "std::vector<float>", &jet_CSVv2, buffersize);
    if( doWrite("jet_cMVAv2") ) tree->Branch("jet_cMVAv2", "std::vector<float>", &jet_cMVAv2, buffersize);
+   if( doWrite("jet_deepFlavour_udsg") ) tree->Branch("jet_deepFlavour_udsg", "std::vector<float>", &jet_deepFlavour_udsg, buffersize);
+    if( doWrite("jet_deepFlavour_b") ) tree->Branch("jet_deepFlavour_b", "std::vector<float>", &jet_deepFlavour_b, buffersize);
+    if( doWrite("jet_deepFlavour_bb") ) tree->Branch("jet_deepFlavour_bb", "std::vector<float>", &jet_deepFlavour_bb, buffersize);
+    if( doWrite("jet_deepFlavour_c") ) tree->Branch("jet_deepFlavour_c", "std::vector<float>", &jet_deepFlavour_c, buffersize);
+    if( doWrite("jet_deepFlavour_cc") ) tree->Branch("jet_deepFlavour_cc", "std::vector<float>", &jet_deepFlavour_cc, buffersize);
+
    if( doWrite("jet_CharmCvsL") ) tree->Branch("jet_CharmCvsL", "std::vector<float>", &jet_CharmCvsL, buffersize);
    if( doWrite("jet_CharmCvsB") ) tree->Branch("jet_CharmCvsB", "std::vector<float>", &jet_CharmCvsB, buffersize);
    if( doWrite("jet_partonFlavour") ) tree->Branch("jet_partonFlavour", "std::vector<int>", &jet_partonFlavour, buffersize);
