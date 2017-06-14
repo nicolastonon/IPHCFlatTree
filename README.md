@@ -30,6 +30,10 @@ git cms-merge-topic -u cms-met:fromCMSSW_8_0_20_postICHEPfilter
 # Tools needed for AK10 jet collection
 git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
 
+# Add DeepCSV tagger
+git cms-merge-topic -u mverzett:DeepFlavour-from-CMSSW_8_0_21
+mkdir RecoBTag/DeepFlavour/data/; cd RecoBTag/DeepFlavour/data/; wget http://home.fnal.gov/~verzetti//DeepFlavour/training/DeepFlavourNoSL.json; cd -
+
 # Compile the monster
 scram b
 ```

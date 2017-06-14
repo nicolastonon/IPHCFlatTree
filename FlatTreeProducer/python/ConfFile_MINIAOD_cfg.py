@@ -93,11 +93,28 @@ if options.isData:
 
 # Re-apply JEC to AK4
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
+
+bTagDiscriminators = [
+    'deepFlavourJetTags:probudsg',
+    'deepFlavourJetTags:probb',
+    'deepFlavourJetTags:probc',
+    'deepFlavourJetTags:probbb',
+    'deepFlavourJetTags:probcc',
+]
+
+#updateJetCollection(
+#    process,
+#    jetSource = cms.InputTag('slimmedJets'),
+#    labelName = 'UpdatedJEC',
+#    jetCorrections = ('AK4PFchs', corList, 'None')
+#)
+
 updateJetCollection(
     process,
-    jetSource = cms.InputTag('slimmedJets'),
+    jetSource = cms.InputTag('slimmedJets','','PAT'),
+    jetCorrections = ('AK4PFchs', corList, 'None'),
     labelName = 'UpdatedJEC',
-    jetCorrections = ('AK4PFchs', corList, 'None')
+    btagDiscriminators = bTagDiscriminators,
 )
 
 # Re-apply JEC to AK8
@@ -108,8 +125,8 @@ updateJetCollection(
     jetCorrections = ('AK8PFchs', corList, 'None')
 )
 
-#jetsNameAK4="selectedUpdatedPatJetsUpdatedJEC"
-jetsNameAK4="slimmedJets"
+jetsNameAK4="selectedUpdatedPatJetsUpdatedJEC"
+#jetsNameAK4="slimmedJets"
 jetsNameAK8="selectedUpdatedPatJetsUpdatedJECAK8"
 #jetsNameAK10="patJetsReapplyJECAK10"
 jetsNameAK10="selectedPatJetsAK10PFCHS"

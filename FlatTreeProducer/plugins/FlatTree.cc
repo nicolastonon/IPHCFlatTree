@@ -846,6 +846,11 @@ void FlatTree::Init()
    jet_SSVHP.clear();
    jet_CMVA.clear();
    jet_CSVv2.clear();
+   jet_DeepCSVProbudsg.clear();
+   jet_DeepCSVProbb.clear();
+   jet_DeepCSVProbc.clear();
+   jet_DeepCSVProbbb.clear();
+   jet_DeepCSVProbcc.clear();
    jet_cMVAv2.clear();
    jet_CharmCvsL.clear();
    jet_CharmCvsB.clear();
@@ -1979,6 +1984,11 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("jet_SSVHP") ) tree->Branch("jet_SSVHP", "std::vector<float>", &jet_SSVHP, buffersize);
    if( doWrite("jet_CMVA") ) tree->Branch("jet_CMVA", "std::vector<float>", &jet_CMVA, buffersize);
    if( doWrite("jet_CSVv2") ) tree->Branch("jet_CSVv2", "std::vector<float>", &jet_CSVv2, buffersize);
+   if( doWrite("jet_DeepCSVProbudsg") ) tree->Branch("jet_DeepCSVProbudsg", "std::vector<float>", &jet_DeepCSVProbudsg, buffersize);
+   if( doWrite("jet_DeepCSVProbb") ) tree->Branch("jet_DeepCSVProbb", "std::vector<float>", &jet_DeepCSVProbb, buffersize);
+   if( doWrite("jet_DeepCSVProbc") ) tree->Branch("jet_DeepCSVProbc", "std::vector<float>", &jet_DeepCSVProbc, buffersize);
+   if( doWrite("jet_DeepCSVProbbb") ) tree->Branch("jet_DeepCSVProbbb", "std::vector<float>", &jet_DeepCSVProbbb, buffersize);
+   if( doWrite("jet_DeepCSVProbcc") ) tree->Branch("jet_DeepCSVProbcc", "std::vector<float>", &jet_DeepCSVProbcc, buffersize);
    if( doWrite("jet_cMVAv2") ) tree->Branch("jet_cMVAv2", "std::vector<float>", &jet_cMVAv2, buffersize);
    if( doWrite("jet_CharmCvsL") ) tree->Branch("jet_CharmCvsL", "std::vector<float>", &jet_CharmCvsL, buffersize);
    if( doWrite("jet_CharmCvsB") ) tree->Branch("jet_CharmCvsB", "std::vector<float>", &jet_CharmCvsB, buffersize);
