@@ -732,6 +732,11 @@
     <var name="jet_CMVA" save="1"></var>
     <var name="jet_CSVv2" save="1"></var>
     <var name="jet_cMVAv2" save="1"></var>
+    <var name="jet_DeepCSVProbudsg" save="1"></var>
+    <var name="jet_DeepCSVProbb" save="1"></var>
+    <var name="jet_DeepCSVProbbb" save="1"></var>
+    <var name="jet_DeepCSVProbc" save="1"></var>
+    <var name="jet_DeepCSVProbcc" save="1"></var>
     <var name="jet_CharmCvsL" save="1"></var>
     <var name="jet_CharmCvsB" save="1"></var>
     <var name="jet_partonFlavour" save="1"></var>
