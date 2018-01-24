@@ -59,13 +59,15 @@ scram b -j5
 ```
 cd XXX/IPHCFlatTree/FlatTreeProducer/test/PROD
 ```
-* **list.txt** - create it and add all the dataset names, e.g. : 
+* **list.txt** - create it and add the names of the datasets/samples you want to process, e.g. : 
 
 ```
 ...
 /THQ_Hincl_13TeV-madgraph-pythia8_TuneCUETP8M1/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM
 ...
 ```
+(NB : if you add several samples at once, they will each yield a separate task. The merging has to be done at the NTupleProducer level)
+
 
 * **submit.zsh** - modify the following :
 
@@ -83,13 +85,23 @@ prodv="/store/user/YOUR_USERNAME/FlatTree/${ver}/" //Will store output files on 
 ...
 isData=0 #Or 1 for data
 ...
-config.Data.unitsPerJob = 2 #nof files (or lumisections) in each job #To be optimized, especially for data
+config.Data.unitsPerJob = 2 #For MC, ~2 MC files per job
+config.Data.unitsPerJob = 2 #For Data, ~20 lumisections per job
 ...
 config.Data.splitting = 'FileBased' #For MC
 #config.Data.splitting = 'LumiBased' #For data
 ...
-#config.Data.lumiMask = 'GRL/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt' #Comment for MC
+#config.Data.lumiMask = 'GRL/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt' #Comment for MC ?
 ...
+```
+
+
+### Interactive test
+
+Can use a modified cfg file in directory /test/ (so that some relative paths are fine), to check that you can access the data. Some lines needs to be changed (sample name, etc.)
+
+```
+cmsRun crabConfig_test.py
 ```
 
 
