@@ -65,7 +65,6 @@ scram b -j5
 cd XXX/IPHCFlatTree/FlatTreeProducer/test/PROD
 ```
 * **list.txt** - create it and add the names of the datasets/samples you want to process, e.g. : 
-
 ```
 ...
 /THQ_Hincl_13TeV-madgraph-pythia8_TuneCUETP8M1/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM
@@ -75,7 +74,6 @@ cd XXX/IPHCFlatTree/FlatTreeProducer/test/PROD
 
 
 * **submit.zsh** - modify the following :
-
 ```
 ...
 slist="list.txt" //Text file containing datasets names
@@ -85,7 +83,6 @@ prodv="/store/user/YOUR_USERNAME/FlatTree/${ver}/" //Will store output files on 
 ```
 
 * **crabConfigTemplate.py** - modify the following :
-
 ```
 ...
 isData=0 #Or 1 for data
@@ -103,7 +100,7 @@ config.Data.splitting = 'FileBased' #For MC
 
 ### Interactive test
 
-Can use a modified cfg file in directory /test/ (so that some relative paths are fine), to check that you can access the data. Some lines needs to be changed (sample name, etc.)
+Can use a modified cfg file in directory test/ (else, errors from some relative paths), to check that you can access the data. Some lines needs to be changed (sample name, etc.)
 
 ```
 cmsRun crabConfig_test.py
