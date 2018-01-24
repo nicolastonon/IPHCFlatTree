@@ -8,9 +8,14 @@ source /cvmfs/cms.cern.ch/cmsset_default.sh
 source /cvmfs/cms.cern.ch/crab3/crab.sh
 ```
 
+*To create proxy :*
+```
+voms-proxy-init -voms cms -hours 192
+```
+
 ## FlatTreeProducer
 
-Installing and running the IPHCFlatTree code to produce Flat Trees. Using branch "tHq (based on tag "Walrus-patch-2").
+Installing and running the IPHCFlatTree code to produce Flat Trees. Using branch "tHq" (based on tag "Walrus-patch-2").
 
 ### Installation
 
