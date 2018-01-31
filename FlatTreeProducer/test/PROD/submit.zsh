@@ -21,7 +21,7 @@ do
   pubdn=$(echo "${spl[2]}_${spl[3]}" | sed 's%-%_%g')
   nam=$(echo "${spl[1]}" | sed 's%-%_%g')
   reqn=$(echo "${nam}_${pubdn}" | sed 's%_RunIISummer16MiniAODv2.*%%g')
-  #reqn=test
+  #reqn=ttZ_e3
   cat ${pset} | sed "s%INPUTDATASET%${i}%g" \
   | sed "s%OUTLFN%${prodv}%g" \
   | sed "s%REQUESTNAME%${reqn}%g" \
