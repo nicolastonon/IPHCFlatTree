@@ -763,8 +763,8 @@
     <var name="jet_muonEnergyFraction" save="1"></var>
     <var name="jet_chargedEmEnergyFraction" save="1"></var>
     <var name="jet_pileupJetId" save="1"></var>
-    <var name="jet_looseJetID" save="1"></var>
     <var name="jet_tightJetID" save="1"></var>
+    <var name="jet_tightLepVetoJetID" save="1"></var>
     <var name="jet_qgtag" save="1"></var>
     <var name="jet_hasGenJet" save="1" mc="1"></var>
     <var name="jet_genJet_pt" save="1" mc="1"></var>
@@ -877,7 +877,6 @@
     <var name="ak8jet_jecFactorL2Relative" save="0"></var>
     <var name="ak8jet_jecFactorL3Absolute" save="0"></var>
     <var name="ak8jet_pileupJetId" save="0"></var>
-    <var name="ak8jet_looseJetID" save="0"></var>
     <var name="ak8jet_tightJetID" save="0"></var>
     <var name="ak8jet_hasGenJet" save="0" mc="1"></var>
     <var name="ak8jet_genJet_pt" save="0" mc="1"></var>
@@ -931,7 +930,6 @@
     <var name="ak10jet_jecFactorL2Relative" save="0"></var>
     <var name="ak10jet_jecFactorL3Absolute" save="0"></var>
     <var name="ak10jet_pileupJetId" save="0"></var>
-    <var name="ak10jet_looseJetID" save="0"></var>
     <var name="ak10jet_tightJetID" save="0"></var>
     <var name="ak10jet_hasGenJet" save="0" mc="1"></var>
     <var name="ak10jet_genJet_pt" save="0" mc="1"></var>

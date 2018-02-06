@@ -930,8 +930,9 @@ class FlatTree
    
    std::vector<float> jet_pileupJetId;
    
-   std::vector<bool> jet_looseJetID;
+//   std::vector<bool> jet_looseJetID;
    std::vector<bool> jet_tightJetID;
+   std::vector<bool> jet_tightLepVetoJetID;
    std::vector<float> jet_qgtag;
 
    std::vector<bool> jet_hasGenJet;   
@@ -1054,7 +1055,7 @@ class FlatTree
    std::vector<float> ak8jet_jetArea;
    
    std::vector<float> ak8jet_pileupJetId;
-   std::vector<bool> ak8jet_looseJetID;
+//   std::vector<bool> ak8jet_looseJetID;
    std::vector<bool> ak8jet_tightJetID;
       
    std::vector<bool> ak8jet_hasGenJet;
@@ -1130,7 +1131,7 @@ class FlatTree
    std::vector<float> ak10jet_jetArea;
    
    std::vector<float> ak10jet_pileupJetId;
-   std::vector<bool> ak10jet_looseJetID;
+//   std::vector<bool> ak10jet_looseJetID;
    std::vector<bool> ak10jet_tightJetID;
       
    std::vector<bool> ak10jet_hasGenJet;

@@ -1351,10 +1351,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     bool pass_goodVertices = 1;
     bool pass_eeBadScFilter = 1;
     bool pass_globalTightHalo2016Filter = 1;
+    bool pass_BadPFMuonFilter = 1;
+    bool pass_BadChargedCandidateFilter = 1;
+    bool pass_ecalBadCalibFilter = 1;
 
-    bool pass_badMuonFilter = *badMuonFilter;
-    bool pass_badChargedCandidateFilter = *badChargedCandidateFilter;
+//    bool pass_badMuonFilter = *badMuonFilter;
+//    bool pass_badChargedCandidateFilter = *badChargedCandidateFilter;
 
+    // https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#Moriond_2018
+   
     if( triggerBitsPAT.isValid() )
     {	
         for (unsigned int i = 0, n = triggerBitsPAT->size(); i < n; ++i)
@@ -1379,13 +1384,25 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             {
                 if( !isFired ) pass_goodVertices = 0;
             }
-            else if( strcmp(triggerName.c_str(),"Flag_eeBadScFilter") == 0 )
+            else if( strcmp(triggerName.c_str(),"Flag_eeBadScFilter") == 0 && isData_ == 1 )
             {
                 if( !isFired ) pass_eeBadScFilter = 0;
             }
             else if( strcmp(triggerName.c_str(),"Flag_globalTightHalo2016Filter") == 0 )
             {
                 if( !isFired ) pass_globalTightHalo2016Filter = 0;
+            }
+            else if( strcmp(triggerName.c_str(),"Flag_BadPFMuonFilter") == 0 )
+            {
+                if( !isFired ) pass_BadPFMuonFilter = 0;
+            }
+            else if( strcmp(triggerName.c_str(),"Flag_BadChargedCandidateFilter") == 0 )
+            {
+                if( !isFired ) pass_BadChargedCandidateFilter = 0;
+            }
+            else if( strcmp(triggerName.c_str(),"Flag_ecalBadCalibFilter") == 0 )
+            {
+                if( !isFired ) pass_ecalBadCalibFilter = 0;
             }
         }
     }
@@ -1396,8 +1413,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             pass_goodVertices && 
             pass_eeBadScFilter &&
             pass_globalTightHalo2016Filter &&
-            pass_badMuonFilter &&
-            pass_badChargedCandidateFilter);
+            pass_BadPFMuonFilter &&
+            pass_BadChargedCandidateFilter &&
+	    pass_ecalBadCalibFilter);
 
     //std::cout << "\n === TRIGGER PATHS === " << std::endl;
     for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i)
@@ -2928,25 +2946,40 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             ftree->jet_pileupJetId.push_back(-666.);
 
         // Jet ID
+
+	// https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2017
+	
         float NHF = jet.neutralHadronEnergyFraction();
         float NEMF = jet.neutralEmEnergyFraction();
         float CHF = jet.chargedHadronEnergyFraction();
         float MUF = jet.muonEnergyFraction();
         float CEMF = jet.chargedEmEnergyFraction();
-        float NumConst = jet.chargedMultiplicity()+jet.neutralMultiplicity();
+        float NEM = jet.neutralMultiplicity();
         float CHM = jet.chargedMultiplicity();
+        float NumConst = NEM + CHM;
         float eta = jet.eta();
-        bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
-        bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || fabs(eta)>2.4);
+//        bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
 
+        bool tightJetID = 1;
+        bool tightLepVetoJetID = 1;
+       
+        if( fabs(eta) < 2.7 ) tightLepVetoJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8);
+        if( fabs(eta) <= 2.4 ) tightLepVetoJetID = (CHF>0 && CHM>0 && CEMF<0.80);
+
+        if( fabs(eta) < 2.7 ) tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1);
+        if( fabs(eta) <= 2.4 ) tightJetID = (CHF>0 && CHM>0);
+        if( fabs(eta) >= 2.7 && fabs(eta) < 3.0 ) tightJetID = (NEMF>0.02 && NEMF<0.99 && NEM>2);
+        if( fabs(eta) >= 3.0 ) tightJetID = (NEMF<0.90 && NHF>0.02 && NEM>10);
+       
         ftree->jet_neutralHadronEnergyFraction.push_back(jet.neutralHadronEnergyFraction());
         ftree->jet_neutralEmEnergyFraction.push_back(jet.neutralEmEnergyFraction());
         ftree->jet_chargedHadronEnergyFraction.push_back(jet.chargedHadronEnergyFraction());
         ftree->jet_muonEnergyFraction.push_back(jet.muonEnergyFraction());
         ftree->jet_chargedEmEnergyFraction.push_back(jet.chargedEmEnergyFraction());
 
-        ftree->jet_looseJetID.push_back(looseJetID);
+//        ftree->jet_looseJetID.push_back(looseJetID);
         ftree->jet_tightJetID.push_back(tightJetID);
+        ftree->jet_tightLepVetoJetID.push_back(tightLepVetoJetID);
 
         //Quark-gluon tagging
         const auto jetRef = view_jets->ptrAt(ij);
@@ -3203,10 +3236,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             float NumConst = jet.chargedMultiplicity()+jet.neutralMultiplicity();
             float CHM = jet.chargedMultiplicity();
             float eta = jet.eta();
-            bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
+//            bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
             bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || fabs(eta)>2.4);
 
-            ftree->ak8jet_looseJetID.push_back(looseJetID);
+//            ftree->ak8jet_looseJetID.push_back(looseJetID);
             ftree->ak8jet_tightJetID.push_back(tightJetID);
 
             const reco::GenJet* genJet = jet.genJet();
@@ -3374,10 +3407,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             float NumConst = jet.chargedMultiplicity()+jet.neutralMultiplicity();
             float CHM = jet.chargedMultiplicity();
             float eta = jet.eta();
-            bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
+//            bool looseJetID = (NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || fabs(eta)>2.4);
             bool tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((fabs(eta)<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || fabs(eta)>2.4);
 
-            ftree->ak10jet_looseJetID.push_back(looseJetID);
+//            ftree->ak10jet_looseJetID.push_back(looseJetID);
             ftree->ak10jet_tightJetID.push_back(tightJetID);
 
             const reco::GenJet* genJet = jet.genJet();

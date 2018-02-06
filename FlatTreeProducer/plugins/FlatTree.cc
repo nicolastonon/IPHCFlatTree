@@ -886,8 +886,9 @@ void FlatTree::Init()
    
    jet_pileupJetId.clear();
 
-   jet_looseJetID.clear();
+//   jet_looseJetID.clear();
    jet_tightJetID.clear();
+   jet_tightLepVetoJetID.clear();
    jet_qgtag.clear();   
    
    jet_hasGenJet.clear();   
@@ -1012,7 +1013,7 @@ void FlatTree::Init()
    
    ak8jet_pileupJetId.clear();
    
-   ak8jet_looseJetID.clear();
+//   ak8jet_looseJetID.clear();
    ak8jet_tightJetID.clear();
    
    ak8jet_hasGenJet.clear();
@@ -1090,7 +1091,7 @@ void FlatTree::Init()
    
    ak10jet_pileupJetId.clear();
    
-   ak10jet_looseJetID.clear();
+//   ak10jet_looseJetID.clear();
    ak10jet_tightJetID.clear();
    
    ak10jet_hasGenJet.clear();
@@ -2024,8 +2025,9 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("jet_pileupJetId") ) tree->Branch("jet_pileupJetId", "std::vector<float>", &jet_pileupJetId, buffersize);
    
-   if( doWrite("jet_looseJetID") ) tree->Branch("jet_looseJetID", "std::vector<bool>", &jet_looseJetID, buffersize);
+//   if( doWrite("jet_looseJetID") ) tree->Branch("jet_looseJetID", "std::vector<bool>", &jet_looseJetID, buffersize);
    if( doWrite("jet_tightJetID") ) tree->Branch("jet_tightJetID", "std::vector<bool>", &jet_tightJetID, buffersize);
+   if( doWrite("jet_tightLepVetoJetID") ) tree->Branch("jet_tightLepVetoJetID", "std::vector<bool>", &jet_tightLepVetoJetID, buffersize);
    if( doWrite("jet_qgtag") ) tree->Branch("jet_qgtag", "std::vector<float>", &jet_qgtag, buffersize);
 
    if( doWrite("jet_hasGenJet") ) tree->Branch("jet_hasGenJet", "std::vector<bool>", &jet_hasGenJet, buffersize);   
@@ -2150,7 +2152,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("ak8jet_pileupJetId") ) tree->Branch("ak8jet_pileupJetId", "std::vector<float>", &ak8jet_pileupJetId, buffersize);
    
-   if( doWrite("ak8jet_looseJetID") ) tree->Branch("ak8jet_looseJetID", "std::vector<bool>", &ak8jet_looseJetID, buffersize);
+//   if( doWrite("ak8jet_looseJetID") ) tree->Branch("ak8jet_looseJetID", "std::vector<bool>", &ak8jet_looseJetID, buffersize);
    if( doWrite("ak8jet_tightJetID") ) tree->Branch("ak8jet_tightJetID", "std::vector<bool>", &ak8jet_tightJetID, buffersize);
    
    if( doWrite("ak8jet_hasGenJet") ) tree->Branch("ak8jet_hasGenJet", "std::vector<bool>", &ak8jet_hasGenJet, buffersize);
@@ -2229,7 +2231,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("ak10jet_pileupJetId") ) tree->Branch("ak10jet_pileupJetId", "std::vector<float>", &ak10jet_pileupJetId, buffersize);
    
-   if( doWrite("ak10jet_looseJetID") ) tree->Branch("ak10jet_looseJetID", "std::vector<bool>", &ak10jet_looseJetID, buffersize);
+//   if( doWrite("ak10jet_looseJetID") ) tree->Branch("ak10jet_looseJetID", "std::vector<bool>", &ak10jet_looseJetID, buffersize);
    if( doWrite("ak10jet_tightJetID") ) tree->Branch("ak10jet_tightJetID", "std::vector<bool>", &ak10jet_tightJetID, buffersize);
    
    if( doWrite("ak10jet_hasGenJet") ) tree->Branch("ak10jet_hasGenJet", "std::vector<bool>", &ak10jet_hasGenJet, buffersize);
