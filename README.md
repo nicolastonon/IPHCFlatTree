@@ -25,7 +25,7 @@ mkdir MyAnalysis
 cd MyAnalysis
 
 # CMSSW Release
-RELEASE=8_0_25
+RELEASE=9_4_3
 
 # Setup release
 cmsrel CMSSW_$RELEASE
@@ -33,16 +33,11 @@ cd CMSSW_X_Y_Z/src
 cmsenv
 git cms-init
 
-# Clone this repo (tHq branch!)
-git clone -b tHq https://github.com/IPHC/IPHCFlatTree.git
+# Clone this repo
+git clone https://github.com/IPHC/IPHCFlatTree.git
 
 # Egamma
-git cms-merge-topic shervin86:Moriond2017_JEC_energyScales
-cd EgammaAnalysis/ElectronTools/data; git clone https://github.com/ECALELFS/ScalesSmearings; cd -
-git cms-merge-topic ikrav:egm_id_80X_v2
-
-# Add MET filters
-git cms-merge-topic -u cms-met:fromCMSSW_8_0_20_postICHEPfilter
+git cms-merge-topic lsoffi:CMSSW_9_4_0_pre3_TnP
 
 # Tools needed for AK10 jet collection
 git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
@@ -54,8 +49,6 @@ mkdir RecoBTag/DeepFlavour/data/; cd RecoBTag/DeepFlavour/data/; wget http://hom
 # Compile the monster (use -jN for multicore)
 scram b -j5
 ```
-
-(( Instructions taken from [IPHCFlatTree's README](https://github.com/IPHC/IPHCFlatTree/tree/Walrus-patch2) ))
 
 
 ### Set-up
