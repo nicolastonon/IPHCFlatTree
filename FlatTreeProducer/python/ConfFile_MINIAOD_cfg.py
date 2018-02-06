@@ -13,7 +13,7 @@ options.register('applyMETFilters',True,VarParsing.multiplicity.singleton,VarPar
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 options.register('runAK10',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK10 jets')
 
-options.register('runQG',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger') #FIXME
+options.register('runQG',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger')
 
 options.register('fillMCScaleWeight',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PDF weights')
 options.register('fillPUInfo',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PU info')
@@ -113,7 +113,8 @@ bTagDiscriminators = [
 
 updateJetCollection(
     process,
-    jetSource = cms.InputTag('slimmedJets','','PAT'),
+    #jetSource = cms.InputTag('slimmedJets','','PAT'), #FIXME -- jets reclustering to add DeepFlav caused bug -- fixed by Kirill  !
+    jetSource = cms.InputTag('slimmedJets'),
     jetCorrections = ('AK4PFchs', corList, 'None'),
     labelName = 'UpdatedJEC',
     btagDiscriminators = bTagDiscriminators,

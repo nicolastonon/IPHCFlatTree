@@ -13,11 +13,11 @@ config.JobType.inputFiles = ['../conf.xml','../Summer16_23Sep2016V3_MC.db','../S
 config.JobType.pyCfgParams = ['isData=1','runAK10=0']
 config.section_('Data')
 
-#config.Data.totalUnits = -1 #nof files (or lumisection) to analyze in total
-config.Data.totalUnits = 10
+config.Data.totalUnits = -1 #nof files (or lumisection) to analyze in total
+#config.Data.totalUnits = 10
 
-#config.Data.unitsPerJob = 2 #nof files (or lumisections) in each job
-config.Data.unitsPerJob = 30
+#config.Data.unitsPerJob = 1 #nof files (or lumisections) in each job
+config.Data.unitsPerJob = 10
 
 #config.Data.splitting = 'FileBased'
 config.Data.splitting = 'LumiBased'

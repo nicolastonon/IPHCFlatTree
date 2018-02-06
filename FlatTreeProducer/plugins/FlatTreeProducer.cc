@@ -2895,6 +2895,17 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->jet_DeepCSVProbc.push_back(jet.bDiscriminator("deepFlavourJetTags:probc"));
         ftree->jet_DeepCSVProbbb.push_back(jet.bDiscriminator("deepFlavourJetTags:probbb"));
         ftree->jet_DeepCSVProbcc.push_back(jet.bDiscriminator("deepFlavourJetTags:probcc"));
+	
+	
+	/*
+	cout<<"jet.bDiscriminator(pfCombinedInclusiveSecondaryVertexV2BJetTags) = "<<jet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")<<endl;
+	cout<<"jet.bDiscriminator(deepFlavourJetTags:probudsg) = "<<jet.bDiscriminator("deepFlavourJetTags:probudsg")<<endl;
+	cout<<"jet.bDiscriminator(deepFlavourJetTags:probb) = "<<jet.bDiscriminator("deepFlavourJetTags:probb")<<endl;
+	cout<<"jet.bDiscriminator(deepFlavourJetTags:probc) = "<<jet.bDiscriminator("deepFlavourJetTags:probc")<<endl;
+	cout<<"jet.bDiscriminator(deepFlavourJetTags:probbb) = "<<jet.bDiscriminator("deepFlavourJetTags:probbb")<<endl;
+	cout<<"jet.bDiscriminator(deepFlavourJetTags:probcc) = "<<jet.bDiscriminator("deepFlavourJetTags:probcc")<<endl;
+	*/
+	
 
         ftree->jet_cMVAv2.push_back(jet.bDiscriminator("pfCombinedMVAV2BJetTags"));
         ftree->jet_CharmCvsL.push_back(jet.bDiscriminator("pfCombinedCvsLJetTags"));
