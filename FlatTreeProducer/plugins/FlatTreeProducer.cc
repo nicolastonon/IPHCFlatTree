@@ -1876,10 +1876,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         // Track hits
         const reco::HitPattern& pattern = gsfTrack->hitPattern();
         ftree->el_numberOfLostHits.push_back(pattern.numberOfLostHits(reco::HitPattern::HitCategory::MISSING_INNER_HITS));
-        ftree->el_expectedMissingInnerHits.push_back(pattern.numberOfHits(reco::HitPattern::MISSING_INNER_HITS));
-        ftree->el_numberOfHits.push_back(pattern.numberOfHits(reco::HitPattern::HitCategory::MISSING_INNER_HITS));
+        ftree->el_expectedMissingInnerHits.push_back(pattern.numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS));
+        ftree->el_numberOfHits.push_back(pattern.numberOfAllHits(reco::HitPattern::HitCategory::MISSING_INNER_HITS));
 
-        ftree->el_expectedMissingOuterHits.push_back(pattern.numberOfHits(reco::HitPattern::MISSING_OUTER_HITS));
+        ftree->el_expectedMissingOuterHits.push_back(pattern.numberOfAllHits(reco::HitPattern::MISSING_OUTER_HITS));
         ftree->el_numberOfValidPixelHits.push_back(pattern.numberOfValidPixelHits());
         ftree->el_numberOfLostPixelHits.push_back(pattern.numberOfLostPixelHits(reco::HitPattern::TRACK_HITS));
         ftree->el_trackerLayersWithMeasurement.push_back(pattern.trackerLayersWithMeasurement());
@@ -2194,7 +2194,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         if( dataFormat_ != "AOD" )
         {
             bool matchConv = 0;
-            if( &beamspot ) matchConv = ConversionTools::hasMatchedConversion(elec,hConversions,beamspot.position(),allowCkfMatch,lxyMin,probMin,nHitsBeforeVtxMax);
+            matchConv = ConversionTools::hasMatchedConversion(elec,hConversions,beamspot.position(),allowCkfMatch,lxyMin,probMin,nHitsBeforeVtxMax);
             ftree->el_hasMatchedConversion.push_back(matchConv);
         }
     }
@@ -2281,8 +2281,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_globalTrack_trackerLayersWithoutMeasurement.push_back((hasGlobalTrack) ? globalTrack->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) : -666);
         ftree->mu_globalTrack_numberOfValidPixelHits.push_back((hasGlobalTrack) ? globalTrack->hitPattern().numberOfValidPixelHits() : -666);
         ftree->mu_globalTrack_numberOfLostPixelHits.push_back((hasGlobalTrack) ? globalTrack->hitPattern().numberOfLostPixelHits(reco::HitPattern::TRACK_HITS) : -666);
-        ftree->mu_globalTrack_numberOfInnerHits.push_back((hasGlobalTrack) ? globalTrack->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS) : -666);
-        ftree->mu_globalTrack_numberOfOuterHits.push_back((hasGlobalTrack) ? globalTrack->hitPattern().numberOfHits(reco::HitPattern::MISSING_OUTER_HITS) : -666);
+        ftree->mu_globalTrack_numberOfInnerHits.push_back((hasGlobalTrack) ? globalTrack->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS) : -666);
+        ftree->mu_globalTrack_numberOfOuterHits.push_back((hasGlobalTrack) ? globalTrack->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_OUTER_HITS) : -666);
         ftree->mu_globalTrack_validFraction.push_back((hasGlobalTrack) ? globalTrack->validFraction() : -666);
 
         // BestTrack
@@ -2324,8 +2324,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_bestTrack_trackerLayersWithoutMeasurement.push_back((hasBestTrack) ? bestTrack->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) : -666);
         ftree->mu_bestTrack_numberOfValidPixelHits.push_back((hasBestTrack) ? bestTrack->hitPattern().numberOfValidPixelHits() : -666);
         ftree->mu_bestTrack_numberOfLostPixelHits.push_back((hasBestTrack) ? bestTrack->hitPattern().numberOfLostPixelHits(reco::HitPattern::TRACK_HITS) : -666);
-        ftree->mu_bestTrack_numberOfInnerHits.push_back((hasBestTrack) ? bestTrack->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS) : -666);
-        ftree->mu_bestTrack_numberOfOuterHits.push_back((hasBestTrack) ? bestTrack->hitPattern().numberOfHits(reco::HitPattern::MISSING_OUTER_HITS) : -666);
+        ftree->mu_bestTrack_numberOfInnerHits.push_back((hasBestTrack) ? bestTrack->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS) : -666);
+        ftree->mu_bestTrack_numberOfOuterHits.push_back((hasBestTrack) ? bestTrack->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_OUTER_HITS) : -666);
         ftree->mu_bestTrack_validFraction.push_back((hasBestTrack) ? bestTrack->validFraction() : -666);
 
         // InnerTrack
@@ -2366,8 +2366,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_innerTrack_trackerLayersWithoutMeasurement.push_back((hasInnerTrack) ? innerTrack->hitPattern().trackerLayersWithoutMeasurement(reco::HitPattern::TRACK_HITS) : -666);
         ftree->mu_innerTrack_numberOfValidPixelHits.push_back((hasInnerTrack) ? innerTrack->hitPattern().numberOfValidPixelHits() : -666);
         ftree->mu_innerTrack_numberOfLostPixelHits.push_back((hasInnerTrack) ? innerTrack->hitPattern().numberOfLostPixelHits(reco::HitPattern::TRACK_HITS) : -666);
-        ftree->mu_innerTrack_numberOfInnerHits.push_back((hasInnerTrack) ? innerTrack->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS) : -666);
-        ftree->mu_innerTrack_numberOfOuterHits.push_back((hasInnerTrack) ? innerTrack->hitPattern().numberOfHits(reco::HitPattern::MISSING_OUTER_HITS) : -666);
+        ftree->mu_innerTrack_numberOfInnerHits.push_back((hasInnerTrack) ? innerTrack->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS) : -666);
+        ftree->mu_innerTrack_numberOfOuterHits.push_back((hasInnerTrack) ? innerTrack->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_OUTER_HITS) : -666);
         ftree->mu_innerTrack_validFraction.push_back((hasInnerTrack) ? innerTrack->validFraction() : -666);
 
         // PF Isolation

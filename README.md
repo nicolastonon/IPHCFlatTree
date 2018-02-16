@@ -40,12 +40,6 @@ git clone https://github.com/IPHC/IPHCFlatTree.git
 git cms-merge-topic lsoffi:CMSSW_9_4_0_pre3_TnP
 git cms-merge-topic guitargeek:ElectronID_MVA2017_940pre3
 
-cd $CMSSW_BASE/external/$SCRAM_ARCH
-git clone https://github.com/lsoffi/RecoEgamma-ElectronIdentification.git data/RecoEgamma/ElectronIdentification/data
-cd data/RecoEgamma/ElectronIdentification/data
-git checkout CMSSW_9_4_0_pre3_TnP
-cd $CMSSW_BASE/src
-
 # Tools needed for AK10 jet collection
 git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
 
