@@ -296,8 +296,10 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   ele80IsoMVAIdMap         = cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wp80"),
                   eleLooseIsoMVAIdMap        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wpLoose"),
                   
-                  mvaValuesMap             = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"),
-                  mvaCategoriesMap         = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
+                  mvaIsoValuesMap             = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"),
+                  mvaNoIsoValuesMap             = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
+
+#                  mvaCategoriesMap         = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
 
                   BadMuonFilter              = cms.InputTag("BadPFMuonFilter",""),
                   BadChargedCandidateFilter  = cms.InputTag("BadChargedCandidateFilter",""),

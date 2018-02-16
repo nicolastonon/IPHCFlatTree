@@ -331,8 +331,8 @@
     <var name="el_ooEmooP" save="1"></var>
     <var name="el_eleEoPout" save="1"></var>
     <var name="el_PreShowerOverRaw" save="0"></var>
-    <var name="el_mvaNonTrigV0" save="1"></var>
-    <var name="el_mvaNonTrigCat" save="1"></var>
+    <var name="el_mvaIso" save="1"></var>
+    <var name="el_mvaNoIso" save="1"></var>
     <var name="el_vetoCBId" save="1"></var>
     <var name="el_looseCBId" save="1"></var>
     <var name="el_mediumCBId" save="1"></var>

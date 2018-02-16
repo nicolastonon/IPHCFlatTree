@@ -426,8 +426,8 @@ class FlatTree
    std::vector<float> el_eleEoPout;
    std::vector<float> el_PreShowerOverRaw;
 
-   std::vector<float> el_mvaNonTrigV0;
-   std::vector<float> el_mvaNonTrigCat;
+   std::vector<float> el_mvaIso;
+   std::vector<float> el_mvaNoIso;
    
    std::vector<bool> el_vetoCBId;
    std::vector<bool> el_looseCBId;

@@ -390,8 +390,8 @@ void FlatTree::Init()
    el_eleEoPout.clear();
    el_PreShowerOverRaw.clear();
 
-   el_mvaNonTrigV0.clear();
-   el_mvaNonTrigCat.clear();
+   el_mvaIso.clear();
+   el_mvaNoIso.clear();
    
    el_vetoCBId.clear();
    el_looseCBId.clear();
@@ -1535,8 +1535,8 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_eleEoPout") ) tree->Branch("el_eleEoPout", "std::vector<float>", &el_eleEoPout, buffersize);
    if( doWrite("el_PreShowerOverRaw") ) tree->Branch("el_PreShowerOverRaw", "std::vector<float>", &el_PreShowerOverRaw, buffersize);
 
-   if( doWrite("el_mvaNonTrigV0") ) tree->Branch("el_mvaNonTrigV0", "std::vector<float>", &el_mvaNonTrigV0, buffersize);
-   if( doWrite("el_mvaNonTrigCat") ) tree->Branch("el_mvaNonTrigCat", "std::vector<float>", &el_mvaNonTrigCat, buffersize);
+   if( doWrite("el_mvaIso") ) tree->Branch("el_mvaIso", "std::vector<float>", &el_mvaIso, buffersize);
+   if( doWrite("el_mvaNoIso") ) tree->Branch("el_mvaNoIso", "std::vector<float>", &el_mvaNoIso, buffersize);
    
    if( doWrite("el_vetoCBId") ) tree->Branch("el_vetoCBId", "std::vector<bool>", &el_vetoCBId, buffersize);
    if( doWrite("el_looseCBId") ) tree->Branch("el_looseCBId", "std::vector<bool>", &el_looseCBId, buffersize);

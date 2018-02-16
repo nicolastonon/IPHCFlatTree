@@ -36,6 +36,8 @@ git cms-init
 # Egamma
 git cms-merge-topic lsoffi:CMSSW_9_4_0_pre3_TnP
 git cms-merge-topic guitargeek:ElectronID_MVA2017_940pre3
+git cms-merge-topic cms-egamma:EGM_94X_v1
+git clone https://github.com/ECALELFS/ScalesSmearings.git EgammaAnalysis/ElectronTools/data/ScalesSmearings -b Run2017_17Nov2017_v1
 
 # Compile
 scram b -j5

@@ -192,8 +192,10 @@ class FlatTreeProducer : public edm::EDAnalyzer
         edm::EDGetTokenT<edm::ValueMap<bool> > ele80IsoMVAIdMapToken_;
         edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseIsoMVAIdMapToken_;
    
-        edm::EDGetTokenT<edm::ValueMap<float> > mvaValuesMapToken_;
-        edm::EDGetTokenT<edm::ValueMap<int> > mvaCategoriesMapToken_;
+        edm::EDGetTokenT<edm::ValueMap<float> > mvaIsoValuesMapToken_;
+        edm::EDGetTokenT<edm::ValueMap<float> > mvaNoIsoValuesMapToken_;
+   
+//        edm::EDGetTokenT<edm::ValueMap<int> > mvaCategoriesMapToken_;
 
 //        edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult> > vetoIdFullInfoMapToken_;
 //        edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult> > mediumIdFullInfoMapToken_;
@@ -935,8 +937,9 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
     ele80IsoMVAIdMapToken_  = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("ele80IsoMVAIdMap"));
     eleLooseIsoMVAIdMapToken_  = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseIsoMVAIdMap"));
    
-    mvaValuesMapToken_      = consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvaValuesMap"));
-    mvaCategoriesMapToken_  = consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap"));
+    mvaIsoValuesMapToken_      = consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvaIsoValuesMap"));
+    mvaNoIsoValuesMapToken_      = consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvaNoIsoValuesMap"));
+//    mvaCategoriesMapToken_  = consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap"));
 
     //for stop analysis
 //    vetoIdFullInfoMapToken_ = consumes<edm::ValueMap<vid::CutFlowResult> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
@@ -1153,11 +1156,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     iEvent.getByToken(ele80IsoMVAIdMapToken_,Iso80_mvaid_decisions);
     iEvent.getByToken(eleLooseIsoMVAIdMapToken_,IsoLoose_mvaid_decisions);
    
-    edm::Handle<edm::ValueMap<float> > mvaValues;
-    edm::Handle<edm::ValueMap<int> > mvaCategories;
+    edm::Handle<edm::ValueMap<float> > mvaIsoValues;
+    edm::Handle<edm::ValueMap<float> > mvaNoIsoValues;
+//    edm::Handle<edm::ValueMap<int> > mvaCategories;
    
-    iEvent.getByToken(mvaValuesMapToken_,mvaValues);
-    iEvent.getByToken(mvaCategoriesMapToken_,mvaCategories);
+    iEvent.getByToken(mvaIsoValuesMapToken_,mvaIsoValues);
+    iEvent.getByToken(mvaNoIsoValuesMapToken_,mvaNoIsoValues);
+//    iEvent.getByToken(mvaCategoriesMapToken_,mvaCategories);
 
 //    edm::Handle<edm::ValueMap<vid::CutFlowResult> > veto_id_cutflow_;
 //    edm::Handle<edm::ValueMap<vid::CutFlowResult> > medium_id_cutflow_;
@@ -1899,8 +1904,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_eSuperClusterOverP.push_back(elec.eSuperClusterOverP());
 
         const auto el = electrons->ptrAt(ie);
-        ftree->el_mvaNonTrigV0.push_back((*mvaValues)[el]);
-        ftree->el_mvaNonTrigCat.push_back((*mvaCategories)[el]);
+        ftree->el_mvaIso.push_back((*mvaIsoValues)[el]);
+        ftree->el_mvaNoIso.push_back((*mvaNoIsoValues)[el]);
+//        ftree->el_mvaNonTrigCat.push_back((*mvaCategories)[el]);
 
         ftree->el_NoIso90MVAId.push_back((*NoIso90_mvaid_decisions)[el]);
         ftree->el_NoIso80MVAId.push_back((*NoIso80_mvaid_decisions)[el]);
@@ -2059,7 +2065,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_sip3d = fabs(ftree->el_ip3d.back()/ftree->el_ip3dErr.back());
         lepMVA_dxy = log(fabs(ftree->el_gsfTrack_PV_dxy.back()));
         lepMVA_dz = log(fabs(ftree->el_gsfTrack_PV_dz.back()));
-        lepMVA_mvaId = ftree->el_mvaNonTrigV0.back();
+        lepMVA_mvaId = ftree->el_mvaNoIso.back();
         lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0;
 
         float el_scleta = ftree->el_superCluster_eta.back();
@@ -2109,7 +2115,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                       << lepMVA_sip3d                   << " "
                       << fabs(ftree->el_gsfTrack_PV_dxy.back())                     << " "
                       << fabs(ftree->el_gsfTrack_PV_dz.back())                      << " "
-                      << ftree->el_mvaNonTrigV0.back()                              << " "
+                      << ftree->el_mvaNoIso.back()                              << " "
                       << el_lepMVA_Moriond16
                       << std::endl;
         }
