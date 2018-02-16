@@ -33,12 +33,12 @@ cd CMSSW_X_Y_Z/src
 cmsenv
 git cms-init
 
-# Clone this repo
-git clone https://github.com/IPHC/IPHCFlatTree.git
-
 # Egamma
 git cms-merge-topic lsoffi:CMSSW_9_4_0_pre3_TnP
 git cms-merge-topic guitargeek:ElectronID_MVA2017_940pre3
+
+# Compile
+scram b -j5
 
 cd $CMSSW_BASE/external/slc6_amd64_gcc630/
 git clone https://github.com/lsoffi/RecoEgamma-ElectronIdentification.git data/RecoEgamma/ElectronIdentification/data
@@ -48,6 +48,9 @@ cd $CMSSW_BASE/src
 
 # Tools needed for AK10 jet collection
 git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
+
+# Clone this repo
+git clone https://github.com/IPHC/IPHCFlatTree.git
 
 # Compile the monster (use -jN for multicore)
 scram b -j5
