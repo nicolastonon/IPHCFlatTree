@@ -239,7 +239,7 @@ process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
          #'/store/data/Run2016B/DoubleEG/MINIAOD/23Sep2016-v3/00000/68C5F6A4-1999-E611-B338-02163E013B09.root'
-         '/store/mc/RunIISummer16MiniAODv2/TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/110000/0015BB42-9BAA-E611-8C7F-0CC47A7E0196.root'
+         '/store/mc/RunIIFall17MiniAOD/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/50000/08DE33C0-87EB-E711-819D-0242AC1C0500.root'
         )
 )
 
@@ -273,8 +273,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   
                   vertexInput              = cms.InputTag("offlineSlimmedPrimaryVertices"),
                   electronInput            = cms.InputTag("slimmedElectrons"),
-                  #electronPATInput         = cms.InputTag("slimmedElectrons"),
-                  electronPATInput         = cms.InputTag("calibratedPatElectrons"),
+                  electronPATInput         = cms.InputTag("slimmedElectrons"),
+                  #electronPATInput         = cms.InputTag("calibratedPatElectrons"),
 
                   eleVetoCBIdMap           = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-veto"),
                   eleLooseCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-loose"),
@@ -440,7 +440,7 @@ if options.runQG:
     process.runQG = cms.Sequence(process.QGTagger)
 
 process.p = cms.Path(
-                     process.calibratedPatElectrons+
+#                     process.calibratedPatElectrons+
                      process.electronMVAValueMapProducer+
                      process.egmGsfElectronIDSequence+
 #                     process.regressionApplication+
