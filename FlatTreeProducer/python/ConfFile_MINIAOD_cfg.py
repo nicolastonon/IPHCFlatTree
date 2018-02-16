@@ -41,14 +41,14 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag import GlobalTag
 
 if options.isData:
-    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v5'
+    process.GlobalTag.globaltag = '94X_dataRun2_ReReco_EOY17_v2'
 else:
-    process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v6'
+    process.GlobalTag.globaltag = '94X_mc2017_realistic_v10'
 
-corName="Summer16_23Sep2016V3_MC"
+corName="Fall17_17Nov2017_V4_MC"
 corTag="JetCorrectorParametersCollection_"+corName
 if options.isData:
-    corName="Summer16_23Sep2016AllV3_DATA"
+    corName="Fall17_17Nov2017_V4_MC"
     corTag="JetCorrectorParametersCollection_"+corName
 dBFile=corName+".db"
 
@@ -96,13 +96,13 @@ if options.isData:
 # Re-apply JEC to AK4
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
 
-bTagDiscriminators = [
-    'deepFlavourJetTags:probudsg',
-    'deepFlavourJetTags:probb',
-    'deepFlavourJetTags:probc',
-    'deepFlavourJetTags:probbb',
-    'deepFlavourJetTags:probcc',
-]
+#bTagDiscriminators = [
+#    'deepFlavourJetTags:probudsg',
+#    'deepFlavourJetTags:probb',
+#    'deepFlavourJetTags:probc',
+#    'deepFlavourJetTags:probbb',
+#    'deepFlavourJetTags:probcc',
+#]
 
 #updateJetCollection(
 #    process,
@@ -116,8 +116,8 @@ updateJetCollection(
     #jetSource = cms.InputTag('slimmedJets','','PAT'), #FIXME -- jets reclustering to add DeepFlav caused bug -- fixed by Kirill  !
     jetSource = cms.InputTag('slimmedJets'),
     jetCorrections = ('AK4PFchs', corList, 'None'),
-    labelName = 'UpdatedJEC',
-    btagDiscriminators = bTagDiscriminators,
+    labelName = 'UpdatedJEC'
+#    btagDiscriminators = bTagDiscriminators,
 )
 
 # Re-apply JEC to AK8
@@ -145,9 +145,8 @@ switchOnVIDElectronIdProducer(process,DataFormat.MiniAOD)
 # https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
 # https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2
 my_id_modules = [
-'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff',
-'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
-'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff'
+'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
+'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff'
 ]
 
 for idmod in my_id_modules:
@@ -156,7 +155,7 @@ for idmod in my_id_modules:
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 
 # https://twiki.cern.ch/twiki/bin/viewauth/CMS/EGMSmearer - added unwillingly by Xavier
-process.load('EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi')
+###process.load('EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi')
 #process.calibratedPatElectrons
 
 #from EgammaAnalysis.ElectronTools.regressionWeights_cfi import regressionWeights
@@ -277,16 +276,21 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   #electronPATInput         = cms.InputTag("slimmedElectrons"),
                   electronPATInput         = cms.InputTag("calibratedPatElectrons"),
 
-                  eleVetoCBIdMap           = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto"),
-                  eleLooseCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose"),
-                  eleMediumCBIdMap         = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium"),
-                  eleTightCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"),
-                  eleHEEPCBIdMap           = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV60"),
+                  eleVetoCBIdMap           = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-veto"),
+                  eleLooseCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-loose"),
+                  eleMediumCBIdMap         = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-medium"),
+                  eleTightCBIdMap          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-tight"),
 
-                  eleMediumMVAIdMap        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp90"),
-                  eleTightMVAIdMap         = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp80"),
-                  mvaValuesMap             = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
-                  mvaCategoriesMap         = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),
+                  ele90NoIsoMVAIdMap        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-noIso-V1-wp90"),
+                  ele80NoIsoMVAIdMap         = cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-noIso-V1-wp80"),
+                  eleLooseNoIsoMVAIdMap        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-noIso-V1-wpLoose"),
+
+                  ele90IsoMVAIdMap        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wp90"),
+                  ele80IsoMVAIdMap         = cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wp80"),
+                  eleLooseIsoMVAIdMap        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wpLoose"),
+                  
+                  mvaValuesMap             = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"),
+                  mvaCategoriesMap         = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
 
                   BadMuonFilter              = cms.InputTag("BadPFMuonFilter",""),
                   BadChargedCandidateFilter  = cms.InputTag("BadChargedCandidateFilter",""),

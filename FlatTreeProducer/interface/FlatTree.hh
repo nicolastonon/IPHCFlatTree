@@ -433,13 +433,17 @@ class FlatTree
    std::vector<bool> el_looseCBId;
    std::vector<bool> el_mediumCBId;
    std::vector<bool> el_tightCBId;
-   std::vector<bool> el_heepCBId;
 
-   std::vector<bool> el_vetoStopID;
-   std::vector<bool> el_mediumStopID;
+//   std::vector<bool> el_vetoStopID;
+//   std::vector<bool> el_mediumStopID;
 
-   std::vector<bool> el_mediumMVAId;
-   std::vector<bool> el_tightMVAId;
+   std::vector<bool> el_NoIso90MVAId;
+   std::vector<bool> el_NoIso80MVAId;
+   std::vector<bool> el_NoIsoLooseMVAId;
+
+   std::vector<bool> el_Iso90MVAId;
+   std::vector<bool> el_Iso80MVAId;
+   std::vector<bool> el_IsoLooseMVAId;
    
    std::vector<float> el_lepMVA;
    std::vector<float> el_lepMVA_Moriond16;

@@ -397,14 +397,18 @@ void FlatTree::Init()
    el_looseCBId.clear();
    el_mediumCBId.clear();
    el_tightCBId.clear();
-   el_heepCBId.clear();
   
-   el_vetoStopID.clear();
-   el_mediumStopID.clear();
+//   el_vetoStopID.clear();
+//   el_mediumStopID.clear();
    
-   el_mediumMVAId.clear();
-   el_tightMVAId.clear();
+   el_NoIso90MVAId.clear();
+   el_NoIso80MVAId.clear();
+   el_NoIsoLooseMVAId.clear();
 
+   el_Iso90MVAId.clear();
+   el_Iso80MVAId.clear();
+   el_IsoLooseMVAId.clear();
+   
    el_lepMVA.clear();
    el_lepMVA_Moriond16.clear();
    
@@ -1538,11 +1542,17 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_looseCBId") ) tree->Branch("el_looseCBId", "std::vector<bool>", &el_looseCBId, buffersize);
    if( doWrite("el_mediumCBId") ) tree->Branch("el_mediumCBId", "std::vector<bool>", &el_mediumCBId, buffersize);
    if( doWrite("el_tightCBId") ) tree->Branch("el_tightCBId", "std::vector<bool>", &el_tightCBId, buffersize);
-   if( doWrite("el_heepCBId") ) tree->Branch("el_heepCBId", "std::vector<bool>", &el_heepCBId, buffersize);
-   if( doWrite("el_vetoStopID") ) tree->Branch("el_vetoStopID", "std::vector<bool>", &el_vetoStopID, buffersize);
-   if( doWrite("el_mediumStopID") ) tree->Branch("el_mediumStopID", "std::vector<bool>", &el_mediumStopID, buffersize);
-   if( doWrite("el_mediumMVAId") ) tree->Branch("el_mediumMVAId", "std::vector<bool>", &el_mediumMVAId, buffersize);
-   if( doWrite("el_tightMVAId") ) tree->Branch("el_tightMVAId", "std::vector<bool>", &el_tightMVAId, buffersize);
+
+//   if( doWrite("el_vetoStopID") ) tree->Branch("el_vetoStopID", "std::vector<bool>", &el_vetoStopID, buffersize);
+//   if( doWrite("el_mediumStopID") ) tree->Branch("el_mediumStopID", "std::vector<bool>", &el_mediumStopID, buffersize);
+
+   if( doWrite("el_NoIso90MVAId") ) tree->Branch("el_NoIso90MVAId", "std::vector<bool>", &el_NoIso90MVAId, buffersize);
+   if( doWrite("el_NoIso80MVAId") ) tree->Branch("el_NoIso80MVAId", "std::vector<bool>", &el_NoIso80MVAId, buffersize);
+   if( doWrite("el_NoIsoLooseMVAId") ) tree->Branch("el_NoIsoLooseMVAId", "std::vector<bool>", &el_NoIsoLooseMVAId, buffersize);
+
+   if( doWrite("el_Iso90MVAId") ) tree->Branch("el_Iso90MVAId", "std::vector<bool>", &el_Iso90MVAId, buffersize);
+   if( doWrite("el_Iso80MVAId") ) tree->Branch("el_Iso80MVAId", "std::vector<bool>", &el_Iso80MVAId, buffersize);
+   if( doWrite("el_IsoLooseMVAId") ) tree->Branch("el_IsoLooseMVAId", "std::vector<bool>", &el_IsoLooseMVAId, buffersize);
    
    if( doWrite("el_lepMVA") ) tree->Branch("el_lepMVA", "std::vector<float>", &el_lepMVA, buffersize);
    if( doWrite("el_lepMVA_Moriond16") ) tree->Branch("el_lepMVA_Moriond16", "std::vector<float>", &el_lepMVA_Moriond16, buffersize);
