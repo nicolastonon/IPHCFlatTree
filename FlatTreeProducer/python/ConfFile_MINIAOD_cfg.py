@@ -13,7 +13,7 @@ options.register('applyMETFilters',True,VarParsing.multiplicity.singleton,VarPar
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 options.register('runAK10',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK10 jets')
 
-options.register('runQG',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger')
+options.register('runQG',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run QGTagger')
 
 options.register('fillMCScaleWeight',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PDF weights')
 options.register('fillPUInfo',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Fill PU info')
@@ -104,21 +104,21 @@ from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
 #    'deepFlavourJetTags:probcc',
 #]
 
-#updateJetCollection(
-#    process,
-#    jetSource = cms.InputTag('slimmedJets'),
-#    labelName = 'UpdatedJEC',
-#    jetCorrections = ('AK4PFchs', corList, 'None')
-#)
-
 updateJetCollection(
     process,
-    #jetSource = cms.InputTag('slimmedJets','','PAT'), #FIXME -- jets reclustering to add DeepFlav caused bug -- fixed by Kirill  !
     jetSource = cms.InputTag('slimmedJets'),
-    jetCorrections = ('AK4PFchs', corList, 'None'),
-    labelName = 'UpdatedJEC'
-#    btagDiscriminators = bTagDiscriminators,
+    labelName = 'UpdatedJEC',
+    jetCorrections = ('AK4PFchs', corList, 'None')
 )
+
+#updateJetCollection(
+#    process,
+    #jetSource = cms.InputTag('slimmedJets','','PAT'), #FIXME -- jets reclustering to add DeepFlav caused bug -- fixed by Kirill  !
+#    jetSource = cms.InputTag('slimmedJets'),
+#    jetCorrections = ('AK4PFchs', corList, 'None'),
+#    labelName = 'UpdatedJEC'
+#    btagDiscriminators = bTagDiscriminators,
+#)
 
 # Re-apply JEC to AK8
 updateJetCollection(
@@ -128,7 +128,8 @@ updateJetCollection(
     jetCorrections = ('AK8PFchs', corList, 'None')
 )
 
-jetsNameAK4="selectedUpdatedPatJetsUpdatedJEC"
+#jetsNameAK4="selectedUpdatedPatJetsUpdatedJEC"
+jetsNameAK4="updatedPatJetsUpdatedJEC"
 #jetsNameAK4="slimmedJets"
 jetsNameAK8="selectedUpdatedPatJetsUpdatedJECAK8"
 #jetsNameAK10="patJetsReapplyJECAK10"
@@ -253,7 +254,13 @@ process.options   = cms.untracked.PSet(
     wantSummary = cms.untracked.bool(False),
     allowUnscheduled = cms.untracked.bool(True)	 # needed for ak10 computation (JMEAnalysis/JetToolbox)
 )
-        
+
+process.slimmedPatTriggerUnpacked = cms.EDProducer('PATTriggerObjectStandAloneUnpacker',
+                                                   patTriggerObjectsStandAlone = cms.InputTag('slimmedPatTrigger'),
+                                                   triggerResults = cms.InputTag('TriggerResults::HLT'),
+                                                   unpackFilterLabels = cms.bool(True)
+)
+
 #############################
 #  Flat Tree configuration  #
 #############################
@@ -428,7 +435,7 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   hConversionsInput        = cms.InputTag("reducedEgamma","reducedConversions"),
                   puInfoInput		   = cms.InputTag("slimmedAddPileupInfo"),
 #                  puInfoInput		   = cms.InputTag("addPileupInfo"),
-                  objects                  = cms.InputTag("selectedPatTrigger")
+                  objects                  = cms.InputTag("slimmedPatTriggerUnpacked")
 )
 
 ##########
@@ -448,5 +455,6 @@ process.p = cms.Path(
                      process.runQG+
                      process.BadChargedCandidateFilter+
                      process.BadPFMuonFilter+
+                     process.slimmedPatTriggerUnpacked+
                      process.FlatTree
                     )

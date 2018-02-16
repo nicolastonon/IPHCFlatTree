@@ -2933,11 +2933,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         float CSVIVF = jet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
         ftree->jet_CSVv2.push_back(CSVIVF);
        
-        ftree->jet_DeepCSVProbudsg.push_back(jet.bDiscriminator("deepFlavourJetTags:probudsg"));
-        ftree->jet_DeepCSVProbb.push_back(jet.bDiscriminator("deepFlavourJetTags:probb"));
-        ftree->jet_DeepCSVProbc.push_back(jet.bDiscriminator("deepFlavourJetTags:probc"));
-        ftree->jet_DeepCSVProbbb.push_back(jet.bDiscriminator("deepFlavourJetTags:probbb"));
-        ftree->jet_DeepCSVProbcc.push_back(jet.bDiscriminator("deepFlavourJetTags:probcc"));
+        ftree->jet_DeepCSVProbudsg.push_back(jet.bDiscriminator("pfDeepCSVJetTags:probudsg"));
+        ftree->jet_DeepCSVProbb.push_back(jet.bDiscriminator("pfDeepCSVJetTags:probb"));
+        ftree->jet_DeepCSVProbc.push_back(jet.bDiscriminator("pfDeepCSVJetTags:probc"));
+        ftree->jet_DeepCSVProbbb.push_back(jet.bDiscriminator("pfDeepCSVJetTags:probbb"));
+        ftree->jet_DeepCSVProbcc.push_back(jet.bDiscriminator("pfDeepCSVJetTags:probcc"));
 	
 	
 	/*
