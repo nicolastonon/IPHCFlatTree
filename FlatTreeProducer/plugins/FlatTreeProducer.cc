@@ -2772,7 +2772,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         ftree->tau_hasLeadChargedHadrCand.push_back(tau.leadChargedHadrCand().isNonnull());
 
-        if( tau.leadChargedHadrCand().isNonnull() )
+       if( tau.leadChargedHadrCand().isNonnull() )
         {
             pat::PackedCandidate const* packedLeadTauCand = dynamic_cast<pat::PackedCandidate const*>(tau.leadChargedHadrCand().get());
             tau_leadingTrackPt = packedLeadTauCand->pt();
@@ -3638,7 +3638,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         }
     }
 
-    this->KeepEvent();
+   this->KeepEvent();
     if( (applyMETFilters_ && passMETFilters) || !applyMETFilters_ ){
         //std::cout<<"here we are !"<<std::endl;
         if(ftree->apply_presel){

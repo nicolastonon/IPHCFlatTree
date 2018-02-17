@@ -128,6 +128,8 @@ updateJetCollection(
     jetCorrections = ('AK8PFchs', corList, 'None')
 )
 
+process.jecSequence = cms.Sequence(process.patJetCorrFactorsUpdatedJEC * process.updatedPatJetsUpdatedJEC)
+
 #jetsNameAK4="selectedUpdatedPatJetsUpdatedJEC"
 jetsNameAK4="updatedPatJetsUpdatedJEC"
 #jetsNameAK4="slimmedJets"
@@ -455,6 +457,7 @@ process.p = cms.Path(
                      process.egmGsfElectronIDSequence+
 #                     process.regressionApplication+
                      process.METSignificance+
+                     process.jecSequence+
                      process.runQG+
                      process.BadChargedCandidateFilter+
                      process.BadPFMuonFilter+
