@@ -242,8 +242,8 @@ if options.runQG:
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
-         '/store/data/Run2017D/MuonEG/MINIAOD/17Nov2017-v1/50000/3E5F02AC-33E7-E711-AE42-A0369FC5FBA4.root'
-         #'/store/mc/RunIIFall17MiniAOD/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/50000/08DE33C0-87EB-E711-819D-0242AC1C0500.root'
+         #'/store/data/Run2017D/MuonEG/MINIAOD/17Nov2017-v1/50000/3E5F02AC-33E7-E711-AE42-A0369FC5FBA4.root'
+         '/store/mc/RunIIFall17MiniAOD/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/50000/08DE33C0-87EB-E711-819D-0242AC1C0500.root'
         )
 )
 
