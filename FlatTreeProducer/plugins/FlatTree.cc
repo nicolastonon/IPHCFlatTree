@@ -410,7 +410,6 @@ void FlatTree::Init()
    el_IsoLooseMVAId.clear();
    
    el_lepMVA.clear();
-   el_lepMVA_Moriond16.clear();
    
    el_lepMVA_pt.clear(); 
    el_lepMVA_eta.clear();
@@ -731,7 +730,6 @@ void FlatTree::Init()
    mu_type.clear();
 
    mu_lepMVA.clear();
-   mu_lepMVA_Moriond16.clear();
 
    mu_lepMVA_pt.clear(); 
    mu_lepMVA_eta.clear();
@@ -1555,7 +1553,6 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_IsoLooseMVAId") ) tree->Branch("el_IsoLooseMVAId", "std::vector<bool>", &el_IsoLooseMVAId, buffersize);
    
    if( doWrite("el_lepMVA") ) tree->Branch("el_lepMVA", "std::vector<float>", &el_lepMVA, buffersize);
-   if( doWrite("el_lepMVA_Moriond16") ) tree->Branch("el_lepMVA_Moriond16", "std::vector<float>", &el_lepMVA_Moriond16, buffersize);
 
    if( doWrite("el_lepMVA_pt") ) tree->Branch("el_lepMVA_pt", "std::vector<float>", &el_lepMVA_pt, buffersize);
    if( doWrite("el_lepMVA_eta") ) tree->Branch("el_lepMVA_eta", "std::vector<float>", &el_lepMVA_eta, buffersize);
@@ -1876,7 +1873,6 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_type") ) tree->Branch("mu_type", "std::vector<int>", &mu_type, buffersize);
    
    if( doWrite("mu_lepMVA") ) tree->Branch("mu_lepMVA", "std::vector<float>", &mu_lepMVA, buffersize);
-   if( doWrite("mu_lepMVA_Moriond16") ) tree->Branch("mu_lepMVA_Moriond16", "std::vector<float>", &mu_lepMVA_Moriond16, buffersize);
 
    if( doWrite("mu_lepMVA_pt") ) tree->Branch("mu_lepMVA_pt", "std::vector<float>", &mu_lepMVA_pt, buffersize);
    if( doWrite("mu_lepMVA_eta") ) tree->Branch("mu_lepMVA_eta", "std::vector<float>", &mu_lepMVA_eta, buffersize);

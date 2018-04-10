@@ -346,7 +346,6 @@
     <var name="el_mediumStopID" save="0"></var>
     <var name="el_vetoStopID" save="0"></var>
     <var name="el_lepMVA" save="1"></var>
-    <var name="el_lepMVA_Moriond16" save="1"></var>
     <var name="el_lepMVA_pt" save="1"></var>   
     <var name="el_lepMVA_eta" save="1"></var>
     <var name="el_lepMVA_miniRelIsoCharged" save="1"></var>
@@ -640,7 +639,6 @@
     <var name="mu_innerTrack_validFraction" save="1"></var>
     <var name="mu_type" save="1"></var>
     <var name="mu_lepMVA" save="1"></var>      
-    <var name="mu_lepMVA_Moriond16" save="1"></var>    
     <var name="mu_lepMVA_pt" save="1"></var>
     <var name="mu_lepMVA_eta" save="1"></var>
     <var name="mu_lepMVA_miniRelIsoCharged" save="1"></var>

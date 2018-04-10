@@ -80,8 +80,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
         virtual void beginRun(const edm::Run&, const edm::EventSetup&);
         virtual void endRun(const edm::Run&, const edm::EventSetup&);
 
-        TMVA::Reader* BookLeptonMVAReader(std::string basePath, std::string weightFileName, std::string type);
-        TMVA::Reader* BookLeptonMVAReaderMoriond16(std::string basePath, std::string weightFileName, std::string type);
+        TMVA::Reader* BookLeptonMVAReaderMoriond18(std::string basePath, std::string weightFileName, std::string type);
 
         void KeepEvent();
         bool isFloat(const std::string& s);
@@ -114,11 +113,6 @@ class FlatTreeProducer : public edm::EDAnalyzer
         TH1D* hcount;
         TH1D* hweight;
 
-        TMVA::Reader* mu_reader_b;
-        TMVA::Reader* mu_reader_e;
-        TMVA::Reader* ele_reader_cb;
-        TMVA::Reader* ele_reader_fb;
-        TMVA::Reader* ele_reader_ec;
         TMVA::Reader* ele_reader;
         TMVA::Reader* mu_reader;
 
@@ -800,48 +794,27 @@ void FlatTreeProducer::ReadConfFile(const std::string& confFile)
     }
 }
 
-TMVA::Reader* FlatTreeProducer::BookLeptonMVAReader(std::string basePath, std::string weightFileName, std::string type)
+TMVA::Reader* FlatTreeProducer::BookLeptonMVAReaderMoriond18(std::string basePath, std::string weightFileName, std::string type)
 {
-    TMVA::Reader* reader = new TMVA::Reader("!Color:!Silent");
-
-    reader->AddVariable("LepGood_pt",                                  &lepMVA_pt);
-    reader->AddVariable("LepGood_miniRelIsoCharged",                   &lepMVA_miniRelIsoCharged);
-    reader->AddVariable("LepGood_miniRelIsoNeutral",                   &lepMVA_miniRelIsoNeutral);
-    reader->AddVariable("LepGood_jetPtRelv2",                          &lepMVA_jetPtRelv2);
-    reader->AddVariable("min(LepGood_jetPtRatio_LepAwareJECv2,1.5)",   &lepMVA_jetPtRatio);
-    reader->AddVariable("max(LepGood_jetBTagCSV,0)",                   &lepMVA_jetBTagCSV);
-    reader->AddVariable("LepGood_sip3d",                               &lepMVA_sip3d);
-    reader->AddVariable("log(abs(LepGood_dxy))",                       &lepMVA_dxy);
-    reader->AddVariable("log(abs(LepGood_dz))",                        &lepMVA_dz);
-    if( type == "ele" ) reader->AddVariable("LepGood_mvaIdPhys14",     &lepMVA_mvaId);
-    else reader->AddVariable("LepGood_segmentCompatibility",           &lepMVA_mvaId);
-
-    reader->BookMVA("BDTG method", basePath+"/"+weightFileName);
-
-    return reader;
-}
-
-TMVA::Reader* FlatTreeProducer::BookLeptonMVAReaderMoriond16(std::string basePath, std::string weightFileName, std::string type)
-{
-    TMVA::Reader* reader = new TMVA::Reader("!Color:!Silent");
-
-    reader->AddVariable("LepGood_pt",                                  &lepMVA_pt);
-    reader->AddVariable("LepGood_eta",                                 &lepMVA_eta);
-    reader->AddVariable("LepGood_jetNDauChargedMVASel",                &lepMVA_jetNDauChargedMVASel);
-    reader->AddVariable("LepGood_miniRelIsoCharged",                   &lepMVA_miniRelIsoCharged);
-    reader->AddVariable("LepGood_miniRelIsoNeutral",                   &lepMVA_miniRelIsoNeutral);
-    reader->AddVariable("LepGood_jetPtRelv2",                          &lepMVA_jetPtRelv2);
-    reader->AddVariable("min(LepGood_jetPtRatiov2,1.5)",               &lepMVA_jetPtRatio);
-    reader->AddVariable("max(LepGood_jetBTagCSV,0)",                   &lepMVA_jetBTagCSV);
-    reader->AddVariable("LepGood_sip3d",                               &lepMVA_sip3d);
-    reader->AddVariable("log(abs(LepGood_dxy))",                       &lepMVA_dxy);
-    reader->AddVariable("log(abs(LepGood_dz))",                        &lepMVA_dz);
-    if( type == "ele" ) reader->AddVariable("LepGood_mvaIdSpring15",   &lepMVA_mvaId);
-    else reader->AddVariable("LepGood_segmentCompatibility",           &lepMVA_mvaId);
-
-    reader->BookMVA("BDTG method", basePath+"/"+weightFileName);
-
-    return reader;
+   TMVA::Reader* reader = new TMVA::Reader("!Color:!Silent");
+   
+   reader->AddVariable("LepGood_pt",                                     &lepMVA_pt);
+   reader->AddVariable("LepGood_eta",                                    &lepMVA_eta);
+   reader->AddVariable("LepGood_jetNDauChargedMVASel",                   &lepMVA_jetNDauChargedMVASel);
+   reader->AddVariable("LepGood_miniRelIsoCharged",                      &lepMVA_miniRelIsoCharged);
+   reader->AddVariable("LepGood_miniRelIsoNeutral",                      &lepMVA_miniRelIsoNeutral);
+   reader->AddVariable("LepGood_jetPtRelv2",                             &lepMVA_jetPtRelv2);
+   reader->AddVariable("max(LepGood_jetBTagCSV,0)",                      &lepMVA_jetBTagCSV);
+   reader->AddVariable("(LepGood_jetBTagCSV&gt;-5)*min(LepGood_jetPtRatiov2,1.5)+(LepGood_jetBTagCSV&lt;-5)/(1+LepGood_relIso04)",                  &lepMVA_jetPtRatio);
+   reader->AddVariable("LepGood_sip3d",                                  &lepMVA_sip3d);
+   reader->AddVariable("log(abs(LepGood_dxy))",                          &lepMVA_dxy);
+   reader->AddVariable("log(abs(LepGood_dz))",                           &lepMVA_dz);
+   if( type == "ele" ) reader->AddVariable("LepGood_mvaIdFall17noIso",   &lepMVA_mvaId);
+   else reader->AddVariable("LepGood_segmentCompatibility",              &lepMVA_mvaId);
+   
+   reader->BookMVA("BDTG method", basePath+"/"+weightFileName);
+   
+   return reader;
 }
 
 FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
@@ -860,13 +833,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
     //
     const char* cmssw_base = std::getenv("CMSSW_BASE");
     std::string FlatTreeProducerLepMVAPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/";
-    mu_reader_b      = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_eta_b_BDTG.weights.xml" , "mu");
-    mu_reader_e      = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/mu_eta_e_BDTG.weights.xml" , "mu");
-    ele_reader_cb    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_eta_cb_BDTG.weights.xml", "ele");
-    ele_reader_ec    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_eta_ec_BDTG.weights.xml", "ele");
-    ele_reader_fb    = BookLeptonMVAReader(FlatTreeProducerLepMVAPath, "/el_eta_fb_BDTG.weights.xml", "ele");
-    mu_reader        = BookLeptonMVAReaderMoriond16(FlatTreeProducerLepMVAPath, "/mu_BDTG.weights.xml", "mu");
-    ele_reader       = BookLeptonMVAReaderMoriond16(FlatTreeProducerLepMVAPath, "/el_BDTG.weights.xml", "ele");
+    mu_reader        = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "/mu_BDTG.weights.xml", "mu");
+    ele_reader       = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "/el_BDTG.weights.xml", "ele");
 
     // ###
     // Restore stdout
@@ -2036,7 +2004,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         double el_eta = elec.eta();
         double el_phi = elec.phi();
         double el_lepMVA = -666.;
-        double el_lepMVA_Moriond16 = -666.;
 
         float drmin = 0.5;
         int jcl = -1;
@@ -2065,18 +2032,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_sip3d = fabs(ftree->el_ip3d.back()/ftree->el_ip3dErr.back());
         lepMVA_dxy = log(fabs(ftree->el_gsfTrack_PV_dxy.back()));
         lepMVA_dz = log(fabs(ftree->el_gsfTrack_PV_dz.back()));
-        lepMVA_mvaId = ftree->el_mvaNoIso.back();
+        lepMVA_mvaId = ftree->el_NoIsoLooseMVAId.back();
         lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0;
 
-        float el_scleta = ftree->el_superCluster_eta.back();
-        if( fabs(el_scleta) < 0.8 ) el_lepMVA = ele_reader_cb->EvaluateMVA("BDTG method");
-        else if( fabs(el_scleta) >= 0.8 && fabs(el_scleta) < 1.479 ) el_lepMVA = ele_reader_fb->EvaluateMVA("BDTG method");
-        else el_lepMVA = ele_reader_ec->EvaluateMVA("BDTG method");
-
-        el_lepMVA_Moriond16 = ele_reader->EvaluateMVA("BDTG method");
+        el_lepMVA = ele_reader->EvaluateMVA("BDTG method");
 
         ftree->el_lepMVA.push_back(el_lepMVA);
-        ftree->el_lepMVA_Moriond16.push_back(el_lepMVA_Moriond16);
 
         float conept = (jcl >= 0) ? conePtElec(elec,jets->at(jcl)) : -100;
         ftree->el_jetConePt_ttH.push_back( conept );
@@ -2091,8 +2052,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                 << " miniIsoN= "      << lepMVA_miniRelIsoNeutral
                 << " miniIsoC= "      << lepMVA_miniRelIsoCharged
                 << " jetPtRatio= "    << lepMVA_jetPtRatio
-                << " jetPtRel= "      << lepMVA_jetPtRelv2 
-                << " lepMVATTH= "     << el_lepMVA_Moriond16
+                << " jetPtRel= "      << lepMVA_jetPtRelv2
                 << " ellepMVA= "      << el_lepMVA                      << std::endl;
         }
 
@@ -2115,8 +2075,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                       << lepMVA_sip3d                   << " "
                       << fabs(ftree->el_gsfTrack_PV_dxy.back())                     << " "
                       << fabs(ftree->el_gsfTrack_PV_dz.back())                      << " "
-                      << ftree->el_mvaNoIso.back()                              << " "
-                      << el_lepMVA_Moriond16
+                      << ftree->el_NoIsoLooseMVAId.back()                              << " "
+                      << el_lepMVA
                       << std::endl;
         }
 
@@ -2581,7 +2541,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         double mu_eta = muon.eta();
         double mu_phi = muon.phi();
         double mu_lepMVA = -666.;
-        double mu_lepMVA_Moriond16 = -666.;
 
         float drmin = 0.5;
         int jcl = -1;
@@ -2613,13 +2572,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_mvaId                                = ftree->mu_segmentCompatibility.back();
         lepMVA_jetNDauChargedMVASel                 = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0; //?? correct default value
         //?? correct DR matching
-        if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_b->EvaluateMVA("BDTG method");
-        else                     mu_lepMVA = mu_reader_e->EvaluateMVA("BDTG method");
+//        if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_b->EvaluateMVA("BDTG method");
+//        else                     mu_lepMVA = mu_reader_e->EvaluateMVA("BDTG method");
 
-        mu_lepMVA_Moriond16 = mu_reader->EvaluateMVA("BDTG method");
+        mu_lepMVA = mu_reader->EvaluateMVA("BDTG method");
 
         ftree->mu_lepMVA.push_back(mu_lepMVA);
-        ftree->mu_lepMVA_Moriond16.push_back(mu_lepMVA_Moriond16);
         ftree->mu_lepMVA_pt.push_back(lepMVA_pt); 
         ftree->mu_lepMVA_eta.push_back(lepMVA_eta);
         ftree->mu_lepMVA_miniRelIsoCharged.push_back(lepMVA_miniRelIsoCharged);
@@ -2647,7 +2605,6 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                 << " miniIsoC= "      << lepMVA_miniRelIsoCharged
                 << " jetPtRatio= "    << lepMVA_jetPtRatio
                 << " jetPtRel= "      << lepMVA_jetPtRelv2 
-                << " lepMVATTH= "     << mu_lepMVA_Moriond16
                 << " mulepMVA= "      << mu_lepMVA                      << std::endl;
         }
 
@@ -2671,7 +2628,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                       << fabs(ftree->mu_innerTrack_PV_dxy.back())                     << " "
                       << fabs(ftree->mu_innerTrack_PV_dz.back())                      << " "
                       << lepMVA_mvaId                   << " "
-                      << mu_lepMVA_Moriond16            << " "
+                      << mu_lepMVA            << " "
                       << std::endl;
         }
 

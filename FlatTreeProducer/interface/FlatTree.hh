@@ -446,7 +446,6 @@ class FlatTree
    std::vector<bool> el_IsoLooseMVAId;
    
    std::vector<float> el_lepMVA;
-   std::vector<float> el_lepMVA_Moriond16;
 
    std::vector<float> el_lepMVA_pt; 
    std::vector<float> el_lepMVA_eta;
@@ -771,7 +770,6 @@ class FlatTree
    std::vector<int> mu_type;
    
    std::vector<float> mu_lepMVA;
-   std::vector<float> mu_lepMVA_Moriond16;
 
    std::vector<float> mu_lepMVA_pt; 
    std::vector<float> mu_lepMVA_eta;
