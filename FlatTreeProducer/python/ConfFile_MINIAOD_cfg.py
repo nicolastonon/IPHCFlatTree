@@ -45,10 +45,10 @@ if options.isData:
 else:
     process.GlobalTag.globaltag = '94X_mc2017_realistic_v13'
 
-corName="Fall17_17Nov2017_V4_MC"
+corName="Fall17_17Nov2017_V6_MC"
 corTag="JetCorrectorParametersCollection_"+corName
 if options.isData:
-    corName="Fall17_17Nov2017_V4_MC"
+    corName="Fall17_17Nov2017BCDEF_V6_DATA"
     corTag="JetCorrectorParametersCollection_"+corName
 dBFile=corName+".db"
 
