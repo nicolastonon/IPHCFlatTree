@@ -833,8 +833,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
     //
     const char* cmssw_base = std::getenv("CMSSW_BASE");
     std::string FlatTreeProducerLepMVAPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/";
-    mu_reader        = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "/mu_BDTG.weights.xml", "mu");
-    ele_reader       = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "/el_BDTG.weights.xml", "ele");
+//    mu_reader        = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "/mu_BDTG.weights.xml", "mu");
+//    ele_reader       = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "/el_BDTG.weights.xml", "ele");
 
     // ###
     // Restore stdout
@@ -2035,7 +2035,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_mvaId = ftree->el_NoIsoLooseMVAId.back();
         lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0;
 
-        el_lepMVA = ele_reader->EvaluateMVA("BDTG method");
+////        el_lepMVA = ele_reader->EvaluateMVA("BDTG method");
 
         ftree->el_lepMVA.push_back(el_lepMVA);
 
@@ -2575,7 +2575,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 //        if( fabs(mu_eta) < 1.5 ) mu_lepMVA = mu_reader_b->EvaluateMVA("BDTG method");
 //        else                     mu_lepMVA = mu_reader_e->EvaluateMVA("BDTG method");
 
-        mu_lepMVA = mu_reader->EvaluateMVA("BDTG method");
+////        mu_lepMVA = mu_reader->EvaluateMVA("BDTG method");
 
         ftree->mu_lepMVA.push_back(mu_lepMVA);
         ftree->mu_lepMVA_pt.push_back(lepMVA_pt); 
@@ -3645,7 +3645,7 @@ void FlatTreeProducer::beginRun(const edm::Run& iRun, const edm::EventSetup& iSe
     jecUnc = new JetCorrectionUncertainty(JetCorPar);*/
 
     const char* cmssw_base = std::getenv("CMSSW_BASE");
-    std::string JECUncertaintyPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/jecFiles/Summer16_23Sep2016V3_MC/Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt";
+    std::string JECUncertaintyPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/jecFiles/Fall17_17Nov2017_V6_MC/Fall17_17Nov2017_V6_MC_Uncertainty_AK4PFchs";
     jecUnc = new JetCorrectionUncertainty(JECUncertaintyPath.c_str());
 }
 
