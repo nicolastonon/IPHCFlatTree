@@ -799,13 +799,13 @@ TMVA::Reader* FlatTreeProducer::BookLeptonMVAReaderMoriond18(std::string basePat
    TMVA::Reader* reader = new TMVA::Reader("!Color:!Silent");
    
    reader->AddVariable("LepGood_pt",                                     &lepMVA_pt);
-   reader->AddVariable("LepGood_eta",                                    &lepMVA_eta);
+   reader->AddVariable("LepGood_eta",                                    &lepMVA_eta); 
    reader->AddVariable("LepGood_jetNDauChargedMVASel",                   &lepMVA_jetNDauChargedMVASel);
    reader->AddVariable("LepGood_miniRelIsoCharged",                      &lepMVA_miniRelIsoCharged);
    reader->AddVariable("LepGood_miniRelIsoNeutral",                      &lepMVA_miniRelIsoNeutral);
    reader->AddVariable("LepGood_jetPtRelv2",                             &lepMVA_jetPtRelv2);
    reader->AddVariable("max(LepGood_jetBTagCSV,0)",                      &lepMVA_jetBTagCSV);
-   reader->AddVariable("(LepGood_jetBTagCSV&gt;-5)*min(LepGood_jetPtRatiov2,1.5)+(LepGood_jetBTagCSV&lt;-5)/(1+LepGood_relIso04)",                  &lepMVA_jetPtRatio);
+   reader->AddVariable("(LepGood_jetBTagCSV>-5)*min(LepGood_jetPtRatiov2,1.5)+(LepGood_jetBTagCSV<-5)/(1+LepGood_relIso04)", &lepMVA_jetPtRatio);
    reader->AddVariable("LepGood_sip3d",                                  &lepMVA_sip3d);
    reader->AddVariable("log(abs(LepGood_dxy))",                          &lepMVA_dxy);
    reader->AddVariable("log(abs(LepGood_dz))",                           &lepMVA_dz);
@@ -823,24 +823,24 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
     // ###
     // Temporarily redirecting stdout to avoid huge TMVA loading dump
     // ###
-    std::cout << "Temporarily redirecting stdout to avoid huge TMVA dump when loading MVA readers..." << std::endl;
-    std::stringstream tmpBuffer;
-    std::streambuf* oldStdout = std::cout.rdbuf(tmpBuffer.rdbuf());
+//    std::cout << "Temporarily redirecting stdout to avoid huge TMVA dump when loading MVA readers..." << std::endl;
+//    std::stringstream tmpBuffer;
+//    std::streambuf* oldStdout = std::cout.rdbuf(tmpBuffer.rdbuf());
 
     // ###############
     // #  Load MVAs  #
     // ###############
     //
     const char* cmssw_base = std::getenv("CMSSW_BASE");
-    std::string FlatTreeProducerLepMVAPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA/";
-//    mu_reader        = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "/mu_BDTG.weights.xml", "mu");
-//    ele_reader       = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "/el_BDTG.weights.xml", "ele");
+    std::string FlatTreeProducerLepMVAPath = std::string(cmssw_base)+"/src/IPHCFlatTree/FlatTreeProducer/data/lepMVA";
+    mu_reader        = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "mu_BDTG.weights.xml", "mu");
+    ele_reader       = BookLeptonMVAReaderMoriond18(FlatTreeProducerLepMVAPath, "el_BDTG.weights.xml", "ele");
 
     // ###
     // Restore stdout
     // ###
-    std::cout.rdbuf(oldStdout);
-    std::cout << "Stdout now restored." << std::endl;
+//    std::cout.rdbuf(oldStdout);
+//    std::cout << "Stdout now restored." << std::endl;
 
     // ########################
     // #  Create output tree  #
