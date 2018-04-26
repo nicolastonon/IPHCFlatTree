@@ -76,6 +76,8 @@ float isoSumRaw(const std::vector<const pat::PackedCandidate *> & cands, const r
    double isosum = 0;
    for( IT icharged=candsbegin;icharged<candsend;++icharged )
      {
+	if( ! (*icharged)->hasTrackDetails() ) continue;
+	
         // pdgId
         if( pdgId > 0 && abs((*icharged)->pdgId()) != pdgId ) continue;
         // threshold
@@ -173,7 +175,7 @@ float ElecPfIsoNeutral(const pat::Electron& elec,edm::Handle<pat::PackedCandidat
 // #########
 //
 float MuonPfIsoCharged(const pat::Muon& muon,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR)
-{
+{   
    std::vector<const pat::PackedCandidate *> charged;
 
    for( const pat::PackedCandidate &p : *pfcands )
@@ -211,7 +213,7 @@ float MuonPfIsoNeutral(const pat::Muon& muon,edm::Handle<pat::PackedCandidateCol
     }
 
    std::sort(neutral.begin(), neutral.end(), ByEta());
-
+   
    return isoSumRaw(neutral,muon,miniIsoR,0.01,0.5,SelfVetoPolicy::selfVetoAll);
 }
 
@@ -301,7 +303,7 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
 	  }
 	else
 	  {
-	     if (pfc.pt()>ptThresh)
+	     if (pfc.hasTrackDetails() && pfc.pt()>ptThresh)
 	       {
 		  if(dr < deadcone_pu) continue;
 		  iso_pu += pfc.pt();
@@ -347,7 +349,7 @@ double ptRatioElec(const pat::Electron& elec, const pat::Jet& jet)
    float ptRatio = elec.pt() / lepAwareJetp4.pt();
 
    //std::cout << "Electron ptRatio:            " << ptRatio                      << std::endl;
-
+   
    return (ptRatio > 0) ? ptRatio : 0.0;
 }
 
@@ -366,26 +368,24 @@ float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
    float PtRel = elecV.Perp( (jetV - elecV).Vect() );
 
    //std::cout << "Electron PtRel (lep aware):   " << PtRel                      << std::endl;
-
+   
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
 float conePtElec(const pat::Electron& elec,const pat::Jet& jet)
 {
-
    pat::Jet myCorJet;
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
    float          SF          = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
-
+   
    return lepAwareJetp4.pt();
 }
 
 double ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet)
 {
-
    pat::Jet myCorJet;
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
@@ -415,20 +415,19 @@ float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
    float PtRel = muonV.Perp( (jetV - muonV).Vect() );
 
    //std::cout << "Muon PtRel (lep aware):   " << PtRel                      << std::endl;
-
+   
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
 float conePtMuon(const pat::Muon& muon,const pat::Jet& jet)
 {
-
    pat::Jet myCorJet;
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
    float          SF          = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
-
+   
    return lepAwareJetp4.pt();
 }
 
@@ -460,7 +459,7 @@ int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx)
 		    n++;
 	       }	     
 	  }   
-     }   
+     }
    
   return n;
 }

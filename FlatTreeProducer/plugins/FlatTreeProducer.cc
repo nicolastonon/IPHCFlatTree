@@ -1157,6 +1157,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     //
     ftree->ev_run = iEvent.id().run();
     ftree->ev_id = iEvent.id().event();
+   
     ftree->ev_lumi = iEvent.id().luminosityBlock();
 
     //std::cout << " Event =================================================================== " << std::endl << "No: " << iEvent.id().event() << std::endl ;
@@ -2820,7 +2821,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             ftree->tau_pfEssential_dxy_error.push_back(tau.pfEssential().dxy_error);
             ftree->tau_pfEssential_dxy_Sig.push_back(tau.pfEssential().dxy_Sig);*/
     }
-    ftree->tau_n = ftree->tau_pt.size();
+
+   ftree->tau_n = ftree->tau_pt.size();
 
     // ##########################
     // #       _      _         #
@@ -3534,66 +3536,68 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     ftree->pfch_tight_n = 0;
     ftree->pfch_tight_sumpt = 0;
 
-    for( const pat::PackedCandidate &pfc : *pfcands )
-    {
-        
-	//make a selection based on TOP-15-017
-	if(pfc.charge()!=0 && pfc.pt()>0.5 && fabs(pfc.eta())<2.1){
-	  if(fabs(pfc.dz())<1 && fabs(pfc.dz()/pfc.dzError())<10 && fabs(pfc.dxy())<3 && fabs(pfc.dxy()/pfc.dxyError())<10){
-	 	ftree->pfch_loose_n++;
-	  	ftree->pfch_loose_sumpt+=pfc.pt();
+   for( const pat::PackedCandidate &pfc : *pfcands )
+     {
+	if( pfc.hasTrackDetails() )
+	  {	     	
+	     //make a selection based on TOP-15-017
+	     if(pfc.charge()!=0 && pfc.pt()>0.5 && fabs(pfc.eta())<2.1)
+	       {
+		  if(fabs(pfc.dz())<1 && fabs(pfc.dz()/pfc.dzError())<10 && fabs(pfc.dxy())<3 && fabs(pfc.dxy()/pfc.dxyError())<10)
+		    {
+		       ftree->pfch_loose_n++;
+		       ftree->pfch_loose_sumpt+=pfc.pt();
+		    }
+		  if(fabs(pfc.dz())<0.1 && fabs(pfc.dz()/pfc.dzError())<5 && fabs(pfc.dxy())<0.5 && fabs(pfc.dxy()/pfc.dxyError())<5)
+		    {
+		       ftree->pfch_tight_n++;
+		       ftree->pfch_tight_sumpt+=pfc.pt();
+		    }
+	       }
+	
+	     //compute track Iso
+	     double trackIso = 0;
+	     // run over all pf candidates
+	     for( const pat::PackedCandidate &pfc2 : *pfcands )
+	       {
+		  if(&pfc==&pfc2) continue ; // do not count particle itself
+		  if(pfc2.charge()==0) continue;
+		  if(fabs(pfc2.dz())>0.1) continue;
+		  if(pfc2.pt()<0) continue;
+		  if(deltaR(pfc,pfc2)<0.3) trackIso+=pfc2.pt();
+	       }
+	
+	     if(do_sel_pfc)
+	       {
+		  if(pfc.charge()==0) continue;
+		  if(abs(pfc.dz())>=0.1) continue;
+		  if(pfc.pt()<=10) continue;
+		  if(fabs(pfc.eta())>=2.4) continue;
+		  if( (trackIso<6 && pfc.pt()>=60 ) || (trackIso/pfc.pt()<0.1 && pfc.pt()<60) )
+		    {
+		       ftree->pfcand_pt.push_back(pfc.pt());
+		       ftree->pfcand_eta.push_back(pfc.eta());
+		       ftree->pfcand_phi.push_back(pfc.phi());
+		       ftree->pfcand_E.push_back(pfc.energy());
+		       ftree->pfcand_charge.push_back(pfc.charge());
+		       ftree->pfcand_id.push_back(pfc.pdgId());
+		       ftree->pfcand_dz.push_back(pfc.dz());
+		       ftree->pfcand_trackIso.push_back(trackIso);
+		    }
+	       }
+	     else
+	       {
+		  ftree->pfcand_pt.push_back(pfc.pt());
+		  ftree->pfcand_eta.push_back(pfc.eta());
+		  ftree->pfcand_phi.push_back(pfc.phi());
+		  ftree->pfcand_E.push_back(pfc.energy());
+		  ftree->pfcand_charge.push_back(pfc.charge());
+		  ftree->pfcand_id.push_back(pfc.pdgId());
+		  ftree->pfcand_dz.push_back(pfc.dz());
+		  ftree->pfcand_trackIso.push_back(trackIso);
+	       }
 	  }
-	  if(fabs(pfc.dz())<0.1 && fabs(pfc.dz()/pfc.dzError())<5 && fabs(pfc.dxy())<0.5 && fabs(pfc.dxy()/pfc.dxyError())<5){
-	 	ftree->pfch_tight_n++;
-	  	ftree->pfch_tight_sumpt+=pfc.pt();
-	  }
-	}
-
-
-
-        //compute track Iso
-        double trackIso = 0;
-        // run over all pf candidates
-        for( const pat::PackedCandidate &pfc2 : *pfcands )
-        {
-            if(&pfc==&pfc2) continue ; // do not count particle itself
-            if(pfc2.charge()==0) continue;
-            if(fabs(pfc2.dz())>0.1) continue;
-            if(pfc2.pt()<0) continue;
-            if(deltaR(pfc,pfc2)<0.3) trackIso+=pfc2.pt();
-        }
-
-        if(do_sel_pfc)
-        {
-            if(pfc.charge()==0) continue;
-            if(abs(pfc.dz())>=0.1) continue;
-            if(pfc.pt()<=10) continue;
-            if(fabs(pfc.eta())>=2.4) continue;
-            if( (trackIso<6 && pfc.pt()>=60 ) || (trackIso/pfc.pt()<0.1 && pfc.pt()<60) )
-            {
-                ftree->pfcand_pt.push_back(pfc.pt());
-                ftree->pfcand_eta.push_back(pfc.eta());
-                ftree->pfcand_phi.push_back(pfc.phi());
-                ftree->pfcand_E.push_back(pfc.energy());
-                ftree->pfcand_charge.push_back(pfc.charge());
-                ftree->pfcand_id.push_back(pfc.pdgId());
-                ftree->pfcand_dz.push_back(pfc.dz());
-                ftree->pfcand_trackIso.push_back(trackIso);
-            }
-        }
-        else
-        {
-            ftree->pfcand_pt.push_back(pfc.pt());
-            ftree->pfcand_eta.push_back(pfc.eta());
-            ftree->pfcand_phi.push_back(pfc.phi());
-            ftree->pfcand_E.push_back(pfc.energy());
-            ftree->pfcand_charge.push_back(pfc.charge());
-            ftree->pfcand_id.push_back(pfc.pdgId());
-            ftree->pfcand_dz.push_back(pfc.dz());
-            ftree->pfcand_trackIso.push_back(trackIso);
-
-        }
-    }
+     }   
 
    this->KeepEvent();
     if( (applyMETFilters_ && passMETFilters) || !applyMETFilters_ ){
