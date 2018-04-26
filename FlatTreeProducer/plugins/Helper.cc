@@ -108,10 +108,13 @@ float ElecPfIsoCharged(const pat::Electron& elec,edm::Handle<pat::PackedCandidat
 	  {
 	     if( fabs(p.pdgId()) == 211 )
 	       {
-		  if (p.fromPV() > 1 && fabs(p.dz()) < 9999. )
-		    {
-		       charged.push_back(&p);
-                }
+		  if( p.hasTrackDetails() )
+		    {		       
+		       if (p.fromPV() > 1 && fabs(p.dz()) < 9999. )
+			 {
+			    charged.push_back(&p);
+			 }
+		    }		  
             }
         }
     }
@@ -179,10 +182,13 @@ float MuonPfIsoCharged(const pat::Muon& muon,edm::Handle<pat::PackedCandidateCol
 	  {
 	     if( fabs(p.pdgId()) == 211 )
 	       {
-		  if (p.fromPV() > 1 && fabs(p.dz()) < 9999. )
-		    {
-		       charged.push_back(&p);
-                }
+		  if( p.hasTrackDetails() )
+		    {		       
+		       if (p.fromPV() > 1 && fabs(p.dz()) < 9999. )
+			 {
+			    charged.push_back(&p);
+			 }
+		    }		  
             }
         }
     }
@@ -259,7 +265,7 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
 			    double jdr = deltaR(pfc, jpfc);
 			    if (pfc.charge()!=0 || jdr<0.00001) continue;
 			    double jpt = jpfc.pt();
-			    if (pfc.fromPV()>1) wpv *= jpt/jdr;
+			    if ( pfc.hasTrackDetails() && pfc.fromPV()>1) wpv *= jpt/jdr;
 			    else wpu *= jpt/jdr;
 			 }
 
@@ -283,7 +289,7 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
 	       }
 	     ////////////////// CHARGED from PV /////////////////////////
 	  }
-	else if (pfc.fromPV()>1)
+	else if (pfc.hasTrackDetails() && pfc.fromPV()>1)
 	  {
 	     if (abs(pfc.pdgId())==211)
 	       {
@@ -448,7 +454,7 @@ int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx)
 	  {
 	     const pat::PackedCandidate *x = dynamic_cast<const pat::PackedCandidate* >( jet.daughter(id) );
 	     if( x->hasTrackDetails() )
-	       {		  
+	       {
 		  if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
 		       qualityTrk(x->pseudoTrack(),vtx) )
 		    n++;
