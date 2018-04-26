@@ -1456,107 +1456,107 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->trigger_L1prescale.push_back(L1prescale);
     }
 
-    //std::cout << "\n === TRIGGER OBJECTS === " << std::endl;
-    for (pat::TriggerObjectStandAlone obj : *triggerObjects)
-    {
-        // note: not "const &" since we want to call unpackPathNames
-        obj.unpackPathNames(names);
-
-        // Trigger object basic informations (pt, eta, phi)
-        //std::cout << "\tTrigger object:  pt " << obj.pt() << ", eta " << obj.eta() << ", phi " << obj.phi() << std::endl;
-
-        ftree->triggerobject_pt.push_back(obj.pt());
-        ftree->triggerobject_eta.push_back(obj.eta());
-        ftree->triggerobject_phi.push_back(obj.phi());
-
-        // Trigger object collection
-        //std::cout << "\t   Collection: " << obj.collection() << std::endl;
-        ftree->triggerobject_collection.push_back(obj.collection());
-
-        // Trigger object type IDs
-        ftree->triggerobject_filterIds_n.push_back(obj.filterIds().size());
-        for (unsigned h = 0; h < obj.filterIds().size(); ++h)
-        {
-            ftree->triggerobject_isTriggerL1Mu.push_back(obj.filterIds()[h] == -81 ? true : false);
-            ftree->triggerobject_isTriggerL1NoIsoEG.push_back(obj.filterIds()[h] == -82 ? true : false);
-            ftree->triggerobject_isTriggerL1IsoEG.push_back(obj.filterIds()[h] == -83 ? true : false);
-            ftree->triggerobject_isTriggerL1CenJet.push_back(obj.filterIds()[h] == -84 ? true : false);
-            ftree->triggerobject_isTriggerL1ForJet.push_back(obj.filterIds()[h] == -85 ? true : false);
-            ftree->triggerobject_isTriggerL1TauJet.push_back(obj.filterIds()[h] == -86 ? true : false);
-            ftree->triggerobject_isTriggerL1ETM.push_back(obj.filterIds()[h] == -87 ? true : false);
-            ftree->triggerobject_isTriggerL1ETT.push_back(obj.filterIds()[h] == -88 ? true : false);
-            ftree->triggerobject_isTriggerL1HTT.push_back(obj.filterIds()[h] == -89 ? true : false);
-            ftree->triggerobject_isTriggerL1HTM.push_back(obj.filterIds()[h] == -90 ? true : false);
-            ftree->triggerobject_isTriggerL1JetCounts.push_back(obj.filterIds()[h] == -91 ? true : false);
-            ftree->triggerobject_isTriggerL1HfBitCounts.push_back(obj.filterIds()[h] == -92 ? true : false);
-            ftree->triggerobject_isTriggerL1HfRingEtSums.push_back(obj.filterIds()[h] == -93 ? true : false);
-            ftree->triggerobject_isTriggerL1TechTrig.push_back(obj.filterIds()[h] == -94 ? true : false);
-            ftree->triggerobject_isTriggerL1Castor.push_back(obj.filterIds()[h] == -95 ? true : false);
-            ftree->triggerobject_isTriggerL1BPTX.push_back(obj.filterIds()[h] == -96 ? true : false);
-            ftree->triggerobject_isTriggerL1GtExternal.push_back(obj.filterIds()[h] == -97 ? true : false);
-
-            ftree->triggerobject_isHLT_TriggerPhoton.push_back(obj.filterIds()[h] == 81 ? true : false);
-            ftree->triggerobject_isHLT_TriggerElectron.push_back(obj.filterIds()[h] == 82 ? true : false);
-            ftree->triggerobject_isHLT_TriggerMuon.push_back(obj.filterIds()[h] == 83 ? true : false);
-            ftree->triggerobject_isHLT_TriggerTau.push_back(obj.filterIds()[h] == 84 ? true : false);
-            ftree->triggerobject_isHLT_TriggerJet.push_back(obj.filterIds()[h] == 85 ? true : false);
-            ftree->triggerobject_isHLT_TriggerBJet.push_back(obj.filterIds()[h] == 86 ? true : false);
-            ftree->triggerobject_isHLT_TriggerMET.push_back(obj.filterIds()[h] == 87 ? true : false);
-            ftree->triggerobject_isHLT_TriggerTET.push_back(obj.filterIds()[h] == 88 ? true : false);
-            ftree->triggerobject_isHLT_TriggerTHT.push_back(obj.filterIds()[h] == 89 ? true : false);
-            ftree->triggerobject_isHLT_TriggerMHT.push_back(obj.filterIds()[h] == 90 ? true : false);
-            ftree->triggerobject_isHLT_TriggerTrack.push_back(obj.filterIds()[h] == 91 ? true : false);
-            ftree->triggerobject_isHLT_TriggerCluster.push_back(obj.filterIds()[h] == 92 ? true : false);
-            ftree->triggerobject_isHLT_TriggerMETSig.push_back(obj.filterIds()[h] == 93 ? true : false);
-            ftree->triggerobject_isHLT_TriggerELongit.push_back(obj.filterIds()[h] == 94 ? true : false);
-            ftree->triggerobject_isHLT_TriggerMHTSig.push_back(obj.filterIds()[h] == 95 ? true : false);
-            ftree->triggerobject_isHLT_TriggerHLongit.push_back(obj.filterIds()[h] == 96 ? true : false);
-
-            ftree->triggerobject_filterIds.push_back(obj.filterIds()[h]);
-        }
-
-        // Trigger object filter
-        ftree->triggerobject_filterLabels_n.push_back(obj.filterLabels().size());
-        for (unsigned h = 0; h < obj.filterLabels().size(); ++h)
-        {
-            //std::cout << "FilterLabel: " << obj.filterLabels()[h] << std::endl;
-            ftree->triggerobject_filterLabels.push_back(obj.filterLabels()[h]);
-        }
-
-        //std::cout << std::endl;
-        std::vector<std::string> pathNamesAll  = obj.pathNames(false);
-        std::vector<std::string> pathNamesLast = obj.pathNames(true);
-
-        // Print all trigger paths, for each one record also if the object is associated to a 'l3' filter (always true for the
-        // definition used in the PAT trigger producer) and if it's associated to the last filter of a successfull path (which
-        // means that this object did cause this trigger to succeed; however, it doesn't work on some multi-object triggers)
-        //std::cout << "\t   Paths (" << pathNamesAll.size()<<"/"<<pathNamesLast.size()<<"):    ";
-        ftree->triggerobject_pathNamesAll_n.push_back(pathNamesAll.size());
-        for (unsigned h = 0, n = pathNamesAll.size(); h < n; ++h)
-        {
-            bool isBoth = obj.hasPathName( pathNamesAll[h], true, true );
-            bool isL3   = obj.hasPathName( pathNamesAll[h], false, true );
-            bool isLF   = obj.hasPathName( pathNamesAll[h], true, false );
-            bool isNone = obj.hasPathName( pathNamesAll[h], false, false );
-            //std::cout << "   " << pathNamesAll[h];
-            //if (isBoth) std::cout << "(L,3)" << std::endl;
-            //if (isL3 && !isBoth) std::cout << "(*,3)" << std::endl;
-            //if (isLF && !isBoth) std::cout << "(L,*)" << std::endl;
-            //if (isNone && !isBoth && !isL3 && !isLF) std::cout << "(*,*)" << std::endl;
-
-            ftree->triggerobject_pathNamesAll.push_back(pathNamesAll[h]);
-            ftree->triggerobject_pathNamesAll_isBoth.push_back(isBoth);
-            ftree->triggerobject_pathNamesAll_isL3.push_back(isL3);
-            ftree->triggerobject_pathNamesAll_isLF.push_back(isLF);
-            ftree->triggerobject_pathNamesAll_isNone.push_back(isNone);
-        }
-
-        ftree->triggerobject_n = ftree->triggerobject_pt.size();
-    }
-
-    // =========== END OF TRIGGER ==========
-    //
-    //
+   if( ftree->doWrite("triggerobject_do") )
+     {	
+	//std::cout << "\n === TRIGGER OBJECTS === " << std::endl;
+	for (pat::TriggerObjectStandAlone obj : *triggerObjects)
+	  {
+	     // note: not "const &" since we want to call unpackPathNames
+	     obj.unpackPathNames(names);
+	     
+	     // Trigger object basic informations (pt, eta, phi)
+	     //std::cout << "\tTrigger object:  pt " << obj.pt() << ", eta " << obj.eta() << ", phi " << obj.phi() << std::endl;
+	     
+	     ftree->triggerobject_pt.push_back(obj.pt());
+	     ftree->triggerobject_eta.push_back(obj.eta());
+	     ftree->triggerobject_phi.push_back(obj.phi());
+	     
+	     // Trigger object collection
+	     //std::cout << "\t   Collection: " << obj.collection() << std::endl;
+	     ftree->triggerobject_collection.push_back(obj.collection());
+	     
+	     // Trigger object type IDs
+	     ftree->triggerobject_filterIds_n.push_back(obj.filterIds().size());
+	     for (unsigned h = 0; h < obj.filterIds().size(); ++h)
+	       {
+		  ftree->triggerobject_isTriggerL1Mu.push_back(obj.filterIds()[h] == -81 ? true : false);
+		  ftree->triggerobject_isTriggerL1NoIsoEG.push_back(obj.filterIds()[h] == -82 ? true : false);
+		  ftree->triggerobject_isTriggerL1IsoEG.push_back(obj.filterIds()[h] == -83 ? true : false);
+		  ftree->triggerobject_isTriggerL1CenJet.push_back(obj.filterIds()[h] == -84 ? true : false);
+		  ftree->triggerobject_isTriggerL1ForJet.push_back(obj.filterIds()[h] == -85 ? true : false);
+		  ftree->triggerobject_isTriggerL1TauJet.push_back(obj.filterIds()[h] == -86 ? true : false);
+		  ftree->triggerobject_isTriggerL1ETM.push_back(obj.filterIds()[h] == -87 ? true : false);
+		  ftree->triggerobject_isTriggerL1ETT.push_back(obj.filterIds()[h] == -88 ? true : false);
+		  ftree->triggerobject_isTriggerL1HTT.push_back(obj.filterIds()[h] == -89 ? true : false);
+		  ftree->triggerobject_isTriggerL1HTM.push_back(obj.filterIds()[h] == -90 ? true : false);
+		  ftree->triggerobject_isTriggerL1JetCounts.push_back(obj.filterIds()[h] == -91 ? true : false);
+		  ftree->triggerobject_isTriggerL1HfBitCounts.push_back(obj.filterIds()[h] == -92 ? true : false);
+		  ftree->triggerobject_isTriggerL1HfRingEtSums.push_back(obj.filterIds()[h] == -93 ? true : false);
+		  ftree->triggerobject_isTriggerL1TechTrig.push_back(obj.filterIds()[h] == -94 ? true : false);
+		  ftree->triggerobject_isTriggerL1Castor.push_back(obj.filterIds()[h] == -95 ? true : false);
+		  ftree->triggerobject_isTriggerL1BPTX.push_back(obj.filterIds()[h] == -96 ? true : false);
+		  ftree->triggerobject_isTriggerL1GtExternal.push_back(obj.filterIds()[h] == -97 ? true : false);
+		  
+		  ftree->triggerobject_isHLT_TriggerPhoton.push_back(obj.filterIds()[h] == 81 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerElectron.push_back(obj.filterIds()[h] == 82 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerMuon.push_back(obj.filterIds()[h] == 83 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerTau.push_back(obj.filterIds()[h] == 84 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerJet.push_back(obj.filterIds()[h] == 85 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerBJet.push_back(obj.filterIds()[h] == 86 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerMET.push_back(obj.filterIds()[h] == 87 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerTET.push_back(obj.filterIds()[h] == 88 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerTHT.push_back(obj.filterIds()[h] == 89 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerMHT.push_back(obj.filterIds()[h] == 90 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerTrack.push_back(obj.filterIds()[h] == 91 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerCluster.push_back(obj.filterIds()[h] == 92 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerMETSig.push_back(obj.filterIds()[h] == 93 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerELongit.push_back(obj.filterIds()[h] == 94 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerMHTSig.push_back(obj.filterIds()[h] == 95 ? true : false);
+		  ftree->triggerobject_isHLT_TriggerHLongit.push_back(obj.filterIds()[h] == 96 ? true : false);
+		  
+		  ftree->triggerobject_filterIds.push_back(obj.filterIds()[h]);
+	       }
+	     
+	     // Trigger object filter
+	     ftree->triggerobject_filterLabels_n.push_back(obj.filterLabels().size());
+	     for (unsigned h = 0; h < obj.filterLabels().size(); ++h)
+	       {
+		  //std::cout << "FilterLabel: " << obj.filterLabels()[h] << std::endl;
+		  ftree->triggerobject_filterLabels.push_back(obj.filterLabels()[h]);
+	       }
+	     
+	     //std::cout << std::endl;
+	     std::vector<std::string> pathNamesAll  = obj.pathNames(false);
+	     std::vector<std::string> pathNamesLast = obj.pathNames(true);
+	     
+	     // Print all trigger paths, for each one record also if the object is associated to a 'l3' filter (always true for the
+	     // definition used in the PAT trigger producer) and if it's associated to the last filter of a successfull path (which
+	     // means that this object did cause this trigger to succeed; however, it doesn't work on some multi-object triggers)
+	     //std::cout << "\t   Paths (" << pathNamesAll.size()<<"/"<<pathNamesLast.size()<<"):    ";
+	     ftree->triggerobject_pathNamesAll_n.push_back(pathNamesAll.size());
+	     for (unsigned h = 0, n = pathNamesAll.size(); h < n; ++h)
+	       {
+		  bool isBoth = obj.hasPathName( pathNamesAll[h], true, true );
+		  bool isL3   = obj.hasPathName( pathNamesAll[h], false, true );
+		  bool isLF   = obj.hasPathName( pathNamesAll[h], true, false );
+		  bool isNone = obj.hasPathName( pathNamesAll[h], false, false );
+		  //std::cout << "   " << pathNamesAll[h];
+		  //if (isBoth) std::cout << "(L,3)" << std::endl;
+		  //if (isL3 && !isBoth) std::cout << "(*,3)" << std::endl;
+		  //if (isLF && !isBoth) std::cout << "(L,*)" << std::endl;
+		  //if (isNone && !isBoth && !isL3 && !isLF) std::cout << "(*,*)" << std::endl;
+		  
+		  ftree->triggerobject_pathNamesAll.push_back(pathNamesAll[h]);
+		  ftree->triggerobject_pathNamesAll_isBoth.push_back(isBoth);
+		  ftree->triggerobject_pathNamesAll_isL3.push_back(isL3);
+		  ftree->triggerobject_pathNamesAll_isLF.push_back(isLF);
+		  ftree->triggerobject_pathNamesAll_isNone.push_back(isNone);
+	       }
+	     
+	     ftree->triggerobject_n = ftree->triggerobject_pt.size();
+	  }
+     }
+   
     reco::Vertex *primVtx = NULL;
 
     ftree->nvertex = int(vertices->size());
@@ -3045,7 +3045,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
     // Puppi Jets
     //
-    if( jetsPuppi.isValid() )
+   
+    bool jetPuppi_do = ftree->doWrite("jetPuppi_do");
+   
+    if( jetsPuppi.isValid() && jetPuppi_do )
     {
         int nJetPuppi = jetsPuppi->size();
         ftree->jetPuppi_n = nJetPuppi;
@@ -3163,7 +3166,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
 
     // ak8 jets (W-jets)
-    if( ak8jets.isValid() )
+    
+   bool ak8jet_do = ftree->doWrite("ak8jet_do");
+    
+    if( ak8jets.isValid() && ak8jet_do )
     {
         int nak8Jet = ak8jets->size();
         ftree->ak8jet_n = nak8Jet;
@@ -3334,7 +3340,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     }
 
     // ak10 jets
-    if( ak10jets.isValid() )
+    
+   bool ak10jet_do = ftree->doWrite("ak10jet_do");
+    
+    if( ak10jets.isValid() && ak10jet_do )
     {
         int nak10Jet = ak10jets->size();
         ftree->ak10jet_n = nak10Jet;
@@ -3526,54 +3535,69 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     //   PF candidates
     // ##########################
     //
-    int nPfcand = pfcands->size();
-    ftree->pfcand_n = nPfcand;
-    bool do_sel_pfc = ftree->doWrite("sel_pfcand");
-    
-    
-    ftree->pfch_loose_n = 0;
-    ftree->pfch_loose_sumpt = 0;
-    ftree->pfch_tight_n = 0;
-    ftree->pfch_tight_sumpt = 0;
-
-   for( const pat::PackedCandidate &pfc : *pfcands )
-     {
-	if( pfc.hasTrackDetails() )
-	  {	     	
-	     //make a selection based on TOP-15-017
-	     if(pfc.charge()!=0 && pfc.pt()>0.5 && fabs(pfc.eta())<2.1)
-	       {
-		  if(fabs(pfc.dz())<1 && fabs(pfc.dz()/pfc.dzError())<10 && fabs(pfc.dxy())<3 && fabs(pfc.dxy()/pfc.dxyError())<10)
-		    {
-		       ftree->pfch_loose_n++;
-		       ftree->pfch_loose_sumpt+=pfc.pt();
-		    }
-		  if(fabs(pfc.dz())<0.1 && fabs(pfc.dz()/pfc.dzError())<5 && fabs(pfc.dxy())<0.5 && fabs(pfc.dxy()/pfc.dxyError())<5)
-		    {
-		       ftree->pfch_tight_n++;
-		       ftree->pfch_tight_sumpt+=pfc.pt();
-		    }
-	       }
+   
+   bool pfcand_do = ftree->doWrite("pfcand_do");
+   if( pfcand_do )
+     {	   
+	int nPfcand = pfcands->size();
+	ftree->pfcand_n = nPfcand;
+	bool do_sel_pfc = ftree->doWrite("sel_pfcand");
+		
+	ftree->pfch_loose_n = 0;
+	ftree->pfch_loose_sumpt = 0;
+	ftree->pfch_tight_n = 0;
+	ftree->pfch_tight_sumpt = 0;
 	
-	     //compute track Iso
-	     double trackIso = 0;
-	     // run over all pf candidates
-	     for( const pat::PackedCandidate &pfc2 : *pfcands )
-	       {
-		  if(&pfc==&pfc2) continue ; // do not count particle itself
-		  if(pfc2.charge()==0) continue;
-		  if(fabs(pfc2.dz())>0.1) continue;
-		  if(pfc2.pt()<0) continue;
-		  if(deltaR(pfc,pfc2)<0.3) trackIso+=pfc2.pt();
-	       }
-	
-	     if(do_sel_pfc)
-	       {
-		  if(pfc.charge()==0) continue;
-		  if(abs(pfc.dz())>=0.1) continue;
-		  if(pfc.pt()<=10) continue;
-		  if(fabs(pfc.eta())>=2.4) continue;
-		  if( (trackIso<6 && pfc.pt()>=60 ) || (trackIso/pfc.pt()<0.1 && pfc.pt()<60) )
+	for( const pat::PackedCandidate &pfc : *pfcands )
+	  {
+	     if( pfc.hasTrackDetails() )
+	       {	     	
+		  //make a selection based on TOP-15-017
+		  if(pfc.charge()!=0 && pfc.pt()>0.5 && fabs(pfc.eta())<2.1)
+		    {
+		       if(fabs(pfc.dz())<1 && fabs(pfc.dz()/pfc.dzError())<10 && fabs(pfc.dxy())<3 && fabs(pfc.dxy()/pfc.dxyError())<10)
+			 {
+			    ftree->pfch_loose_n++;
+			    ftree->pfch_loose_sumpt+=pfc.pt();
+			 }
+		       if(fabs(pfc.dz())<0.1 && fabs(pfc.dz()/pfc.dzError())<5 && fabs(pfc.dxy())<0.5 && fabs(pfc.dxy()/pfc.dxyError())<5)
+			 {
+			    ftree->pfch_tight_n++;
+			    ftree->pfch_tight_sumpt+=pfc.pt();
+			 }
+		    }
+		  
+		  //compute track Iso
+		  double trackIso = 0;
+		  // run over all pf candidates
+		  for( const pat::PackedCandidate &pfc2 : *pfcands )
+		    {
+		       if(&pfc==&pfc2) continue ; // do not count particle itself
+		       if(pfc2.charge()==0) continue;
+		       if(fabs(pfc2.dz())>0.1) continue;
+		       if(pfc2.pt()<0) continue;
+		       if(deltaR(pfc,pfc2)<0.3) trackIso+=pfc2.pt();
+		    }
+		  
+		  if(do_sel_pfc)
+		    {
+		       if(pfc.charge()==0) continue;
+		       if(abs(pfc.dz())>=0.1) continue;
+		       if(pfc.pt()<=10) continue;
+		       if(fabs(pfc.eta())>=2.4) continue;
+		       if( (trackIso<6 && pfc.pt()>=60 ) || (trackIso/pfc.pt()<0.1 && pfc.pt()<60) )
+			 {
+			    ftree->pfcand_pt.push_back(pfc.pt());
+			    ftree->pfcand_eta.push_back(pfc.eta());
+			    ftree->pfcand_phi.push_back(pfc.phi());
+			    ftree->pfcand_E.push_back(pfc.energy());
+			    ftree->pfcand_charge.push_back(pfc.charge());
+			    ftree->pfcand_id.push_back(pfc.pdgId());
+			    ftree->pfcand_dz.push_back(pfc.dz());
+			    ftree->pfcand_trackIso.push_back(trackIso);
+			 }
+		    }
+		  else
 		    {
 		       ftree->pfcand_pt.push_back(pfc.pt());
 		       ftree->pfcand_eta.push_back(pfc.eta());
@@ -3585,20 +3609,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		       ftree->pfcand_trackIso.push_back(trackIso);
 		    }
 	       }
-	     else
-	       {
-		  ftree->pfcand_pt.push_back(pfc.pt());
-		  ftree->pfcand_eta.push_back(pfc.eta());
-		  ftree->pfcand_phi.push_back(pfc.phi());
-		  ftree->pfcand_E.push_back(pfc.energy());
-		  ftree->pfcand_charge.push_back(pfc.charge());
-		  ftree->pfcand_id.push_back(pfc.pdgId());
-		  ftree->pfcand_dz.push_back(pfc.dz());
-		  ftree->pfcand_trackIso.push_back(trackIso);
-	       }
-	  }
-     }   
-
+	  }   
+     }
+   
    this->KeepEvent();
     if( (applyMETFilters_ && passMETFilters) || !applyMETFilters_ ){
         //std::cout<<"here we are !"<<std::endl;
