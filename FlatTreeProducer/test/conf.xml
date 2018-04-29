@@ -1,5 +1,5 @@
 <preselection>
-    <info activate="1"></info>
+    <info activate="0"></info>
     <obj name="muon" min="0"></obj>
     <obj name="electron" min="0"></obj>
     <obj name="lepton" min="1"></obj>
@@ -359,7 +359,7 @@
     <var name="el_lepMVA_dz" save="1"></var>
     <var name="el_lepMVA_mvaId" save="1"></var>
     <var name="el_lepMVA_jetNDauChargedMVASel" save="1"></var>
-    <var name="el_jetConePt_ttH" save="1"></var>
+    <var name="el_conept" save="1"></var>
     <var name="el_hasMatchedConversion" save="1"></var>
     <var name="el_expectedMissingInnerHits" save="1"></var>
     <var name="el_hasMCMatch" save="1" mc="1"></var>
@@ -652,7 +652,7 @@
     <var name="mu_lepMVA_dz" save="1"></var>
     <var name="mu_lepMVA_mvaId" save="1"></var>
     <var name="mu_lepMVA_jetNDauChargedMVASel" save="1"></var>
-    <var name="mu_jetConePt_ttH" save="1"></var>
+    <var name="mu_conept" save="1"></var>
     <var name="mu_hasMCMatch" save="1" mc="1"></var>
     <var name="mu_gen_pt" save="1" mc="1"></var>
     <var name="mu_gen_eta" save="1" mc="1"></var>
@@ -690,24 +690,26 @@
     <var name="tau_leadingTrackDz" save="1"></var>
     <var name="tau_leadingTrackDxy" save="1"></var>
     <var name="tau_decayMode" save="1"></var>
-    <var name="tau_decayModeFindingOldDMs" save="1"></var>
+    <var name="tau_decayModeFinding" save="1"></var>
     <var name="tau_decayModeFindingNewDMs" save="1"></var>    
     <var name="tau_puCorrPtSum" save="1"></var>
     <var name="tau_neutralIsoPtSum" save="1"></var>
     <var name="tau_chargedIsoPtSum" save="1"></var>
-    <var name="tau_byCombinedIsolationDeltaBetaCorrRaw3Hits" save="1"></var>   
+    <var name="tau_byCombinedIsolationDeltaBetaCorrRaw3Hits" save="1"></var>
     <var name="tau_byLooseCombinedIsolationDeltaBetaCorr3Hits" save="1"></var>
     <var name="tau_byMediumCombinedIsolationDeltaBetaCorr3Hits" save="1"></var>
     <var name="tau_byTightCombinedIsolationDeltaBetaCorr3Hits" save="1"></var>
-
     <var name="tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT" save="1"></var>
     <var name="tau_byMediumIsolationMVArun2v1DBdR03oldDMwLT" save="1"></var>
     <var name="tau_byTightIsolationMVArun2v1DBdR03oldDMwLT" save="1"></var>
     <var name="tau_byVTightIsolationMVArun2v1DBdR03oldDMwLT" save="1"></var>
-
+    <var name="tau_byVLooseIsolationMVArun2v1DBdR03oldDMwLT" save="1"></var>
     <var name="tau_againstMuonLoose3" save="1"></var>
-    <var name="tau_againstMuonTight3" save="1"></var>    
-
+    <var name="tau_againstMuonTight3" save="1"></var>
+    <var name="tau_againstElectronVLooseMVA6" save="1"></var>
+    <var name="tau_againstElectronLooseMVA6" save="1"></var>
+    <var name="tau_againstElectronMediumMVA6" save="1"></var>
+    <var name="tau_againstElectronTightMVA6" save="1"></var>
     <var name="tau_pfEssential_jet_pt" save="1"></var>
     <var name="tau_pfEssential_jet_eta" save="1"></var>
     <var name="tau_pfEssential_jet_phi" save="1"></var>

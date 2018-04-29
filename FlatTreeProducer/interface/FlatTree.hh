@@ -460,7 +460,7 @@ class FlatTree
    std::vector<float> el_lepMVA_mvaId;
    std::vector<float> el_lepMVA_jetNDauChargedMVASel;
 
-   std::vector<float> el_jetConePt_ttH;
+   std::vector<float> el_conept;
 
    std::vector<int> el_hasMCMatch;
    std::vector<float> el_gen_pt;
@@ -784,7 +784,7 @@ class FlatTree
    std::vector<float> mu_lepMVA_mvaId;
    std::vector<float> mu_lepMVA_jetNDauChargedMVASel;
 
-   std::vector<float> mu_jetConePt_ttH;
+   std::vector<float> mu_conept;
 
    std::vector<int> mu_hasMCMatch;
    std::vector<float> mu_gen_pt;
@@ -823,7 +823,8 @@ class FlatTree
    std::vector<float> tau_leadingTrackDxy;
    
    std::vector<int> tau_decayMode;
-   std::vector<float> tau_decayModeFindingOldDMs;
+   std::vector<float> tau_decayModeFinding;
+//   std::vector<float> tau_decayModeFindingOldDMs;
    std::vector<float> tau_decayModeFindingNewDMs;
    
    std::vector<float> tau_puCorrPtSum;
@@ -834,24 +835,20 @@ class FlatTree
    std::vector<float> tau_byLooseCombinedIsolationDeltaBetaCorr3Hits;
    std::vector<float> tau_byMediumCombinedIsolationDeltaBetaCorr3Hits;
    std::vector<float> tau_byTightCombinedIsolationDeltaBetaCorr3Hits;
-//   std::vector<float> tau_byLooseIsolationMVA3newDMwLT;
-//   std::vector<float> tau_byMediumIsolationMVA3newDMwLT;
-//   std::vector<float> tau_byTightIsolationMVA3newDMwLT;
 
-//   std::vector<float> tau_byLooseCombinedIsolationDeltaBetaCorr3HitsdR03;
-//   std::vector<float> tau_byMediumCombinedIsolationDeltaBetaCorr3HitsdR03;
-//   std::vector<float> tau_byTightCombinedIsolationDeltaBetaCorr3HitsdR03;
    std::vector<float> tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT;
    std::vector<float> tau_byMediumIsolationMVArun2v1DBdR03oldDMwLT;
    std::vector<float> tau_byTightIsolationMVArun2v1DBdR03oldDMwLT;
    std::vector<float> tau_byVTightIsolationMVArun2v1DBdR03oldDMwLT;
+   std::vector<float> tau_byVLooseIsolationMVArun2v1DBdR03oldDMwLT;
    
    std::vector<float> tau_againstMuonLoose3;
    std::vector<float> tau_againstMuonTight3;
 
-//   std::vector<float> tau_againstElectronVLooseMVA5;
-//   std::vector<float> tau_againstElectronLooseMVA5;
-//   std::vector<float> tau_againstElectronMediumMVA5;
+   std::vector<float> tau_againstElectronVLooseMVA6;
+   std::vector<float> tau_againstElectronLooseMVA6;
+   std::vector<float> tau_againstElectronMediumMVA6;
+   std::vector<float> tau_againstElectronTightMVA6;
    
    std::vector<float> tau_pfEssential_jet_pt;
    std::vector<float> tau_pfEssential_jet_eta;

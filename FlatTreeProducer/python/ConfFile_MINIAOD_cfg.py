@@ -41,7 +41,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 from Configuration.AlCa.GlobalTag import GlobalTag
 
 if options.isData:
-    process.GlobalTag.globaltag = '94X_dataRun2_v6'
+    process.GlobalTag.globaltag = '94X_dataRun2_v6'    
 else:
     process.GlobalTag.globaltag = '94X_mc2017_realistic_v13'
 
@@ -462,8 +462,8 @@ process.p = cms.Path(
                      process.METSignificance+
                      process.jecSequence+
                      process.runQG+
-                     process.BadChargedCandidateFilter+
-                     process.BadPFMuonFilter+
+#                     process.BadChargedCandidateFilter+
+#                     process.BadPFMuonFilter+
                      process.slimmedPatTriggerUnpacked+
                      process.FlatTree
                     )

@@ -48,16 +48,10 @@ double getEA(double eta, const std::vector<double>& EA_ETA, const std::vector<do
 // part of miniIso for ttH
 float isoSumRaw(const std::vector<const pat::PackedCandidate *> & cands, const reco::Candidate &cand, float dR, float innerR, float threshold, SelfVetoPolicy::SelfVetoPolicy selfVeto, int pdgId)
 {
-   std::vector<const reco::Candidate *> vetos_;
-
-    /*for (unsigned int i = 0, n = cand.numberOfSourceCandidatePtrs(); i < n; ++i) {
-        const reco::CandidatePtr &cp = cand.sourceCandidatePtr(i);
-        if (cp.isNonnull() && cp.isAvailable()) vetos_.push_back(&*cp);
-    }*/
+   std::vector<const reco::Candidate *> vetos; vetos.clear();
 
    float dR2 = dR*dR, innerR2 = innerR*innerR;
-
-   std::vector<const reco::Candidate *> vetos(vetos_);
+   
    for( unsigned int i=0,n=cand.numberOfSourceCandidatePtrs();i<n;++i )
      {
         if(selfVeto == SelfVetoPolicy::selfVetoNone) break;
@@ -66,9 +60,9 @@ float isoSumRaw(const std::vector<const pat::PackedCandidate *> & cands, const r
 	  {
 	     vetos.push_back(&*cp);
 	     if (selfVeto == SelfVetoPolicy::selfVetoFirst) break;
-        }
+	  }
     }
-
+   
    typedef std::vector<const pat::PackedCandidate *>::const_iterator IT;
    IT candsbegin = std::lower_bound(cands.begin(), cands.end(), cand.eta() - dR, ByEta());
    IT candsend = std::upper_bound(candsbegin, cands.end(), cand.eta() + dR, ByEta());
@@ -76,7 +70,7 @@ float isoSumRaw(const std::vector<const pat::PackedCandidate *> & cands, const r
    double isosum = 0;
    for( IT icharged=candsbegin;icharged<candsend;++icharged )
      {
-	if( ! (*icharged)->hasTrackDetails() ) continue;
+//	if( ! (*icharged)->hasTrackDetails() ) continue;
 	
         // pdgId
         if( pdgId > 0 && abs((*icharged)->pdgId()) != pdgId ) continue;
@@ -84,15 +78,15 @@ float isoSumRaw(const std::vector<const pat::PackedCandidate *> & cands, const r
         if( threshold > 0 && (*icharged)->pt() < threshold ) continue;
         // cone
         float mydr2 = reco::deltaR2(**icharged, cand);
-        if( mydr2 >= dR2 || mydr2 < innerR2 ) continue;
+        if( mydr2 > dR2 || mydr2 < innerR2 ) continue;
         // veto
         if( std::find(vetos.begin(), vetos.end(), *icharged) != vetos.end() )
 	  {
 	     continue;
-        }
+	  }
         // add to sum
         isosum += (*icharged)->pt();
-    }
+     }
    return isosum;
 }
 
@@ -110,13 +104,13 @@ float ElecPfIsoCharged(const pat::Electron& elec,edm::Handle<pat::PackedCandidat
 	  {
 	     if( fabs(p.pdgId()) == 211 )
 	       {
-		  if( p.hasTrackDetails() )
-		    {		       
+//		  if( p.hasTrackDetails() )
+//		    {		       
 		       if (p.fromPV() > 1 && fabs(p.dz()) < 9999. )
 			 {
 			    charged.push_back(&p);
 			 }
-		    }		  
+//		    }		  
             }
         }
     }
@@ -124,16 +118,11 @@ float ElecPfIsoCharged(const pat::Electron& elec,edm::Handle<pat::PackedCandidat
    std::sort(charged.begin(), charged.end(), ByEta());
 
    float innerR_Ch = .0;
-   if ( fabs(elec.eta()) < 1.479 ) { innerR_Ch = 0.0; }
+   if( elec.isEB() ) { innerR_Ch = 0.0; }
    else { innerR_Ch = 0.015; }
 
    float result = isoSumRaw(charged,elec,miniIsoR,innerR_Ch,0.0,SelfVetoPolicy::selfVetoNone);
 
-   //std::cout << " ========= ElecPFIsoNeutral ======== " << std::endl
-   //          << "Eta :      " << fabs(elec.eta())  << std::endl
-   //          << "innerR_Ch: " << innerR_Ch         << std::endl
-   //          << "result:    " << result            << std::endl;
-   //
    return result;
 }
 
@@ -152,21 +141,13 @@ float ElecPfIsoNeutral(const pat::Electron& elec,edm::Handle<pat::PackedCandidat
    std::sort(neutral.begin(), neutral.end(), ByEta());
 
    float innerR_N = .0;
-   if ( fabs(elec.eta()) < 1.479 ) { innerR_N = 0.0; }
+   if( elec.isEB() ) { innerR_N = 0.0; }
    else { innerR_N = 0.08; }
 
    float result1 = isoSumRaw(neutral,elec,miniIsoR,innerR_N,0.0,SelfVetoPolicy::selfVetoNone,22 );
    float result2 = isoSumRaw(neutral,elec,miniIsoR,0.0     ,0.0,SelfVetoPolicy::selfVetoNone,130);
    float result = result1 + result2;
 
-   //std::cout << " ========= ElecPFIsoNeutral ======== " << std::endl
-   //          << "Eta :     " << fabs(elec.eta()) << std::endl
-   //          << "innerR_N: " << innerR_N         << std::endl
-   //          << "result1:  " << result1          << std::endl
-   //          << "result2:  " << result2          << std::endl
-   //          << "result:   " << result           << std::endl;
-   //
-   //
    return result;
 }
 
@@ -184,13 +165,13 @@ float MuonPfIsoCharged(const pat::Muon& muon,edm::Handle<pat::PackedCandidateCol
 	  {
 	     if( fabs(p.pdgId()) == 211 )
 	       {
-		  if( p.hasTrackDetails() )
-		    {		       
+//		  if( p.hasTrackDetails() )
+//		    {		       
 		       if (p.fromPV() > 1 && fabs(p.dz()) < 9999. )
 			 {
 			    charged.push_back(&p);
 			 }
-		    }		  
+//		    }		  
             }
         }
     }
@@ -377,7 +358,7 @@ float conePtElec(const pat::Electron& elec,const pat::Jet& jet)
    pat::Jet myCorJet;
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-   float          SF          = jet.p4().E() / myCorJet.p4().E();
+   float SF = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
    
@@ -424,7 +405,7 @@ float conePtMuon(const pat::Muon& muon,const pat::Jet& jet)
    pat::Jet myCorJet;
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-   float          SF          = jet.p4().E() / myCorJet.p4().E();
+   float SF = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
    
