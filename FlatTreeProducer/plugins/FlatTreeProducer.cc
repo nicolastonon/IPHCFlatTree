@@ -2750,12 +2750,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
        ftree->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"));
        ftree->tau_byTightCombinedIsolationDeltaBetaCorr3Hits.push_back(tau.tauID("byTightCombinedIsolationDeltaBetaCorr3Hits"));
        
-       ftree->tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byLooseIsolationMVArun2v1DBdR03oldDMwLT"));
-       ftree->tau_byMediumIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byMediumIsolationMVArun2v1DBdR03oldDMwLT"));
-       ftree->tau_byTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byTightIsolationMVArun2v1DBdR03oldDMwLT"));
-       ftree->tau_byVTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byVTightIsolationMVArun2v1DBdR03oldDMwLT"));
-       
-       ftree->tau_byVLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byVLooseIsolationMVArun2v1DBdR03oldDMwLT"));
+       ftree->tau_byLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byLooseIsolationMVArun2017v2DBoldDMdR0p3wLT2017"));
+       ftree->tau_byMediumIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byMediumIsolationMVArun2017v2DBoldDMdR0p3wLT2017"));
+       ftree->tau_byTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byTightIsolationMVArun2017v2DBoldDMdR0p3wLT2017"));
+       ftree->tau_byVTightIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byVTightIsolationMVArun2017v2DBoldDMdR0p3wLT2017"));
+       ftree->tau_byVLooseIsolationMVArun2v1DBdR03oldDMwLT.push_back(tau.tauID("byVLooseIsolationMVArun2017v2DBoldDMdR0p3wLT2017"));
        
        ftree->tau_againstMuonLoose3.push_back(tau.tauID("againstMuonLoose3"));
        ftree->tau_againstMuonTight3.push_back(tau.tauID("againstMuonTight3"));

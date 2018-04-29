@@ -141,6 +141,13 @@ jetsNameAK10="selectedPatJetsAK10PFCHS"
 #  Additional modules  #
 ########################
 
+from IPHCFlatTree.FlatTreeProducer.runTauIdMVA import *
+na = TauIDEmbedder(process, cms,
+     debug=False,
+     toKeep = ["dR0p32017v2"]
+)
+na.runTauID()
+
 # egamma
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 switchOnVIDElectronIdProducer(process,DataFormat.MiniAOD)
@@ -421,7 +428,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
                   ),
                   
                   muonInput                = cms.InputTag("slimmedMuons"),
-                  tauInput                 = cms.InputTag("slimmedTaus"),
+                  #tauInput                 = cms.InputTag("slimmedTaus"),
+                  tauInput                 = cms.InputTag("NewTauIDsEmbedded"),
                   jetInput                 = cms.InputTag(jetsNameAK4),
                   jetPuppiInput            = cms.InputTag("slimmedJetsPuppi"),
                   ak8jetInput              = cms.InputTag(jetsNameAK8),
@@ -456,6 +464,8 @@ if options.runQG:
 
 process.p = cms.Path(
 #                     process.calibratedPatElectrons+
+                     process.rerunMvaIsolationSequence+
+                     process.NewTauIDsEmbedded+
                      process.electronMVAValueMapProducer+
                      process.egmGsfElectronIDSequence+
 #                     process.regressionApplication+
