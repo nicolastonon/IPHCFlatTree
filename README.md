@@ -36,15 +36,16 @@ git cms-init
 # Egamma
 git cms-merge-topic lsoffi:CMSSW_9_4_0_pre3_TnP
 git cms-merge-topic cms-egamma:EGM_94X_v1
+
+scram b -j5
+
 cd EgammaAnalysis/ElectronTools/data
 git clone https://github.com/ECALELFS/ScalesSmearings.git
 cd ScalesSmearings
 git checkout Run2017_17Nov2017_v1
-cd $CMSSW_BASE/src
-git cms-merge-topic guitargeek:ElectronID_MVA2017_940pre3
-rm -rf RecoEgamma/ElectronIdentification/data
-git clone https://github.com/lsoffi/RecoEgamma-ElectronIdentification.git RecoEgamma/ElectronIdentification/data/
-cd RecoEgamma/ElectronIdentification/data/
+cd $CMSSW_BASE/external/$SCRAM_ARCH
+git clone https://github.com/lsoffi/RecoEgamma-ElectronIdentification.git data/RecoEgamma/ElectronIdentification/data
+cd data/RecoEgamma/ElectronIdentification/data
 git checkout CMSSW_9_4_0_pre3_TnP
 cd $CMSSW_BASE/src
 
