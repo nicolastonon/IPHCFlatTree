@@ -48,6 +48,7 @@ git clone https://github.com/lsoffi/RecoEgamma-ElectronIdentification.git data/R
 cd data/RecoEgamma/ElectronIdentification/data
 git checkout CMSSW_9_4_0_pre3_TnP
 cd $CMSSW_BASE/src
+cp ${CMSSW_BASE}/external/slc6_amd64_gcc630/data/RecoEgamma/ElectronIdentification/data/Fall17/EIDmva_E* ${CMSSW_BASE}/src/RecoEgamma/ElectronIdentification/data/Fall17/.
 
 # Tools needed for AK10 jet collection
 git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
