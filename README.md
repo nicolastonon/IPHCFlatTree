@@ -43,7 +43,10 @@ git checkout Run2017_17Nov2017_v1
 cd $CMSSW_BASE/src
 git cms-merge-topic guitargeek:ElectronID_MVA2017_940pre3
 rm -rf RecoEgamma/ElectronIdentification/data
-git clone -b ElectronID_MVA2017_V2 https://github.com/guitargeek/RecoEgamma-ElectronIdentification RecoEgamma/ElectronIdentification/data/
+git clone https://github.com/lsoffi/RecoEgamma-ElectronIdentification.git RecoEgamma/ElectronIdentification/data/
+cd RecoEgamma/ElectronIdentification/data/
+git checkout CMSSW_9_4_0_pre3_TnP
+cd $CMSSW_BASE/src
 
 # Tools needed for AK10 jet collection
 git clone https://github.com/cms-jet/JetToolbox JMEAnalysis/JetToolbox 
