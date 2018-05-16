@@ -170,8 +170,8 @@ class FlatTreeProducer : public edm::EDAnalyzer
         edm::EDGetTokenT<pat::PackedCandidateCollection> pfcandsToken_;
         edm::EDGetTokenT<reco::ConversionCollection> hConversionsToken_;
 
-        edm::EDGetTokenT<bool> badMuonFilterToken_;
-        edm::EDGetTokenT<bool> badChargedCandidateFilterToken_;
+//        edm::EDGetTokenT<bool> badMuonFilterToken_;
+//        edm::EDGetTokenT<bool> badChargedCandidateFilterToken_;
 
         edm::EDGetTokenT<edm::ValueMap<bool> > eleVetoCBIdMapToken_;
         edm::EDGetTokenT<edm::ValueMap<bool> > eleLooseCBIdMapToken_;
@@ -889,8 +889,8 @@ FlatTreeProducer::FlatTreeProducer(const edm::ParameterSet& iConfig):
     pfcandsToken_         = consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("pfcandsInput"));
     hConversionsToken_    = consumes<reco::ConversionCollection>(iConfig.getParameter<edm::InputTag>("hConversionsInput"));
 
-    badMuonFilterToken_   = consumes<bool>(iConfig.getParameter<edm::InputTag>("BadMuonFilter"));
-    badChargedCandidateFilterToken_ = consumes<bool>(iConfig.getParameter<edm::InputTag>("BadChargedCandidateFilter"));
+//    badMuonFilterToken_   = consumes<bool>(iConfig.getParameter<edm::InputTag>("BadMuonFilter"));
+//    badChargedCandidateFilterToken_ = consumes<bool>(iConfig.getParameter<edm::InputTag>("BadChargedCandidateFilter"));
 
     eleVetoCBIdMapToken_    = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleVetoCBIdMap"));
     eleLooseCBIdMapToken_   = consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleLooseCBIdMap"));
@@ -998,11 +998,11 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
     iEvent.getByToken(triggerBits_,triggerBits);
     const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
 
-    edm::Handle<bool> badMuonFilter;
-    edm::Handle<bool> badChargedCandidateFilter;
+//    edm::Handle<bool> badMuonFilter;
+//    edm::Handle<bool> badChargedCandidateFilter;
 
-    iEvent.getByToken(badMuonFilterToken_,badMuonFilter);
-    iEvent.getByToken(badChargedCandidateFilterToken_,badChargedCandidateFilter);
+//    iEvent.getByToken(badMuonFilterToken_,badMuonFilter);
+//    iEvent.getByToken(badChargedCandidateFilterToken_,badChargedCandidateFilter);
 
     edm::Handle<edm::TriggerResults> triggerBitsPAT;
     iEvent.getByToken(triggerBitsPAT_,triggerBitsPAT);

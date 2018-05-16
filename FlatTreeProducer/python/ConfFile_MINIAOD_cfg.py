@@ -181,13 +181,13 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 #process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False)
 #process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
 
-process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
-process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
-process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+#process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+#process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+#process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 
-process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
-process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
-process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+#process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+#process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+#process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 
 #process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
 #    inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
@@ -313,8 +313,8 @@ process.FlatTree = cms.EDAnalyzer('FlatTreeProducer',
 
 #                  mvaCategoriesMap         = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
 
-                  BadMuonFilter              = cms.InputTag("BadPFMuonFilter",""),
-                  BadChargedCandidateFilter  = cms.InputTag("BadChargedCandidateFilter",""),
+#                  BadMuonFilter              = cms.InputTag("BadPFMuonFilter",""),
+#                  BadChargedCandidateFilter  = cms.InputTag("BadChargedCandidateFilter",""),
                   
                   filterTriggerNames       = cms.untracked.vstring(
                   "*"
