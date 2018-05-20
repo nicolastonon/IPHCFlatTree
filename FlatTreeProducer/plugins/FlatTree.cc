@@ -431,6 +431,7 @@ void FlatTree::Init()
    el_gen_eta.clear();
    el_gen_phi.clear();
    el_gen_m.clear();
+   el_gen_E.clear();
    el_gen_status.clear();
    el_gen_id.clear();
    el_gen_charge.clear();
@@ -751,6 +752,7 @@ void FlatTree::Init()
    mu_gen_eta.clear();
    mu_gen_phi.clear();
    mu_gen_m.clear();
+   mu_gen_E.clear();
    mu_gen_status.clear();
    mu_gen_id.clear();
    mu_gen_charge.clear();
@@ -828,6 +830,17 @@ void FlatTree::Init()
    tau_pfEssential_dxy.clear();
    tau_pfEssential_dxy_error.clear();
    tau_pfEssential_dxy_Sig.clear();
+
+   tau_hasMCMatch.clear();
+   tau_gen_pt.clear();
+   tau_gen_eta.clear();
+   tau_gen_phi.clear();
+   tau_gen_m.clear();
+   tau_gen_E.clear();
+   tau_gen_status.clear();
+   tau_gen_id.clear();
+   tau_gen_charge.clear();
+   tau_gen_dr.clear();
    
    jet_n = 0;
    jet_pt.clear();
@@ -1575,6 +1588,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("el_gen_eta") ) tree->Branch("el_gen_eta", "std::vector<float>", &el_gen_eta, buffersize);
    if( doWrite("el_gen_phi") ) tree->Branch("el_gen_phi", "std::vector<float>", &el_gen_phi, buffersize);
    if( doWrite("el_gen_m") ) tree->Branch("el_gen_m", "std::vector<float>", &el_gen_m, buffersize);
+   if( doWrite("el_gen_E") ) tree->Branch("el_gen_E", "std::vector<float>", &el_gen_E, buffersize);
    if( doWrite("el_gen_status") ) tree->Branch("el_gen_status", "std::vector<int>", &el_gen_status, buffersize);
    if( doWrite("el_gen_id") ) tree->Branch("el_gen_id", "std::vector<int>", &el_gen_id, buffersize);
    if( doWrite("el_gen_charge") ) tree->Branch("el_gen_charge", "std::vector<int>", &el_gen_charge, buffersize);
@@ -1895,6 +1909,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("mu_gen_eta") ) tree->Branch("mu_gen_eta", "std::vector<float>", &mu_gen_eta, buffersize);
    if( doWrite("mu_gen_phi") ) tree->Branch("mu_gen_phi", "std::vector<float>", &mu_gen_phi, buffersize);
    if( doWrite("mu_gen_m") ) tree->Branch("mu_gen_m", "std::vector<float>", &mu_gen_m, buffersize);
+   if( doWrite("mu_gen_E") ) tree->Branch("mu_gen_E", "std::vector<float>", &mu_gen_E, buffersize);
    if( doWrite("mu_gen_status") ) tree->Branch("mu_gen_status", "std::vector<int>", &mu_gen_status, buffersize);
    if( doWrite("mu_gen_id") ) tree->Branch("mu_gen_id", "std::vector<int>", &mu_gen_id, buffersize);
    if( doWrite("mu_gen_charge") ) tree->Branch("mu_gen_charge", "std::vector<int>", &mu_gen_charge, buffersize);
@@ -1972,6 +1987,17 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    if( doWrite("tau_pfEssential_dxy") ) tree->Branch("tau_pfEssential_dxy", "std::vector<float>", &tau_pfEssential_dxy, buffersize);
    if( doWrite("tau_pfEssential_dxy_error") ) tree->Branch("tau_pfEssential_dxy_error", "std::vector<float>", &tau_pfEssential_dxy_error, buffersize);
    if( doWrite("tau_pfEssential_dxy_Sig") ) tree->Branch("tau_pfEssential_dxy_Sig", "std::vector<float>", &tau_pfEssential_dxy_Sig, buffersize);
+
+   if( doWrite("tau_hasMCMatch") ) tree->Branch("tau_hasMCMatch", "std::vector<int>", &tau_hasMCMatch, buffersize);
+   if( doWrite("tau_gen_pt") ) tree->Branch("tau_gen_pt", "std::vector<float>", &tau_gen_pt, buffersize);
+   if( doWrite("tau_gen_eta") ) tree->Branch("tau_gen_eta", "std::vector<float>", &tau_gen_eta, buffersize);
+   if( doWrite("tau_gen_phi") ) tree->Branch("tau_gen_phi", "std::vector<float>", &tau_gen_phi, buffersize);
+   if( doWrite("tau_gen_m") ) tree->Branch("tau_gen_m", "std::vector<float>", &tau_gen_m, buffersize);
+   if( doWrite("tau_gen_E") ) tree->Branch("tau_gen_E", "std::vector<float>", &tau_gen_E, buffersize);
+   if( doWrite("tau_gen_status") ) tree->Branch("tau_gen_status", "std::vector<int>", &tau_gen_status, buffersize);
+   if( doWrite("tau_gen_id") ) tree->Branch("tau_gen_id", "std::vector<int>", &tau_gen_id, buffersize);
+   if( doWrite("tau_gen_charge") ) tree->Branch("tau_gen_charge", "std::vector<int>", &tau_gen_charge, buffersize);
+   if( doWrite("tau_gen_dr") ) tree->Branch("tau_gen_dr", "std::vector<float>", &tau_gen_dr, buffersize);
    
    if( doWrite("jet_n") ) tree->Branch("jet_n", &jet_n, "jet_n/I", buffersize);
    if( doWrite("jet_pt") ) tree->Branch("jet_pt", "std::vector<float>", &jet_pt, buffersize);

@@ -45,7 +45,7 @@ class MCTruth
 		const edm::Handle<std::vector<reco::GenParticle> >& GenParticles,
 		reco::GenParticle *genp,
 		float &drMin,
-		float pt, float eta, float phi, int pdgId);
+		float pt, float eta, float phi, int pdgId, bool isTau);
    
    reco::GenParticle* getUnique(const reco::GenParticle* p,
 				bool verbose);

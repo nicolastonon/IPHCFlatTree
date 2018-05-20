@@ -392,7 +392,7 @@ bool MCTruth::doMatch(const edm::Event& iEvent,
 		      const edm::Handle<std::vector<reco::GenParticle> >& GenParticles,
 		      reco::GenParticle *genp,
 		      float &drMin,
-		      float pt, float eta, float phi, int pdgId)
+		      float pt, float eta, float phi, int pdgId, bool isTau)
 {
    bool foundMatch = 0;
    
@@ -400,7 +400,6 @@ bool MCTruth::doMatch(const edm::Event& iEvent,
    reco::GenParticleCollection::const_iterator genParticleSrc;
 
    float drmin = 0.2;
-   float ptRatMin = 0.5;
    
    for(genParticleSrc = genParticlesCollection.begin();
        genParticleSrc != genParticlesCollection.end(); 
@@ -408,19 +407,48 @@ bool MCTruth::doMatch(const edm::Event& iEvent,
      {
 	reco::GenParticle *mcp = &(const_cast<reco::GenParticle&>(*genParticleSrc));
 
-	float ptGen = mcp->pt();
 	float etaGen = mcp->eta();
 	float phiGen = mcp->phi();
 	int idGen = mcp->pdgId();
 	int statusGen = mcp->status();
 
 	if( statusGen != 1 && statusGen != 3 ) continue;
-	if( abs(pdgId) != abs(idGen) ) continue;
+	if( (abs(pdgId) != abs(idGen)) && !isTau ) continue;
+	if( (abs(idGen) != 15 && abs(idGen) != 11 && abs(idGen) != 13) && isTau ) continue;
+	
+	const reco::GenParticle* mom = getMother(*mcp);
+	int momPID = mom->pdgId();
+	
+	if( abs(momPID) == 15 )
+	  {
+	     const reco::GenParticle* momTau = getMother(*mom);
+	     momPID = momTau->pdgId();
+	  }
+
+	if( isTau && abs(idGen) == 15 )
+	  {
+	     bool isTauLep = 0;
+	     
+	     const reco::GenParticleRefVector& daughterRefs = mcp->daughterRefVector();
+	     for(reco::GenParticleRefVector::const_iterator idr = daughterRefs.begin(); idr!= daughterRefs.end(); ++idr) 
+	       {
+		  if( idr->isAvailable() ) 
+		    {		       
+		       const reco::GenParticleRef& genParticle = (*idr);
+		       const reco::GenParticle *d = genParticle.get();
+		       
+		       if( abs(d->pdgId()) == 11 || abs(d->pdgId()) == 13 ) isTauLep = 1;
+		    }
+	       }
+	     
+	     if( isTauLep ) continue;
+	  }	
+	
+	if( abs(momPID) != 23 &&  abs(momPID) != 24 && abs(momPID) != 25 ) continue;
 	
 	float dr = GetDeltaR(eta,phi,etaGen,phiGen);
-	float ptRat = (pt > 0.) ? fabs(pt-ptGen)/pt : 10E+10;
-	
-	if( dr < drmin && ptRat < ptRatMin )
+
+	if( dr < drmin )
 	  {
 	     drmin = dr;
 	     foundMatch = 1;

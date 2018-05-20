@@ -791,6 +791,7 @@ class FlatTree
    std::vector<float> mu_gen_eta;
    std::vector<float> mu_gen_phi;
    std::vector<float> mu_gen_m;
+   std::vector<float> mu_gen_E;
    std::vector<int> mu_gen_status;
    std::vector<int> mu_gen_id;
    std::vector<int> mu_gen_charge;
@@ -869,6 +870,17 @@ class FlatTree
    std::vector<float> tau_pfEssential_dxy;
    std::vector<float> tau_pfEssential_dxy_error;
    std::vector<float> tau_pfEssential_dxy_Sig;
+
+   std::vector<int> tau_hasMCMatch;
+   std::vector<float> tau_gen_pt;
+   std::vector<float> tau_gen_eta;
+   std::vector<float> tau_gen_phi;
+   std::vector<float> tau_gen_m;
+   std::vector<float> tau_gen_E;
+   std::vector<int> tau_gen_status;
+   std::vector<int> tau_gen_id;
+   std::vector<int> tau_gen_charge;
+   std::vector<float> tau_gen_dr;
    
    // Jets
 

@@ -2086,7 +2086,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
             float drmin;
             bool hasMCMatch = mc_truth->doMatch(iEvent,iSetup,genParticlesHandle,genp,drmin,
-                    elec.pt(),elec.eta(),elec.phi(),elec.pdgId());
+						elec.pt(),elec.eta(),elec.phi(),elec.pdgId(),0);
             ftree->el_hasMCMatch.push_back(hasMCMatch);
             if( hasMCMatch )
             {
@@ -2094,6 +2094,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                 ftree->el_gen_eta.push_back(genp->eta());
                 ftree->el_gen_phi.push_back(genp->phi());
                 ftree->el_gen_m.push_back(genp->mass());
+	        ftree->el_gen_E.push_back(genp->energy());
                 ftree->el_gen_status.push_back(genp->status());
                 ftree->el_gen_id.push_back(genp->pdgId());
                 ftree->el_gen_charge.push_back(genp->charge());
@@ -2105,6 +2106,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                 ftree->el_gen_eta.push_back(-666);
                 ftree->el_gen_phi.push_back(-666);
                 ftree->el_gen_m.push_back(-666);
+	        ftree->el_gen_E.push_back(-666);
                 ftree->el_gen_status.push_back(-666);
                 ftree->el_gen_id.push_back(-666);
                 ftree->el_gen_charge.push_back(-666);
@@ -2627,13 +2629,13 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
 
         if( !isData_ )
-        {
+	 {
             // Internal matching
             reco::GenParticle *genp = new reco::GenParticle();
 
             float drmin;
             bool hasMCMatch = mc_truth->doMatch(iEvent,iSetup,genParticlesHandle,genp,drmin,
-                    muon.pt(),muon.eta(),muon.phi(),muon.pdgId());
+						muon.pt(),muon.eta(),muon.phi(),muon.pdgId(),0);
             ftree->mu_hasMCMatch.push_back(hasMCMatch);
             if( hasMCMatch )
             {
@@ -2641,6 +2643,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                 ftree->mu_gen_eta.push_back(genp->eta());
                 ftree->mu_gen_phi.push_back(genp->phi());
                 ftree->mu_gen_m.push_back(genp->mass());
+	        ftree->mu_gen_E.push_back(genp->energy());
                 ftree->mu_gen_status.push_back(genp->status());
                 ftree->mu_gen_id.push_back(genp->pdgId());
                 ftree->mu_gen_charge.push_back(genp->charge());
@@ -2652,6 +2655,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
                 ftree->mu_gen_eta.push_back(-666);
                 ftree->mu_gen_phi.push_back(-666);
                 ftree->mu_gen_m.push_back(-666);
+	        ftree->mu_gen_E.push_back(-666);
                 ftree->mu_gen_status.push_back(-666);
                 ftree->mu_gen_id.push_back(-666);
                 ftree->mu_gen_charge.push_back(-666);
@@ -2800,8 +2804,42 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             ftree->tau_pfEssential_dxy.push_back(tau.pfEssential().dxy);
             ftree->tau_pfEssential_dxy_error.push_back(tau.pfEssential().dxy_error);
             ftree->tau_pfEssential_dxy_Sig.push_back(tau.pfEssential().dxy_Sig);*/
-    }
 
+        if( !isData_ )
+	 {
+            reco::GenParticle *genp = new reco::GenParticle();
+
+            float drmin;
+            bool hasMCMatch = mc_truth->doMatch(iEvent,iSetup,genParticlesHandle,genp,drmin,
+						tau.pt(),tau.eta(),tau.phi(),tau.pdgId(),1);
+            ftree->tau_hasMCMatch.push_back(hasMCMatch);
+            if( hasMCMatch )
+            {
+                ftree->tau_gen_pt.push_back(genp->pt());
+                ftree->tau_gen_eta.push_back(genp->eta());
+                ftree->tau_gen_phi.push_back(genp->phi());
+                ftree->tau_gen_m.push_back(genp->mass());
+	        ftree->tau_gen_E.push_back(genp->energy());
+                ftree->tau_gen_status.push_back(genp->status());
+                ftree->tau_gen_id.push_back(genp->pdgId());
+                ftree->tau_gen_charge.push_back(genp->charge());
+                ftree->tau_gen_dr.push_back(drmin);
+            }
+            else
+            {
+                ftree->tau_gen_pt.push_back(-666);
+                ftree->tau_gen_eta.push_back(-666);
+                ftree->tau_gen_phi.push_back(-666);
+                ftree->tau_gen_m.push_back(-666);
+	        ftree->tau_gen_E.push_back(-666);
+                ftree->tau_gen_status.push_back(-666);
+                ftree->tau_gen_id.push_back(-666);
+                ftree->tau_gen_charge.push_back(-666);
+                ftree->tau_gen_dr.push_back(-666);
+            }
+            delete genp;
+	 }
+    }   
    ftree->tau_n = ftree->tau_pt.size();
 
     // ##########################

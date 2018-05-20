@@ -367,6 +367,7 @@
     <var name="el_gen_eta" save="1" mc="1"></var>
     <var name="el_gen_phi" save="1" mc="1"></var>
     <var name="el_gen_m" save="1" mc="1"></var>
+    <var name="el_gen_E" save="1" mc="1"></var>
     <var name="el_gen_status" save="1" mc="1"></var>
     <var name="el_gen_id" save="1" mc="1"></var>
     <var name="el_gen_charge" save="1" mc="1"></var>
@@ -658,6 +659,7 @@
     <var name="mu_gen_eta" save="1" mc="1"></var>
     <var name="mu_gen_phi" save="1" mc="1"></var>
     <var name="mu_gen_m" save="1" mc="1"></var>
+    <var name="mu_gen_E" save="1" mc="1"></var>
     <var name="mu_gen_status" save="1" mc="1"></var>
     <var name="mu_gen_id" save="1" mc="1"></var>
     <var name="mu_gen_charge" save="1" mc="1"></var>
@@ -726,6 +728,16 @@
     <var name="tau_pfEssential_dxy" save="1"></var>
     <var name="tau_pfEssential_dxy_error" save="1"></var>
     <var name="tau_pfEssential_dxy_Sig" save="1"></var>
+    <var name="tau_hasMCMatch" save="1" mc="1"></var>
+    <var name="tau_gen_pt" save="1" mc="1"></var>
+    <var name="tau_gen_eta" save="1" mc="1"></var>
+    <var name="tau_gen_phi" save="1" mc="1"></var>
+    <var name="tau_gen_m" save="1" mc="1"></var>
+    <var name="tau_gen_E" save="1" mc="1"></var>
+    <var name="tau_gen_status" save="1" mc="1"></var>
+    <var name="tau_gen_id" save="1" mc="1"></var>
+    <var name="tau_gen_charge" save="1" mc="1"></var>
+    <var name="tau_gen_dr" save="1" mc="1"></var>
     <var name="jet_ntrk" save="1"></var>    
     <var name="jet_JBP" save="1"></var>
     <var name="jet_JP" save="1"></var>
