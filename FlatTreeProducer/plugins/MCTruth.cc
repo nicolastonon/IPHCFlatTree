@@ -425,26 +425,9 @@ bool MCTruth::doMatch(const edm::Event& iEvent,
 	     momPID = momTau->pdgId();
 	  }
 
-	if( isTau && abs(idGen) == 15 )
-	  {
-	     bool isTauLep = 0;
-	     
-	     const reco::GenParticleRefVector& daughterRefs = mcp->daughterRefVector();
-	     for(reco::GenParticleRefVector::const_iterator idr = daughterRefs.begin(); idr!= daughterRefs.end(); ++idr) 
-	       {
-		  if( idr->isAvailable() ) 
-		    {		       
-		       const reco::GenParticleRef& genParticle = (*idr);
-		       const reco::GenParticle *d = genParticle.get();
-		       
-		       if( abs(d->pdgId()) == 11 || abs(d->pdgId()) == 13 ) isTauLep = 1;
-		    }
-	       }
-	     
-	     if( isTauLep ) continue;
-	  }	
-	
-	if( abs(momPID) != 23 &&  abs(momPID) != 24 && abs(momPID) != 25 ) continue;
+	if( !isTau && abs(momPID) != 23 && abs(momPID) != 24 && abs(momPID) != 25 ) continue;
+	if( isTau && abs(momPID) != 23 && abs(momPID) != 24 && abs(momPID) != 25 && 
+	    abs(momPID) != 15 && abs(pdgId) != 15 ) continue;
 	
 	float dr = GetDeltaR(eta,phi,etaGen,phiGen);
 
