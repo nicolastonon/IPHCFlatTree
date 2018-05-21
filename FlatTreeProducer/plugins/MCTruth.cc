@@ -412,7 +412,7 @@ bool MCTruth::doMatch(const edm::Event& iEvent,
 	int idGen = mcp->pdgId();
 	int statusGen = mcp->status();
 
-	if( statusGen != 1 && statusGen != 3 ) continue;
+	if( !isTau && statusGen != 1 && statusGen != 3 ) continue;
 	if( (abs(pdgId) != abs(idGen)) && !isTau ) continue;
 	if( (abs(idGen) != 15 && abs(idGen) != 11 && abs(idGen) != 13) && isTau ) continue;
 	
@@ -427,7 +427,7 @@ bool MCTruth::doMatch(const edm::Event& iEvent,
 
 	if( !isTau && abs(momPID) != 23 && abs(momPID) != 24 && abs(momPID) != 25 ) continue;
 	if( isTau && abs(momPID) != 23 && abs(momPID) != 24 && abs(momPID) != 25 && 
-	    abs(momPID) != 15 && abs(pdgId) != 15 ) continue;
+	    abs(momPID) != 15 ) continue;
 	
 	float dr = GetDeltaR(eta,phi,etaGen,phiGen);
 
