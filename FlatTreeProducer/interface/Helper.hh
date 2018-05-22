@@ -27,11 +27,11 @@ float GetDeltaR(float,float,float,float);
 
 double ptRatioElec(const pat::Electron& elec,const pat::Jet& jet);
 float ptRelElec(const pat::Electron& elec,const pat::Jet& jet);
-float conePtElec(const pat::Electron& elec,const pat::Jet& jet);
+float conePtElec(const pat::Electron& elec,const pat::Jet& jet,float lepMVA);
 
 double ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet);
 float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet);
-float conePtMuon(const pat::Muon& muon,const pat::Jet& jet);
+float conePtMuon(const pat::Muon& muon,const pat::Jet& jet,float lepMVA,bool isMedium);
 
 float ElecPfIsoCharged(const pat::Electron& elec,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR);
 float ElecPfIsoNeutral(const pat::Electron& elec,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR);
@@ -51,6 +51,6 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection>,
 		      
 bool qualityTrk(const reco::Track trk, const reco::Vertex &vtx);
 
-int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx);
+int jetNDauChargedMVASel(const pat::Jet& jet,const reco::Candidate* cand,const reco::Vertex& vtx);
 
 #endif

@@ -1563,7 +1563,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
     if( ! vertices->empty() )
     {
-        const reco::Vertex &PV = vertices->front();
+        const reco::Vertex &PV = (*vertices)[0];
         primVtx = (reco::Vertex*)&PV;
     }
 
@@ -1844,7 +1844,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_eleEoPout.push_back(elec.eEleClusterOverPout());
         double PreShowerOverRaw = elec.superCluster()->preshowerEnergy()/elec.superCluster()->rawEnergy();
         ftree->el_PreShowerOverRaw.push_back(PreShowerOverRaw);
-        double ooEmooP = fabs(1.0/elec.ecalEnergy()-elec.eSuperClusterOverP()/elec.ecalEnergy());
+        double ooEmooP = (1.0/elec.ecalEnergy()-elec.eSuperClusterOverP()/elec.ecalEnergy());
         ftree->el_ooEmooP.push_back(ooEmooP);
 
         // Track hits
@@ -2001,24 +2001,24 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         double el_pt = elec.pt();
         double el_eta = elec.eta();
-        double el_phi = elec.phi();
         double el_lepMVA = -666.;
 
-        float drmin = 0.5;
-        int jcl = -1;
-        for(unsigned int ij=0;ij<jets->size();ij++)
-        {
-            if( jets->at(ij).pt() < 10. ) continue;
-            float dr = GetDeltaR(jets->at(ij).eta(),
-                    jets->at(ij).phi(),
-                    el_eta,
-                    el_phi);
-            if( dr < drmin )
-            {
-                drmin = dr;
-                jcl = ij;
-            }
-        }
+       int jcl = -1;
+       for(unsigned int ij=0;ij<jets->size();ij++)
+	 {
+	    for(unsigned int i1=0;i1<jets->at(ij).numberOfSourceCandidatePtrs();i1++)
+	      {
+		 auto c1s = jets->at(ij).sourceCandidatePtr(i1);
+		 for(unsigned int i2=0;i2<elec.numberOfSourceCandidatePtrs();i2++)
+		   {
+		      if(elec.sourceCandidatePtr(i2) == c1s)
+			{
+			   jcl = ij;
+			   break;
+			}		     
+		   }	    
+	      }       
+	 }       
 
         lepMVA_pt = el_pt; 
         lepMVA_eta = el_eta;
@@ -2031,14 +2031,14 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_sip3d = fabs(ftree->el_ip3d.back()/ftree->el_ip3dErr.back());
         lepMVA_dxy = log(fabs(ftree->el_gsfTrack_PV_dxy.back()));
         lepMVA_dz = log(fabs(ftree->el_gsfTrack_PV_dz.back()));
-        lepMVA_mvaId = ftree->el_NoIsoLooseMVAId.back();
-        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0;
+        lepMVA_mvaId = ftree->el_mvaNoIso.back();
+        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl),dynamic_cast<const reco::Candidate*>(&elec),*primVtx) : 0.0;
 
         el_lepMVA = ele_reader->EvaluateMVA("BDTG method");
 
         ftree->el_lepMVA.push_back(el_lepMVA);
 
-        float conept = (jcl >= 0) ? conePtElec(elec,jets->at(jcl)) : -100;
+        float conept = (jcl >= 0) ? conePtElec(elec,jets->at(jcl),el_lepMVA) : -100;
         ftree->el_conept.push_back( conept );
 
         bool debug = false;
@@ -2537,25 +2537,25 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         // ttH lepton MVA
         double mu_pt = muon.pt();
         double mu_eta = muon.eta();
-        double mu_phi = muon.phi();
         double mu_lepMVA = -666.;
 
-        float drmin = 0.5;
-        int jcl = -1;
-        for(unsigned int ij=0;ij<jets->size();ij++)
-        {
-            if( jets->at(ij).pt() < 10. ) continue;
-            float dr = GetDeltaR(jets->at(ij).eta(),
-                    jets->at(ij).phi(),
-                    mu_eta,
-                    mu_phi);
-            if( dr < drmin )
-            {
-                drmin = dr;
-                jcl = ij;
-            }
-        }
-
+       int jcl = -1;
+       for(unsigned int ij=0;ij<jets->size();ij++)
+	 {	    
+	    for(unsigned int i1=0;i1<jets->at(ij).numberOfSourceCandidatePtrs();i1++)
+	      {
+		 auto c1s = jets->at(ij).sourceCandidatePtr(i1);
+		 for(unsigned int i2=0;i2<muon.numberOfSourceCandidatePtrs();i2++)
+		   {
+		      if(muon.sourceCandidatePtr(i2) == c1s)
+			{
+			   jcl = ij;
+			   break;
+			}		     
+		   }	    
+	      }       
+	 }       
+       
         lepMVA_pt                                   = mu_pt;
         lepMVA_eta                                  = mu_eta;
         lepMVA_miniRelIsoNeutral                    = miniIsoTTHNeutral; //CAREFUL! WAS CHANGED TO MATCH GEOFF DEFINITION...
@@ -2568,7 +2568,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_dxy                                  = log(fabs(ftree->mu_innerTrack_PV_dxy.back()));
         lepMVA_dz                                   = log(fabs(ftree->mu_innerTrack_PV_dz.back()));
         lepMVA_mvaId                                = ftree->mu_segmentCompatibility.back();
-        lepMVA_jetNDauChargedMVASel                 = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl), *primVtx) : 0.0; //?? correct default value
+        lepMVA_jetNDauChargedMVASel                 = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl),dynamic_cast<const reco::Candidate*>(&muon),*primVtx) : 0.0; //?? correct default value
 
         mu_lepMVA = mu_reader->EvaluateMVA("BDTG method");
 
@@ -2586,7 +2586,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_lepMVA_mvaId.push_back(lepMVA_mvaId);
         ftree->mu_lepMVA_jetNDauChargedMVASel.push_back(lepMVA_jetNDauChargedMVASel);
 
-        float conept = (jcl >= 0) ? conePtMuon(muon,jets->at(jcl)) : -100;
+        float conept = (jcl >= 0) ? conePtMuon(muon,jets->at(jcl),mu_lepMVA,ftree->mu_isMediumMuon.back()) : -100;
         ftree->mu_conept.push_back( conept );
 
         bool debug = false;

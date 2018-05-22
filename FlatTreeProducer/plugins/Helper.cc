@@ -353,16 +353,12 @@ float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
-float conePtElec(const pat::Electron& elec,const pat::Jet& jet)
+float conePtElec(const pat::Electron& elec,const pat::Jet& jet,float lepMVA)
 {
-   pat::Jet myCorJet;
-   myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
-
-   float SF = jet.p4().E() / myCorJet.p4().E();
-
-   auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
-   
-   return lepAwareJetp4.pt();
+   if( lepMVA >= 0.90 )
+     return elec.pt();
+   else
+     return 0.9*elec.pt()/ptRatioElec(elec,jet);
 }
 
 double ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet)
@@ -400,33 +396,17 @@ float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
-float conePtMuon(const pat::Muon& muon,const pat::Jet& jet)
+float conePtMuon(const pat::Muon& muon,const pat::Jet& jet,float lepMVA,bool isMedium)
 {
-   pat::Jet myCorJet;
-   myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
-
-   float SF = jet.p4().E() / myCorJet.p4().E();
-
-   auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
-   
-   return lepAwareJetp4.pt();
+   if( lepMVA >= 0.90 && isMedium )
+     return muon.pt();
+   else
+     return 0.9*muon.pt()/ptRatioMuon(muon,jet);
 }
 
-int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx)
+int jetNDauChargedMVASel(const pat::Jet& jet,const reco::Candidate* cand,const reco::Vertex& vtx)
 {
-  int n = 0;
-  
-/*   std::vector<reco::PFCandidatePtr> pfConsts = jet.getPFConstituents();
-   for( std::vector<reco::PFCandidatePtr>::const_iterator pfJetConstituent=pfConsts.begin();
-	pfJetConstituent!=pfConsts.end();
-	++pfJetConstituent )
-     {
-	const reco::Candidate* icand = pfJetConstituent->get();	
-	const pat::PackedCandidate* x = dynamic_cast<const pat::PackedCandidate* >( icand );
-	if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
-	     qualityTrk(x->pseudoTrack(),vtx) )
-	  n++;
-     }*/
+   int jetNDauCharged = 0;
 
    if( vtx.isValid() )
      {	
@@ -435,17 +415,17 @@ int jetNDauChargedMVASel(const pat::Jet& jet, const reco::Vertex& vtx)
 	     const pat::PackedCandidate *x = dynamic_cast<const pat::PackedCandidate* >( jet.daughter(id) );
 	     if( x->hasTrackDetails() )
 	       {
-		  if ( GetDeltaR(x->eta(),x->phi(),jet.eta(),jet.phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
+		  if ( GetDeltaR(x->eta(),x->phi(),cand->eta(),cand->phi()) <= 0.4 && x->charge() != 0 && x->fromPV() > 1 &&
 		       qualityTrk(x->pseudoTrack(),vtx) )
-		    n++;
+		    jetNDauCharged++;
 	       }	     
 	  }   
      }
    
-  return n;
+   return jetNDauCharged;
 }
 
-bool qualityTrk(const reco::Track trk, const reco::Vertex &vtx) 
+bool qualityTrk(const reco::Track trk, const reco::Vertex &vtx)
 {
  bool isgoodtrk = false;
  if(trk.pt()>1 &&
