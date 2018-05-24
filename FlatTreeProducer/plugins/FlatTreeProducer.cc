@@ -123,6 +123,7 @@ class FlatTreeProducer : public edm::EDAnalyzer
         float lepMVA_jetPtRatio;
         float lepMVA_jetPtRelv2;
         float lepMVA_jetBTagCSV;
+        float lepMVA_jetBTagDeepCSV;
         float lepMVA_sip3d;
         float lepMVA_dxy;
         float lepMVA_dz;
@@ -2028,6 +2029,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_jetPtRelv2 = (jcl >= 0) ? ptRelElec(elec,jets->at(jcl)) : 0.0;
         float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
         lepMVA_jetBTagCSV = std::max(double(csv),0.);
+        lepMVA_jetBTagDeepCSV = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfDeepCSVJetTags:probbb")+jets->at(jcl).bDiscriminator("pfDeepCSVJetTags:probb") : -666;
         lepMVA_sip3d = fabs(ftree->el_ip3d.back()/ftree->el_ip3dErr.back());
         lepMVA_dxy = log(fabs(ftree->el_gsfTrack_PV_dxy.back()));
         lepMVA_dz = log(fabs(ftree->el_gsfTrack_PV_dz.back()));
@@ -2147,6 +2149,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->el_lepMVA_jetPtRatio.push_back(lepMVA_jetPtRatio);
         ftree->el_lepMVA_jetPtRelv2.push_back(lepMVA_jetPtRelv2);
         ftree->el_lepMVA_jetBTagCSV.push_back(lepMVA_jetBTagCSV);
+        ftree->el_lepMVA_jetBTagDeepCSV.push_back(lepMVA_jetBTagDeepCSV);
         ftree->el_lepMVA_sip3d.push_back(lepMVA_sip3d);
         ftree->el_lepMVA_dxy.push_back(lepMVA_dxy);
         ftree->el_lepMVA_dz.push_back(lepMVA_dz);
@@ -2564,6 +2567,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_jetPtRelv2                           = (jcl >= 0) ? ptRelMuon(muon,jets->at(jcl)) : 0.0;
         float csv                                   = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
         lepMVA_jetBTagCSV                           = std::max(double(csv),0.);
+        lepMVA_jetBTagDeepCSV                       = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfDeepCSVJetTags:probbb")+jets->at(jcl).bDiscriminator("pfDeepCSVJetTags:probb") : -666;
         lepMVA_sip3d                                = fabs(ftree->mu_ip3d.back()/ftree->mu_ip3dErr.back());
         lepMVA_dxy                                  = log(fabs(ftree->mu_innerTrack_PV_dxy.back()));
         lepMVA_dz                                   = log(fabs(ftree->mu_innerTrack_PV_dz.back()));
@@ -2580,6 +2584,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_lepMVA_jetPtRatio.push_back(lepMVA_jetPtRatio);
         ftree->mu_lepMVA_jetPtRelv2.push_back(lepMVA_jetPtRelv2);
         ftree->mu_lepMVA_jetBTagCSV.push_back(lepMVA_jetBTagCSV);
+        ftree->mu_lepMVA_jetBTagDeepCSV.push_back(lepMVA_jetBTagDeepCSV);
         ftree->mu_lepMVA_sip3d.push_back(lepMVA_sip3d);
         ftree->mu_lepMVA_dxy.push_back(lepMVA_dxy);
         ftree->mu_lepMVA_dz.push_back(lepMVA_dz);
