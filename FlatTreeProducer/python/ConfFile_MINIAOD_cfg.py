@@ -43,7 +43,7 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 if options.isData:
     process.GlobalTag.globaltag = '94X_dataRun2_v6'    
 else:
-    process.GlobalTag.globaltag = '94X_mc2017_realistic_v13'
+    process.GlobalTag.globaltag = '94X_mc2017_realistic_v14'
 
 corName="Fall17_17Nov2017_V6_MC"
 corTag="JetCorrectorParametersCollection_"+corName
@@ -85,9 +85,9 @@ process.jec = cms.ESSource("PoolDBESSource",
 )
 process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')                           
 
-process.load('Configuration.StandardSequences.Services_cff')
-process.load("Configuration.Geometry.GeometryRecoDB_cff")
-process.load("Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff")
+##process.load('Configuration.StandardSequences.Services_cff')
+##process.load("Configuration.Geometry.GeometryRecoDB_cff")
+##process.load("Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff")
 
 corList = cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute'])
 if options.isData:
@@ -134,6 +134,7 @@ process.jecSequence = cms.Sequence(process.patJetCorrFactorsUpdatedJEC * process
 jetsNameAK4="updatedPatJetsUpdatedJEC"
 #jetsNameAK4="slimmedJets"
 jetsNameAK8="selectedUpdatedPatJetsUpdatedJECAK8"
+#jetsNameAK8="slimmedJets"
 #jetsNameAK10="patJetsReapplyJECAK10"
 jetsNameAK10="selectedPatJetsAK10PFCHS"
 
@@ -174,6 +175,9 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 
 #process.load('EgammaAnalysis.ElectronTools.regressionApplication_cff')
 
+from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+runMetCorAndUncFromMiniAOD(process,isData=options.isData)
+
 # MET
 # https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
 #process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
@@ -205,7 +209,6 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 process.load("RecoMET/METProducers.METSignificance_cfi")
 process.load("RecoMET/METProducers.METSignificanceParams_cfi")
 from RecoMET.METProducers.testInputFiles_cff import recoMETtestInputFiles
-
 
 #######################
 # AK10 collection     #
@@ -250,8 +253,8 @@ process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
     fileNames = cms.untracked.vstring(
          #'/store/data/Run2017D/MuonEG/MINIAOD/17Nov2017-v1/50000/3E5F02AC-33E7-E711-AE42-A0369FC5FBA4.root'
-#         'file:0CF65340-0200-E811-ABB7-0025905C53F0.root'
-         '/store/mc/RunIIFall17MiniAOD/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/20000/0CF65340-0200-E811-ABB7-0025905C53F0.root'
+         'file:0CF65340-0200-E811-ABB7-0025905C53F0.root'
+#         '/store/mc/RunIIFall17MiniAOD/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/20000/0CF65340-0200-E811-ABB7-0025905C53F0.root'
 #         '/store/mc/RunIIFall17MiniAOD/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/50000/08DE33C0-87EB-E711-819D-0242AC1C0500.root'
         )
 )
@@ -465,6 +468,7 @@ if options.runQG:
 process.p = cms.Path(
 #                     process.calibratedPatElectrons+
                      process.rerunMvaIsolationSequence+
+                     process.fullPatMetSequence+
                      process.NewTauIDsEmbedded+
                      process.electronMVAValueMapProducer+
                      process.egmGsfElectronIDSequence+
