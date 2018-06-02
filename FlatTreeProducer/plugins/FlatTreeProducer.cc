@@ -2002,8 +2002,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         double el_pt = elec.pt();
         double el_eta = elec.eta();
-        double el_lepMVA = -666.;
+        double el_lepMVA = -666.;       
 
+       pat::Jet *elecjet = NULL;
        int jcl = -1;
        for(unsigned int ij=0;ij<jets->size();ij++)
 	 {
@@ -2015,71 +2016,34 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		      if(elec.sourceCandidatePtr(i2) == c1s)
 			{
 			   jcl = ij;
+			   elecjet = const_cast<pat::Jet*>(&(jets->at(ij)));
 			   break;
 			}		     
 		   }	    
 	      }       
-	 }       
+	 }
 
-        lepMVA_pt = el_pt; 
-        lepMVA_eta = el_eta;
-        lepMVA_miniRelIsoNeutral = miniIsoTTHNeutral;
-        lepMVA_miniRelIsoCharged = miniIsoTTHCharged;
-        lepMVA_jetPtRatio = (jcl >= 0) ? std::min(ptRatioElec(elec,jets->at(jcl)),1.5) : 1.5;
-        lepMVA_jetPtRelv2 = (jcl >= 0) ? ptRelElec(elec,jets->at(jcl)) : 0.0;
-        float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
-        lepMVA_jetBTagCSV = std::max(double(csv),0.);
-        lepMVA_jetBTagDeepCSV = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfDeepCSVJetTags:probbb")+jets->at(jcl).bDiscriminator("pfDeepCSVJetTags:probb") : -666;
-        lepMVA_sip3d = fabs(ftree->el_ip3d.back()/ftree->el_ip3dErr.back());
-        lepMVA_dxy = log(fabs(ftree->el_gsfTrack_PV_dxy.back()));
-        lepMVA_dz = log(fabs(ftree->el_gsfTrack_PV_dz.back()));
-        lepMVA_mvaId = ftree->el_mvaNoIso.back();
-        lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl),dynamic_cast<const reco::Candidate*>(&elec),*primVtx) : 0.0;
-
+       lepMVA_pt = el_pt; 
+       lepMVA_eta = el_eta;
+       lepMVA_miniRelIsoNeutral = miniIsoTTHNeutral;
+       lepMVA_miniRelIsoCharged = miniIsoTTHCharged;
+       lepMVA_jetPtRatio = std::min(ptRatioElec(elec,elecjet),1.5);
+       lepMVA_jetPtRelv2 = (jcl >= 0) ? ptRelElec(elec,jets->at(jcl)) : 0.0;
+       float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
+       lepMVA_jetBTagCSV = std::max(double(csv),0.);
+       lepMVA_jetBTagDeepCSV = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfDeepCSVJetTags:probbb")+jets->at(jcl).bDiscriminator("pfDeepCSVJetTags:probb") : -666;
+       lepMVA_sip3d = fabs(ftree->el_ip3d.back()/ftree->el_ip3dErr.back());
+       lepMVA_dxy = log(fabs(ftree->el_gsfTrack_PV_dxy.back()));
+       lepMVA_dz = log(fabs(ftree->el_gsfTrack_PV_dz.back()));
+       lepMVA_mvaId = ftree->el_mvaNoIso.back();
+       lepMVA_jetNDauChargedMVASel = (jcl >= 0) ? jetNDauChargedMVASel(jets->at(jcl),dynamic_cast<const reco::Candidate*>(&elec),*primVtx) : 0.0;
+       
         el_lepMVA = ele_reader->EvaluateMVA("BDTG method");
 
         ftree->el_lepMVA.push_back(el_lepMVA);
 
-        float conept = (jcl >= 0) ? conePtElec(elec,jets->at(jcl),el_lepMVA) : -100;
+        float conept = conePtElec(elec,elecjet,el_lepMVA);
         ftree->el_conept.push_back( conept );
-
-        bool debug = false;
-
-        if(debug)// && ( ftree->ev_id == 892573) )
-        {
-            std::cout << "el["              << ie                      << "]: "
-                << " pt= "            << lepMVA_pt
-                << " eta= "           << lepMVA_eta
-                << " miniIsoN= "      << lepMVA_miniRelIsoNeutral
-                << " miniIsoC= "      << lepMVA_miniRelIsoCharged
-                << " jetPtRatio= "    << lepMVA_jetPtRatio
-                << " jetPtRel= "      << lepMVA_jetPtRelv2
-                << " ellepMVA= "      << el_lepMVA                      << std::endl;
-        }
-
-        if(false)
-        {
-            std::cout << ftree->ev_id                   << " "
-                      << lepMVA_pt                      << " "
-                      << lepMVA_eta                     << " "
-                      << elec.phi()                     << " "
-                      << elec.energy()                  << " "
-                      << elec.pdgId()                   << " "
-                      << elec.charge()                  << " "
-                      << lepMVA_jetNDauChargedMVASel    << " "
-                      << miniIsoTTH                     << " "
-                      << lepMVA_miniRelIsoCharged       << " "
-                      << lepMVA_miniRelIsoNeutral       << " "
-                      << lepMVA_jetPtRelv2              << " "
-                      << lepMVA_jetBTagCSV              << " "
-                      << lepMVA_jetPtRatio              << " "
-                      << lepMVA_sip3d                   << " "
-                      << fabs(ftree->el_gsfTrack_PV_dxy.back())                     << " "
-                      << fabs(ftree->el_gsfTrack_PV_dz.back())                      << " "
-                      << ftree->el_NoIsoLooseMVAId.back()                              << " "
-                      << el_lepMVA
-                      << std::endl;
-        }
 
         if( !isData_ )
         {
@@ -2542,6 +2506,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         double mu_eta = muon.eta();
         double mu_lepMVA = -666.;
 
+       pat::Jet *muonjet = NULL;
        int jcl = -1;
        for(unsigned int ij=0;ij<jets->size();ij++)
 	 {	    
@@ -2553,6 +2518,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 		      if(muon.sourceCandidatePtr(i2) == c1s)
 			{
 			   jcl = ij;
+			   muonjet = const_cast<pat::Jet*>(&(jets->at(ij)));
 			   break;
 			}		     
 		   }	    
@@ -2561,9 +2527,9 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
        
         lepMVA_pt                                   = mu_pt;
         lepMVA_eta                                  = mu_eta;
-        lepMVA_miniRelIsoNeutral                    = miniIsoTTHNeutral; //CAREFUL! WAS CHANGED TO MATCH GEOFF DEFINITION...
+        lepMVA_miniRelIsoNeutral                    = miniIsoTTHNeutral;
         lepMVA_miniRelIsoCharged                    = miniIsoTTHCharged;
-        lepMVA_jetPtRatio                           = (jcl >= 0) ? ptRatioMuon(muon,jets->at(jcl)) : 1.5;
+        lepMVA_jetPtRatio                           = std::min(ptRatioMuon(muon,muonjet),1.5);
         lepMVA_jetPtRelv2                           = (jcl >= 0) ? ptRelMuon(muon,jets->at(jcl)) : 0.0;
         float csv                                   = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
         lepMVA_jetBTagCSV                           = std::max(double(csv),0.);
@@ -2591,47 +2557,8 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_lepMVA_mvaId.push_back(lepMVA_mvaId);
         ftree->mu_lepMVA_jetNDauChargedMVASel.push_back(lepMVA_jetNDauChargedMVASel);
 
-        float conept = (jcl >= 0) ? conePtMuon(muon,jets->at(jcl),mu_lepMVA,ftree->mu_isMediumMuon.back()) : -100;
+        float conept = conePtMuon(muon,muonjet,mu_lepMVA,ftree->mu_isMediumMuon.back());
         ftree->mu_conept.push_back( conept );
-
-        bool debug = false;
-
-        if(debug)
-        {
-            std::cout << "mu["              << im                      << "]: "
-                << " pt= "            << lepMVA_pt
-                << " eta= "           << lepMVA_eta
-                << " miniIsoN= "      << lepMVA_miniRelIsoNeutral
-                << " miniIsoC= "      << lepMVA_miniRelIsoCharged
-                << " jetPtRatio= "    << lepMVA_jetPtRatio
-                << " jetPtRel= "      << lepMVA_jetPtRelv2 
-                << " mulepMVA= "      << mu_lepMVA                      << std::endl;
-        }
-
-        if(false)
-        {
-            std::cout << ftree->ev_id                   << " "
-                      << lepMVA_pt                      << " "
-                      << lepMVA_eta                     << " "
-                      << muon.phi()                     << " "
-                      << muon.energy()                  << " "
-                      << muon.pdgId()                   << " "
-                      << muon.charge()                  << " "
-                      << lepMVA_jetNDauChargedMVASel    << " "
-                      << miniIsoTTH                     << " "
-                      << lepMVA_miniRelIsoCharged       << " "
-                      << lepMVA_miniRelIsoNeutral       << " "
-                      << lepMVA_jetPtRelv2              << " "
-                      << lepMVA_jetBTagCSV              << " "
-                      << lepMVA_jetPtRatio              << " "
-                      << fabs(ftree->mu_ip3d.back()/ftree->mu_ip3dErr.back())         << " "
-                      << fabs(ftree->mu_innerTrack_PV_dxy.back())                     << " "
-                      << fabs(ftree->mu_innerTrack_PV_dz.back())                      << " "
-                      << lepMVA_mvaId                   << " "
-                      << mu_lepMVA            << " "
-                      << std::endl;
-        }
-
 
         if( !isData_ )
 	 {

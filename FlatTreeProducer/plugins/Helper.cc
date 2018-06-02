@@ -318,20 +318,26 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
    return iso;
 }
 
-double ptRatioElec(const pat::Electron& elec, const pat::Jet& jet)
+double ptRatioElec(const pat::Electron& elec, const pat::Jet* jet)
 {
-   pat::Jet myCorJet;
-   myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
+   if( jet != NULL )
+     {	
+	pat::Jet myCorJet;
+	myCorJet.setP4(jet->correctedJet("L1FastJet").p4());
 
-   float           SF          = jet.p4().E() / myCorJet.p4().E();
-
-   auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
-
-   float ptRatio = elec.pt() / lepAwareJetp4.pt();
-
-   //std::cout << "Electron ptRatio:            " << ptRatio                      << std::endl;
-   
-   return (ptRatio > 0) ? ptRatio : 0.0;
+	float SF = jet->p4().E() / myCorJet.p4().E();
+	
+	auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
+	
+	float ptRatio = elec.pt() / lepAwareJetp4.pt();
+	
+	return (ptRatio > 0) ? ptRatio : 0.0;
+     }
+   else
+     {
+	float isoR04 = (elec.pt() > 0.) ? (elec.pfIsolationVariables().sumChargedHadronPt + std::max( 0.0, elec.pfIsolationVariables().sumNeutralHadronEt+elec.pfIsolationVariables().sumPhotonEt - 0.5*elec.pfIsolationVariables().sumPUPt ))/elec.pt() : -9999;
+	return 1./(1.+isoR04);
+     }   
 }
 
 float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
@@ -339,7 +345,7 @@ float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
    pat::Jet myCorJet;
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-   float          SF          = jet.p4().E() / myCorJet.p4().E();
+   float SF = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - elec.p4() ) * SF + elec.p4();
 
@@ -347,13 +353,11 @@ float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
    TLorentzVector jetV = TLorentzVector(lepAwareJetp4.px(),lepAwareJetp4.py(),lepAwareJetp4.pz(),lepAwareJetp4.E());
 
    float PtRel = elecV.Perp( (jetV - elecV).Vect() );
-
-   //std::cout << "Electron PtRel (lep aware):   " << PtRel                      << std::endl;
    
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
-float conePtElec(const pat::Electron& elec,const pat::Jet& jet,float lepMVA)
+float conePtElec(const pat::Electron& elec,const pat::Jet* jet,float lepMVA)
 {
    if( lepMVA >= 0.90 )
      return elec.pt();
@@ -361,20 +365,26 @@ float conePtElec(const pat::Electron& elec,const pat::Jet& jet,float lepMVA)
      return 0.9*elec.pt()/ptRatioElec(elec,jet);
 }
 
-double ptRatioMuon(const pat::Muon& muon,const pat::Jet& jet)
+double ptRatioMuon(const pat::Muon& muon,const pat::Jet* jet)
 {
-   pat::Jet myCorJet;
-   myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
-
-   float          SF          = jet.p4().E() / myCorJet.p4().E();
-
-   auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
-
-   float ptRatio = muon.pt() / lepAwareJetp4.pt();
-
-   //std::cout << "Muon ptRatio (lep aware):     " << ptRatio << std::endl;
-
-   return (ptRatio > 0) ? ptRatio : 0.0;
+   if( jet != NULL )
+     {	
+	pat::Jet myCorJet;
+	myCorJet.setP4(jet->correctedJet("L1FastJet").p4());
+	
+	float SF = jet->p4().E() / myCorJet.p4().E();
+	
+	auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
+	
+	float ptRatio = muon.pt() / lepAwareJetp4.pt();
+	
+	return (ptRatio > 0) ? ptRatio : 0.0;
+     }   
+   else
+     {
+	float isoR04 = (muon.pt() > 0.) ? (muon.pfIsolationR04().sumChargedHadronPt + std::max( 0.0, muon.pfIsolationR04().sumNeutralHadronEt+muon.pfIsolationR04().sumPhotonEt - 0.5*muon.pfIsolationR04().sumPUPt ))/muon.pt() : -9999;
+	return 1./(1.+isoR04);
+     }   
 }
 
 float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
@@ -382,7 +392,7 @@ float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
    pat::Jet myCorJet;
    myCorJet.setP4(jet.correctedJet("L1FastJet").p4());
 
-   float          SF          = jet.p4().E() / myCorJet.p4().E();
+   float SF = jet.p4().E() / myCorJet.p4().E();
 
    auto lepAwareJetp4 = ( myCorJet.p4() - muon.p4() ) * SF + muon.p4();
 
@@ -390,13 +400,11 @@ float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
    TLorentzVector jetV = TLorentzVector(lepAwareJetp4.px(),lepAwareJetp4.py(),lepAwareJetp4.pz(),lepAwareJetp4.E());
 
    float PtRel = muonV.Perp( (jetV - muonV).Vect() );
-
-   //std::cout << "Muon PtRel (lep aware):   " << PtRel                      << std::endl;
    
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
-float conePtMuon(const pat::Muon& muon,const pat::Jet& jet,float lepMVA,bool isMedium)
+float conePtMuon(const pat::Muon& muon,const pat::Jet* jet,float lepMVA,bool isMedium)
 {
    if( lepMVA >= 0.90 && isMedium )
      return muon.pt();
