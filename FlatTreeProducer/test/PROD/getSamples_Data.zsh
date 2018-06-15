@@ -1,7 +1,5 @@
 #!/bin/env zsh
 
-tag=Run2016B-PromptReco-v2
+tag=Run2017*-31Mar2018-v
 
-wget --no-check-certificate \
---output-document=samples_Run2015.txt \
-"https://cmsweb.cern.ch/das/request?view=plain&instance=prod%2Fglobal&input=dataset%3D%2F*%2F*${tag}*%2FMINIAOD+|+sort+dataset.name"
+das_client --query="dataset dataset=/*/${tag}*/MINIAOD" --format=plain --limit=0 > samples_Data.txt
