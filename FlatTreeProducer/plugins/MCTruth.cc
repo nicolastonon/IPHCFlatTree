@@ -21,6 +21,7 @@ void MCTruth::fillTopStopDecayChain(const edm::Event& iEvent,
    std::vector<int> gen_id;
    std::vector<int> gen_status;
    std::vector<int> gen_charge;
+   std::vector<bool> gen_isPromptFinalState; //NEW
    std::vector<int> gen_index;
    std::vector<int> gen_mother_index;
    std::vector<int> gen_daughter_n;
@@ -43,6 +44,7 @@ void MCTruth::fillTopStopDecayChain(const edm::Event& iEvent,
 	int idGen = mcp->pdgId();
 	int statusGen = mcp->status();
 	int chargeGen = mcp->charge();
+	int isPromptFinalStateGen = mcp->isPromptFinalState(); //NEW
 	int indexGen = gen_n;
         float mStopGen = idGen == 1000006 ? mGen : -1;
         float mNeutralinoGen = idGen == 1000022 ? mGen : -1;
@@ -107,6 +109,7 @@ void MCTruth::fillTopStopDecayChain(const edm::Event& iEvent,
 	gen_id.push_back(idGen);
 	gen_status.push_back(statusGen);
 	gen_charge.push_back(chargeGen);
+	gen_isPromptFinalState.push_back(isPromptFinalStateGen); //NEW
 	gen_index.push_back(indexGen);
 	gen_mother_index.push_back(mother_index);
 	gen_daughter_n.push_back(daughter_n);
@@ -131,6 +134,7 @@ void MCTruth::fillTopStopDecayChain(const edm::Event& iEvent,
    std::vector<int> gen_id_slimmed;
    std::vector<int> gen_status_slimmed;
    std::vector<int> gen_charge_slimmed;
+   std::vector<bool> gen_isPromptFinalState_slimmed; //NEW
    std::vector<int> gen_index_slimmed;
    std::vector<int> gen_mother_index_slimmed;
    std::vector<int> gen_daughter_n_slimmed;
@@ -167,6 +171,7 @@ void MCTruth::fillTopStopDecayChain(const edm::Event& iEvent,
               gen_id_slimmed.push_back(gen_id.at(p));
               gen_status_slimmed.push_back(gen_status.at(p));
               gen_charge_slimmed.push_back(gen_charge.at(p));
+	      gen_isPromptFinalState_slimmed.push_back(gen_isPromptFinalState.at(p));
               gen_index_slimmed.push_back(gen_index.at(p));
               gen_mother_index_slimmed.push_back(gen_mother_index.at(p));
               gen_daughter_n_slimmed.push_back(gen_daughter_n.at(p));
@@ -188,6 +193,7 @@ void MCTruth::fillTopStopDecayChain(const edm::Event& iEvent,
        gen_id_slimmed = gen_id;
        gen_status_slimmed = gen_status;
        gen_charge_slimmed = gen_charge;
+       gen_isPromptFinalState_slimmed = gen_isPromptFinalState; //NEW
        gen_index_slimmed = gen_index;
        gen_mother_index_slimmed = gen_mother_index;
        gen_daughter_n_slimmed = gen_daughter_n;
@@ -202,6 +208,7 @@ void MCTruth::fillTopStopDecayChain(const edm::Event& iEvent,
    tree.gen_status = gen_status_slimmed;
    tree.gen_id = gen_id_slimmed;
    tree.gen_charge = gen_charge_slimmed;
+   tree.gen_isPromptFinalState = gen_isPromptFinalState_slimmed; //NEW
    tree.gen_index = gen_index_slimmed;
    tree.gen_mother_index = gen_mother_index_slimmed;
    tree.gen_daughter_n = gen_daughter_n_slimmed;
@@ -263,6 +270,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
    std::vector<int> gen_id;
    std::vector<int> gen_status;
    std::vector<int> gen_charge;
+   std::vector<bool> gen_isPromptFinalState; //NEW
    std::vector<int> gen_index;
    std::vector<int> gen_mother_index;
    std::vector<int> gen_daughter_n;
@@ -282,7 +290,9 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 	int idGen = mcp->pdgId();
 	int statusGen = mcp->status();
 	int chargeGen = mcp->charge();
+	int isPromptFinalStateGen = mcp->isPromptFinalState(); //NEW
 	int indexGen = gen_n;
+	
 
 	const reco::GenParticle* mom = getMother(*mcp);
 
@@ -342,6 +352,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
 	gen_id.push_back(idGen);
 	gen_status.push_back(statusGen);
 	gen_charge.push_back(chargeGen);
+	gen_isPromptFinalState.push_back(isPromptFinalStateGen); //NEW
 	gen_index.push_back(indexGen);
 	gen_mother_index.push_back(mother_index);
 	gen_daughter_n.push_back(daughter_n);
@@ -359,6 +370,7 @@ void MCTruth::fillGenParticles(const edm::Event& iEvent,
    tree.gen_status = gen_status;
    tree.gen_id = gen_id;
    tree.gen_charge = gen_charge;
+   tree.gen_isPromptFinalState = gen_isPromptFinalState; //NEW
    tree.gen_index = gen_index;
    tree.gen_mother_index = gen_mother_index;
    tree.gen_daughter_n = gen_daughter_n;
@@ -1675,6 +1687,7 @@ void MCTruth::Init(FlatTree &tree)
    tree.gen_status.clear();
    tree.gen_id.clear();
    tree.gen_charge.clear();
+   tree.gen_isPromptFinalState.clear(); //NEW
    tree.gen_index.clear();
    tree.gen_mother_index.clear();
    tree.gen_daughter_n.clear();
