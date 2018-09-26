@@ -2450,6 +2450,7 @@ class FlatTree
    std::vector<float> gen_E;
    std::vector<int> gen_id;
    std::vector<int> gen_charge;
+   std::vector<bool> gen_isPromptFinalState; //NEW
    std::vector<int> gen_status;
    std::vector<int> gen_index;
    std::vector<int> gen_mother_index;

@@ -4938,6 +4938,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
 	tree->Branch("gen_status", "std::vector<int>", &gen_status, buffersize);
 	tree->Branch("gen_id", "std::vector<int>", &gen_id, buffersize);
 	tree->Branch("gen_charge", "std::vector<int>", &gen_charge, buffersize);
+	tree->Branch("gen_isPromptFinalState", "std::vector<bool>", &gen_isPromptFinalState, buffersize); //NEW
 	tree->Branch("gen_index", "std::vector<int>", &gen_index, buffersize);
 	tree->Branch("gen_mother_index", "std::vector<int>", &gen_mother_index, buffersize);
 	tree->Branch("gen_daughter_n", "std::vector<int>", &gen_daughter_n, buffersize);
