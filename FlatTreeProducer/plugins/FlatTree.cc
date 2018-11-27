@@ -312,6 +312,7 @@ void FlatTree::Init()
    
    el_miniIso.clear();
    el_miniIsoTTH.clear();
+   el_PFRelIso04.clear();
 
    el_vx.clear();
    el_vy.clear();
@@ -526,6 +527,7 @@ void FlatTree::Init()
    
    mu_miniIso.clear();
    mu_miniIsoTTH.clear();
+   mu_PFRelIso04.clear();
 
    mu_isGlobalMuon.clear();
    mu_isTrackerMuon.clear();
@@ -1471,6 +1473,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("el_miniIso") ) tree->Branch("el_miniIso", "std::vector<float>", &el_miniIso, buffersize);
    if( doWrite("el_miniIsoTTH") ) tree->Branch("el_miniIsoTTH", "std::vector<float>", &el_miniIsoTTH, buffersize);
+   if( doWrite("el_PFRelIso04") ) tree->Branch("el_PFRelIso04", "std::vector<float>", &el_PFRelIso04, buffersize);
    
    if( doWrite("el_vx") ) tree->Branch("el_vx", "std::vector<float>", &el_vx, buffersize);
    if( doWrite("el_vy") ) tree->Branch("el_vy", "std::vector<float>", &el_vy, buffersize);
@@ -1685,6 +1688,7 @@ void FlatTree::CreateBranches(int buffersize = 32000)
    
    if( doWrite("mu_miniIso") ) tree->Branch("mu_miniIso", "std::vector<float>", &mu_miniIso, buffersize);
    if( doWrite("mu_miniIsoTTH") ) tree->Branch("mu_miniIsoTTH", "std::vector<float>", &mu_miniIsoTTH, buffersize);
+   if( doWrite("mu_PFRelIso04") ) tree->Branch("mu_PFRelIso04", "std::vector<float>", &mu_PFRelIso04, buffersize);
 
    if( doWrite("mu_isGlobalMuon") ) tree->Branch("mu_isGlobalMuon", "std::vector<int>", &mu_isGlobalMuon, buffersize);
    if( doWrite("mu_isTrackerMuon") ) tree->Branch("mu_isTrackerMuon", "std::vector<int>", &mu_isTrackerMuon, buffersize);

@@ -2,10 +2,11 @@ from IPHCFlatTree.FlatTreeProducer.ConfFile_MINIAOD_cfg import *
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(500) )
 
 from WMCore.Configuration import Configuration
+
 config = Configuration()
 config.section_('General')
 config.General.transferOutputs = True
-config.General.requestName = 'test'
+config.General.requestName = 'THQ'
 config.section_('JobType')
 
 config.JobType.psetName = 'runFlatTreeMINIAOD_cfg.py'
@@ -18,24 +19,33 @@ config.section_('Data')
 config.Data.totalUnits = -1 #nof files (or lumisection) to analyze in total
 #config.Data.totalUnits = 10
 
-config.Data.unitsPerJob = 1
+config.Data.unitsPerJob = 2
 
 config.Data.splitting = 'FileBased'
-#config.Data.splitting = 'LumiBased'
 
 config.Data.publication = False
 
-#NB : when running interactively, files will be taken from ../python/ConfFile_MINIAOD_cfg.py, in the 'Input' section ! Add filenames there !
-config.Data.inputDataset = '/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM'
+config.Data.userInputFiles = open('./PROD/PrivateProd_FileLists/files_THQ.txt').readlines()
+config.Data.outputPrimaryDataset = 'THQ_4f_Hincl_13TeV_madgraph_pythia8_Fall17'
 
-#config.Data.inputDBS = 'phys03'
-
-config.Data.outputDatasetTag = 'test'
+config.Data.outputDatasetTag = 'THQ_4f_Hincl_13TeV_madgraph_pythia8_Fall17'
 config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter'
-config.Data.outLFNDirBase = '/store/user/ntonon/FlatTree/tHq2017'
+config.Data.outLFNDirBase = '/store/user/ntonon/FlatTree/tHq2017/'
 
-#config.Data.lumiMask = '' #FIXME -- FIND 2017 JSON!
 
 config.section_('User')
 config.section_('Site')
 config.Site.storageSite = 'T2_FR_IPHC'
+
+#config.Data.ignoreLocality = True
+#config.Data.inputDBS = 'phys03'
+
+
+#----------------- 
+#### To run on private samples ####
+
+# Use "Data.userInputFiles = open('/path/to/local/file.txt').readlines()". file.txt will contain the list of files to process (one file per line, no quotes, no commas).
+# Can not be used with option "Data.inputDataset"
+# Use option "Data.outputPrimaryDataset" to set output name
+# Recommended : use option ""Site.whitelist" to run at the storage site (faster)
+#-----------------

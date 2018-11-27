@@ -425,8 +425,10 @@ bool MCTruth::doMatch(const edm::Event& iEvent,
 	int statusGen = mcp->status();
 
 	if( !isTau && statusGen != 1 && statusGen != 3 ) continue;
+	
 	//if( (abs(pdgId) != abs(idGen)) && !isTau ) continue;
 	if(pdgId != idGen && !isTau) continue; //added charge matching requirement
+	
 	if( (abs(idGen) != 15 && abs(idGen) != 11 && abs(idGen) != 13) && isTau ) continue;
 	
 	const reco::GenParticle* mom = getMother(*mcp);

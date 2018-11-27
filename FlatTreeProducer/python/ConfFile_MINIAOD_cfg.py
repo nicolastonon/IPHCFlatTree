@@ -9,7 +9,7 @@ import os, sys
 
 options = VarParsing('analysis')
 options.register('isData',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Run on real data')
-options.register('applyMETFilters',True,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply MET filters')
+options.register('applyMETFilters',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply MET filters')
 options.register('applyJEC',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Apply JEC corrections')
 options.register('runAK10',False,VarParsing.multiplicity.singleton,VarParsing.varType.bool,'Add AK10 jets')
 
@@ -175,6 +175,12 @@ process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi"
 
 #process.load('EgammaAnalysis.ElectronTools.regressionApplication_cff')
 
+
+##-- TESTING -- TRYING TO ADD ELECTRON ENERGY SMEARING , following : https://twiki.cern.ch/twiki/bin/view/CMS/EgammaPostRecoRecipes#Running_on_2017_MiniAOD_V1 #FIXME
+#from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
+#setupEgammaPostRecoSeq(process, runVID=False) #a sequence egammaPostRecoSeq has now been created and should be added to your path, eg process.p=cms.Path(process.egammaPostRecoSeq)
+
+
 from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
 runMetCorAndUncFromMiniAOD(process,isData=options.isData)
 
@@ -249,13 +255,13 @@ if options.runQG:
 #  Input  #
 ###########
 
+#Write here the filenames to be processed interactively !
+
 process.source = cms.Source("PoolSource",
-    duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING / FIXME for test only !
+    duplicateCheckMode = cms.untracked.string("noDuplicateCheck"), # WARNING -- for test only !
     fileNames = cms.untracked.vstring(
-         #'/store/data/Run2017D/MuonEG/MINIAOD/17Nov2017-v1/50000/3E5F02AC-33E7-E711-AE42-A0369FC5FBA4.root'
-         'file:0CF65340-0200-E811-ABB7-0025905C53F0.root'
-#         '/store/mc/RunIIFall17MiniAOD/ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/20000/0CF65340-0200-E811-ABB7-0025905C53F0.root'
-#         '/store/mc/RunIIFall17MiniAOD/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/50000/08DE33C0-87EB-E711-819D-0242AC1C0500.root'
+         #'root://eoscms.cern.ch//eos/cms/store/cmst3/group/tthlep/peruzzi/THQ_4f_Hincl_13TeV_madgraph_pythia8_Fall17/MINIAODSIM_merged/merged_THQ.root'
+	 '/store/mc/RunIIFall17MiniAODv2/THW_5f_Hincl_13TeV_madgraph_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/10000/0ECB3918-55A4-E811-8542-0CC47A4DEF3A.root'
         )
 )
 
@@ -480,4 +486,5 @@ process.p = cms.Path(
 #                     process.BadPFMuonFilter+
                      process.slimmedPatTriggerUnpacked+
                      process.FlatTree
+		     #process.egammaPostRecoSeq #FIXME -- need to add "+" before
                     )

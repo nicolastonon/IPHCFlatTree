@@ -48,7 +48,7 @@ class FlatTree
    bool doWrite(const std::string& name);
 
    int ev_run;
-   int ev_id;
+   Int_t ev_id;
    int ev_lumi;
    float ev_rho;
 
@@ -307,6 +307,7 @@ class FlatTree
 
    std::vector<float> el_miniIso;
    std::vector<float> el_miniIsoTTH;
+   std::vector<float> el_PFRelIso04; //NEW
 
    std::vector<float> el_neutralHadronIso;
    std::vector<float> el_chargedHadronIso;
@@ -565,6 +566,8 @@ class FlatTree
    
    std::vector<float> mu_miniIso;
    std::vector<float> mu_miniIsoTTH;
+   std::vector<float> mu_PFRelIso04; //NEW
+
 
    std::vector<int> mu_isGlobalMuon;
    std::vector<int> mu_isTrackerMuon;

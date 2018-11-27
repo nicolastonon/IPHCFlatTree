@@ -318,7 +318,7 @@ double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
    return iso;
 }
 
-double ptRatioElec(const pat::Electron& elec, const pat::Jet* jet)
+double ptRatioElec(const pat::Electron& elec, const pat::Jet* jet, float isoR04)
 {
    if( jet != NULL )
      {	
@@ -335,7 +335,7 @@ double ptRatioElec(const pat::Electron& elec, const pat::Jet* jet)
      }
    else
      {
-	float isoR04 = (elec.pt() > 0.) ? (elec.pfIsolationVariables().sumChargedHadronPt + std::max( 0.0, elec.pfIsolationVariables().sumNeutralHadronEt+elec.pfIsolationVariables().sumPhotonEt - 0.5*elec.pfIsolationVariables().sumPUPt ))/elec.pt() : -9999;
+	//float isoR04 = (elec.pt() > 0.) ? (elec.pfIsolationVariables().sumChargedHadronPt + std::max( 0.0, elec.pfIsolationVariables().sumNeutralHadronEt+elec.pfIsolationVariables().sumPhotonEt - 0.5*elec.pfIsolationVariables().sumPUPt ))/elec.pt() : -9999;
 	return 1./(1.+isoR04);
      }   
 }
@@ -357,15 +357,15 @@ float ptRelElec(const pat::Electron& elec,const pat::Jet& jet)
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
-float conePtElec(const pat::Electron& elec,const pat::Jet* jet,float lepMVA)
+float conePtElec(const pat::Electron& elec,const pat::Jet* jet,float lepMVA, float PFRelIso04)
 {
    if( lepMVA >= 0.90 )
      return elec.pt();
    else
-     return 0.9*elec.pt()/ptRatioElec(elec,jet);
+     return 0.9*elec.pt()/ptRatioElec(elec,jet,PFRelIso04);
 }
 
-double ptRatioMuon(const pat::Muon& muon,const pat::Jet* jet)
+double ptRatioMuon(const pat::Muon& muon,const pat::Jet* jet, float isoR04)
 {
    if( jet != NULL )
      {	
@@ -382,7 +382,7 @@ double ptRatioMuon(const pat::Muon& muon,const pat::Jet* jet)
      }   
    else
      {
-	float isoR04 = (muon.pt() > 0.) ? (muon.pfIsolationR04().sumChargedHadronPt + std::max( 0.0, muon.pfIsolationR04().sumNeutralHadronEt+muon.pfIsolationR04().sumPhotonEt - 0.5*muon.pfIsolationR04().sumPUPt ))/muon.pt() : -9999;
+	//float isoR04 = (muon.pt() > 0.) ? (muon.pfIsolationR04().sumChargedHadronPt + std::max( 0.0, muon.pfIsolationR04().sumNeutralHadronEt+muon.pfIsolationR04().sumPhotonEt - 0.5*muon.pfIsolationR04().sumPUPt ))/muon.pt() : -9999;
 	return 1./(1.+isoR04);
      }   
 }
@@ -404,12 +404,12 @@ float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet)
    return (PtRel > 0) ? PtRel : 0.0;
 }
 
-float conePtMuon(const pat::Muon& muon,const pat::Jet* jet,float lepMVA,bool isMedium)
+float conePtMuon(const pat::Muon& muon,const pat::Jet* jet,float lepMVA,bool isMedium, float PFRelIso04)
 {
    if( lepMVA >= 0.90 && isMedium )
      return muon.pt();
    else
-     return 0.9*muon.pt()/ptRatioMuon(muon,jet);
+     return 0.9*muon.pt()/ptRatioMuon(muon,jet,PFRelIso04);
 }
 
 int jetNDauChargedMVASel(const pat::Jet& jet,const reco::Candidate* cand,const reco::Vertex& vtx)

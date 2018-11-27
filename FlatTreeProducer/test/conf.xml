@@ -263,6 +263,7 @@
     <var name="el_deltaPhiEleClusterTrackAtCalo" save="0"></var>
     <var name="el_miniIso" save="1"></var>
     <var name="el_miniIsoTTH" save="1"></var>
+    <var name="el_PFRelIso04" save="1"></var>
     <var name="el_vx" save="1"></var>
     <var name="el_vy" save="1"></var>
     <var name="el_vz" save="1"></var>
@@ -450,6 +451,7 @@
     <var name="mu_numberOfMatchedStations" save="1"></var>    
     <var name="mu_miniIso" save="1"></var>
     <var name="mu_miniIsoTTH" save="1"></var>
+    <var name="mu_PFRelIso04" save="1"></var>
     <var name="mu_isGlobalMuon" save="1"></var>
     <var name="mu_isTrackerMuon" save="1"></var>
     <var name="mu_isStandAloneMuon" save="1"></var>

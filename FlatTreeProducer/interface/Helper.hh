@@ -25,13 +25,13 @@ namespace SelfVetoPolicy
 
 float GetDeltaR(float,float,float,float);
 
-double ptRatioElec(const pat::Electron& elec,const pat::Jet* jet);
+double ptRatioElec(const pat::Electron& elec,const pat::Jet* jet, float); //changed
 float ptRelElec(const pat::Electron& elec,const pat::Jet& jet);
-float conePtElec(const pat::Electron& elec,const pat::Jet* jet,float lepMVA);
+float conePtElec(const pat::Electron& elec,const pat::Jet* jet,float lepMVA, float); //changed
 
-double ptRatioMuon(const pat::Muon& muon,const pat::Jet* jet);
+double ptRatioMuon(const pat::Muon& muon,const pat::Jet* jet, float); //changed
 float ptRelMuon(const pat::Muon& muon,const pat::Jet& jet);
-float conePtMuon(const pat::Muon& muon,const pat::Jet* jet,float lepMVA,bool isMedium);
+float conePtMuon(const pat::Muon& muon,const pat::Jet* jet,float lepMVA,bool isMedium, float); //changed
 
 float ElecPfIsoCharged(const pat::Electron& elec,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR);
 float ElecPfIsoNeutral(const pat::Electron& elec,edm::Handle<pat::PackedCandidateCollection> pfcands,float miniIsoR);

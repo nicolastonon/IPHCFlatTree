@@ -1765,6 +1765,18 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         // Skimming electrons with pT < 5 GeV.
         //if (elec.pt() < 5) continue;
+	
+	//FIXME
+	/*
+	if(elec.hasUserFloat("ecalTrkEnergyPostCorr") )
+	{
+	    //ftree->el_SmearingCorr.push_back(elec.userFloat("ecalTrkEnergyPostCorr") );
+	    std::cout<<"ELE SMEARING CORR = "<<elec.userFloat("ecalTrkEnergyPostCorr")<< std::endl;
+	}
+	else 
+	{
+	   //ftree->el_SmearingCorr.push_back(-666);
+	}*/
 
         ftree->el_pt.push_back(elec.pt());
         ftree->el_eta.push_back(elec.eta());
@@ -1945,6 +1957,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         // mini-iso
         float miniIso           = -666;
         float miniIsoTTH        = -666;
+	float PFRelIso04	= -666;
         float miniIsoTTHCharged = -666;
         float miniIsoTTHNeutral = -666;
 
@@ -1958,18 +1971,20 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             //
             // Below: Variables used for tt-H analysis
             //
-            float miniIsoR = 10.0/std::min(std::max(float(elec.pt()),float(50.)),float(200.));
+	    
+            float miniIsoR = 10.0/std::min(std::max(float(elec.pt()),float(50.)),float(200.)); //this is for muons?
 
             float EffArea = 0.;
             float eta = elec.superCluster()->eta();
 
-            if(      fabs(eta) > 0      && fabs(eta) < 1.0 )   EffArea = 0.1566;
-            else if( fabs(eta) >= 1.0   && fabs(eta) < 1.479 ) EffArea = 0.1626;
-            else if( fabs(eta) >= 1.479 && fabs(eta) < 2.0 )   EffArea = 0.1073;
-            else if( fabs(eta) >= 2.0   && fabs(eta) < 2.2 )   EffArea = 0.0854;
-            else if( fabs(eta) >= 2.2   && fabs(eta) < 2.3 )   EffArea = 0.1051;
-            else if( fabs(eta) >= 2.3   && fabs(eta) < 2.4 )   EffArea = 0.1204;
-            else if( fabs(eta) >= 2.4   && fabs(eta) < 2.5 )   EffArea = 0.1524;
+	    //CHANGED values from 92X to 94X -- from : https://github.com/cms-sw/cmssw/blob/CMSSW_10_4_X/RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_94X.txt
+            if(      fabs(eta) > 0      && fabs(eta) < 1.0 )   EffArea = 0.1440;
+            else if( fabs(eta) >= 1.0   && fabs(eta) < 1.479 ) EffArea = 0.1562;
+            else if( fabs(eta) >= 1.479 && fabs(eta) < 2.0 )   EffArea = 0.1032;
+            else if( fabs(eta) >= 2.0   && fabs(eta) < 2.2 )   EffArea = 0.0859;
+            else if( fabs(eta) >= 2.2   && fabs(eta) < 2.3 )   EffArea = 0.1116;
+            else if( fabs(eta) >= 2.3   && fabs(eta) < 2.4 )   EffArea = 0.1321;
+            else if( fabs(eta) >= 2.4   && fabs(eta) < 2.5 )   EffArea = 0.1654;
 
             float correction = ftree->ev_rho*EffArea*(miniIsoR/0.3)*(miniIsoR/0.3);
 
@@ -1979,8 +1994,10 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
             miniIsoTTH        = (pfIsoCharged + pfIsoPUSubtracted)/elec.pt();
             miniIsoTTHCharged = pfIsoCharged / elec.pt();
-            miniIsoTTHNeutral = pfIsoPUSubtracted / elec.pt();
-            //miniIsoTTHNeutral = pfIsoNeutral;
+	    miniIsoTTHNeutral = pfIsoPUSubtracted / elec.pt();
+
+	    if(elec.pt() <= 0) {PFRelIso04 = -9999;}
+	    else {PFRelIso04 = (elec.chargedHadronIso() + std::max(0.0, double(elec.neutralHadronIso()+elec.photonIso()-ftree->ev_rho*EffArea*(0.4/0.3)*(0.4/0.3))))/elec.pt();} //Ad-hoc fix : use dr=0.4 instead of 0.3 (used for effArea)
             // ---------------------------------
         }
 
@@ -1988,6 +2005,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         ftree->el_miniIso.push_back(miniIso);
         ftree->el_miniIsoTTH.push_back(miniIsoTTH);
+        ftree->el_PFRelIso04.push_back(PFRelIso04);
 
         //ftree->el_miniIsoTTHCharged.pushback(miniIsoTTHCharged); //?
         //ftree->el_miniIsoTTHNeutral.pushback(miniIsoTTHNeutral); //?
@@ -2027,7 +2045,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
        lepMVA_eta = el_eta;
        lepMVA_miniRelIsoNeutral = miniIsoTTHNeutral;
        lepMVA_miniRelIsoCharged = miniIsoTTHCharged;
-       lepMVA_jetPtRatio = std::min(ptRatioElec(elec,elecjet),1.5);
+       lepMVA_jetPtRatio = std::min(ptRatioElec(elec,elecjet, PFRelIso04),1.5);
        lepMVA_jetPtRelv2 = (jcl >= 0) ? ptRelElec(elec,jets->at(jcl)) : 0.0;
        float csv = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
        lepMVA_jetBTagCSV = std::max(double(csv),0.);
@@ -2042,7 +2060,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 
         ftree->el_lepMVA.push_back(el_lepMVA);
 
-        float conept = conePtElec(elec,elecjet,el_lepMVA);
+        float conept = conePtElec(elec,elecjet,el_lepMVA, PFRelIso04);
         ftree->el_conept.push_back( conept );
 
         if( !isData_ )
@@ -2401,6 +2419,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         // mini-iso
         float miniIso           = -666;
         float miniIsoTTH        = -666;
+        float PFRelIso04        = -666;
         float miniIsoTTHCharged = -666;
         float miniIsoTTHNeutral = -666;
         if( dataFormat_ != "AOD" )
@@ -2411,10 +2430,12 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             // -------------------------------------------
             //
             // Below: Variables used for ttH analysis
+	    //See example of implementation in ttH code : https://github.com/peruzzim/cmg-cmssw/blob/heppy_94X_dev_ttH/PhysicsTools/Heppy/python/analyzers/objects/LeptonAnalyzer.py#L579
             float miniIsoR = 10.0/std::min(std::max(float(muon.pt()),float(50.)),float(200.));
             float EffArea = 0.;
             float eta = muon.eta();
 
+	    //94X values -- see : https://github.com/cms-data/PhysicsTools-NanoAOD/blob/master/effAreaMuons_cone03_pfNeuHadronsAndPhotons_94X.txt
             if(      fabs(eta) > 0    && fabs(eta) < 0.8 ) EffArea = 0.0566;
             else if( fabs(eta) >= 0.8 && fabs(eta) < 1.3 ) EffArea = 0.0562;
             else if( fabs(eta) >= 1.3 && fabs(eta) < 2.0 ) EffArea = 0.0363;
@@ -2432,10 +2453,15 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
             miniIsoTTH        = (pfIsoCharged + pfIsoPUSubtracted) / muon.pt();
             miniIsoTTHCharged = pfIsoCharged / muon.pt();
             miniIsoTTHNeutral = pfIsoPUSubtracted / muon.pt();
+	    
+	    //NEW
+	    if(muon.pt() <= 0) {PFRelIso04 = -9999;}
+	    else {PFRelIso04 = (pfR04.sumChargedHadronPt + std::max(0.0, double(pfR04.sumNeutralHadronEt+pfR04.sumPhotonEt-pfR04.sumPUPt/2.)))/muon.pt();}
         }
 
         ftree->mu_miniIso.push_back(miniIso);
         ftree->mu_miniIsoTTH.push_back(miniIsoTTH);
+        ftree->mu_PFRelIso04.push_back(PFRelIso04);
 
         // https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMuonAnalysis#Muon_identification
         ftree->mu_isGoodMuon_AllGlobalMuons.push_back(muon::isGoodMuon(muon,muon::AllGlobalMuons));
@@ -2529,7 +2555,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         lepMVA_eta                                  = mu_eta;
         lepMVA_miniRelIsoNeutral                    = miniIsoTTHNeutral;
         lepMVA_miniRelIsoCharged                    = miniIsoTTHCharged;
-        lepMVA_jetPtRatio                           = std::min(ptRatioMuon(muon,muonjet),1.5);
+        lepMVA_jetPtRatio                           = std::min(ptRatioMuon(muon,muonjet,PFRelIso04),1.5);
         lepMVA_jetPtRelv2                           = (jcl >= 0) ? ptRelMuon(muon,jets->at(jcl)) : 0.0;
         float csv                                   = (jcl >= 0) ? jets->at(jcl).bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") : -666;
         lepMVA_jetBTagCSV                           = std::max(double(csv),0.);
@@ -2557,7 +2583,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->mu_lepMVA_mvaId.push_back(lepMVA_mvaId);
         ftree->mu_lepMVA_jetNDauChargedMVASel.push_back(lepMVA_jetNDauChargedMVASel);
 
-        float conept = conePtMuon(muon,muonjet,mu_lepMVA,ftree->mu_isMediumMuon.back());
+        float conept = conePtMuon(muon,muonjet,mu_lepMVA,ftree->mu_isMediumMuon.back(), PFRelIso04);
         ftree->mu_conept.push_back( conept );
 
         if( !isData_ )
@@ -2881,13 +2907,20 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         bool tightJetID = 1;
         bool tightLepVetoJetID = 1;
        
-        if( fabs(eta) < 2.7 ) tightLepVetoJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8);
-        if( fabs(eta) <= 2.4 ) tightLepVetoJetID = (CHF>0 && CHM>0 && CEMF<0.80);
-
-        if( fabs(eta) < 2.7 ) tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1);
-        if( fabs(eta) <= 2.4 ) tightJetID = (CHF>0 && CHM>0);
-        if( fabs(eta) >= 2.7 && fabs(eta) < 3.0 ) tightJetID = (NEMF>0.02 && NEMF<0.99 && NEM>2);
-        if( fabs(eta) >= 3.0 ) tightJetID = (NEMF<0.90 && NHF>0.02 && NEM>10);
+        //CHANGED -- boolean logic was not properly implemented for jets with eta<2.4
+        if( fabs(eta) < 2.7 )
+	{
+	  tightLepVetoJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8);
+	  tightJetID = (NHF<0.90 && NEMF<0.90 && NumConst>1);
+	  
+	  if( fabs(eta) <= 2.4)
+	  {
+	    if(CHF<=0 || CHM<=0 || CEMF>0.80) {tightLepVetoJetID = false;}
+	    if(CHF<=0 || CHM<=0) {tightJetID = false;}
+	  }
+	}
+        else if( fabs(eta) >= 2.7 && fabs(eta) < 3.0 ) tightJetID = (NEMF>0.02 && NEMF<0.99 && NEM>2);
+        else if( fabs(eta) >= 3.0 ) tightJetID = (NEMF<0.90 && NHF>0.02 && NEM>10);
        
         ftree->jet_neutralHadronEnergyFraction.push_back(jet.neutralHadronEnergyFraction());
         ftree->jet_neutralEmEnergyFraction.push_back(jet.neutralEmEnergyFraction());
@@ -2899,7 +2932,7 @@ void FlatTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& 
         ftree->jet_tightJetID.push_back(tightJetID);
         ftree->jet_tightLepVetoJetID.push_back(tightLepVetoJetID);
 
-        //Quark-gluon tagging
+        //Quark-gluon tagging //FIXME -- not filled
         const auto jetRef = view_jets->ptrAt(ij);
         if( ! qgHandle.failedToGet() )
             ftree->jet_qgtag.push_back((*qgHandle)[jetRef]);
